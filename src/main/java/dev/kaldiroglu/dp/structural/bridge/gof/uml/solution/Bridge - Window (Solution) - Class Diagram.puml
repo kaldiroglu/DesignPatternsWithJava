@@ -1,0 +1,71 @@
+@startuml "Bridge - Window (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+title After — the platform is an object the window holds (the solution)
+
+
+abstract class Window <<Abstraction>> {
+  - imp : WindowImp
+  + drawRect(..) : void
+  + drawText(..) : void
+  + drawBorder() : void
+  + drawContents() : void
+  + setImp(WindowImp) : void
+}
+
+class IconWindow <<RefinedAbstraction>> {
+  + drawContents() : void
+}
+class TransientWindow <<RefinedAbstraction>> {
+  + drawContents() : void
+}
+
+interface WindowImp <<Implementor>> {
+  + deviceRect(..) : void
+  + deviceText(..) : void
+  + deviceRaise() : void
+  + deviceLower() : void
+}
+
+class XWindowImp <<ConcreteImplementor>> {
+  + deviceRect(..) : void
+  + deviceText(..) : void
+}
+class PMWindowImp <<ConcreteImplementor>> {
+  + deviceRect(..) : void
+  + deviceText(..) : void
+}
+
+Window o--> "imp" WindowImp
+Window <|-- IconWindow
+Window <|-- TransientWindow
+WindowImp <|.. XWindowImp
+WindowImp <|.. PMWindowImp
+
+note right of WindowImp
+  <b>Primitives only.</b>
+  deviceRect, deviceText — the smallest
+  things a window system can be asked.
+  There is no deviceIcon here, and if
+  one appeared the two hierarchies would
+  have grown back together.
+end note
+
+note bottom of PMWindowImp
+  PM has no rectangle call, so it
+  builds one from a polyline.
+  The window never finds out.
+end note
+
+note as N1
+  <b>Two hierarchies, growing independently.</b>
+
+     3 window kinds  +  2 platforms  =  5 classes
+     a 3rd platform  ->  6        a 4th kind -> 6
+
+  And the link is a field, so `window.setImp(pm)`
+  moves a window that <b>already exists</b> to another
+  platform — which the design on the left cannot do
+  at any price.
+end note
+
+@enduml

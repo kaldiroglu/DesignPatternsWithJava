@@ -1,0 +1,79 @@
+@startuml "Bridge - Window (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+title Before — the platform is a superclass (the problem, GoF p. 151)
+
+
+abstract class Window {
+  + drawContents() : void
+  + drawBorder() : void
+  + {abstract} drawRect(..) : void
+  + {abstract} drawText(..) : void
+}
+
+class XWindow {
+  + drawRect(..) : void
+  + drawText(..) : void
+}
+class PMWindow {
+  + drawRect(..) : void
+  + drawText(..) : void
+}
+
+abstract class IconWindow {
+  + drawContents() : void
+}
+class XIconWindow {
+  + drawRect(..) : void
+  + drawText(..) : void
+}
+class PMIconWindow {
+  + drawRect(..) : void
+  + drawText(..) : void
+}
+
+abstract class TransientWindow {
+  + drawContents() : void
+}
+class XTransientWindow {
+  + drawRect(..) : void
+  + drawText(..) : void
+}
+class PMTransientWindow {
+  + drawRect(..) : void
+  + drawText(..) : void
+}
+
+Window <|-- XWindow
+Window <|-- PMWindow
+Window <|-- IconWindow
+Window <|-- TransientWindow
+IconWindow <|-- XIconWindow
+IconWindow <|-- PMIconWindow
+TransientWindow <|-- XTransientWindow
+TransientWindow <|-- PMTransientWindow
+
+note right of XIconWindow
+  Inherits the <i>icon</i> behavior,
+  and must <b>copy</b> the X drawing
+  code out of XWindow. A class
+  cannot inherit from both.
+end note
+
+note as N1
+  <b>One hierarchy, two reasons to subclass.</b>
+  "Icon window" is a kind of window. "X window" is
+  also a kind of window. The hierarchy can only
+  express one of them, so the leaves are the
+  product of the two:
+
+     3 window kinds  x  2 platforms  =  6 classes
+     a 3rd platform  ->  9        a 4th kind -> 8
+
+  And GoF's second objection (p. 151): the client
+  writes `new XIconWindow(..)`, so <b>client code
+  becomes platform-dependent</b> — the platform is
+  chosen when the code is compiled, not when the
+  program runs.
+end note
+
+@enduml

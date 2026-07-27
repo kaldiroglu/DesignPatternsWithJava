@@ -1,0 +1,48 @@
+@startuml "Bridge - Notifications (Variations) - Class Diagram"
+skinparam classAttributeIconSize 0
+title Two variations — who chooses the implementor, and who owns it
+
+
+package "variation 1 - a factory chooses (GoF implementation issue 2)" {
+  interface ChannelFactory {
+    + channelFor(Recipient) : NotificationChannel
+  }
+  class PreferenceChannelFactory {
+    - channels : Map<ChannelKind, NotificationChannel>
+    + channelFor(Recipient) : NotificationChannel
+    + register(kind, channel) : PreferenceChannelFactory
+  }
+  class NotificationService {
+    + send(kind, to, message) : DeliveryResult
+  }
+  ChannelFactory <|.. PreferenceChannelFactory
+  NotificationService o--> ChannelFactory
+
+  note bottom of NotificationService
+    The caller names <b>neither</b> a channel class
+    nor a combination class. The recipient's
+    stored preference decides, at run time.
+  end note
+}
+
+package "variation 2 - sharing one implementor (issue 3)" {
+  class PooledChannel {
+    - inner : NotificationChannel
+    - users : int
+    - messages : int
+    + acquire() : PooledChannel
+  }
+  note bottom of PooledChannel
+    One SMTP connection serving many
+    notifications.
+    <b>Cost:</b> shared state — thread safety,
+    and its failures are everybody's.
+  end note
+}
+
+note as N1
+  Neither variation changes the pattern. Each answers a question
+  the classic version leaves to whoever writes `new`.
+end note
+
+@enduml
