@@ -21,12 +21,12 @@ import java.time.Duration;
  * Runs every design in this project against the same scenario, printing the number that
  * matters each time: how many times the supplier was actually called.
  */
-public final class Demo {
+public final class Main {
 
     private static final String SKU = "SKU-200";
     private static final Duration TTL = Duration.ofSeconds(60);
 
-    private Demo() {
+    private Main() {
     }
 
     public static void main(String[] args) {
@@ -205,7 +205,7 @@ public final class Demo {
         SimulatedRemotePriceFeed supplier = SimulatedRemotePriceFeed.withDefaults(clock);
 
         PriceFeed quotaSpentOnHits = new RateLimitingPriceFeed(new CachingPriceFeed(supplier, clock, TTL), clock, 10, Duration.ofHours(1));
-        var limiterOutside = (dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.RateLimitingPriceFeed) quotaSpentOnHits;
+        var limiterOutside = (RateLimitingPriceFeed) quotaSpentOnHits;
         limiterOutside.quoteFor(SKU);
         limiterOutside.quoteFor(SKU);
         limiterOutside.quoteFor(SKU);
