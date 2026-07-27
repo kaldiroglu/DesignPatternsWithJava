@@ -51,7 +51,7 @@ class ToastSolutionTest {
     @Test
     @DisplayName("toppings come back innermost first")
     void toppingOrderIsReported() {
-        assertEquals(List.of("Cheddar cheese", "Sucuk", "Tomato", "Ketchup", "Russian salad"),
+        assertEquals(List.of("Cheddar cheese", "Sucuk sausage", "Tomato", "Ketchup", "Russian salad"),
                 ayvalikToast().getToppings().stream().map(Topping::getName).toList());
     }
 

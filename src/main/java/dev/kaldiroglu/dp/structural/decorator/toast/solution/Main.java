@@ -28,7 +28,7 @@ public class Main {
         System.out.println("  + cheddar cheese    " + toast.calculatePrice());
 
         toast = new Sausage(toast);
-        System.out.println("  + sucuk             " + toast.calculatePrice());
+        System.out.println("  + sucuk sausage     " + toast.calculatePrice());
 
         toast = new Tomato(toast);
         System.out.println("  + tomato            " + toast.calculatePrice());
