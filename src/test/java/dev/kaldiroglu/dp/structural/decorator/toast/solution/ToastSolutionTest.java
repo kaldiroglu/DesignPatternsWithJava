@@ -8,6 +8,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -96,16 +98,25 @@ class ToastSolutionTest {
         assertEquals(14, inside.calculatePrice());  // 25% off the bread alone, then toppings
 
         // Same decorators, same settings, different chain, different program.
-        assertNotSame(outside.calculatePrice(), inside.calculatePrice());
+        assertNotEquals(outside.calculatePrice(), inside.calculatePrice());
     }
 
     @Test
-    @DisplayName("a promotion is not a topping and does not appear among them")
+    @DisplayName("a promotion joins the chain without being a topping")
     void promotionIsNotATopping() {
         Toastable discounted = new Promotion(ayvalikToast(), "student discount", 25);
 
+        // The discount is in the chain and changed the price ...
+        assertEquals(12, discounted.calculatePrice());
+
+        // ... but the customer is still eating exactly five toppings.
         assertEquals(5, discounted.getToppings().size());
-        assertTrue(discounted.getToppings().stream().noneMatch(t -> t instanceof Promotion));
+
+        // Writing `topping instanceof Promotion` here does not compile: Promotion implements
+        // Toastable directly rather than extending Topping, so the compiler can prove no
+        // element of this list is ever one. The guarantee is stronger than a passing test.
+        assertFalse(Topping.class.isAssignableFrom(Promotion.class));
+        assertTrue(Toastable.class.isAssignableFrom(Promotion.class));
     }
 
     @Test
