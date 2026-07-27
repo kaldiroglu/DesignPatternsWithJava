@@ -2,13 +2,12 @@ package dev.kaldiroglu.dp.structural.decorator.toast.problem;
 
 public class SausageToast extends AbstractToast {
 
-	public SausageToast() {
-		super();
-		name = "Sausage Toast";
-	}
+    public SausageToast() {
+        name = "Sausage toast";
+    }
 
-	@Override
-	public int calculatePrice() {
-		return 6;
-	}
+    @Override
+    public int calculatePrice() {
+        return 6;
+    }
 }

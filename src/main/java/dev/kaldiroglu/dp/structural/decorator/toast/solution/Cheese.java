@@ -1,8 +1,14 @@
 package dev.kaldiroglu.dp.structural.decorator.toast.solution;
 
-public class Cheese extends Topping{
+/**
+ * A ConcreteDecorator: adds Cheddar cheese to whatever it is wrapped around.
+ * <p>
+ * The class knows its own name and its own price. That is the difference between a topping
+ * and a parameter: repricing Cheddar cheese is an edit here and nowhere else.
+ */
+public class Cheese extends Topping {
 
-	public Cheese(Toastable toastTopping, String name, int price) {
-		super(toastTopping, price, name);
-	}
+    public Cheese(Toastable component) {
+        super(component, "Cheddar cheese", 3);
+    }
 }
