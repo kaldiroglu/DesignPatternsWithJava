@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public final class SimulatedRemotePriceFeed implements PriceFeed {
 
-    private final Map<String, String> catalogue = new HashMap<>();
+    private final Map<String, String> catalog = new HashMap<>();
     private final ManualClock clock;
     private final Duration latency;
     private final Deque<PriceFeedException> scriptedFailures = new ArrayDeque<>();
@@ -28,9 +28,9 @@ public final class SimulatedRemotePriceFeed implements PriceFeed {
     public SimulatedRemotePriceFeed(ManualClock clock, Duration latency) {
         this.clock = clock;
         this.latency = latency;
-        catalogue.put("SKU-100", "19.90");
-        catalogue.put("SKU-200", "249.00");
-        catalogue.put("SKU-300", "7.45");
+        catalog.put("SKU-100", "19.90");
+        catalog.put("SKU-200", "249.00");
+        catalog.put("SKU-300", "7.45");
     }
 
     /** A feed with a 200 ms round trip, which is realistic and inconvenient. */
@@ -56,7 +56,7 @@ public final class SimulatedRemotePriceFeed implements PriceFeed {
             throw scripted;
         }
 
-        String amount = catalogue.get(sku);
+        String amount = catalog.get(sku);
         if (amount == null) {
             throw new UnknownSkuException(sku);
         }
