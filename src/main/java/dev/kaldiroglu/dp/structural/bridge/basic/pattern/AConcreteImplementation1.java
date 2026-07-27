@@ -1,14 +1,10 @@
-
 package dev.kaldiroglu.dp.structural.bridge.basic.pattern;
 
-/**
- * @author akin
- *
- */
-public class AConcreteImplementation1 implements AnAbstrationImplementation{
-	
-	@Override
-	public void doingIt(){
-		System.out.println("I am doing it!");
-	}
+/** A ConcreteImplementor. */
+public class AConcreteImplementation1 implements AnAbstractionImplementation {
+
+    @Override
+    public void doingIt() {
+        System.out.println("  AConcreteImplementation1: I am doing it!");
+    }
 }

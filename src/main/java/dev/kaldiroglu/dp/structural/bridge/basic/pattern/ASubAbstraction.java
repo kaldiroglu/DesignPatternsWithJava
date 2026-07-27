@@ -1,21 +1,19 @@
-
 package dev.kaldiroglu.dp.structural.bridge.basic.pattern;
 
-/**
- * @author akin
- *
- */
-public class ASubAbstraction implements AnAbstraction{
-	
-	private AnAbstrationImplementation implementation;
-	
-	public ASubAbstraction(AnAbstrationImplementation implementation){
-		this.implementation = implementation;
-	}
+import java.util.Objects;
 
-	@Override
-	public void doIt() {
-		System.out.println("I am extending AnAbstraction.");
-		implementation.doingIt();
-	}
+/** A RefinedAbstraction: it holds an implementation and never asks which one. */
+public class ASubAbstraction implements AnAbstraction {
+
+    private final AnAbstractionImplementation implementation;
+
+    public ASubAbstraction(AnAbstractionImplementation implementation) {
+        this.implementation = Objects.requireNonNull(implementation);
+    }
+
+    @Override
+    public void doIt() {
+        System.out.println("ASubAbstraction: I am the first refinement.");
+        implementation.doingIt();
+    }
 }
