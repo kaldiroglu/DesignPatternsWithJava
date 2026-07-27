@@ -1,0 +1,54 @@
+@startuml "decorator-hw-feeengine-class-diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Decorator — homework 2, the fee engine
+
+
+interface Charge <<Component>> {
+  + amount() : BigDecimal
+}
+
+class BasketTotal <<ConcreteComponent>>
+
+abstract class Adjustment <<Decorator>> {
+  # component : Charge
+  # {abstract} adjust(base : BigDecimal) : BigDecimal
+}
+
+class PlatformFee <<ConcreteDecorator>>
+class TransactionFee <<ConcreteDecorator>>
+class ValueAddedTax <<ConcreteDecorator>>
+class PromotionalDiscount <<ConcreteDecorator>>
+class Voucher <<ConcreteDecorator>>
+
+Charge <|.. BasketTotal
+Charge <|.. Adjustment
+Adjustment o--> "1" Charge : component
+Adjustment <|-- PlatformFee
+Adjustment <|-- TransactionFee
+Adjustment <|-- ValueAddedTax
+Adjustment <|-- PromotionalDiscount
+Adjustment <|-- Voucher
+
+note right of ValueAddedTax
+  A discount reduces the consideration
+  the customer pays, so VAT goes
+  <b>outside</b> the discount.
+  Tax law, not taste.
+end note
+
+note bottom of Voucher
+  <b>Subtraction</b>, which does not commute
+  with multiplying:
+    VAT outside  120.60   (lawful)
+    VAT inside   122.60
+  The 2.00 gap is the VAT on the voucher.
+end note
+
+note bottom of PromotionalDiscount
+  <b>Multiplication</b>, which does commute.
+  Both orders give 119.34, so here the
+  order genuinely does not matter.
+end note
+
+@enduml

@@ -1,0 +1,51 @@
+@startuml "Bridge - Basic (Pattern) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Bridge — the implementation behind a reference
+
+
+interface AnAbstraction <<Abstraction>> {
+  + doIt() : void
+}
+
+class ASubAbstraction <<RefinedAbstraction>> {
+  - implementation : AnAbstractionImplementation
+}
+class AnotherSubAbstraction <<RefinedAbstraction>> {
+  - implementation : AnAbstractionImplementation
+}
+
+interface AnAbstractionImplementation <<Implementor>> {
+  + doingIt() : void
+}
+
+class AConcreteImplementation1 <<ConcreteImplementor>>
+class AConcreteImplementation2 <<ConcreteImplementor>>
+
+class Client {
+  - anAbstraction : AnAbstraction
+  + start() : void
+}
+
+AnAbstraction <|.. ASubAbstraction
+AnAbstraction <|.. AnotherSubAbstraction
+ASubAbstraction o--> "1" AnAbstractionImplementation
+AnotherSubAbstraction o--> "1" AnAbstractionImplementation
+AnAbstractionImplementation <|.. AConcreteImplementation1
+AnAbstractionImplementation <|.. AConcreteImplementation2
+Client o--> "1" AnAbstraction
+
+note right of AnAbstractionImplementation
+  The bridge: a <b>reference</b>, not a
+  superclass. Both hierarchies can be
+  extended without touching the other.
+end note
+
+note as N1
+  2 refinements + 2 implementations
+  = <b>4 classes</b>, 4 combinations.
+
+  A third implementation costs <b>+1</b>.
+end note
+
+@enduml

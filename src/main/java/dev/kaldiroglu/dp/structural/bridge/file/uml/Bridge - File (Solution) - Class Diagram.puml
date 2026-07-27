@@ -1,0 +1,66 @@
+@startuml "Bridge - File (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Bridge — departments and document stores
+
+
+abstract class FileManager <<Abstraction>> {
+  # provider : FileProvider
+  + read(path) : String
+  + save(path, content) : int
+  + versions(path) : List<Integer>
+  + setProvider(p : FileProvider) : void
+  # {abstract} applyRetention(handle) : void
+}
+
+class FinanceFileManager <<RefinedAbstraction>> {
+  - KEEP = 5
+}
+class InsuranceFileManager <<RefinedAbstraction>> {
+  - KEEP = 2
+}
+
+interface FileProvider <<Implementor>> {
+  + open(path) : String
+  + read(handle) : byte[]
+  + write(handle, content) : int
+  + versions(handle) : List<Integer>
+  + deleteVersion(handle, version) : void
+}
+
+abstract class InMemoryProvider
+class EvernoteProvider <<ConcreteImplementor>>
+class SharepointProvider <<ConcreteImplementor>>
+class FileNetProvider <<ConcreteImplementor>>
+
+FileManager <|-- FinanceFileManager
+FileManager <|-- InsuranceFileManager
+FileManager o--> "1" FileProvider : provider
+FileProvider <|.. InMemoryProvider
+InMemoryProvider <|-- EvernoteProvider
+InMemoryProvider <|-- SharepointProvider
+InMemoryProvider <|-- FileNetProvider
+
+note right of FileProvider
+  Storage <b>primitives</b>, not the manager's
+  operations. readFile/writeFile/updateFile
+  would be the same interface written twice.
+
+  And nothing here is an <b>Adapter</b>: this was
+  designed alongside FileManager, not fitted
+  to an incompatible interface after the fact.
+end note
+
+note bottom of FileManager
+  save() writes a version and then applies the
+  department's retention rule — written once,
+  correct on every store, present and future.
+end note
+
+note as N1
+  2 departments + 3 stores = <b>5 classes</b>,
+  6 combinations.
+  A fourth store: <b>+1</b>, no rule touched.
+end note
+
+@enduml

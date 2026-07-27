@@ -1,0 +1,65 @@
+@startuml "Bridge - Payment Desk (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Bridge — homework 2, payment kinds over providers
+
+
+abstract class Payment <<Abstraction>> {
+  # provider : PaymentProvider
+  + {abstract} collect(amount) : List<Receipt>
+}
+
+class OneOffPayment <<RefinedAbstraction>>
+class InstallmentPlan <<RefinedAbstraction>> {
+  - installments : int
+}
+class Refund <<RefinedAbstraction>>
+
+interface PaymentProvider <<Implementor>> {
+  + name() : String
+  + authorize(amount) : Authorization
+  + capture(auth) : Receipt
+  + refund(amount, reference) : Receipt
+}
+
+class BankGateway <<ConcreteImplementor>>
+class Wallet <<ConcreteImplementor>>
+class CashDrawer <<ConcreteImplementor>>
+
+class Authorization <<record>> {
+  + reference : String
+  + amount : BigDecimal
+  + settled : boolean
+}
+class Receipt <<record>>
+
+Payment <|-- OneOffPayment
+Payment <|-- InstallmentPlan
+Payment <|-- Refund
+Payment o--> "1" PaymentProvider : provider
+PaymentProvider <|.. BankGateway
+PaymentProvider <|.. Wallet
+PaymentProvider <|.. CashDrawer
+PaymentProvider ..> Authorization
+PaymentProvider ..> Receipt
+
+note bottom of CashDrawer
+  <b>Cash cannot authorize then capture.</b>
+  authorize() takes the money and returns an
+  Authorization already marked settled;
+  capture() then has nothing to do.
+
+  Rejected alternatives: a supportsTwoPhase()
+  boolean, or splitting the interface — both
+  are "which implementation are you?" in
+  disguise, and every branch on one is a piece
+  of the abstraction that knows about providers.
+end note
+
+note as N1
+  The cost of the choice, stated: there is no
+  <b>void</b> primitive, because only two of the
+  three providers could implement it.
+end note
+
+@enduml

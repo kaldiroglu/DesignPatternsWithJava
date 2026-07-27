@@ -1,0 +1,62 @@
+@startuml "decorator-hw-powerups-class-diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Decorator — homework 3, the power-up
+
+
+interface Combatant <<Component>> {
+  + damage() : int
+}
+
+class Fighter <<ConcreteComponent>>
+
+abstract class PowerUp <<Decorator>> {
+  # component : Combatant
+}
+
+class DoubleDamage <<ConcreteDecorator>>
+class Poison <<ConcreteDecorator>>
+class Berserk <<ConcreteDecorator>>
+
+class EffectStack {
+  - base : Combatant
+  - active : List<Effect>
+  + grant(e : Effect)
+  + revoke(name : String) : boolean
+  + advance(ticks : int)
+  + chain() : Combatant
+}
+
+class Effect <<record>> {
+  + name : String
+  + expiresAtTick : int
+  + apply : UnaryOperator<Combatant>
+}
+
+Combatant <|.. Fighter
+Combatant <|.. PowerUp
+Combatant <|.. EffectStack
+PowerUp o--> "1" Combatant : component
+PowerUp <|-- DoubleDamage
+PowerUp <|-- Poison
+PowerUp <|-- Berserk
+EffectStack o--> "*" Effect : active
+Effect ..> PowerUp : builds
+
+note right of EffectStack
+  <b>You cannot remove a link from a chain.</b>
+  Every decorator holds the one beneath it and
+  nothing holds the one above, so this class
+  keeps the <b>recipe</b> for each effect and
+  rebuilds the chain whenever the list changes.
+
+  Attaching is simple. Detaching costs you
+  this class.
+end note
+
+note bottom of Berserk
+  Forwards <b>zero</b> times, which GoF allow —
+  and silently discards every effect below it.
+end note
+
+@enduml

@@ -1,0 +1,72 @@
+@startuml "Bridge - Shape (Pattern) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Bridge — primitives on one side, composition on the other
+
+
+interface Shape <<Abstraction>> {
+  + draw() : void
+  + erase() : void
+  + setDrawer(d : ShapeDrawer) : void
+}
+
+abstract class AbstractShape {
+  - name : String
+  # drawer : ShapeDrawer
+}
+
+class Circle <<RefinedAbstraction>>
+class Rectangle <<RefinedAbstraction>>
+class Triangle <<RefinedAbstraction>>
+
+interface ShapeDrawer <<Implementor>> {
+  + drawLine(x1, y1, x2, y2) : void
+  + drawArc(cx, cy, r, start, sweep) : void
+  + clear(x, y, w, h) : void
+}
+
+abstract class AbstractShapeDrawer {
+  - name : String
+  - calls : List<String>
+  + calls() : List<String>
+}
+
+class MacOSDrawer <<ConcreteImplementor>>
+class XWindowsDrawer <<ConcreteImplementor>>
+
+Shape <|.. AbstractShape
+AbstractShape <|-- Circle
+AbstractShape <|-- Rectangle
+AbstractShape <|-- Triangle
+AbstractShape o--> "1" ShapeDrawer : drawer
+ShapeDrawer <|.. AbstractShapeDrawer
+AbstractShapeDrawer <|-- MacOSDrawer
+AbstractShapeDrawer <|-- XWindowsDrawer
+
+note right of ShapeDrawer
+  <b>Not one method per shape.</b>
+  drawCircle() here would force every
+  drawer to grow when a shape is added,
+  and the two hierarchies would stop
+  being independent — the only thing
+  Bridge exists to buy.
+
+  GoF p. 154: "the Implementor interface
+  provides only primitive operations, and
+  Abstraction defines higher-level
+  operations based on these primitives."
+end note
+
+note bottom of XWindowsDrawer
+  Has <b>no arc call</b>, so drawArc builds one
+  from 16 line segments — GoF's Presentation
+  Manager detail (p. 157).
+  The same Circle: 1 call on MacOS, 16 here.
+end note
+
+note bottom of Triangle
+  Added <b>after</b> both drawers were written.
+  Neither drawer changed.
+end note
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml "Bridge - Basic (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Bridge — the implementation as a subclass
+
+
+interface AnAbstraction {
+  + doIt() : void
+}
+
+class ASubAbstraction
+class AnotherSubAbstraction
+class AConcreteImplementation1
+class AConcreteImplementation2
+class AnotherConcreteImplementation1
+class AnotherConcreteImplementation2
+class Client {
+  - anAbstraction : AnAbstraction
+  + start() : void
+}
+
+AnAbstraction <|.. ASubAbstraction
+AnAbstraction <|.. AnotherSubAbstraction
+ASubAbstraction <|-- AConcreteImplementation1
+ASubAbstraction <|-- AConcreteImplementation2
+AnotherSubAbstraction <|-- AnotherConcreteImplementation1
+AnotherSubAbstraction <|-- AnotherConcreteImplementation2
+Client o--> "1" AnAbstraction
+
+note bottom of AConcreteImplementation1
+  Read the <b>extends</b> as the claim it makes:
+  this implementation <b>is a</b> refinement.
+  Change the implementation and you have
+  changed the object's type — which is why
+  nothing here can switch once it exists.
+end note
+
+note as N1
+  2 refinements x 2 implementations
+  = <b>4 leaf classes</b>, plus the 2
+  refinements themselves = <b>6</b>.
+
+  A third implementation costs <b>+2</b>.
+end note
+
+@enduml

@@ -1,0 +1,49 @@
+@startuml "decorator-io-class-diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Decorator — java.io, and where the roles sit
+
+
+abstract class OutputStream <<Component>>
+class FileOutputStream <<ConcreteComponent>>
+abstract class FilterOutputStream <<Decorator>> {
+  # out : OutputStream
+}
+class BufferedOutputStream <<ConcreteDecorator>>
+class DataOutputStream <<ConcreteDecorator>>
+class PrintStream <<ConcreteDecorator>>
+class GZIPOutputStream <<ConcreteDecorator>>
+class ObjectOutputStream
+
+OutputStream <|-- FileOutputStream
+OutputStream <|-- FilterOutputStream
+OutputStream <|-- ObjectOutputStream
+FilterOutputStream o--> "1" OutputStream : out
+FilterOutputStream <|-- BufferedOutputStream
+FilterOutputStream <|-- DataOutputStream
+FilterOutputStream <|-- PrintStream
+FilterOutputStream <|-- GZIPOutputStream
+
+class DataInputOutputStreamDemo {
+  + {static} writeInvoice(out : DataOutputStream)
+  + {static} readInvoice(in : DataInputStream) : double
+}
+DataInputOutputStreamDemo ..> DataOutputStream : uses
+
+note right of ObjectOutputStream
+  <b>Not a decorator.</b>
+  It extends OutputStream directly,
+  so it is a component in its own
+  right. A test asserts this, so the
+  slide cannot drift from the library.
+end note
+
+note bottom of DataInputOutputStreamDemo
+  writeInvoice() is written once and run over
+  two different stacks:
+    File -> Buffered -> Data          274 bytes
+    File -> GZIP -> Buffered -> Data  186 bytes
+  Same answer, different work.
+end note
+
+@enduml

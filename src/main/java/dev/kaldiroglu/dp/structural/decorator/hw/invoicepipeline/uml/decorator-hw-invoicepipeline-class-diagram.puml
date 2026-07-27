@@ -1,0 +1,59 @@
+@startuml "decorator-hw-invoicepipeline-class-diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Decorator — homework 1, the invoice pipeline
+
+
+interface Pipeline <<Component>> {
+  + process(input : byte[]) : byte[]
+  + undo(input : byte[]) : byte[]
+}
+
+class PlainInvoice <<ConcreteComponent>>
+
+abstract class PipelineStage <<Decorator>> {
+  # inner : Pipeline
+  # {abstract} forward(bytes : byte[]) : byte[]
+  # {abstract} backward(bytes : byte[]) : byte[]
+}
+
+class Compressed <<ConcreteDecorator>>
+class Encrypted <<ConcreteDecorator>> {
+  - key : long
+}
+class WithHeader <<ConcreteDecorator>> {
+  - header : byte[]
+}
+class Checksummed <<ConcreteDecorator>>
+
+Pipeline <|.. PlainInvoice
+Pipeline <|.. PipelineStage
+PipelineStage o--> "1" Pipeline : inner
+PipelineStage <|-- Compressed
+PipelineStage <|-- Encrypted
+PipelineStage <|-- WithHeader
+PipelineStage <|-- Checksummed
+
+note right of PipelineStage
+  process() = forward(inner.process(x))
+  undo()    = inner.undo(backward(x))
+
+  The asymmetry is deliberate: on the way
+  out a stage runs <b>after</b> the inner one,
+  on the way back <b>before</b> it. That makes
+  the read chain the mirror of the write
+  chain structurally, not by convention.
+end note
+
+note bottom of Checksummed
+  Belongs <b>outermost</b>: a checksum is worth
+  having only over the bytes that travel.
+end note
+
+note bottom of Encrypted
+  Encrypted bytes do not compress.
+  compress-then-encrypt  225 bytes
+  encrypt-then-compress 2033 bytes
+end note
+
+@enduml
