@@ -1,0 +1,62 @@
+' Model: Claude Opus 4.8 (1M context)
+' Created: 2026-07-03
+' Electricity class adapter — models java/dev/kaldiroglu/adapter/gof/electricity/.
+' Standalone PlantUML source; mirrors the diagram in electricity-class-adapter.md.
+
+@startuml electricity-class-adapter
+title Electricity Class Adapter
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+
+' ---------- Target ----------
+interface TurkishPowerSource <<Target>> {
+  +turnOn()
+  +turnOff()
+}
+
+' ---------- Adaptee ----------
+class USPowerSource <<Adaptee>> {
+  -live : boolean
+  +pushSwitch()
+  +isLive() : boolean
+}
+
+' ---------- Class Adapter ----------
+class USTurkishPowerAdapter <<Adapter (class)>> {
+  +turnOn()
+  +turnOff()
+}
+
+' ---------- Client ----------
+class TurkishHomeAppliance <<Client>> {
+  -name : String
+  -power : TurkishPowerSource
+  +start()
+  +stop()
+}
+
+' ===== Relationships =====
+TurkishPowerSource <|.. USTurkishPowerAdapter : implements
+USPowerSource <|-- USTurkishPowerAdapter : extends (class adapter)
+TurkishHomeAppliance o-right-> TurkishPowerSource : drives
+
+note bottom of USTurkishPowerAdapter
+  Class Adapter
+  Extends the Adaptee, implements the Target.
+  No adaptee field, no delegation:
+  turnOn()/turnOff() call the inherited
+  pushSwitch() / isLive().
+  --
+  Being a subclass of USPowerSource, the adapter
+  can also be used anywhere a USPowerSource is
+  expected, and could override its behaviour.
+end note
+
+legend right
+  Target  = TurkishPowerSource (turnOn / turnOff)
+  Adaptee = USPowerSource (pushSwitch / isLive)
+  Adapter = USTurkishPowerAdapter (is-a Adaptee and is-a Target)
+endlegend
+@enduml

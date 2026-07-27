@@ -1,0 +1,105 @@
+@startuml Composite-Graphics-Before
+skinparam classAttributeIconSize 0
+skinparam nodesep 25
+skinparam ranksep 30
+skinparam linetype ortho
+
+title GoF Graphics Example \nBefore Composite
+
+note as Book
+  <b>The book's own words (p. 163)</b>
+
+  A simple implementation could define classes
+  for graphical primitives such as Text and
+  Lines plus other classes that act as containers
+  for these primitives.
+
+  But there's a problem with this approach:
+  <i>"Code that uses these classes must treat</i>
+  <i>primitive and container objects differently,</i>
+  <i>even if most of the time the user treats</i>
+  <i>them identically."</i>
+end note
+
+package "the primitives — no common type" {
+  class Line {
+    - length : int
+    + draw(at : Point) : void
+  }
+
+  class Rectangle {
+    - width : int
+    - height : int
+    + draw(at : Point) : void
+  }
+
+  class Text {
+    - content : String
+    + draw(at : Point) : void
+  }
+}
+
+package "the container — a class apart" {
+  class Picture {
+    - lines : List<Line>
+    - rectangles : List<Rectangle>
+    - texts : List<Text>
+    - pictures : List<Picture>
+    + add(l : Line) : void
+    + add(r : Rectangle) : void
+    + add(t : Text) : void
+    + add(p : Picture) : void
+    + draw(at : Point) : void
+  }
+  note bottom of Picture
+    ONE COLLECTION PER PRIMITIVE TYPE,
+    and one overload of add() for each.
+
+    Every new primitive — Circle, Polyline —
+    means another field, another overload,
+    and another loop in draw().
+  end note
+}
+
+class DrawingEditor {
+  + drawSelection(items : List<Object>) : void
+  + group(items : List<Object>) : Picture
+}
+note right of DrawingEditor
+  The client
+
+  Its parameter is Object, because
+  there is no type that means
+  "something drawable".
+
+  So it branches:
+    if (o instanceof Line) ...
+    else if (o instanceof Picture) ...
+
+  ...even though grouping and drawing
+  are operations the user applies to
+  primitives and pictures IDENTICALLY.
+end note
+
+' the four aggregations are the point: one per type
+Picture *--> "*" Line
+Picture *--> "*" Rectangle
+Picture *--> "*" Text
+Picture *--> "*" Picture : pictures
+
+DrawingEditor ..> Line : instanceof
+DrawingEditor ..> Picture : instanceof
+
+note as Fix
+  <b>What Composite changes</b>
+
+  One abstraction, Graphic, that BOTH the
+  primitives and Picture implement — so
+  Picture keeps a single List<Graphic>,
+  add() has one signature, and the editor
+  needs no instanceof at all.
+
+  See Composite-Graphics.png.
+end note
+
+@enduml

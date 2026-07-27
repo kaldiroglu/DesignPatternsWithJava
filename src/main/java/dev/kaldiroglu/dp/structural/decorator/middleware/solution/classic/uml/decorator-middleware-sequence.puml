@@ -1,0 +1,78 @@
+@startuml Decorator-Middleware-Sequence
+title How a request travels through the chain (one failure, then success, then a cache hit)
+
+actor Client
+participant "aTimingPriceFeed" as T
+participant "aLoggingPriceFeed" as L
+participant "aCachingPriceFeed" as C
+participant "aRetryingPriceFeed" as R
+participant "theSupplier" as S
+
+== request 1 — cache miss, one failure, retried ==
+
+Client -> T : quoteFor("SKU-200")
+activate T
+T -> T : startedAt = clock.now()
+T -> L : quoteFor("SKU-200")
+activate L
+L -> L : log "asking for SKU-200"
+L -> C : quoteFor("SKU-200")
+activate C
+C -> C : miss
+C -> R : quoteFor("SKU-200")
+activate R
+R -> S : quoteFor("SKU-200")
+activate S
+S --> R : FeedUnavailableException
+deactivate S
+R -> R : retryable, attempt 2
+R -> S : quoteFor("SKU-200")
+activate S
+S --> R : Quote(249.00)
+deactivate S
+R --> C : Quote(249.00)
+deactivate R
+C -> C : store, stamped with clock.now()
+C --> L : Quote(249.00)
+deactivate C
+L -> L : log "got SKU-200 = 249.00 EUR"
+L --> T : Quote(249.00)
+deactivate L
+T -> T : metrics.record(200 ms)
+T --> Client : Quote(249.00)
+deactivate T
+
+== request 2 — cache hit; everything below the cache is skipped ==
+
+Client -> T : quoteFor("SKU-200")
+activate T
+T -> L : quoteFor("SKU-200")
+activate L
+L -> L : log "asking for SKU-200"
+L -> C : quoteFor("SKU-200")
+activate C
+C -> C : hit — **does not forward**
+C --> L : Quote(249.00)
+deactivate C
+L -> L : log "got SKU-200 = 249.00 EUR"
+L --> T : Quote(249.00)
+deactivate L
+T -> T : metrics.record(0 ms)
+T --> Client : Quote(249.00)
+deactivate T
+
+note over C, S
+  On the hit, the retry decorator and the supplier are never
+  reached. That is why a rate limiter placed OUTSIDE the cache
+  charges quota for calls that never happen, and one placed
+  INSIDE charges only for real traffic.
+end note
+
+note over Client, S
+  The client called one method on one object and got a Quote.
+  It cannot tell that five objects were involved — that is the
+  transparency the pattern buys, and also the reason a stack
+  trace from here is five frames deeper than you expect.
+end note
+
+@enduml

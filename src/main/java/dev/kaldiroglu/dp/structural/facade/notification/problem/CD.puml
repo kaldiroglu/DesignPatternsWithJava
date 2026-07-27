@@ -1,0 +1,99 @@
+@startuml before
+skinparam backgroundColor #FEFEFE
+skinparam packageStyle rectangle
+skinparam nodesep 80
+skinparam ranksep 150
+skinparam linetype ortho
+skinparam stereotypeCBackgroundColor #F5F5F5
+skinparam class {
+    BackgroundColor #F9F9F9
+    BorderColor #555555
+}
+
+title Notification System\nEvery Client Wired to Every Subsystem
+
+package "Business Layer" as Biz {
+    class OrderService {
+        - email: EmailService
+        - sms: SMSService
+        - slack: SlackService
+        - push: PushService
+        - log: Logger
+        --
+        + confirmOrder()
+    }
+    class PaymentService {
+        - email: EmailService
+        - sms: SMSService
+        - slack: SlackService
+        - push: PushService
+        - log: Logger
+        --
+        + processPayment()
+    }
+    class AlertService {
+        - email: EmailService
+        - sms: SMSService
+        - slack: SlackService
+        - push: PushService
+        - log: Logger
+        --
+        + fireAlert()
+    }
+
+    class UserService{
+        - email: EmailService
+        - sms: SMSService
+        - slack: SlackService
+        - push: PushService
+        - log: Logger
+        --
+    }
+}
+
+package "Notification Subsystems" as Subs {
+    class EmailService {
+        + send(to, subject, body)
+    }
+    class SMSService {
+        + send(phone, body)
+    }
+    class SlackService {
+        + send(channel, body)
+    }
+    class PushNotificationService {
+        + send(token, title, body)
+    }
+    class NotificationLogger {
+        + record(userId, channel, success)
+    }
+}
+
+OrderService -down-> EmailService : "uses"
+OrderService -down-> SMSService
+OrderService -down-> SlackService
+OrderService -down-> PushNotificationService
+OrderService -down-> NotificationLogger
+
+PaymentService -down-> EmailService
+PaymentService -down-> SMSService
+PaymentService -down-> SlackService
+PaymentService -down-> PushNotificationService
+PaymentService -down-> NotificationLogger
+
+AlertService -down-> EmailService
+AlertService -down-> SMSService
+AlertService -down-> SlackService
+AlertService -down-> PushNotificationService
+AlertService -down-> NotificationLogger
+
+' This would be 40 more nearly-identical copies — we elide them for the slide
+note left of UserService
+  Same 5-dependency wiring repeated
+  across every business class (OrderService,
+  PaymentService, UserService ...).
+  Change a subsystem → edit many classes.
+  Add a channel → many more edits.
+end note
+
+@enduml

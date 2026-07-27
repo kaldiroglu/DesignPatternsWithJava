@@ -1,0 +1,98 @@
+@startuml Facade-Compiler-Before
+skinparam classAttributeIconSize 0
+skinparam nodesep 10
+skinparam ranksep 20
+skinparam linetype ortho
+
+title GoF Compiler Example \n Before Facade
+
+class Client <<client>> {
+  - scanner : Scanner
+  - parser : Parser
+  - builder : ProgramNodeBuilder
+  - generator : CodeGenerator
+  + compile(source) : BytecodeStream
+}
+note left of Client
+  No Facade. Each client depends on 4+ subsystem
+  classes AND orchestrates the pipeline itself
+  (scan -> parse -> build -> traverse).
+  This wiring is duplicated in every client and is
+  sensitive to any change in the subsystem.
+end note
+
+package "compiler subsystem" {
+
+  class Scanner {
+    + next() : Token
+    + peek() : Token
+  }
+  class Token <<record>> {
+    + kind : Kind
+    + text : String
+  }
+  class Parser {
+    + parse(s : Scanner, b : ProgramNodeBuilder)
+  }
+  class ProgramNodeBuilder {
+    + newConstant(v) : ProgramNode
+    + newVariable(n) : ProgramNode
+    + newBinaryOperator(op,l,r) : ProgramNode
+    + newAssignment(v,e) : ProgramNode
+    + newReturn(e) : ProgramNode
+    + getRootNode() : ProgramNode
+  }
+
+  abstract class ProgramNode {
+    + {abstract} traverse(g : CodeGenerator)
+  }
+  class BlockNode
+  class ConstantNode
+  class VariableRefNode
+  class BinaryOpNode
+  class AssignmentNode
+  class ReturnNode
+
+  abstract class CodeGenerator {
+    # output : BytecodeStream
+    + {abstract} emitPushConstant(v)
+    + {abstract} emitLoad(var)
+    + {abstract} emitStore(var)
+    + {abstract} emitAdd()
+    + {abstract} emitSubtract()
+    + {abstract} emitReturn()
+  }
+  class StackMachineCodeGenerator
+  class RiscCodeGenerator
+
+  class BytecodeStream {
+    + put(instruction)
+    + instructions() : List
+  }
+
+  Scanner ..> Token
+  Parser ..> Scanner
+  Parser ..> ProgramNodeBuilder
+  ProgramNodeBuilder ..> ProgramNode
+  ProgramNode <|-- BlockNode
+  ProgramNode <|-- ConstantNode
+  ProgramNode <|-- VariableRefNode
+  ProgramNode <|-- BinaryOpNode
+  ProgramNode <|-- AssignmentNode
+  ProgramNode <|-- ReturnNode
+  CodeGenerator <|-- StackMachineCodeGenerator
+  CodeGenerator <|-- RiscCodeGenerator
+  CodeGenerator o--> BytecodeStream
+  ProgramNode ..> CodeGenerator : traverse
+}
+
+' The client is coupled DIRECTLY to many subsystem classes (contrast the "after"
+' diagram, where it depends only on the Compiler facade).
+Client --> Scanner
+Client --> Parser
+Client --> ProgramNodeBuilder
+Client --> CodeGenerator
+Client ..> BytecodeStream
+Client ..> ProgramNode
+
+@enduml

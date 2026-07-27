@@ -1,0 +1,55 @@
+' Model: Claude Opus 4.8 (1M context)
+' Created: 2026-06-25
+' Adapter (GoF p.139) — Shape / TextView / TextShape, drawing-editor example.
+' Standalone PlantUML source; mirrors the diagram in adapter-class-diagram.md.
+
+@startuml adapter-class-diagram
+title Adapter — (Class adapter through inheritance)
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+
+' ---------- Target ----------
+interface Shape <<Target>> {
+  +boundingBox() : BoundingBox
+  +createManipulator() : Manipulator
+  +isEmpty() : boolean
+}
+
+' ---------- Adaptee ----------
+class TextView <<Adaptee>> {
+  +getOrigin() : Point
+  +getExtent() : Point
+  +isEmpty() : boolean
+}
+
+' ---------- Class Adapter ----------
+package classadapter {
+  class "TextShape" as ClassTextShape <<Adapter (class)>> {
+    +boundingBox() : BoundingBox
+    +createManipulator() : Manipulator
+  }
+}
+
+' ---------- Client ----------
+class DrawingEditor <<Client>> {
+  +main()
+}
+
+' ===== Relationships =====
+
+Shape <|.. ClassTextShape : implements
+TextView <|-- ClassTextShape : extends \nadapter\wrapper \nthrough inheritance
+
+DrawingEditor ..> Shape : uses
+
+DrawingEditor -[hidden]right-> Shape
+
+
+legend right
+  Target  = interface the Client knows (Shape)
+  Adaptee = existing, incompatible class (TextView)
+  Adapter = makes Adaptee usable as a Target
+endlegend
+@enduml

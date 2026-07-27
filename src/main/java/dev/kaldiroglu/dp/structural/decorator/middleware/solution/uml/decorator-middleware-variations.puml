@@ -1,0 +1,89 @@
+@startuml Decorator-Middleware-Variations
+skinparam classAttributeIconSize 0
+title Three ways to write the same pattern — all three build the same chain
+
+package "1. classic — a class per concern" {
+  interface PriceFeed
+  abstract class PriceFeedDecorator {
+    - inner : PriceFeed
+  }
+  class "LoggingPriceFeed\nTimingPriceFeed\nRetryingPriceFeed\nCachingPriceFeed\nRateLimitingPriceFeed" as Concretes
+
+  PriceFeed <|.. PriceFeedDecorator
+  PriceFeedDecorator o--> PriceFeed
+  PriceFeedDecorator <|-- Concretes
+}
+note bottom of Concretes
+  new TimingPriceFeed(
+    new LoggingPriceFeed(
+      new CachingPriceFeed(
+        new RetryingPriceFeed(feed, 3),
+        clock, ttl),
+      log, "orders"),
+    clock, metrics)
+
+  Correct, and reads inside-out.
+  Best when a concern has real state,
+  invariants, and tests of its own.
+end note
+
+package "2. functional — a function per concern" {
+  interface PriceFeedMiddleware <<UnaryOperator<PriceFeed>>> {
+    + apply(next : PriceFeed) : PriceFeed
+    --
+    {static} logging(log, name)
+    {static} timing(clock, metrics)
+    {static} retrying(maxAttempts)
+    {static} caching(clock, ttl)
+    {static} apply(base, middleware...)
+  }
+}
+note bottom of PriceFeedMiddleware
+  PriceFeedMiddleware.apply(feed,
+    timing(clock, metrics),   // outermost
+    logging(log, "orders"),
+    caching(clock, ttl),
+    retrying(3));             // innermost
+
+  No class per concern; state lives in
+  the closure. A decorator is literally
+  a PriceFeed -> PriceFeed function.
+  In Java a lambda IS a PriceFeed;
+  C# needs a 3-line DelegatePriceFeed.
+end note
+
+package "3. fluent — the same classes, assembled in reading order" {
+  class PriceFeedPipeline {
+    {static} around(base : PriceFeed) : PriceFeedPipeline
+    + withLogging(log, name) : PriceFeedPipeline
+    + withTiming(clock, metrics) : PriceFeedPipeline
+    + withRetry(maxAttempts) : PriceFeedPipeline
+    + withCache(clock, ttl) : PriceFeedPipeline
+    + withRateLimit(clock, limit, window) : PriceFeedPipeline
+    + build() : PriceFeed
+  }
+  PriceFeedPipeline ..> Concretes : assembles
+}
+note bottom of PriceFeedPipeline
+  PriceFeedPipeline.around(feed)
+    .withTiming(clock, metrics)
+    .withLogging(log, "orders")
+    .withCache(clock, ttl)
+    .withRetry(3)
+    .build();
+
+  **First listed = outermost**, so the code
+  reads in the direction a request travels
+  (the ASP.NET Core / Express convention).
+  Convenience, not new design: build()
+  applies the layers in reverse.
+end note
+
+note as N1
+  All three are the Decorator pattern.
+  The tests assert they produce identical behavior:
+  same supplier calls, same log lines, same metrics.
+  Choose by what reads best for the concern at hand.
+end note
+
+@enduml

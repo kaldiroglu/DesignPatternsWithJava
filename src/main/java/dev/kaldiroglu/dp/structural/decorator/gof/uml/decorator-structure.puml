@@ -1,0 +1,76 @@
+@startuml Decorator-Structure
+skinparam classAttributeIconSize 0
+title Decorator — pattern structure (Design Patterns, p. 177)
+
+class Client
+
+abstract class Component {
+  + operation() : void
+}
+note right of Component
+  Declares the interface for objects
+  that can have responsibilities
+  added to them dynamically.
+  Keep it LIGHTWEIGHT (p. 180):
+  every decorator pays for whatever
+  a Component carries.
+end note
+
+class ConcreteComponent {
+  + operation() : void
+}
+note bottom of ConcreteComponent
+  The object being decorated.
+  It knows nothing about its
+  decorators, and never changes
+  when a new one is invented.
+end note
+
+abstract class Decorator {
+  - component : Component
+  + operation() : void
+}
+note right of Decorator
+  IS-A Component, so it can stand
+  anywhere one can — including
+  inside another Decorator.
+  HAS-A Component, and forwards
+  to it, so by default it changes
+  nothing.
+  Can be omitted when there is only
+  one responsibility to add (p. 179).
+end note
+
+class ConcreteDecoratorA {
+  - addedState : State
+  + operation() : void
+}
+
+class ConcreteDecoratorB {
+  + operation() : void
+  + addedBehavior() : void
+}
+note bottom of ConcreteDecoratorB
+  operation() calls
+  super.operation() and adds
+  its own work before, after,
+  instead of, or several times.
+end note
+
+Client ..> Component : uses
+Component <|-- ConcreteComponent
+Component <|-- Decorator
+Decorator o--> "component" Component : forwards to
+Decorator <|-- ConcreteDecoratorA
+Decorator <|-- ConcreteDecoratorB
+
+note as N1
+  The two relationships from Decorator to Component
+  are what make the pattern work:
+  **inheritance** buys interface conformance,
+  **composition** buys run-time assembly.
+  Remove either one and the pattern is gone.
+end note
+N1 .. Decorator
+
+@enduml

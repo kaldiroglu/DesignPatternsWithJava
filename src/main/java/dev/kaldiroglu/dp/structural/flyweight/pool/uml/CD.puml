@@ -1,0 +1,38 @@
+@startuml Flyweight
+' =============================================================================
+' FLYWEIGHT — Class diagrams for Java, Python, and C# implementations
+' =============================================================================
+
+title Flyweight Pattern — Sharing Expensive Objects\n
+
+' ── JAVA: Connection Pool Flyweight ──────────────────────────────────
+package "Java — HikariCP-style Connection Pool" #LightYellow {
+
+  class ConnectionPool <<flyweight factory>> {
+    - available: BlockingQueue<PooledConnection>
+    + ConnectionPool(size)
+    + borrow(timeoutMs): PooledConnection
+    + release(conn): void
+    + availableCount(): int
+  }
+
+  class PooledConnection <<flyweight>> {
+    - id: int  \n  «intrinsic»
+    - inUse: boolean
+    «intrinsic» pool config (URL, creds, size)
+    «extrinsic» current transaction, statement, result set
+    --
+    + query(sql): String
+    + close(): void
+  }
+
+  ConnectionPool --> PooledConnection : manages 1..*
+
+  note right of PooledConnection
+    Intrinsic: shared, immutable — URL, credentials, pool size.
+    Extrinsic: per-use, transient — transaction, statement handle.
+    Ten requests compete for 3 pre-established connections.
+  end note
+}
+
+@enduml

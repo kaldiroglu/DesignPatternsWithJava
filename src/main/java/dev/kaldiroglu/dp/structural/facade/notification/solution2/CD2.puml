@@ -1,0 +1,61 @@
+@startuml after2
+skinparam backgroundColor #FEFEFE
+skinparam packageStyle rectangle
+skinparam nodesep 80
+skinparam ranksep 60
+skinparam linetype ortho
+skinparam stereotypeCBackgroundColor #E8F5E9
+skinparam class {
+    BackgroundColor #F9F9F9
+    BorderColor #555555
+}
+
+title **After v2 — Client-Specific Channel Selection via EnumSet**
+
+package "Facade Layer" #E8F5E9 {
+    enum Channel <<Enum>> {
+        EMAIL
+        SMS
+        SLACK
+        PUSH
+    }
+
+    class NotificationFacade <<Facade>> {
+        - email: EmailService
+        - sms: SMSService
+        - slack: SlackService
+        - push: PushService
+        - log: Logger
+        --
+        + notify(user, title, body): NotificationResult
+        + notify(user, Set<Channel>, title, body): NotificationResult
+    }
+
+    class NotificationConfig <<Config>> {
+        smtp + twilio + slack + firebase + log
+    }
+
+    class NotificationResult <<Result>> {
+        - results: Map
+        --
+        + allSucceeded(): boolean
+    }
+
+    note top of NotificationFacade
+        <b>Two overloads:</b>
+        • notify(user, title, body)
+          → delegates to EnumSet.allOf(Channel.class)
+        • notify(user, channels, title, body)
+          → caller picks subset
+
+        <b>Client owns <i>which</i> channels.</b>
+        <b>Facade owns <i>how</i> to send.</b>
+    end note
+}
+
+
+NotificationFacade ..> Channel : "uses"
+NotificationFacade ..> NotificationConfig : "wired once"
+NotificationFacade ..> NotificationResult : "returns"
+
+@enduml

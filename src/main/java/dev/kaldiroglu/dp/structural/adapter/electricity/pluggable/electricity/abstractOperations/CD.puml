@@ -1,0 +1,56 @@
+' Model: Claude Opus 4.8 (1M context)
+' Created: 2026-07-04
+' Pluggable technique (a) — abstract operations (GoF p.143).
+' Models java/dev/kaldiroglu/adapter/gof/pluggable/electricity/abstractops/.
+
+@startuml pluggable-a-abstractops
+title Technique (a) — Abstract Operations (pluggable via inheritance)
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+
+interface TurkishPowerSource <<Target>> {
+  +turnOn()
+  +turnOff()
+}
+
+abstract class PowerAdapter <<Adapter>> {
+  +turnOn() {final}
+  +turnOff() {final}
+  #deliver() {abstract}
+  #cut() {abstract}
+}
+
+class USPowerAdapter <<plug>> {
+  -us : USPowerSource
+  #deliver()
+  #cut()
+}
+
+class UKPowerAdapter <<plug>> {
+  -uk : UKPowerSource
+  #deliver()
+  #cut()
+}
+
+class USPowerSource <<Adaptee>> {
+  +pushSwitch()
+}
+
+class UKPowerSource <<Adaptee>> {
+  +flipToggle()
+}
+
+TurkishPowerSource <|.. PowerAdapter
+PowerAdapter <|-- USPowerAdapter
+PowerAdapter <|-- UKPowerAdapter
+USPowerAdapter --> USPowerSource : delegates hook to
+UKPowerAdapter --> UKPowerSource : delegates hook to
+
+note right of PowerAdapter
+  turnOn()/turnOff() are fixed template methods
+  that call the abstract narrow interface
+  deliver()/cut(). One subclass plug per adaptee.
+end note
+@enduml

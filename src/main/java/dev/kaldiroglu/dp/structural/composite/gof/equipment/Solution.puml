@@ -1,0 +1,104 @@
+@startuml Composite-Equipment
+skinparam classAttributeIconSize 0
+title GoF Graphics Example \nAfter Composite
+
+abstract class Equipment <<Iterable>> {
+  - name : String
+  + name() : String
+  + {abstract} power() : int
+  + {abstract} netPrice() : Currency
+  + {abstract} discountPrice() : Currency
+  + add(part : Equipment) : void
+  + remove(part : Equipment) : void
+  + iterator() : Iterator<Equipment>
+  + isComposite() : boolean
+}
+note right of Equipment
+  Component
+
+  add / remove fail by default.
+  iterator() yields nothing for
+  a leaf, so one recursive walk
+  handles every node.
+end note
+
+class FloppyDisk {
+  - watts : int
+  - listPrice : Currency
+  + power() : int
+  + netPrice() : Currency
+  + discountPrice() : Currency
+}
+
+class Card {
+  - watts : int
+  - listPrice : Currency
+  + power() : int
+  + netPrice() : Currency
+  + discountPrice() : Currency
+}
+
+note bottom of Card : Leaf (simple equipment)
+
+abstract class CompositeEquipment {
+  - equipment : List<Equipment>
+  + power() : int
+  + netPrice() : Currency
+  + discountPrice() : Currency
+  + add(part : Equipment) : void
+  + remove(part : Equipment) : void
+  + iterator() : Iterator<Equipment>
+  # ownPower() : int
+  # ownNetPrice() : Currency
+  # ownDiscountRate() : double
+}
+note right of CompositeEquipment
+  Composite
+
+  netPrice() = ownNetPrice()
+            + Σ child.netPrice()
+
+  Subclasses override only the
+  own... hooks, so the summing
+  loop exists in one place.
+end note
+
+class Chassis {
+  # ownPower() : int
+  # ownNetPrice() : Currency
+  # ownDiscountRate() : double
+}
+
+class Cabinet {
+  # ownNetPrice() : Currency
+  # ownDiscountRate() : double
+}
+
+class Bus {
+  # ownPower() : int
+  # ownNetPrice() : Currency
+  # ownDiscountRate() : double
+}
+
+note bottom of Cabinet : Concrete composites\n(assemblies)
+
+class Currency <<record>> {
+  - amount : BigDecimal
+  + plus(other : Currency) : Currency
+  + times(factor : double) : Currency
+}
+
+class Demo
+note top of Demo : Client
+
+Demo --> Equipment
+Equipment <|-- FloppyDisk
+Equipment <|-- Card
+Equipment <|-- CompositeEquipment
+CompositeEquipment <|-- Chassis
+CompositeEquipment <|-- Cabinet
+CompositeEquipment <|-- Bus
+CompositeEquipment o--> "equipment\n*" Equipment
+Equipment ..> Currency
+
+@enduml

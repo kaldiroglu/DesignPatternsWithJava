@@ -1,0 +1,71 @@
+@startuml Decorator-Middleware-Objects
+skinparam classAttributeIconSize 0
+title Order is part of the design — the same decorators, different chains, different numbers
+
+package "logging outside the retry" {
+  object "aLoggingPriceFeed" as l1
+  object "aRetryingPriceFeed" as r1
+  object "theSupplier" as s1
+  l1 --> r1 : inner
+  r1 --> s1 : inner
+}
+note bottom of s1
+  1 failure, then success
+  **2 log lines** — "asking", "got"
+  The retry is invisible in the log.
+  2 supplier calls.
+end note
+
+package "logging inside the retry" {
+  object "aRetryingPriceFeed " as r2
+  object "aLoggingPriceFeed " as l2
+  object "theSupplier " as s2
+  r2 --> l2 : inner
+  l2 --> s2 : inner
+}
+note bottom of s2
+  1 failure, then success
+  **4 log lines** — a pair per attempt,
+  the failure among them.
+  2 supplier calls.
+end note
+
+package "timing outside the cache" {
+  object "aTimingPriceFeed" as t3
+  object "aCachingPriceFeed" as c3
+  object "theSupplier  " as s3
+  t3 --> c3 : inner
+  c3 --> s3 : inner
+}
+note bottom of s3
+  2 requests, 1 miss + 1 hit
+  **2 samples**: 200 ms and 0 ms.
+  "What the caller waited for."
+end note
+
+package "timing inside the cache" {
+  object "aCachingPriceFeed " as c4
+  object "aTimingPriceFeed " as t4
+  object "theSupplier   " as s4
+  c4 --> t4 : inner
+  t4 --> s4 : inner
+}
+note bottom of s4
+  2 requests, 1 miss + 1 hit
+  **1 sample**: 200 ms.
+  "What the supplier itself cost."
+  The hit never reached the timer.
+end note
+
+note as N1
+  Nothing in the type system distinguishes these chains.
+  Both compile, both run, both look right in review.
+  A dashboard that silently moved from one timing chain to
+  the other would report a 50% improvement and mean nothing.
+
+  Not every pair differs: cache and retry give the same
+  numbers in either order here, because failures are not
+  cached. **Reason about each pair — do not recite a rule.**
+end note
+
+@enduml

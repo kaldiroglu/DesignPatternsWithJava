@@ -1,0 +1,77 @@
+@startuml Decorator-Middleware-Problem
+skinparam classAttributeIconSize 0
+title BEFORE — three naive ways to add five concerns to one call
+
+interface PriceFeed {
+  + quoteFor(sku : String) : Quote
+}
+
+package "1. copy-paste at the call site" {
+  class CopyPasteOrderService {
+    + priceForOrder(sku : String) : Quote
+    + priceForReorder(sku : String) : Quote
+  }
+  note bottom of CopyPasteOrderService
+    The same 20 lines twice, and they have
+    already drifted: 3 retries vs 2, failures
+    logged in one and not the other, a cache
+    timestamp written in one and not the other.
+    Nothing in the design prevents any of it.
+  end note
+}
+
+package "2. one class, five flags" {
+  class FlaggedPriceFeed {
+    - loggingEnabled : boolean
+    - timingEnabled : boolean
+    - retryEnabled : boolean
+    - cachingEnabled : boolean
+    - rateLimitEnabled : boolean
+    + quoteFor(sku : String) : Quote
+  }
+  note bottom of FlaggedPriceFeed
+    2^5 = 32 configurations in one method.
+    Every new concern edits this file.
+    The cache/retry ORDER is welded in and
+    no caller can change it.
+    No concern can be tested alone.
+  end note
+}
+
+package "3. a subclass per combination" {
+  class BasicPriceFeed
+  class LoggingPriceFeed
+  class RetryingPriceFeed
+  class RetryingLoggingPriceFeed
+  class CachingRetryingLoggingPriceFeed
+
+  BasicPriceFeed <|-- LoggingPriceFeed
+  BasicPriceFeed <|-- RetryingPriceFeed
+  RetryingPriceFeed <|-- RetryingLoggingPriceFeed
+  RetryingLoggingPriceFeed <|-- CachingRetryingLoggingPriceFeed
+
+  note right of RetryingLoggingPriceFeed
+    Inherits the retry, copies the
+    logging: no multiple inheritance.
+  end note
+  note right of CachingRetryingLoggingPriceFeed
+    The class name has to list both
+    the concerns AND their order,
+    because both are frozen into the type.
+    5 concerns in every order = 325 classes.
+  end note
+}
+
+PriceFeed <|.. FlaggedPriceFeed
+PriceFeed <|.. BasicPriceFeed
+CopyPasteOrderService ..> PriceFeed
+
+class VendorPriceFeed <<final / sealed>>
+PriceFeed <|.. VendorPriceFeed
+note right of VendorPriceFeed
+  And all three designs stop dead here.
+  A final class cannot be subclassed,
+  and the compiler is not negotiating.
+end note
+
+@enduml

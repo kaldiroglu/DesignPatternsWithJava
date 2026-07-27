@@ -1,0 +1,142 @@
+@startuml Composite-Equipment-Before
+skinparam classAttributeIconSize 0
+title GoF Equipment Example \nBefore Composite
+note as Caveat #FFE0B2
+  <b>Read this first</b>
+
+  GoF gives a "before" design in the graphics
+  Motivation (p. 163) but NOT for the equipment
+  Sample Code (pp. 170–173).
+
+  This diagram is a reconstruction: what the
+  same example looks like if the pattern is
+  never applied. It is here for the contrast
+  with Composite-Equipment.png, not as
+  something the book says.
+end note
+
+package "the simple equipment — no common type" {
+  class FloppyDisk {
+    - watts : int
+    - listPrice : Currency
+    + power() : int
+    + netPrice() : Currency
+    + discountPrice() : Currency
+  }
+
+  class Card {
+    - watts : int
+    - listPrice : Currency
+    + power() : int
+    + netPrice() : Currency
+    + discountPrice() : Currency
+  }
+}
+
+package "the assemblies — each one a special case" {
+  class Bus {
+    - watts : int
+    - listPrice : Currency
+    - cards : List<Card>
+    + add(c : Card) : void
+    + power() : int
+    + netPrice() : Currency
+    + discountPrice() : Currency
+  }
+  note bottom of Bus
+    Three roll-up methods,
+    each looping over `cards`.
+  end note
+
+  class Chassis {
+    - watts : int
+    - listPrice : Currency
+    - buses : List<Bus>
+    - floppyDisks : List<FloppyDisk>
+    + add(b : Bus) : void
+    + add(f : FloppyDisk) : void
+    + power() : int
+    + netPrice() : Currency
+    + discountPrice() : Currency
+  }
+  note bottom of Chassis
+    Three MORE roll-up methods,
+    each looping over BOTH of its
+    collections.
+
+    Forget one loop and the price
+    is silently too low.
+  end note
+
+  class Cabinet {
+    - listPrice : Currency
+    - chassis : List<Chassis>
+    + add(c : Chassis) : void
+    + power() : int
+    + netPrice() : Currency
+    + discountPrice() : Currency
+  }
+  note bottom of Cabinet
+    Three MORE.
+
+    9 near-identical aggregating
+    methods across 3 containers,
+    for 3 questions.
+  end note
+}
+
+class InventoryReport {
+  + printTree(item : Object) : void
+  + totalPrice(item : Object) : Currency
+}
+note right of InventoryReport
+  The client
+
+  There is no type meaning
+  "a piece of equipment", so a
+  report that walks an assembly
+  must take Object and branch:
+
+    if (o instanceof Cabinet) ...
+    else if (o instanceof Chassis) ...
+    else if (o instanceof Bus) ...
+    else if (o instanceof Card) ...
+    else if (o instanceof FloppyDisk) ...
+
+  Five branches, and a new
+  equipment type makes six.
+end note
+
+' four collections across three containers — the field names are in the boxes
+Cabinet *--> "*" Chassis
+Chassis *--> "*" Bus
+Chassis *--> "*" FloppyDisk
+Bus *--> "*" Card
+
+InventoryReport ..> Cabinet : instanceof
+InventoryReport ..> Card : instanceof
+
+note as Costs
+  <b>What this design costs</b>
+  • No common type → clients take Object and branch.
+  • 9 near-identical roll-up methods, one set per container.
+  • 4 child collections, each with its own add() overload.
+  • A new equipment type means editing every container
+    that may hold it, plus every client.
+
+  <b>...and the one thing it genuinely buys</b>
+  The containment rules are enforced by the COMPILER:
+  bus.add(cabinet) does not compile. A Bus holds only
+  Cards; a Chassis holds only Buses and FloppyDisks.
+
+  Composite gives that up. Equipment.add(Equipment)
+  accepts anything, so "a Bus may only hold Cards"
+  becomes a run-time check or no check at all —
+  exactly GoF's fourth consequence (p. 166):
+  <i>"you cannot rely on the type system to enforce</i>
+  <i>those constraints for you."</i>
+
+  See Composite-Equipment.png.
+end note
+
+@enduml

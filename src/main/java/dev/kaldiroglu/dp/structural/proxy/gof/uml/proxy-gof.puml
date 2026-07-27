@@ -1,0 +1,62 @@
+@startuml Proxy-GoF
+skinparam classAttributeIconSize 0
+title Proxy — GoF example \nA virtual image proxy in a document editor
+
+interface Graphic {
+  + draw(at : Point) : void
+  + getExtent() : Extent
+  + store() : void
+  + load() : void
+}
+note right of Graphic : Subject
+
+class Image {
+  - fileName : String
+  - extent : Extent
+  + Image(fileName : String)
+  + draw(at : Point) : void
+  + getExtent() : Extent
+  + store() : void
+  + load() : void
+}
+note bottom of Image : RealSubject\n(expensive to create)
+
+class ImageProxy {
+  - fileName : String
+  - extent : Extent
+  - image : Image
+  - loadCount : int
+  + ImageProxy(fileName : String, extent : Extent)
+  + draw(at : Point) : void
+  + getExtent() : Extent
+  + store() : void
+  + load() : void
+}
+note bottom of ImageProxy : Proxy\n(caches extent; creates the\nreal Image on first draw)
+
+class TextDocument {
+  - graphics : List<Graphic>
+  + insert(g : Graphic) : void
+  + layoutExtent() : Extent
+  + draw(at : Point) : void
+}
+note top of TextDocument : Client (document editor)
+
+class Point <<record>> {
+  + x : int
+  + y : int
+}
+
+class Extent <<record>> {
+  + width : int
+  + height : int
+}
+
+Graphic <|.. Image
+Graphic <|.. ImageProxy
+ImageProxy o--> "0..1" Image : realSubject (lazy)
+TextDocument o--> "*" Graphic : graphics
+Graphic ..> Point
+Graphic ..> Extent
+
+@enduml

@@ -1,0 +1,70 @@
+@startuml Composite-BOM-Problem-Objects
+title THE PROBLEM as objects — the wheel exists twice, and 32 spokes are 32 list entries
+
+skinparam objectAttributeIconSize 0
+
+object "bicycle : Assembly" as bicycle {
+  BIKE-CITY
+  parts = [ saddle ]
+  subAssemblies = [ frame, wheel1, wheel2 ]
+}
+
+object "frame : Assembly" as frame {
+  FRAME-ASM
+  parts = [ tubeset, fork, paint ]
+}
+
+object "wheel1 : Assembly" as wheel1 {
+  WHEEL-ASM
+  parts = [ rim, spoke x32, tire, tube ]
+  = 35 entries
+}
+
+object "wheel2 : Assembly" as wheel2 {
+  WHEEL-ASM
+  parts = [ rim, spoke x32, tire, tube ]
+  = 35 entries
+}
+
+object "hub1 : Assembly" as hub1 {
+  HUB-ASM
+  parts = [ axle, bearing x2 ]
+}
+
+object "hub2 : Assembly" as hub2 {
+  HUB-ASM
+  parts = [ axle, bearing x2 ]
+}
+
+bicycle --> frame
+bicycle --> wheel1
+bicycle --> wheel2
+wheel1 --> hub1
+wheel2 --> hub2
+
+note right of wheel2
+  <b>Two wheel objects, not one.</b>
+
+  There is no way to say "two of these",
+  so the wheel had to be BUILT TWICE.
+  They are equal in every field and
+  identical in no way the code can use.
+
+  Change the spoke count on wheel1 and
+  wheel2 does not follow: the product is
+  then quietly wrong by one wheel's worth
+  of spokes ($397.60 instead of $399.20).
+end note
+
+note bottom of bicycle
+  <b>85 child-list entries</b> for one
+  traversal, and there are three
+  traversals in the codebase.
+
+  The Composite version reaches the
+  same totals from 14 objects and
+  13 line entries — see
+  Composite-BOM-Solution-Objects.png.
+end note
+
+@enduml

@@ -1,0 +1,51 @@
+@startuml Composite-Object-Structure
+title Composite — the resulting object structure (Design Patterns, p. 164)\nThe assembled PC of the Sample Code, as objects rather than classes
+
+skinparam objectAttributeIconSize 0
+
+object "cabinet : Cabinet" as cabinet {
+  name = "PC Cabinet"
+  ownNetPrice = $90.00
+  netPrice() = $530.00
+}
+
+object "chassis : Chassis" as chassis {
+  name = "PC Chassis"
+  ownNetPrice = $210.00
+  netPrice() = $440.00
+}
+
+object "bus : Bus" as bus {
+  name = "MCA Bus"
+  ownNetPrice = $75.00
+  netPrice() = $195.00
+}
+
+object "card : Card" as card {
+  name = "16Mbs Token Ring"
+  netPrice() = $120.00
+}
+
+object "floppy : FloppyDisk" as floppy {
+  name = "3.5in Floppy"
+  netPrice() = $35.00
+}
+
+cabinet --> chassis
+chassis --> bus
+chassis --> floppy
+bus --> card
+
+note right of cabinet
+  A client calls netPrice() here...
+end note
+
+note bottom of card
+  ...and the recursion bottoms out
+  at the leaves, which answer from
+  their own state. Every intermediate
+  node adds its own price to the sum
+  of its children's.
+end note
+
+@enduml

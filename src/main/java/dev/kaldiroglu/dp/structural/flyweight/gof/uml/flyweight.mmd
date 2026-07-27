@@ -1,0 +1,55 @@
+%% GoF Flyweight - "Lexi" document editor example (Design Patterns, pp. 195-206)
+%% Simplified font mapping (plain index->Font) replaces the book's BTree (p. 202).
+%% GoF's "Character" participant is named CharacterGlyph here to avoid clashing
+%% with the built-in character types of Java / C# / Python.
+classDiagram
+    class Glyph {
+        <<abstract>>
+        +draw(Window w, GlyphContext c)
+        +insert(Glyph g)
+        +child(int i) Glyph
+        +childCount() int
+    }
+    class CharacterGlyph {
+        -char charcode
+        +draw(Window w, GlyphContext c)
+    }
+    class Row {
+        -List~Glyph~ children
+        +draw(Window w, GlyphContext c)
+    }
+    class Column {
+        -List~Glyph~ children
+        +draw(Window w, GlyphContext c)
+    }
+    class GlyphContext {
+        -int index
+        -Map~int,Font~ fonts
+        +next(int step)
+        +setFont(Font f, int span)
+        +getFont() Font
+    }
+    class GlyphFactory {
+        -Map~char,CharacterGlyph~ characters
+        +createCharacter(char c) CharacterGlyph
+        +createRow() Row
+        +createColumn() Column
+    }
+    class Font {
+        -String name
+    }
+    class Window {
+        +draw(char c, Font f)
+        +newLine()
+    }
+
+    Glyph <|-- CharacterGlyph : ConcreteFlyweight (GoF Character)
+    Glyph <|-- Row : UnsharedConcreteFlyweight
+    Glyph <|-- Column : UnsharedConcreteFlyweight
+    Glyph o-- "0..*" Glyph : children
+    GlyphFactory o-- "0..*" CharacterGlyph : pools (shares)
+    GlyphFactory ..> Row : creates
+    GlyphFactory ..> Column : creates
+    GlyphContext o-- "0..*" Font
+    CharacterGlyph ..> GlyphContext : reads font
+    CharacterGlyph ..> Window : renders on

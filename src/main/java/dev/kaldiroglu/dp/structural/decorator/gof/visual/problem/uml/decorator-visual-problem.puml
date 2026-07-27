@@ -1,0 +1,73 @@
+@startuml Decorator-Visual-Problem
+skinparam classAttributeIconSize 0
+title BEFORE — embellishing a TextView by subclassing (the problem)
+
+class TextView {
+  + width() : int
+  + height() : int
+  + draw(canvas, x, y) : void
+  # drawText(canvas, x, y) : void
+}
+
+class BorderedTextView {
+  + width() : int
+  + height() : int
+  + draw(canvas, x, y) : void
+}
+
+class ScrolledTextView {
+  + width() : int
+  + height() : int
+  + draw(canvas, x, y) : void
+  - drawScrollbar(...) : void
+}
+
+class BorderedScrolledTextView {
+  + width() : int
+  + height() : int
+  + draw(canvas, x, y) : void
+  - drawScrollbar(...) : void
+}
+
+class ScrolledBorderedTextView {
+  + width() : int
+  + height() : int
+  + draw(canvas, x, y) : void
+  - drawScrollbar(...) : void
+}
+
+TextView <|-- BorderedTextView
+TextView <|-- ScrolledTextView
+BorderedTextView <|-- BorderedScrolledTextView
+ScrolledTextView <|-- ScrolledBorderedTextView
+
+note right of BorderedScrolledTextView
+  Inherits the border, and has to
+  **copy** the scrollbar: no class
+  can inherit from both parents.
+end note
+
+note right of ScrolledBorderedTextView
+  The same two embellishments in the
+  other order draw a different picture,
+  so they need a different class.
+end note
+
+note as N1
+  **drawScrollbar appears three times.**
+  Fix a bug in one copy and the other two keep it;
+  the compiler will not tell you which you missed.
+
+  **Five classes for two embellishments.**
+  With n embellishments whose order matters, full
+  coverage is 1 + sum(n!/(n-k)!) classes:
+      n = 2  ->    5      n = 4  ->   65
+      n = 3  ->   16      n = 5  ->  326
+
+  **And the choice is made at compile time.**
+  Nothing can add a border to a TextView that
+  already exists — only `new` can, and by then it
+  is a different object of a different type.
+end note
+
+@enduml

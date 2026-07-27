@@ -1,0 +1,69 @@
+@startuml Decorator-Stream-Solution
+skinparam classAttributeIconSize 0
+title AFTER — extending a Stream by decorating (Design Patterns, pp. 182–184)
+
+abstract class Stream {
+  + putInt(value : int) : void
+  + putString(value : String) : void
+  + close() : void
+  # {abstract} handleBufferFull() : void
+  # takeBuffer() : String
+}
+
+class FileStream {
+  - blocks : List<String>
+  # handleBufferFull() : void
+}
+
+class SocketStream {
+  - packets : List<String>
+  # handleBufferFull() : void
+}
+
+abstract class StreamDecorator {
+  - component : Stream
+  # handleBufferFull() : void
+  # forward(data : String) : void
+  + close() : void
+}
+
+class CompressingStream {
+  # handleBufferFull() : void
+}
+
+class ASCII7Stream {
+  # handleBufferFull() : void
+}
+
+Stream <|-- FileStream
+Stream <|-- SocketStream
+Stream <|-- StreamDecorator
+StreamDecorator o--> "component" Stream
+StreamDecorator <|-- CompressingStream
+StreamDecorator <|-- ASCII7Stream
+
+note right of StreamDecorator
+  close() must flush its OWN buffer
+  and THEN close what it wraps.
+  Forget the second half and the
+  last block is silently lost.
+end note
+
+note bottom of CompressingStream
+  Works with a file stream, a socket
+  stream, or another decorator — it
+  depends only on Stream.
+end note
+
+note as N1
+  **Four classes cover both axes.**
+  Adding a destination costs one class and every
+  transformation works with it at once. Adding a
+  transformation costs one class and works with
+  every destination at once. 2 + 2 instead of 2 x 2.
+
+  new CompressingStream(new ASCII7Stream(new FileStream()))
+  — GoF's own line, p. 184.
+end note
+
+@enduml

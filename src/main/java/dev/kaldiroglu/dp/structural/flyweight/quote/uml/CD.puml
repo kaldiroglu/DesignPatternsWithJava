@@ -1,0 +1,52 @@
+@startuml Flyweight
+skinparam classAttributeIconSize 0
+title Flyweight — Business example (Java)
+
+class Instrument {
+  - symbol : String
+  - exchange : String
+  - currency : String
+  - isin : String
+  - sector : String
+  - companyName : String
+  - tickSize : BigDecimal
+  - lotSize : int
+  - sessionOpen : LocalTime
+  - sessionClose : LocalTime
+  + symbol() : String
+  + exchange() : String
+}
+note right of Instrument : ConcreteFlyweight\nintrinsic shared state (immutable)
+
+class InstrumentRegistry {
+  - cache : ConcurrentHashMap<String, Instrument>
+  + get(symbol : String, exchange : String, ... ) : Instrument
+  + size() : int
+}
+note right of InstrumentRegistry : FlyweightFactory\ninterns by (symbol, exchange)
+
+record Quote {
+  + instrument : Instrument
+  + bid : BigDecimal
+  + ask : BigDecimal
+  + last : BigDecimal
+  + volume : long
+  + timestamp : Instant
+}
+note bottom of Quote : extrinsic state +\nreference to shared Instrument
+
+class FeedHandler {
+  - quotes : List<Quote>
+  - registry : InstrumentRegistry
+  + onTick(instrument : Instrument, bid : BigDecimal, ask : BigDecimal, last : BigDecimal, volume : long) : void
+  + total() : int
+  + distinctInstruments() : int
+}
+note top of FeedHandler : Client
+
+InstrumentRegistry o--> "0..*" Instrument : cache
+Quote --> Instrument : intrinsic
+FeedHandler o--> InstrumentRegistry
+FeedHandler *--> "0..*" Quote : quotes
+
+@enduml

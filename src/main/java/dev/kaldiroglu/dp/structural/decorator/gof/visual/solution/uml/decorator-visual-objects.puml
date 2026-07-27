@@ -1,0 +1,55 @@
+@startuml Decorator-Visual-Objects
+skinparam classAttributeIconSize 0
+title The objects at run time (Design Patterns, p. 176) — and what each chain draws
+
+object "aBorderDecorator" as bd1
+object "aScrollDecorator" as sd1
+object "aTextView" as tv1
+
+bd1 --> sd1 : component
+sd1 --> tv1 : component
+
+note right of bd1
+  new BorderDecorator(
+    new ScrollDecorator(
+      new TextView(...)))
+
+  <b>+------+</b>
+  <b>|hello^|</b>
+  <b>|therev|</b>
+  <b>+------+</b>
+
+  scrollbar INSIDE the frame
+end note
+
+object "aScrollDecorator " as sd2
+object "aBorderDecorator " as bd2
+object "aTextView " as tv2
+
+sd2 --> bd2 : component
+bd2 --> tv2 : component
+
+note right of sd2
+  new ScrollDecorator(
+    new BorderDecorator(
+      new TextView(...)))
+
+  <b>+-----+^</b>
+  <b>|hello|#</b>
+  <b>|there|#</b>
+  <b>+-----+v</b>
+
+  scrollbar OUTSIDE the frame
+end note
+
+note as N1
+  Same three objects, same two classes, one difference:
+  **which one holds which**. The chain is data, built by
+  the caller, and it is where the behavior is decided.
+
+  The client sees only a VisualComponent and cannot tell
+  how deep the chain goes — that is the transparency the
+  pattern buys, and the reason nesting has no limit.
+end note
+
+@enduml

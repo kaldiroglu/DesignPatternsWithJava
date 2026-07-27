@@ -1,0 +1,16 @@
+@startuml
+skinparam dpi 300
+
+!theme blueprint
+class Citizen{
+   + void askForJob()
+   + void tellProblem()
+}
+class PM{
+  + void listen(String problem)
+  + void findJob(String name)
+  -  boolean sortOut(String problem)
+  - void resolve(String problem)
+}
+Citizen -> PM
+@enduml

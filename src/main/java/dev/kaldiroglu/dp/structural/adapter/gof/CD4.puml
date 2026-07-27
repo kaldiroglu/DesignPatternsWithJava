@@ -1,0 +1,111 @@
+' Model: Claude Opus 4.8 (1M context)
+' Created: 2026-06-25
+' Adapter (GoF p.139) — Shape / TextView / TextShape, drawing-editor example.
+' Standalone PlantUML source; mirrors the diagram in adapter-class-diagram.md.
+
+@startuml adapter-class-diagram
+title Adapter (GoF p.139) — Shape / TextView / TextShape\nClass adapter (inheritance) and Object adapter (composition)
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+
+' ---------- Target ----------
+interface Shape <<Target>> {
+  +boundingBox() : BoundingBox
+  +createManipulator() : Manipulator
+  +isEmpty() : boolean
+}
+
+' ---------- Adaptee ----------
+class TextView <<Adaptee>> {
+  +getOrigin() : Point
+  +getExtent() : Point
+  +isEmpty() : boolean
+}
+
+' ---------- Object Adapter ----------
+class TextShape <<Adapter (object)>> {
+  -textView : TextView
+  +boundingBox() : BoundingBox
+  +createManipulator() : Manipulator
+  +isEmpty() : boolean
+}
+
+' ---------- Class Adapter ----------
+package classadapter {
+  class "TextShape" as ClassTextShape <<Adapter (class)>> {
+    +boundingBox() : BoundingBox
+    +createManipulator() : Manipulator
+  }
+}
+
+' ---------- A native (non-adapted) Shape ----------
+class LineShape <<Shape>> {
+  +boundingBox() : BoundingBox
+  +createManipulator() : Manipulator
+  +isEmpty() : boolean
+}
+
+' ---------- Client ----------
+class DrawingEditor <<Client>> {
+  +main()
+}
+
+' ---------- Manipulators (factory products) ----------
+abstract class Manipulator {
+  +{abstract} manipulate()
+}
+class TextManipulator
+class LineManipulator
+
+' ---------- Value objects ----------
+class Point <<value>> {
+  +x : double
+  +y : double
+}
+class BoundingBox <<value>> {
+  +bottomLeft : Point
+  +topRight : Point
+}
+
+' ===== Relationships =====
+Shape <|.. TextShape : implements
+Shape <|.. LineShape : implements
+TextShape o--> TextView : OBJECT adapter\nwraps (composition)
+
+Shape <|.. ClassTextShape : implements
+TextView <|-- ClassTextShape : CLASS adapter\nextends (inheritance)
+
+DrawingEditor ..> Shape : uses
+
+Manipulator <|-- TextManipulator
+Manipulator <|-- LineManipulator
+TextShape ..> TextManipulator : creates
+ClassTextShape ..> TextManipulator : creates
+LineShape ..> LineManipulator : creates
+
+BoundingBox *-- "2" Point
+
+note right of TextShape
+  OBJECT ADAPTER (GoF p.147)
+  boundingBox() calls
+  textView.getOrigin() + getExtent()
+  and converts them to a BoundingBox.
+  isEmpty() delegates to the adaptee.
+end note
+
+note bottom of ClassTextShape
+  CLASS ADAPTER (GoF p.146)
+  GoF C++: class TextShape :
+    public Shape, private TextView
+  Java/C#: extends TextView implements Shape
+  isEmpty() is inherited from TextView "for free".
+end note
+
+legend right
+  Target  = interface the Client knows (Shape)
+  Adaptee = existing, incompatible class (TextView)
+  Adapter = makes Adaptee usable as a Target
+endlegend
+@enduml

@@ -1,0 +1,72 @@
+@startuml Decorator-Stream-Problem
+skinparam classAttributeIconSize 0
+title BEFORE — extending a Stream by subclassing (the problem)
+
+abstract class Stream {
+  + putInt(value : int) : void
+  + putString(value : String) : void
+  + close() : void
+  # {abstract} handleBufferFull() : void
+  # takeBuffer() : String
+}
+
+class FileStream {
+  # handleBufferFull() : void
+  # store(block : String) : void
+}
+
+class SocketStream {
+  # handleBufferFull() : void
+  # store(packet : String) : void
+}
+
+class CompressingFileStream {
+  # handleBufferFull() : void
+}
+
+class ASCII7FileStream {
+  # handleBufferFull() : void
+}
+
+class CompressingASCII7FileStream {
+  # handleBufferFull() : void
+}
+
+class CompressingSocketStream {
+  # handleBufferFull() : void
+}
+
+Stream <|-- FileStream
+Stream <|-- SocketStream
+FileStream <|-- CompressingFileStream
+FileStream <|-- ASCII7FileStream
+CompressingFileStream <|-- CompressingASCII7FileStream
+SocketStream <|-- CompressingSocketStream
+
+note right of CompressingSocketStream
+  Body identical, character for
+  character, to CompressingFileStream.
+  Only the superclass differs.
+end note
+
+note bottom of CompressingASCII7FileStream
+  Inherits from CompressingFileStream
+  but reuses nothing: the parent applies
+  half the pipeline and there is no way
+  to insert a step, so both transformations
+  are written out again.
+end note
+
+note as N1
+  **Two axes multiply.**
+  transformations x destinations = classes.
+  2 x 2 destinations is already six classes here,
+  and eight for full coverage. Add a third
+  destination and every transformation is written
+  a third time.
+
+  **The order is in the class name**, so the other
+  order is another class again.
+end note
+
+@enduml

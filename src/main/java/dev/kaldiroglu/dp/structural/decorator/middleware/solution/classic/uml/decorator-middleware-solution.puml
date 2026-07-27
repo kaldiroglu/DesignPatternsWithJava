@@ -1,0 +1,81 @@
+@startuml Decorator-Middleware-Solution
+skinparam classAttributeIconSize 0
+title AFTER — five concerns, five decorators, every order available
+
+interface PriceFeed <<Component>> {
+  + quoteFor(sku : String) : Quote
+}
+
+class SimulatedRemotePriceFeed <<ConcreteComponent>> {
+  + quoteFor(sku : String) : Quote
+  + callCount() : int
+}
+
+class VendorPriceFeed <<ConcreteComponent, final>> {
+  + quoteFor(sku : String) : Quote
+}
+
+abstract class PriceFeedDecorator <<Decorator>> {
+  - inner : PriceFeed
+  + quoteFor(sku : String) : Quote
+  # inner() : PriceFeed
+}
+
+class LoggingPriceFeed {
+  - log : CallLog
+  + quoteFor(sku : String) : Quote
+}
+class TimingPriceFeed {
+  - clock : Clock
+  - metrics : Metrics
+  + quoteFor(sku : String) : Quote
+}
+class RetryingPriceFeed {
+  - maxAttempts : int
+  + quoteFor(sku : String) : Quote
+}
+class CachingPriceFeed {
+  - ttl : Duration
+  + quoteFor(sku : String) : Quote
+  + hits() : int
+}
+class RateLimitingPriceFeed {
+  - limit : int
+  - window : Duration
+  + quoteFor(sku : String) : Quote
+}
+
+PriceFeed <|.. SimulatedRemotePriceFeed
+PriceFeed <|.. VendorPriceFeed
+PriceFeed <|.. PriceFeedDecorator
+PriceFeedDecorator o--> "inner" PriceFeed
+PriceFeedDecorator <|-- LoggingPriceFeed
+PriceFeedDecorator <|-- TimingPriceFeed
+PriceFeedDecorator <|-- RetryingPriceFeed
+PriceFeedDecorator <|-- CachingPriceFeed
+PriceFeedDecorator <|-- RateLimitingPriceFeed
+
+note right of RetryingPriceFeed
+  Forwards **several** times.
+end note
+note right of CachingPriceFeed
+  Forwards **none** on a hit — which
+  is why its position in the chain
+  matters more than any other's.
+end note
+note bottom of VendorPriceFeed
+  Cannot be subclassed. Is decorated
+  anyway: a decorator needs only the
+  interface, never the implementation.
+end note
+
+note as N1
+  **Six classes, all five concerns, every order.**
+  A sixth concern is one new class and no edits —
+  the open-closed principle stated as an invoice.
+
+  Each decorator is testable alone, because it is
+  possible to have exactly one of them.
+end note
+
+@enduml

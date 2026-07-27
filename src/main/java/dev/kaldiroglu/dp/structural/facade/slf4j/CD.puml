@@ -1,0 +1,84 @@
+@startuml Facade-SLF4J
+skinparam classAttributeIconSize 0
+title Facade — SLF4J logging example\nLogger facade over a pluggable logging subsystem
+
+class Main <<client>> {
+  + main(args)
+}
+note top of Main : Client — uses only Logger + LoggerFactory\n(never names a backend)
+
+interface Logger <<facade>> {
+  + info(msg) / info(fmt, args)
+  + warn(...) / error(...) / debug(...) / trace(...)
+  + isDebugEnabled() : boolean
+}
+note right of Logger : Facade\n= org.slf4j.Logger
+
+class LoggerFactory <<facade>> {
+  + {static} getLogger(name) : Logger
+  + {static} getLogger(type) : Logger
+  + {static} useEngine(backend : LoggingEngine)
+}
+note right of LoggerFactory : Facade entry point + binding\n= org.slf4j.LoggerFactory
+
+class FacadeLogger {
+  - name : String
+  - engine : LoggingEngine
+  - log(level, fmt, args)
+}
+
+package "logging subsystem" {
+
+  interface LoggingEngine {
+    + isEnabled(name, level) : boolean
+    + log(event : LogEvent)
+  }
+  note bottom of LoggingEngine : Subsystem seam\n= the bound backend\n(Logback / Log4j / java.util.logging)
+
+  class ConsoleLoggingEngine
+  class RecordingLoggingEngine
+  class JulLoggingEngine
+
+  class MessageFormatter <<helper>> {
+    + {static} format(pattern, args) : String
+  }
+  class LogEvent <<record>> {
+    + loggerName : String
+    + level : LogLevel
+    + message : String
+  }
+  enum LogLevel {
+    TRACE
+    DEBUG
+    INFO
+    WARN
+    ERROR
+    + isAtLeast(threshold) : boolean
+  }
+
+  LoggingEngine <|.. ConsoleLoggingEngine
+  LoggingEngine <|.. RecordingLoggingEngine
+  LoggingEngine <|.. JulLoggingEngine
+  LoggingEngine ..> LogEvent : consumes
+  LogEvent *--> LogLevel
+  JulLoggingEngine ..> "java.util.logging" : forwards to
+}
+
+Demo --> Logger
+Demo --> LoggerFactory
+Logger <|.. FacadeLogger
+LoggerFactory ..> FacadeLogger : creates
+LoggerFactory o--> LoggingEngine : current binding
+FacadeLogger o--> LoggingEngine : delegates to
+FacadeLogger ..> MessageFormatter : formats {} only if enabled
+FacadeLogger ..> LogEvent : creates
+
+note as N1
+  The client depends only on the Logger facade.
+  Subsystem classes (engines, MessageFormatter)
+  stay independently usable and know nothing of
+  the facade — a transparent facade.
+end note
+N1 .. LoggingEngine
+
+@enduml

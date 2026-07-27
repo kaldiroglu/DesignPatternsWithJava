@@ -1,0 +1,60 @@
+' Model: Claude Opus 4.8 (1M context)
+' Created: 2026-07-04
+' Pluggable technique (b) — delegate object (GoF p.143).
+' Models java/dev/kaldiroglu/adapter/gof/pluggable/electricity/delegate/.
+
+@startuml pluggable-b-delegate
+title Technique (b) — Delegate Object (pluggable via composition)
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+
+interface TurkishPowerSource <<Target>> {
+  +turnOn()
+  +turnOff()
+}
+
+interface PowerDelivery <<narrow interface>> {
+  +deliver()
+  +cut()
+}
+
+class DelegatingPowerAdapter <<Adapter>> {
+  -delivery : PowerDelivery
+  +turnOn()
+  +turnOff()
+}
+
+class USPowerDelivery <<delegate>> {
+  -us : USPowerSource
+  +deliver()
+  +cut()
+}
+
+class UKPowerDelivery <<delegate>> {
+  -uk : UKPowerSource
+  +deliver()
+  +cut()
+}
+
+class USPowerSource <<Adaptee>> {
+  +pushSwitch()
+}
+
+class UKPowerSource <<Adaptee>> {
+  +flipToggle()
+}
+
+TurkishPowerSource <|.. DelegatingPowerAdapter
+DelegatingPowerAdapter o--> PowerDelivery : forwards to
+PowerDelivery <|.. USPowerDelivery
+PowerDelivery <|.. UKPowerDelivery
+USPowerDelivery --> USPowerSource
+UKPowerDelivery --> UKPowerSource
+
+note right of DelegatingPowerAdapter
+  The adapter class; swap the delegate
+  to re-target. No subclassing.
+end note
+@enduml

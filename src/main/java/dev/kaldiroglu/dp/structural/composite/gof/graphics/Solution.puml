@@ -1,0 +1,77 @@
+@startuml Composite-Graphics
+skinparam classAttributeIconSize 0
+skinparam nodesep 25
+skinparam ranksep 30
+skinparam linetype ortho
+
+title title GoF Graphics Example \nAfter Composite
+
+class Main
+note left of Main : Client (the graphics editor)
+
+abstract class Graphic {
+  + {abstract} draw(at : Point) : void
+  + add(child : Graphic) : void
+  + remove(child : Graphic) : void
+  + getChild(index : int) : Graphic
+  + children() : List<Graphic>
+  + isComposite() : boolean
+}
+note right of Graphic
+  Component
+
+  add / remove / getChild
+  fail by default —
+  a leaf has no children.
+end note
+
+class Line {
+  - length : int
+  + draw(at : Point) : void
+}
+
+class Rectangle {
+  - width : int
+  - height : int
+  + draw(at : Point) : void
+}
+
+class Text {
+  - content : String
+  + draw(at : Point) : void
+}
+
+note bottom of Rectangle : Leaf (primitive graphics)
+
+class Picture {
+  - name : String
+  - children : List<Graphic>
+  + draw(at : Point) : void
+  + add(child : Graphic) : void
+  + remove(child : Graphic) : void
+  + getChild(index : int) : Graphic
+  + children() : List<Graphic>
+  + isComposite() : boolean
+}
+note bottom of Picture
+  Composite
+
+  draw() forwards to every child;
+  a child may itself be a Picture,
+  so drawings nest to any depth.
+end note
+
+class Point <<record>> {
+  + x : int
+  + y : int
+}
+
+Main --> Graphic
+Graphic <|-- Line
+Graphic <|-- Rectangle
+Graphic <|-- Text
+Graphic <|-- Picture
+Picture o--> "*" Graphic : children
+Graphic ..> Point
+
+@enduml

@@ -1,0 +1,47 @@
+@startuml Flyweight
+skinparam classAttributeIconSize 0
+title Flyweight — Simpler example (Java)
+
+class TreeType {
+  - name : String
+  - color : String
+  - texture : byte[]
+  + TreeType(name : String, color : String, texture : byte[])
+  + draw(x : int, y : int) : void
+  + getName() : String
+  + getColor() : String
+}
+note right of TreeType : Flyweight / ConcreteFlyweight\nIntrinsic state: name, color, texture (shared)
+
+class TreeFactory {
+  - types : Map<String, TreeType>
+  + getType(name : String, color : String, texture : byte[]) : TreeType
+  + distinctTypes() : int
+}
+note right of TreeFactory : FlyweightFactory\n(caches & shares TreeType)
+
+class Tree {
+  - x : int
+  - y : int
+  - type : TreeType
+  + Tree(x : int, y : int, type : TreeType)
+  + draw() : void
+}
+note bottom of Tree : Context\nExtrinsic state: x, y (per-tree)
+
+class Forest {
+  - trees : List<Tree>
+  - factory : TreeFactory
+  + plant(x : int, y : int, name : String, color : String, texture : byte[]) : void
+  + render() : void
+  + size() : int
+  + distinctTypes() : int
+}
+note bottom of Forest : Client
+
+TreeFactory o--> "0..*" TreeType : caches
+Tree o--> TreeType : shared type
+Forest *--> "0..*" Tree : trees
+Forest *--> TreeFactory : factory
+
+@enduml

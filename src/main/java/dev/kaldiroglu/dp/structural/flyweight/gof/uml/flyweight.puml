@@ -1,0 +1,89 @@
+@startuml Flyweight
+' GoF Flyweight - "Lexi" document editor example (Design Patterns, pp. 195-206)
+' Simplified font mapping (plain index->Font) replaces the book's BTree (p. 202).
+' GoF's "Character" participant is named CharacteærGlyph here to avoid clashing
+' with the built-in character types of Java / C# / Python.
+
+title Flyweight (Structural) - GoF Example, pp. 195-206
+
+skinparam classAttributeIconSize 0
+
+abstract class Glyph {
+  + draw(w : Window, c : GlyphContext)
+  + insert(g : Glyph)
+  + child(i : int) : Glyph
+  + childCount() : int
+}
+note right of Glyph
+  **Flyweight** (p. 198)
+  Interface through which a flyweight
+  receives and acts on extrinsic state.
+end note
+
+class CharacterGlyph {
+  - charcode : char
+  + draw(w : Window, c : GlyphContext)
+}
+note bottom of CharacterGlyph
+  **ConcreteFlyweight** (p. 201)
+  GoF: "Character"
+  Intrinsic state = charcode (shareable)
+end note
+
+class Row {
+  - children : List<Glyph>
+  + draw(w : Window, c : GlyphContext)
+}
+class Column {
+  - children : List<Glyph>
+  + draw(w : Window, c : GlyphContext)
+}
+note bottom of Column
+  **UnsharedConcreteFlyweight** (p. 198)
+  Own children -> not shared
+end note
+
+class GlyphContext {
+  - index : int
+  - fonts : Map<int, Font>
+  + next(step : int)
+  + setFont(f : Font, span : int)
+  + getFont() : Font
+}
+note right of GlyphContext
+  Holds **extrinsic state** (p. 202):
+  the font active at each position.
+end note
+
+class GlyphFactory {
+  - characters : Map<char, CharacterGlyph>
+  + createCharacter(c : char) : CharacterGlyph
+  + createRow() : Row
+  + createColumn() : Column
+}
+note right of GlyphFactory
+  **FlyweightFactory** (p. 203)
+  Pools and shares CharacterGlyph flyweights.
+end note
+
+class Font {
+  - name : String
+}
+class Window {
+  + draw(c : char, f : Font)
+  + newLine()
+}
+
+Glyph <|-- CharacterGlyph
+Glyph <|-- Row
+Glyph <|-- Column
+
+Glyph "1" o-- "0..*" Glyph : children >
+GlyphFactory "1" o-- "0..*" CharacterGlyph : pools >
+GlyphFactory ..> Row : creates >
+GlyphFactory ..> Column : creates >
+GlyphContext "1" o-- "0..*" Font
+CharacterGlyph ..> GlyphContext : reads font from >
+CharacterGlyph ..> Window : renders on >
+
+@enduml

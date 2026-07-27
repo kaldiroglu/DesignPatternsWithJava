@@ -1,0 +1,57 @@
+' Model: Claude Opus 4.8 (1M context)
+' Created: 2026-06-25
+' Adapter (GoF p.139) — Shape / TextView / TextShape, drawing-editor example.
+' Standalone PlantUML source; mirrors the diagram in adapter-class-diagram.md.
+
+@startuml adapter-class-diagram
+title Problem
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+
+' ---------- Target ----------
+interface Shape <<Target>> {
+  +boundingBox() : BoundingBox
+  +createManipulator() : Manipulator
+  +isEmpty() : boolean
+}
+
+' ---------- A native (non-adapted) Shape ----------
+class LineShape <<Shape>> {
+  +boundingBox() : BoundingBox
+  +createManipulator() : Manipulator
+  +isEmpty() : boolean
+}
+
+' ---------- Client ----------
+class DrawingEditor <<Client>> {
+  +main()
+}
+
+' ===== Relationships =====
+Shape <|.. LineShape : implements
+
+DrawingEditor ..> Shape : uses
+
+class TextView {
+  +getOrigin() : Point
+  +getExtent() : Point
+  +isEmpty() : boolean
+}
+
+note bottom of TextView
+Need to use this but it is
+incompatible with Shape
+end note
+
+Shape -[hidden]right-> TextView
+DrawingEditor -[hidden]right-> Shape
+
+legend bottom
+  Shape is the interface the Client knows
+  LineShape is a compatible class, implements Shape
+  TextView is an incompatible class, doesn't implement Shape
+  How to use TextView as a Shape object?
+endlegend
+@enduml

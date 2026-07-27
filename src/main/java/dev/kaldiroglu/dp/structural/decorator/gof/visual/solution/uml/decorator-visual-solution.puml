@@ -1,0 +1,71 @@
+@startuml Decorator-Visual-Solution
+skinparam classAttributeIconSize 0
+title AFTER — embellishing a TextView by decorating (the solution)
+
+interface VisualComponent {
+  + width() : int
+  + height() : int
+  + draw(canvas, x, y) : void
+}
+
+class TextView {
+  - contentWidth : int
+  - contentHeight : int
+  - text : String
+  + width() : int
+  + height() : int
+  + draw(canvas, x, y) : void
+}
+
+abstract class Decorator {
+  - component : VisualComponent
+  + width() : int
+  + height() : int
+  + draw(canvas, x, y) : void
+  # component() : VisualComponent
+}
+
+class BorderDecorator {
+  + width() : int
+  + height() : int
+  + draw(canvas, x, y) : void
+  - drawBorder(canvas, x, y) : void
+}
+
+class ScrollDecorator {
+  + width() : int
+  + draw(canvas, x, y) : void
+  - drawScrollbar(canvas, x, y) : void
+}
+
+VisualComponent <|.. TextView
+VisualComponent <|.. Decorator
+Decorator o--> "component" VisualComponent
+Decorator <|-- BorderDecorator
+Decorator <|-- ScrollDecorator
+
+note right of TextView
+  Knows nothing about borders or
+  scrollbars, and never has to
+  change when one is invented.
+end note
+
+note bottom of ScrollDecorator
+  **One** scrollbar implementation.
+  The problem design needed three.
+end note
+
+note as N1
+  **Four classes, every combination.**
+  Border(Scroll(text)), Scroll(Border(text)),
+  Border(Border(text)) — none of these needed to be
+  anticipated, and none of them is a class.
+
+  **A third embellishment costs exactly one class**,
+  and every order of the three comes free with it.
+
+  **The choice is made at run time**, by whoever holds
+  the object, at the moment they know what the user wants.
+end note
+
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+skinparam dpi 300
+!theme blueprint
+
+class Citizen{
+   + void askForJob()
+   + void tellProblem()
+}
+
+interface PM{
+  + void listen(String problem)
+  + void findJob(String name)
+}
+
+class ProxyPM implements PM{
+  + void listen(String problem)
+  + void findJob(String name)
+  - boolean sortOut(String problem)
+  - void delegate(String problem)
+}
+
+class PMSecretary{
+  + PM getMePM()
+}
+
+class RealPM implements PM{
+  + void listen(String problem)
+  + void findJob(String name)
+  - void resolve(String problem)
+}
+
+Citizen -> PM
+ProxyPM -> RealPM
+PMSecretary -> PM
+Citizen -> PMSecretary
+@enduml

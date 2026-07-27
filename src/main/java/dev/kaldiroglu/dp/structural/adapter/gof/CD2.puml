@@ -1,0 +1,70 @@
+' Model: Claude Opus 4.8 (1M context)
+' Created: 2026-06-25
+' Adapter (GoF p.139) — Shape / TextView / TextShape, drawing-editor example.
+' Standalone PlantUML source; mirrors the diagram in adapter-class-diagram.md.
+
+@startuml adapter-class-diagram
+title Adapter — (Object adapter through composition)
+
+top to bottom direction
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+
+' ---------- Target ----------
+interface Shape <<Target>> {
+  +boundingBox() : BoundingBox
+  +createManipulator() : Manipulator
+  +isEmpty() : boolean
+}
+
+' ---------- Adaptee ----------
+class TextView <<Adaptee>> {
+  +getOrigin() : Point
+  +getExtent() : Point
+  +isEmpty() : boolean
+}
+' ---------- Object Adapter ----------
+class TextShape <<Adapter (object)>> {
+  -textView : TextView
+  +boundingBox() : BoundingBox
+  +createManipulator() : Manipulator
+  +isEmpty() : boolean
+}
+
+' ---------- Client ----------
+class DrawingEditor <<Client>> {
+  +main()
+}
+
+' ===== Relationships =====
+Shape <|.. TextShape : implements
+TextShape o--> TextView : adapter\wrapper through composition
+
+DrawingEditor ..> Shape : uses
+
+TextShape -[hidden]right-> TextView
+DrawingEditor -[hidden]right-> Shape
+
+note bottom of TextShape
+ ADAPTER OBJECT
+  boundingBox() calls
+  textView.getOrigin() + getExtent()
+  and converts them to a BoundingBox.
+  isEmpty() delegates to the adaptee.
+end note
+
+note bottom of TextView
+Need to use this but
+it is incompatible,
+doesn't implement Shape
+end note
+
+legend bottom
+  Target  = interface the Client knows (Shape)
+  Adaptee = existing, incompatible class (TextView)
+  Adapter = makes Adaptee usable as a Target
+  LineShape is a compatible class, implements Shape
+endlegend
+@enduml

@@ -1,0 +1,43 @@
+@startuml Facade-Structure
+skinparam classAttributeIconSize 0
+title Facade \n General Structure
+
+class Client
+
+class Facade {
+  + operation()
+}
+
+package "subsystem classes" {
+  class SubsystemClassA {
+    + operationA()
+  }
+  class SubsystemClassB {
+    + operationB()
+  }
+  class SubsystemClassC {
+    + operationC()
+  }
+  SubsystemClassA ..> SubsystemClassB
+  SubsystemClassB ..> SubsystemClassC
+}
+
+Client --> Facade
+Facade .right.> SubsystemClassA
+Facade .right.> SubsystemClassB
+Facade .right.> SubsystemClassC
+Facade .up.> "subsystem classes"
+
+note right of Facade
+  Knows which subsystem classes are
+  responsible for a request and
+  delegates client requests to them.
+end note
+
+note top of "subsystem classes"
+  Implement the work. Handle requests from the
+  Facade; have no knowledge of the facade.
+  (Clients may still use them directly.)
+end note
+
+@enduml

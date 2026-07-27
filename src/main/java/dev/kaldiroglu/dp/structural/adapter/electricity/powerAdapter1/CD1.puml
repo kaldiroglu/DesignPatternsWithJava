@@ -1,0 +1,57 @@
+
+@startuml electricity-class-adapter
+title Electricity Object Adapter
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+
+' ---------- Target ----------
+interface TurkishPowerSource <<Target>> {
+  +turnOn()
+  +turnOff()
+}
+
+' ---------- Adaptee ----------
+class USPowerSource <<Adaptee>> {
+  -live : boolean
+  +pushSwitch()
+  +isLive() : boolean
+}
+
+' ---------- Class Adapter ----------
+class USTurkishPowerAdapter <<Adapter (class)>> {
+  +turnOn()
+  +turnOff()
+}
+
+' ---------- Client ----------
+class TurkishHomeAppliance <<Client>> {
+  -name : String
+  -power : TurkishPowerSource
+  +start()
+  +stop()
+}
+
+' ===== Relationships =====
+TurkishPowerSource <|.. USTurkishPowerAdapter : implements
+USTurkishPowerAdapter o-right->  USPowerSource : composition
+TurkishHomeAppliance o-right-> TurkishPowerSource
+
+note bottom of USTurkishPowerAdapter
+  Object Adapter
+  Reaches the adaptee, takes it as an instance variable.
+  It delegates turnOn()/turnOff() calls to
+  pushSwitch() / isLive().
+  --
+  Using USPowerSource, the adapter
+  can also be used anywhere any of USPowerSource's
+  sub-types is expected.
+end note
+
+legend
+  Target  = TurkishPowerSource (turnOn / turnOff)
+  Adaptee = USPowerSource (pushSwitch / isLive)
+  Adapter = USTurkishPowerAdapter
+endlegend
+@enduml

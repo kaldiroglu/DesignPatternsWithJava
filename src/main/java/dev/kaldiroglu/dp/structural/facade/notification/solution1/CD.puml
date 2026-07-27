@@ -1,0 +1,100 @@
+@startuml after
+skinparam backgroundColor #FEFEFE
+skinparam packageStyle rectangle
+skinparam nodesep 3
+skinparam ranksep 20
+skinparam linetype ortho
+skinparam stereotypeCBackgroundColor #E8F5E9
+skinparam class {
+    BackgroundColor #F9F9F9
+    BorderColor #555555
+}
+
+title Notification System Facade \nSingle Contact Point for the Whole Subsystem
+
+package "Business Layer" as Biz {
+    class OrderService {
+        - notifier: NotificationFacade
+        --
+        + confirmOrder(user, orderId)
+    }
+    class PaymentService {
+        - notifier: NotificationFacade
+        --
+        + processPayment(user, amount)
+    }
+    class AlertService {
+        - notifier: NotificationFacade
+        --
+        + fireAlert(user, message)
+    }
+
+    class UserService {
+        - notifier: NotificationFacade
+        --
+        + notifyUser(user, message)
+    }
+}
+
+package "Facade Layer" as Facade #E8F5E9 {
+    class NotificationFacade <<Facade>> {
+        - email: EmailService
+        - sms: SMSService
+        - slack: SlackService
+        - push: PushService
+        - log: Logger
+        --
+        + notify(user, title, body): NotificationResult
+    }
+    class NotificationConfig <<Config>> {
+        smtp + twilio + slack + firebase + log
+    }
+    class NotificationResult <<Result>> {
+        - results: Map
+        --
+        + allSucceeded(): boolean
+    }
+    note right of NotificationFacade
+        <b>New channel?</b>
+        Add WhatsAppService inside Facade.
+        Zero changes to OrderService,
+        PaymentService, or any other client.
+    end note
+}
+
+package "Notification Subsystems (unchanged)" as Subs {
+    class EmailService {
+        + send(to, subject, body)
+    }
+    class SMSService {
+        + send(phone, body)
+    }
+    class SlackService {
+        + send(channel, body)
+    }
+    class PushNotificationService {
+        + send(token, title, body)
+    }
+    class NotificationLogger {
+        + record(userId, channel, success)
+    }
+}
+
+Facade --down--> Subs : "isolates"
+Facade -[hidden]- Subs
+
+OrderService -down-> NotificationFacade
+PaymentService -down-> NotificationFacade
+AlertService -down-> NotificationFacade
+UserService -down-> NotificationFacade
+
+NotificationFacade -down-> EmailService
+NotificationFacade -down-> SMSService
+NotificationFacade -down-> SlackService
+NotificationFacade -down-> PushNotificationService
+NotificationFacade -down-> NotificationLogger
+
+NotificationFacade ...> NotificationConfig
+NotificationFacade ...> NotificationResult : "returns"
+
+@enduml
