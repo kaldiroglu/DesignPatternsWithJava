@@ -1,0 +1,19 @@
+
+package dev.kaldiroglu.dp.structural.bridge.basic.problem;
+
+/**
+ * @author akin
+ *
+ */
+public class Client {
+	private AnAbstraction anAbstraction;
+	
+	public Client(AnAbstraction anAbstraction){
+		this.anAbstraction = anAbstraction;
+	}
+	
+	public void start(){
+		anAbstraction.doIt();
+	}
+
+}
