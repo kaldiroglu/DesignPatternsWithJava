@@ -1,0 +1,84 @@
+@startuml
+title Decorator - Toast (Problem) - Class Diagram
+
+skinparam classAttributeIconSize 0
+skinparam nodesep 60
+skinparam ranksep 55
+
+interface Toast {
+  +calculatePrice(): int
+  +getName(): String
+}
+
+abstract class AbstractToast {
+  #name: String
+  +getName(): String
+}
+
+class CheeseToast {
+  +calculatePrice(): int
+  --
+  return 5
+}
+
+class SausageToast {
+  +calculatePrice(): int
+  --
+  return 6
+}
+
+class CheeseTomatoToast {
+  +calculatePrice(): int
+  --
+  return super + 2
+}
+
+class SausageTomatoToast {
+  +calculatePrice(): int
+  --
+  return super + 2
+}
+
+class CheeseSausageToast {
+  +calculatePrice(): int
+  --
+  return 5 + 6 - 3
+}
+
+Toast <|.. AbstractToast
+AbstractToast <|-- CheeseToast
+AbstractToast <|-- SausageToast
+AbstractToast <|-- CheeseSausageToast
+CheeseToast <|-- CheeseTomatoToast
+SausageToast <|-- SausageTomatoToast
+
+note right of CheeseSausageToast
+  The class that ends the argument.
+
+  It wanted to extend **both** CheeseToast
+  and SausageToast. Java allows one
+  superclass, so the prices had to be
+  copied by hand instead.
+end note
+
+note bottom of SausageTomatoToast
+  The **+ 2** for tomato is written here
+  and again in CheeseTomatoToast.
+  There is no Tomato class, so the price
+  of tomato is scattered, not stored.
+end note
+
+note as N1
+  **A class per combination**
+
+  Five toppings -> 2^5 - 1 = **31** classes.
+  Only five exist. Everything else on the
+  menu is a class that has not been
+  written yet.
+
+  Order is frozen: "tomato on a cheese
+  toast" is a **type**, not a decision made
+  at the counter.
+end note
+
+@enduml

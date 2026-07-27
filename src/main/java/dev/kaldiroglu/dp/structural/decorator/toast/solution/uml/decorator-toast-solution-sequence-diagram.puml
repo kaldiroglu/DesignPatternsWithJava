@@ -1,0 +1,46 @@
+@startuml
+title Decorator - Toast (Solution) - Sequence Diagram
+
+skinparam sequenceMessageAlign center
+
+participant "client" as C
+participant "salad: Salad" as S
+participant "ketchup: Ketchup" as K
+participant "tomato: Tomato" as T
+participant "sausage: Sausage" as SA
+participant "cheese: Cheese" as CH
+participant "bread: ToastBread" as B
+
+C -> S : calculatePrice()
+activate S
+S -> K : calculatePrice()
+activate K
+K -> T : calculatePrice()
+activate T
+T -> SA : calculatePrice()
+activate SA
+SA -> CH : calculatePrice()
+activate CH
+CH -> B : calculatePrice()
+activate B
+B --> CH : 5
+deactivate B
+CH --> SA : 5 + 3 = 8
+deactivate CH
+SA --> T : 8 + 3 = 11
+deactivate SA
+T --> K : 11 + 2 = 13
+deactivate T
+K --> S : 13 + 1 = 14
+deactivate K
+S --> C : 14 + 2 = 16
+deactivate S
+
+note over C, B
+  The request travels **down** to the bread,
+  and the price is assembled **on the way back up**.
+  No participant knows how long the chain is,
+  and none of them knows it is in one.
+end note
+
+@enduml

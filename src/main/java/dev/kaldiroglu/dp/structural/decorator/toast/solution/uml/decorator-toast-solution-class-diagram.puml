@@ -1,0 +1,90 @@
+@startuml
+title Decorator - Toast (Solution) - Class Diagram
+
+skinparam classAttributeIconSize 0
+skinparam nodesep 45
+skinparam ranksep 55
+
+interface Toastable <<Component>> {
+  +calculatePrice(): int
+  +getToppings(): List<Topping>
+}
+
+class ToastBread <<ConcreteComponent>> {
+  -name: String
+  -price: int
+  +calculatePrice(): int
+  +getToppings(): List<Topping>
+}
+
+abstract class Topping <<Decorator>> {
+  #component: Toastable
+  -name: String
+  -price: int
+  +calculatePrice(): int
+  +getToppings(): List<Topping>
+}
+
+class Cheese <<ConcreteDecorator>>
+class Sausage <<ConcreteDecorator>>
+class Tomato <<ConcreteDecorator>>
+class Ketchup <<ConcreteDecorator>>
+class Salad <<ConcreteDecorator>>
+
+class Promotion <<ConcreteDecorator>> {
+  -component: Toastable
+  -percentageOff: int
+  +calculatePrice(): int
+  +getToppings(): List<Topping>
+}
+
+Toastable <|.. ToastBread
+Toastable <|.. Topping
+Toastable <|.. Promotion
+Topping o--> "1" Toastable : component
+Promotion o--> "1" Toastable : component
+
+Topping <|-- Cheese
+Topping <|-- Sausage
+Topping <|-- Tomato
+Topping <|-- Ketchup
+Topping <|-- Salad
+
+note right of Topping
+  **Both at once**, and that is the pattern:
+
+  Topping **implements** Toastable,
+  so a topped toast goes wherever
+  a plain one goes.
+
+  Topping **holds** a Toastable,
+  so it forwards the question down
+  and adds its own answer.
+
+  Being both is what lets toppings
+  stack without limit.
+end note
+
+note bottom of Promotion
+  A decorator that is **not** a topping.
+
+  It multiplies instead of adding, and
+  implements Toastable directly, so the
+  compiler can prove it never appears
+  in getToppings().
+
+  Decorators need no common base class
+  with each other, only a common type
+  with what they wrap.
+end note
+
+note as N1
+  **Five classes, not thirty-one.**
+
+  Adding a topping to the menu is one new
+  class. Adding one to an order is one new
+  object, at run time, after the customer
+  has changed their mind.
+end note
+
+@enduml
