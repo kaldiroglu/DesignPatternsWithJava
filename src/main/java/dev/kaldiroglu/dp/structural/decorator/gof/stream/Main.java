@@ -10,14 +10,14 @@ import dev.kaldiroglu.dp.structural.decorator.gof.stream.solution.SocketStream;
 /**
  * The Sample Code example of GoF pp. 182–184, run both ways.
  */
-public final class Demo {
+public final class Main {
 
     // The "aä" is deliberate. Folding ä to a creates a run of two that compression can
     // exploit only if compression runs *after* folding — so the two orders of the same
     // two decorators produce different bytes. Order is part of the design, not a detail.
     private static final String PAYLOAD = "Rrrésumé of a naïve café —— aä ee ccc";
 
-    private Demo() {
+    private Main() {
     }
 
     public static void run() {

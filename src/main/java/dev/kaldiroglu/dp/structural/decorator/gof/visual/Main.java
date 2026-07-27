@@ -13,11 +13,11 @@ import dev.kaldiroglu.dp.structural.decorator.gof.visual.solution.VisualComponen
  * The Motivation example of GoF p. 175, run both ways: first by subclassing, then by
  * decorating. The pictures are identical; the designs are not.
  */
-public final class Demo {
+public final class Main {
 
     private static final String TEXT = "A decorator conforms to the interface of the component it decorates.";
 
-    private Demo() {
+    private Main() {
     }
 
     public static void run() {
