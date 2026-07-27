@@ -3,15 +3,16 @@ package dev.kaldiroglu.dp.structural.bridge.file;
 import java.util.List;
 
 /**
- * A RefinedAbstraction: finance keeps seven years, which here is the last five versions.
+ * A RefinedAbstraction: insurance keeps only the current version and the one before it.
  * <p>
- * The rule is written once and is correct on every store, present and future.
+ * Named to match {@link FinanceFileManager}; it was previously {@code InsuranceManager},
+ * which broke the pattern of the name and made the two look like different kinds of thing.
  */
-public class FinanceFileManager extends FileManager {
+public class InsuranceFileManager extends FileManager {
 
-    private static final int KEEP = 5;
+    private static final int KEEP = 2;
 
-    public FinanceFileManager(FileProvider provider) {
+    public InsuranceFileManager(FileProvider provider) {
         super(provider);
     }
 
