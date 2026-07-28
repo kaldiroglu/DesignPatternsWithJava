@@ -1,0 +1,53 @@
+@startuml "Proxy - Vault (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Proxy — homework 3, the smart reference
+
+
+interface Document <<Subject>> {
+  + read() : String
+  + write(text)
+  + close()
+}
+
+class StoredDocument <<RealSubject>> {
+  + opensPerformed() : int
+}
+
+class DocumentHandle <<Proxy>> {
+  - holders : int
+  - writeLockOwner : String
+  + acquire() : DocumentHandle
+  + lockForWriting(owner)
+  + unlock(owner)
+}
+
+Document <|.. StoredDocument
+Document <|.. DocumentHandle
+DocumentHandle o--> "0..1" StoredDocument
+
+note right of DocumentHandle
+  GoF's three smart-reference duties,
+  all present:
+
+  <b>counting</b> — closed only when the
+  last holder lets go
+  <b>loading on first access</b> — a virtual
+  proxy hiding inside this one
+  <b>locking</b> — a second writer is refused
+end note
+
+note bottom of StoredDocument
+  Never opened until somebody actually
+  reads. Two holders, two closes,
+  <b>one</b> real close.
+end note
+
+note as N1
+  close() here does not mean "close it".
+  It means <b>"I am finished with it"</b>.
+  Get that wrong and you either leak the
+  handle or shut it under somebody's feet.
+end note
+
+@enduml

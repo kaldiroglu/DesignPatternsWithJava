@@ -1,0 +1,55 @@
+@startuml "Proxy - Pricing (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Proxy — homework 1, the caching proxy
+
+
+interface PriceService <<Subject>> {
+  + priceOf(sku) : Money
+}
+
+class SupplierPriceService <<RealSubject>> {
+  + calls() : int
+}
+
+class CachingPriceProxy <<Proxy>> {
+  - cache : Map<String, Entry>
+  - ttlMillis : long
+  + hits() : int
+  + misses() : int
+  + invalidate(sku)
+}
+
+interface Clock
+class ManualClock
+
+PriceService <|.. SupplierPriceService
+PriceService <|.. CachingPriceProxy
+CachingPriceProxy o--> "1" PriceService : supplier
+CachingPriceProxy o--> "1" Clock
+Clock <|.. ManualClock
+
+note right of CachingPriceProxy
+  Five identical requests cost
+  <b>one</b> supplier call.
+
+  A decorator forwards and adds.
+  This forwards <b>sometimes</b>, and the
+  benefit is in the times it does not.
+end note
+
+note bottom of Clock
+  Injected, so expiry is tested
+  without any test sleeping.
+end note
+
+note as N1
+  The easy half is the saving.
+  The hard half is <b>invalidation</b>: for up
+  to one TTL this returns a price that is
+  wrong, and confidently. No pattern fixes
+  that — somebody decides how stale the
+  business can afford to be.
+end note
+
+@enduml

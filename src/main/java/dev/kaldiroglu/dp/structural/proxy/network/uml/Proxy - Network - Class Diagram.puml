@@ -1,0 +1,53 @@
+@startuml "Proxy - Network - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Proxy — a protection proxy with no people in it
+
+
+interface Network <<Subject>> {
+  + telnet(ip, targetIp)
+  + ftp(ip, targetIp)
+}
+
+class Gateway <<RealSubject>> {
+  + ftpCalls() : int
+  + telnetCalls() : int
+}
+
+class ProxyServer <<Proxy>> {
+  - gateway : Network
+  - filter(protocol, ip, targetIp)
+}
+
+class NetworkServer
+class Logger
+class ForbiddenAccessException
+
+Network <|.. Gateway
+Network <|.. ProxyServer
+ProxyServer o--> "1" Network : gateway
+ProxyServer ..> Logger : logs every request
+ProxyServer ..> ForbiddenAccessException : refuses with
+NetworkServer ..> ProxyServer : hands out
+
+note right of ProxyServer
+  Logs, then checks, then forwards.
+  A refused request <b>never reaches</b>
+  the gateway.
+end note
+
+note bottom of Gateway
+  Contains <b>no access rule</b>. Called
+  directly, it happily does the thing
+  the proxy would have refused — which
+  is how the tests prove where the rule
+  lives.
+end note
+
+note bottom of ForbiddenAccessException
+  Renamed from YasakKardesimException;
+  this repository keeps identifiers
+  and output in English.
+end note
+
+@enduml

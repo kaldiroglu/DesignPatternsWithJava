@@ -1,0 +1,52 @@
+@startuml "Proxy - Remote (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Proxy — homework 2, the remote proxy and what it hides
+
+
+interface InventoryService <<Subject>> {
+  + stockOf(sku) : int
+}
+
+class WarehouseInventory <<RealSubject>>
+
+class RemoteInventoryProxy <<Proxy>> {
+  - attempts : int
+}
+
+class Link {
+  - latencyMillis : long
+  + roundTrips() : int
+  + elapsedMillis() : long
+  + failNext(n) : Link
+}
+
+class RemoteCallFailedException
+
+InventoryService <|.. WarehouseInventory
+InventoryService <|.. RemoteInventoryProxy
+RemoteInventoryProxy o--> "1" InventoryService : warehouse
+RemoteInventoryProxy o--> "1" Link
+RemoteInventoryProxy ..> RemoteCallFailedException
+
+note right of InventoryService
+  Says nothing about latency, failure
+  or timeouts. <b>That silence is the
+  exercise.</b>
+end note
+
+note bottom of Link
+  Failures are <b>scripted</b>, latency is
+  counted rather than slept — so every
+  run and every test agrees.
+end note
+
+note as N1
+  A six-line basket becomes <b>6 round trips
+  and 720 ms</b>. The proxy did its job
+  perfectly — it made a remote object look
+  local — and that is exactly how the
+  mistake gets made.
+end note
+
+@enduml
