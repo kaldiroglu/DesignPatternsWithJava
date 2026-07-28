@@ -1,0 +1,55 @@
+@startuml "Facade - Notification - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Facade — five subsystems, and what the client carries
+
+
+package "problem" {
+  class ClientBefore as "Client" {
+    - email : EmailService
+    - sms : SMSService
+    - slack : SlackService
+    - push : PushNotificationService
+    - logger : NotificationLogger
+  }
+}
+
+package "solution" {
+  class ClientAfter as "Client" {
+    - notifications : NotificationFacade
+  }
+  class NotificationFacade <<Facade>> {
+    + notify(user, title, body)
+    + notify(user, channels, title, body)
+  }
+  class EmailService
+  class SMSService
+  class SlackService
+  class PushNotificationService
+  class NotificationLogger
+
+  ClientAfter --> NotificationFacade
+  NotificationFacade ..> EmailService
+  NotificationFacade ..> SMSService
+  NotificationFacade ..> SlackService
+  NotificationFacade ..> PushNotificationService
+  NotificationFacade ..> NotificationLogger
+}
+
+note bottom of ClientBefore
+  <b>Five</b> dependencies for one
+  responsibility — in every class
+  that sends a notification.
+
+  And the rules (do-not-disturb,
+  the 160-character SMS limit) are
+  re-typed in each of them.
+end note
+
+note bottom of ClientAfter
+  <b>One.</b> And the rules live in the
+  facade, so no client can forget
+  them.
+end note
+
+@enduml

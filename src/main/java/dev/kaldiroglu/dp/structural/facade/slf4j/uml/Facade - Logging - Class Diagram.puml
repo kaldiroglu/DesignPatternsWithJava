@@ -1,0 +1,46 @@
+@startuml "Facade - Logging - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Facade — the one everybody has already used
+
+
+class Application
+interface Logger <<Facade>> {
+  + info(message)
+  + info(format, args...)
+  + isInfoEnabled() : boolean
+}
+class LoggerFactory
+class FacadeLogger
+
+interface LoggingEngine <<subsystem>>
+class ConsoleLoggingEngine
+class JulLoggingEngine
+class RecordingLoggingEngine
+
+Application --> Logger
+Logger <|.. FacadeLogger
+LoggerFactory ..> FacadeLogger : creates
+FacadeLogger o--> "1" LoggingEngine
+LoggingEngine <|.. ConsoleLoggingEngine
+LoggingEngine <|.. JulLoggingEngine
+LoggingEngine <|.. RecordingLoggingEngine
+
+note right of Logger
+  Application code names <b>this</b>
+  and nothing else.
+end note
+
+note bottom of LoggingEngine
+  The backend is chosen <b>once</b>,
+  at deployment — by somebody
+  who is not the caller.
+end note
+
+note as N1
+  isInfoEnabled() is on the facade for a
+  reason: it lets the caller skip work the
+  subsystem would only throw away.
+end note
+
+@enduml

@@ -1,0 +1,52 @@
+@startuml "Facade - Compiler - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Facade — GoF's own compiler subsystem
+
+
+class Client
+class Compiler <<Facade>> {
+  + compile(source) : BytecodeStream
+  + compile(source, generator)
+}
+
+package "compiler subsystem" {
+  class Scanner
+  class Parser
+  class ProgramNodeBuilder
+  class ProgramNode
+  abstract class CodeGenerator
+  class StackMachineCodeGenerator
+  class RiscCodeGenerator
+  class BytecodeStream
+}
+
+Client --> Compiler
+Compiler ..> Scanner
+Compiler ..> Parser
+Compiler ..> ProgramNodeBuilder
+Compiler ..> CodeGenerator
+CodeGenerator <|-- StackMachineCodeGenerator
+CodeGenerator <|-- RiscCodeGenerator
+
+note right of Compiler
+  Two public methods over
+  eight subsystem classes.
+end note
+
+note bottom of Scanner
+  The subsystem knows <b>nothing</b>
+  about the facade. A facade
+  depends on its subsystem,
+  never the reverse.
+end note
+
+note as N1
+  GoF, p. 185: a facade "doesn't prevent
+  applications from using subsystem classes
+  if they need to."
+
+  A front door, <b>not a wall</b>.
+end note
+
+@enduml
