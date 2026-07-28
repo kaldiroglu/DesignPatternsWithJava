@@ -736,6 +736,375 @@ note as N1
 end note
 """)
 
+# ─────────────────────────────────────────────────────────── composite / gof
+add("composite/gof/graphics", "Composite - Graphics - Class Diagram",
+    "Composite — GoF's graphics example", """
+abstract class Graphic <<Component>> {
+  + draw() : void
+  + add(g : Graphic) : void
+  + remove(g : Graphic) : void
+  + getChild(i : int) : Graphic
+}
+
+class Line <<Leaf>>
+class Rectangle <<Leaf>>
+class Text <<Leaf>>
+class Picture <<Composite>> {
+  - children : List<Graphic>
+}
+
+Graphic <|-- Line
+Graphic <|-- Rectangle
+Graphic <|-- Text
+Graphic <|-- Picture
+Picture o--> "*" Graphic : children
+
+note right of Graphic
+  Child management is declared <b>here</b>,
+  on the Component — GoF's own choice,
+  and the <b>transparent</b> one. Every
+  element looks alike to a client.
+
+  The price: add() on a Line has to fail
+  at run time, because it compiles.
+end note
+
+note bottom of Picture
+  draw() draws itself, then asks each
+  child to draw. That is the pattern.
+end note
+"""); 
+
+add("composite/gof/equipment", "Composite - Equipment - Class Diagram",
+    "Composite — GoF's equipment example, where the roll-up is money", """
+abstract class Equipment <<Component>> {
+  + name() : String
+  + power() : int
+  + netPrice() : Currency
+  + discountPrice() : Currency
+}
+
+class FloppyDisk <<Leaf>>
+class Card <<Leaf>>
+abstract class CompositeEquipment <<Composite>> {
+  - parts : List<Equipment>
+}
+class Chassis
+class Cabinet
+class Bus
+
+Equipment <|-- FloppyDisk
+Equipment <|-- Card
+Equipment <|-- CompositeEquipment
+CompositeEquipment o--> "*" Equipment : parts
+CompositeEquipment <|-- Chassis
+CompositeEquipment <|-- Cabinet
+CompositeEquipment <|-- Bus
+
+note right of CompositeEquipment
+  netPrice() adds up the parts.
+  A cabinet holding a chassis holding
+  cards answers one number, and no
+  client writes the loop.
+end note
+"""); 
+
+# ───────────────────────────────────────────────────────── composite / graphic
+add("composite/graphic", "Composite - Graphic - Class Diagram",
+    "Composite — shapes on a canvas, the safe variant", """
+interface Graphic <<Component>> {
+  + draw() : void
+  + erase() : void
+  + paint() : void
+  + shapeCount() : int
+}
+
+abstract class GraphicObject {
+  # name : String
+  # color : String
+}
+
+class Circle <<Leaf>>
+class Ellipse <<Leaf>>
+class Triangle <<Leaf>>
+class Rectangle <<Leaf>>
+
+interface CompositeGraphic {
+  + addGraphic(g : Graphic) : void
+  + removeGraphic(g : Graphic) : void
+  + getGraphics() : Collection<Graphic>
+  + listGraphic() : void
+}
+
+class Canvas <<Composite>>
+
+Graphic <|.. GraphicObject
+GraphicObject <|-- Circle
+GraphicObject <|-- Ellipse
+GraphicObject <|-- Triangle
+GraphicObject <|-- Rectangle
+GraphicObject <|-- Canvas
+CompositeGraphic <|.. Canvas
+Canvas o--> "*" Graphic : elements
+
+note right of CompositeGraphic
+  Child management is <b>not</b> on the
+  Component — the <b>safe</b> side of GoF's
+  implementation issue 1.
+
+  A Circle cannot be given children,
+  because the method does not exist
+  on it. The compiler says so.
+end note
+
+note bottom of Canvas
+  The price of safety: a client that
+  <b>builds</b> a tree must hold a
+  CompositeGraphic, not a Graphic.
+  Compare composite.hw.surveyform,
+  which chose the other side.
+end note
+
+note as N1
+  shapeCount() is the payoff. A leaf
+  answers 1, a canvas sums its children,
+  and the client asks one object.
+end note
+"""); 
+
+# ────────────────────────────────────────────────────── composite / fileSystem
+add("composite/fileSystem", "Composite - File System - Class Diagram",
+    "Composite — a file system, with a recursive iterator", """
+interface Storage <<Component>> {
+  + getName() : String
+  + rename(name) : void
+  + save() : void
+  + delete() : void
+  + copy() : Storage
+  + move(target : Directory) : void
+  + size() : long
+  + render(indent) : String
+}
+
+abstract class StorageElement {
+  - name : String
+  - parent : Directory
+  # attach() : void
+  + path() : String
+}
+
+class File <<Leaf>> {
+  - bytes : long
+}
+abstract class Link <<Leaf>> {
+  - target : Storage
+}
+class Alias
+class ShortCut
+
+interface StorageContainer {
+  + add(e : Storage) : void
+  + remove(e : Storage) : void
+  + elements() : List<Storage>
+  + iterator() : StorageIterator
+}
+
+class Directory <<Composite>>
+
+interface StorageIterator
+class DirectoryIterator
+
+Storage <|.. StorageElement
+StorageElement <|-- File
+StorageElement <|-- Link
+Link <|-- Alias
+Link <|-- ShortCut
+StorageElement <|-- Directory
+StorageContainer <|.. Directory
+Directory o--> "*" Storage : elements
+Directory ..> DirectoryIterator : creates
+StorageIterator <|.. DirectoryIterator
+
+note right of Directory
+  size() is the payoff: one call,
+  any depth, no loop at the call site.
+
+  render() used to ask isDirectory()
+  and branch — a type test in the one
+  pattern that exists to remove them.
+  Each element now renders itself.
+end note
+
+note bottom of Link
+  A link is its own 64 bytes, <b>not</b> the
+  size of its target. Any other answer
+  makes size() on a root double-count.
+end note
+
+note bottom of DirectoryIterator
+  Depth-first over the whole subtree.
+  The first version returned the
+  immediate children only, so nested
+  directories were never entered.
+end note
+"""); 
+
+# ──────────────────────────────────────────────────── composite / hw / orgchart
+add("composite/hw/orgchart", "Composite - Org Chart (Homework) - Class Diagram",
+    "Composite — homework 1, the org chart", """
+interface Employee <<Component>> {
+  + getName() : String
+  + totalCost() : long
+  + headcount() : int
+  + render(indent) : String
+}
+
+class IndividualContributor <<Leaf>> {
+  - role : String
+  - salary : long
+}
+
+class Manager <<Composite>> {
+  - salary : long
+  - reports : List<Employee>
+  + add(e : Employee) : Manager
+  + distinctHeadcount() : int
+}
+
+Employee <|.. IndividualContributor
+Employee <|.. Manager
+Manager o--> "*" Employee : reports
+
+note right of Manager
+  A manager counts <b>their own</b> salary
+  as well as their reports'. Otherwise
+  the cost of the company excludes the
+  chief executive.
+end note
+
+note as N1
+  <b>The trap.</b> One person reporting to two
+  managers makes the structure a graph,
+  not a tree — and every roll-up over it
+  silently over-counts:
+
+    headcount()          7
+    distinctHeadcount()  6
+
+  Nothing throws. Nothing warns.
+  Composite assumes a tree.
+end note
+"""); 
+
+# ────────────────────────────────────────────────── composite / hw / expression
+add("composite/hw/expression", "Composite - Expression (Homework) - Class Diagram",
+    "Composite — homework 2, where the tree is the data", """
+interface Expression <<Component>> {
+  + evaluate() : double
+  + toText() : String
+  + nodeCount() : int
+}
+
+class Number <<Leaf>> {
+  - value : double
+}
+
+abstract class BinaryOperation <<Composite>> {
+  # left : Expression
+  # right : Expression
+  # symbol() : String
+}
+
+class Add
+class Subtract
+class Multiply
+class Divide
+
+Expression <|.. Number
+Expression <|.. BinaryOperation
+BinaryOperation o--> "1" Expression : left
+BinaryOperation o--> "1" Expression : right
+BinaryOperation <|-- Add
+BinaryOperation <|-- Subtract
+BinaryOperation <|-- Multiply
+BinaryOperation <|-- Divide
+
+note right of BinaryOperation
+  <b>Exactly two children</b>, not a list.
+  A Composite holds <b>components</b> — it
+  does not have to hold an unbounded
+  collection of them.
+end note
+
+note bottom of Divide
+  A node that cannot answer throws
+  rather than inventing a number.
+  A wrong total is worse than none.
+end note
+
+note as N1
+  A leaf and an operation are one type to
+  the client, so (3 + 4) * (10 - 2) / 4
+  can be replaced by 56 / 4 and nothing
+  above it notices: 14.0 either way,
+  9 nodes against 3.
+end note
+"""); 
+
+# ───────────────────────────────────────────────── composite / hw / surveyform
+add("composite/hw/surveyform", "Composite - Survey Form (Homework) - Class Diagram",
+    "Composite — homework 3, the transparent variant", """
+interface FormElement <<Component>> {
+  + getTitle() : String
+  + validate() : List<String>
+  + questionCount() : int
+  + answeredCount() : int
+  + render(indent) : String
+  + add(e : FormElement) : void
+}
+
+class Question <<Leaf>> {
+  - required : boolean
+  - answer : String
+  + answer(a : String) : Question
+}
+
+class Section <<Composite>> {
+  - children : List<FormElement>
+  + with(elements...) : Section
+}
+
+FormElement <|.. Question
+FormElement <|.. Section
+Section o--> "*" FormElement : children
+
+note right of FormElement
+  add() is declared <b>here</b> — the
+  <b>transparent</b> side of GoF's
+  implementation issue 1.
+
+  Every element looks alike, and no
+  client ever tests a type.
+end note
+
+note bottom of Question
+  The bill: add() on a Question must
+  throw, and the call that does it
+  <b>compiles without complaint</b>.
+
+  composite.graphic and
+  composite.fileSystem chose safety
+  instead. Compare the three.
+end note
+
+note as N1
+  validate() <b>concatenates</b> rather than
+  sums — the shape most real composite
+  operations take, and slightly harder
+  than adding numbers up.
+end note
+"""); 
+
 
 def main() -> int:
     if not SRC.is_dir():
