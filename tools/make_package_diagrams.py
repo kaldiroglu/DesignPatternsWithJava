@@ -1105,6 +1105,267 @@ note as N1
 end note
 """); 
 
+# ─────────────────────────────────────────────────────────────── proxy / pm
+add("proxy/pm", "Proxy - Prime Minister - Class Diagram",
+    "Proxy — three stages, and only the third is the pattern", """
+package "pm1 — no proxy" {
+  class PM1 as "PM" {
+    + listen(problem)
+    + findJob(name)
+    - worthMyTime(problem) : boolean
+  }
+  class Citizen1 as "Citizen"
+  Citizen1 --> PM1
+}
+
+package "pm2 — a stand-in, but no shared type" {
+  class PM2 as "PM"
+  class Proxy2 as "Proxy" {
+    + listen(problem)
+    - worthHisTime(problem)
+  }
+  class Citizen2 as "Citizen"
+  Citizen2 --> Proxy2
+  Proxy2 --> PM2
+}
+
+package "pm3 — the pattern" {
+  interface PM3 as "PM" <<Subject>> {
+    + listen(problem)
+    + findJob(name)
+  }
+  class RealPM <<RealSubject>>
+  class ProxyPM <<Proxy>>
+  class PMSecretary
+  class Citizen3 as "Citizen"
+
+  PM3 <|.. RealPM
+  PM3 <|.. ProxyPM
+  ProxyPM o--> "1" PM3
+  PMSecretary ..> ProxyPM : creates
+  Citizen3 --> PM3
+}
+
+note bottom of PM1
+  The screening rule lives <b>inside</b>
+  the class it exists to protect.
+end note
+
+note bottom of Citizen2
+  The field had to change from PM
+  to Proxy. <b>Every client was edited</b>
+  to accept the stand-in — which is
+  what a proxy should make unnecessary.
+end note
+
+note bottom of Citizen3
+  The field is a <b>PM</b> again, exactly as
+  in stage 1. Screening happens and this
+  class does not know it does.
+end note
+""")
+
+# ──────────────────────────────────────────────────────────── proxy / network
+add("proxy/network", "Proxy - Network - Class Diagram",
+    "Proxy — a protection proxy with no people in it", """
+interface Network <<Subject>> {
+  + telnet(ip, targetIp)
+  + ftp(ip, targetIp)
+}
+
+class Gateway <<RealSubject>> {
+  + ftpCalls() : int
+  + telnetCalls() : int
+}
+
+class ProxyServer <<Proxy>> {
+  - gateway : Network
+  - filter(protocol, ip, targetIp)
+}
+
+class NetworkServer
+class Logger
+class ForbiddenAccessException
+
+Network <|.. Gateway
+Network <|.. ProxyServer
+ProxyServer o--> "1" Network : gateway
+ProxyServer ..> Logger : logs every request
+ProxyServer ..> ForbiddenAccessException : refuses with
+NetworkServer ..> ProxyServer : hands out
+
+note right of ProxyServer
+  Logs, then checks, then forwards.
+  A refused request <b>never reaches</b>
+  the gateway.
+end note
+
+note bottom of Gateway
+  Contains <b>no access rule</b>. Called
+  directly, it happily does the thing
+  the proxy would have refused — which
+  is how the tests prove where the rule
+  lives.
+end note
+
+note bottom of ForbiddenAccessException
+  Renamed from YasakKardesimException;
+  this repository keeps identifiers
+  and output in English.
+end note
+""")
+
+# ───────────────────────────────────────────────────────── proxy / hw / pricing
+add("proxy/hw/pricing", "Proxy - Pricing (Homework) - Class Diagram",
+    "Proxy — homework 1, the caching proxy", """
+interface PriceService <<Subject>> {
+  + priceOf(sku) : Money
+}
+
+class SupplierPriceService <<RealSubject>> {
+  + calls() : int
+}
+
+class CachingPriceProxy <<Proxy>> {
+  - cache : Map<String, Entry>
+  - ttlMillis : long
+  + hits() : int
+  + misses() : int
+  + invalidate(sku)
+}
+
+interface Clock
+class ManualClock
+
+PriceService <|.. SupplierPriceService
+PriceService <|.. CachingPriceProxy
+CachingPriceProxy o--> "1" PriceService : supplier
+CachingPriceProxy o--> "1" Clock
+Clock <|.. ManualClock
+
+note right of CachingPriceProxy
+  Five identical requests cost
+  <b>one</b> supplier call.
+
+  A decorator forwards and adds.
+  This forwards <b>sometimes</b>, and the
+  benefit is in the times it does not.
+end note
+
+note bottom of Clock
+  Injected, so expiry is tested
+  without any test sleeping.
+end note
+
+note as N1
+  The easy half is the saving.
+  The hard half is <b>invalidation</b>: for up
+  to one TTL this returns a price that is
+  wrong, and confidently. No pattern fixes
+  that — somebody decides how stale the
+  business can afford to be.
+end note
+""")
+
+# ────────────────────────────────────────────────────────── proxy / hw / remote
+add("proxy/hw/remote", "Proxy - Remote (Homework) - Class Diagram",
+    "Proxy — homework 2, the remote proxy and what it hides", """
+interface InventoryService <<Subject>> {
+  + stockOf(sku) : int
+}
+
+class WarehouseInventory <<RealSubject>>
+
+class RemoteInventoryProxy <<Proxy>> {
+  - attempts : int
+}
+
+class Link {
+  - latencyMillis : long
+  + roundTrips() : int
+  + elapsedMillis() : long
+  + failNext(n) : Link
+}
+
+class RemoteCallFailedException
+
+InventoryService <|.. WarehouseInventory
+InventoryService <|.. RemoteInventoryProxy
+RemoteInventoryProxy o--> "1" InventoryService : warehouse
+RemoteInventoryProxy o--> "1" Link
+RemoteInventoryProxy ..> RemoteCallFailedException
+
+note right of InventoryService
+  Says nothing about latency, failure
+  or timeouts. <b>That silence is the
+  exercise.</b>
+end note
+
+note bottom of Link
+  Failures are <b>scripted</b>, latency is
+  counted rather than slept — so every
+  run and every test agrees.
+end note
+
+note as N1
+  A six-line basket becomes <b>6 round trips
+  and 720 ms</b>. The proxy did its job
+  perfectly — it made a remote object look
+  local — and that is exactly how the
+  mistake gets made.
+end note
+""")
+
+# ─────────────────────────────────────────────────────────── proxy / hw / vault
+add("proxy/hw/vault", "Proxy - Vault (Homework) - Class Diagram",
+    "Proxy — homework 3, the smart reference", """
+interface Document <<Subject>> {
+  + read() : String
+  + write(text)
+  + close()
+}
+
+class StoredDocument <<RealSubject>> {
+  + opensPerformed() : int
+}
+
+class DocumentHandle <<Proxy>> {
+  - holders : int
+  - writeLockOwner : String
+  + acquire() : DocumentHandle
+  + lockForWriting(owner)
+  + unlock(owner)
+}
+
+Document <|.. StoredDocument
+Document <|.. DocumentHandle
+DocumentHandle o--> "0..1" StoredDocument
+
+note right of DocumentHandle
+  GoF's three smart-reference duties,
+  all present:
+
+  <b>counting</b> — closed only when the
+  last holder lets go
+  <b>loading on first access</b> — a virtual
+  proxy hiding inside this one
+  <b>locking</b> — a second writer is refused
+end note
+
+note bottom of StoredDocument
+  Never opened until somebody actually
+  reads. Two holders, two closes,
+  <b>one</b> real close.
+end note
+
+note as N1
+  close() here does not mean "close it".
+  It means <b>"I am finished with it"</b>.
+  Get that wrong and you either leak the
+  handle or shut it under somebody's feet.
+end note
+""")
+
 
 def main() -> int:
     if not SRC.is_dir():
