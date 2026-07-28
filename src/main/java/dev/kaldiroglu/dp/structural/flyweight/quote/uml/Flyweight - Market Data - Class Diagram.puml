@@ -1,0 +1,59 @@
+@startuml "Flyweight - Market Data - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Flyweight — a million ticks, four instruments
+
+
+package "quote.problem" {
+  class "Quote" as PQ {
+    - symbol, exchange, currency
+    - isin, sector, companyName
+    - tickSize, lotSize
+    - bid, ask, last, volume, timestamp
+  }
+  class Wire {
+    + decode(field) : String
+  }
+  Wire ..> PQ : "a fresh String per field, per tick"
+}
+
+package "quote.solution" {
+  class "Quote" as SQ <<record>> {
+    - instrument : Instrument
+    - bid, ask, last
+    - volume, timestamp
+  }
+  class Instrument <<ConcreteFlyweight>> {
+    - symbol, exchange, currency
+    - isin, sector, companyName
+    - tickSize, lotSize
+    - sessionOpen, sessionClose
+  }
+  class InstrumentRegistry <<FlyweightFactory>> {
+    - cache : ConcurrentHashMap
+    + define(...) : Instrument
+    + get(symbol, exchange) : Instrument
+  }
+  SQ o--> Instrument : "shared"
+  InstrumentRegistry ..> Instrument
+}
+
+note bottom of PQ
+  <b>13 fields</b>, eight of them describing
+  the instrument rather than the tick.
+  10,000 ticks -> 10,000 symbol objects.
+end note
+
+note bottom of SQ
+  <b>6 fields.</b> 10,000 ticks -> <b>1</b>
+  symbol object.
+end note
+
+note right of InstrumentRegistry
+  <b>define()</b> throws on a conflicting
+  redefinition. The old version returned
+  the first instrument and dropped the
+  correction without a word.
+end note
+
+@enduml

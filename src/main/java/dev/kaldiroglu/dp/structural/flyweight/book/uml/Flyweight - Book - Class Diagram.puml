@@ -1,0 +1,57 @@
+@startuml "Flyweight - Book - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Flyweight — a factory that shared nothing, and the corrected one
+
+
+package "book.problem — not the pattern" {
+  class "Character" as PC {
+    - value : char
+    - upperCase : boolean
+    - line : Line
+    - position : int
+    + setLine(line)
+    + setPosition(int)
+  }
+  class "BookFactory" as PF {
+    - as : List<Character>
+    + createCharacter(c, upper) : Character
+  }
+  PF ..> PC : "new, every time"
+}
+
+package "book.solution — the pattern" {
+  class "Character" as SC <<ConcreteFlyweight>> {
+    - value : char
+    - upperCase : boolean
+    + getValue() : char
+  }
+  class "CharacterFactory" as SF <<FlyweightFactory>> {
+    - characters : Map<String, Character>
+    + createCharacter(c, upper) : Character
+    + createdCount() : int
+  }
+  class "Line" as SL {
+    - chars : List<Character>
+    + characterAt(position) : Character
+  }
+  SF ..> SC : "pools by (value, case)"
+  SL o-- SC : "shared"
+}
+
+note bottom of PC
+  <b>Two defects, and they interlock.</b>
+  The factory never pools — and it could not,
+  because position is stored <i>here</i>.
+  Two occurrences of 'o' would fight
+  over one field.
+end note
+
+note bottom of SL
+  Position is the <b>index in this list</b>.
+  It needed no home at all.
+
+  236 characters -> <b>29</b> objects.
+end note
+
+@enduml

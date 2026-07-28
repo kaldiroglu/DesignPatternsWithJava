@@ -1,0 +1,43 @@
+@startuml "Flyweight - Log Sources (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Flyweight — homework 2: millions of lines, a few hundred call sites
+
+
+class LogSource <<ConcreteFlyweight>> {
+  - logger : String
+  - className : String
+  - methodName : String
+  - fileName : String
+}
+
+class LogSourceRegistry <<FlyweightFactory>> {
+  - sources : ConcurrentHashMap
+  + get(logger, class, method, file) : LogSource
+}
+
+class LogEvent <<record>> {
+  - source : LogSource
+  - at : Instant
+  - level : String
+  - message : String
+}
+
+class Logger {
+  + log(level, ..., message)
+}
+
+LogEvent o--> LogSource : "shared"
+LogSourceRegistry ..> LogSource
+Logger --> LogSourceRegistry
+
+note right of LogSource
+  The <b>whole call site</b> is the key.
+  Keyed on the class alone, a line from
+  save() would carry load()'s identity
+  and the log would be a lie.
+
+  30,000 lines -> <b>3</b> objects.
+end note
+
+@enduml

@@ -1,0 +1,42 @@
+@startuml "Flyweight - Tile Map (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Flyweight — homework 1: 250,000 squares, five kinds of ground
+
+
+class Tile <<ConcreteFlyweight>> {
+  - terrain : String
+  - movementCost : int
+  - sprite : byte[]
+  + render(row, column)
+}
+
+class TileFactory <<FlyweightFactory>> {
+  - tiles : Map<String, Tile>
+  + get(terrain, cost) : Tile
+}
+
+class SpriteLoader {
+  + load(terrain) : byte[]
+  + loadCount() : int
+}
+
+class GameMap {
+  - squares : Tile[][]
+  + rowMovementCost(row) : int
+}
+
+GameMap o--> Tile : "one reference per square"
+TileFactory ..> Tile
+TileFactory --> SpriteLoader
+
+note right of GameMap
+  A <b>Tile[][]</b> holds references, so the
+  map costs one pointer per square
+  whatever the artwork weighs.
+
+  250,000 squares -> <b>5</b> objects,
+  <b>5</b> sprite loads.
+end note
+
+@enduml

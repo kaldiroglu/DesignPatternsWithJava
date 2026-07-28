@@ -1,0 +1,41 @@
+@startuml "Not Flyweight - Object Pool - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title NOT Flyweight — an object pool, and why it is not
+
+
+class ConnectionPool {
+  - available : BlockingQueue
+  + borrow(timeoutMs) : PooledConnection
+  + release(conn)
+}
+
+class PooledConnection {
+  - id : int
+  - inUse : boolean
+  + markInUse()
+  + markFree()
+  + query(sql)
+}
+
+ConnectionPool o-- PooledConnection
+
+note right of ConnectionPool
+  <b>borrow / release.</b> A flyweight
+  factory has no release, because
+  there is nothing to give back.
+end note
+
+note bottom of PooledConnection
+  <b>Mutable, and exclusive.</b> One holder
+  at a time; two would be the bug.
+
+  A flyweight is held by everybody
+  at once, which is safe only because
+  it is immutable.
+
+  Pool saves <b>time</b>.
+  Flyweight saves <b>memory</b>.
+end note
+
+@enduml

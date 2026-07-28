@@ -47,4 +47,26 @@ public final class Instrument {
     public int lotSize() { return lotSize; }
     public LocalTime sessionOpen() { return sessionOpen; }
     public LocalTime sessionClose() { return sessionClose; }
+
+    /**
+     * Whether two definitions of the same symbol agree on every field.
+     *
+     * <p>Deliberately not {@code equals}. Instruments are compared by identity everywhere
+     * else — that is the whole point of interning them — and giving the class a value
+     * {@code equals} would invite callers to stop caring whether sharing actually happened.
+     * This method exists for exactly one caller: {@link InstrumentRegistry#define}, checking
+     * that a redefinition is harmless.</p>
+     */
+    boolean hasSameDefinitionAs(Instrument other) {
+        return symbol.equals(other.symbol)
+                && exchange.equals(other.exchange)
+                && currency.equals(other.currency)
+                && isin.equals(other.isin)
+                && sector.equals(other.sector)
+                && companyName.equals(other.companyName)
+                && tickSize.compareTo(other.tickSize) == 0
+                && lotSize == other.lotSize
+                && Objects.equals(sessionOpen, other.sessionOpen)
+                && Objects.equals(sessionClose, other.sessionClose);
+    }
 }

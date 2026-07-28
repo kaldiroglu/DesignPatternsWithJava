@@ -20,5 +20,8 @@ public class FeedHandler {
     }
 
     public int total() { return quotes.size(); }
+
     public int distinctInstruments() { return registry.size(); }
+
+    public java.util.List<Quote> quotes() { return List.copyOf(quotes); }
 }

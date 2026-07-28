@@ -1,0 +1,62 @@
+@startuml "Flyweight - Glyphs - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Flyweight — GoF's own example: a document editor
+
+
+abstract class Glyph <<Flyweight>> {
+  + draw(window, context)
+  + insert(glyph)
+  + child(index)
+}
+
+class CharacterGlyph <<ConcreteFlyweight>> {
+  - charcode : char
+  + draw(window, context)
+}
+
+class Row <<UnsharedConcreteFlyweight>>
+class Column <<UnsharedConcreteFlyweight>>
+
+class GlyphFactory <<FlyweightFactory>> {
+  - characters : Map<Character, CharacterGlyph>
+  + createCharacter(c) : CharacterGlyph
+  + createRow() : Row
+  + createColumn() : Column
+}
+
+class GlyphContext {
+  - fonts : Map<Integer, Font>
+  + getFont() : Font
+  + next()
+}
+
+class Font
+
+Glyph <|-- CharacterGlyph
+Glyph <|-- Row
+Glyph <|-- Column
+Row o-- Glyph
+Column o-- Glyph
+GlyphFactory ..> CharacterGlyph : "pools"
+GlyphFactory ..> Row : "creates fresh"
+CharacterGlyph ..> GlyphContext : "asks for the font"
+GlyphContext o-- Font
+
+note right of CharacterGlyph
+  <b>One field.</b> The character code,
+  and nothing about where it is
+  or how it looks.
+
+  61 characters of text
+  cost <b>17</b> objects.
+end note
+
+note bottom of GlyphContext
+  The font is <b>extrinsic</b>: it lives
+  here, keyed by position, so one
+  shared 'i' renders in Times on
+  one line and Courier on the next.
+end note
+
+@enduml

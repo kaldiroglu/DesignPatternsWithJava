@@ -1,0 +1,63 @@
+@startuml "Flyweight - Forest - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Flyweight — 10,000 trees, two textures
+
+
+package "forest.problem" {
+  class "Tree" as PT {
+    - x : int
+    - y : int
+    - name : String
+    - color : String
+    - texture : byte[]
+  }
+  note right of PT
+    Five fields, three of them
+    identical on every oak.
+    <b>10,000 texture loads.</b>
+  end note
+}
+
+package "forest.solution" {
+  class "Tree" as ST {
+    - x : int
+    - y : int
+    - type : TreeType
+    + draw()
+  }
+  class TreeType <<ConcreteFlyweight>> {
+    - name : String
+    - color : String
+    - texture : byte[]
+    + draw(x, y)
+  }
+  class TreeFactory <<FlyweightFactory>> {
+    - types : Map<String, TreeType>
+    + getType(name, color) : TreeType
+  }
+  class TextureLoader {
+    + load(kind) : byte[]
+    + loadCount() : int
+  }
+  ST o--> TreeType : "shared"
+  TreeFactory ..> TreeType : "one per kind"
+  TreeFactory --> TextureLoader
+}
+
+note bottom of TreeType
+  <b>draw(x, y)</b> — the position arrives
+  as an argument. Store it and the
+  sharing ends.
+
+  <b>2</b> texture loads, not 10,000.
+end note
+
+note bottom of TreeFactory
+  getType takes <b>no texture</b>. The old
+  signature accepted one and ignored it
+  whenever the type already existed, so
+  a corrected texture vanished silently.
+end note
+
+@enduml

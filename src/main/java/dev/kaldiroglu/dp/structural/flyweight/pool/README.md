@@ -1,46 +1,56 @@
-# Flyweight — Database Connection Pool (Java)
+# Not Flyweight — an Object Pool
 
-## Real-world context
+**Claude Opus 5 (1M context) · July 28, 2026**
 
-A database connection pool — HikariCP, Tomcat JDBC pool, C3P0. Creating a
-TCP connection, performing a TLS handshake, and authenticating to
-PostgreSQL takes ~5-10ms. A web request that needs three queries would
-spend 15-30ms just connecting. The pool keeps a small set of
-pre-established connections and reuses them across thousands of requests.
+This package is kept as a **counter-example**. It was written and documented as an
+implementation of Flyweight, and it is not one. Connection pooling is the single most
+common thing people call Flyweight that isn't, which makes it worth keeping and worth
+being explicit about.
 
-## Class roles
+## The claim that was here before
 
-| Class | Role | Why it exists |
-|-------|------|---------------|
-| `PooledConnection` | **Flyweight** | The expensive, reusable object. In the real system: a `java.sql.Connection` wrapping a TCP socket, TLS session, and authenticated database session. |
-| `ConnectionPool` | **Flyweight factory** | Creates the initial set of connections, manages borrow/release, enforces pool size limits. |
-| `BlockingQueue` | **Internal data structure** | Thread-safe queue for available connections. `poll()` blocks with timeout — this is how callers wait when the pool is exhausted. |
+The earlier README labelled `PooledConnection` as the *Flyweight* participant and
+`ConnectionPool` as the *FlyweightFactory*. Both labels are wrong, and the code shows why.
 
-## Intrinsic vs. extrinsic state
+## Why it is not Flyweight
 
-| State | Type | Examples |
-|-------|------|----------|
-| **Intrinsic** | Shared, immutable, set at creation | JDBC URL, database name, credentials, pool size, socket parameters |
-| **Extrinsic** | Per-use, transient, passed by caller | Current transaction, the SQL statement being executed, the `ResultSet`, query timeout |
+| | Flyweight | Object pool (this package) |
+|---|---|---|
+| How many hold one object at once | **Many**, simultaneously | **One**, exclusively |
+| Mutable? | No — immutable is what makes sharing safe | Yes — it carries a transaction, a cursor, a state |
+| Given back? | Never. There is nothing to give back | Always. `release()` is the whole protocol |
+| What it saves | **Memory** — one copy of repeated state | **Time** — one expensive setup, reused |
+| If you forget to return it | Nothing. Nobody returns a flyweight | The pool leaks and eventually blocks |
+| Runs out? | No | Yes — `borrow` can time out and return null |
 
-The flyweight (`PooledConnection`) stores intrinsic state internally.
-Extrinsic state is passed *to* the flyweight each time it's used (via
-`query(sql)`) and cleared when the connection is returned to the pool.
+The deciding question is the first row. A flyweight is shared *concurrently*: the letter
+`e` is in a thousand places in a document at the same instant, and that is safe precisely
+because it is immutable and holds no context. A pooled connection is handed to exactly one
+caller at a time, and handing it to two would be a bug — it carries a transaction.
 
-## How the pattern is implemented
+The second deciding question is what is being saved. Flyweight is a memory pattern; GoF
+put it in the structural chapter and its whole argument is object *count*. A pool is a
+latency pattern. They both involve a factory handing out pre-existing objects, and that
+resemblance is where the confusion comes from.
 
-1. **Pool as factory.** `ConnectionPool` creates `n` connections in its constructor — this is the expensive part. After initialization, no more connections are created.
+## What it is instead
 
-2. **Borrow/release lifecycle.** Callers call `borrow()` to get a connection and `release()` to return it. `PooledConnection` implements `AutoCloseable` so it can be used in try-with-resources — `close()` calls `markFree()`.
+Object Pool — not a GoF pattern. It appears in Grand's *Patterns in Java* and as
+"Resource Pool" elsewhere. In production you meet it as HikariCP, Tomcat JDBC, C3P0,
+Apache Commons Pool, and every thread pool you have used.
 
-3. **Thread safety.** `BlockingQueue` handles concurrent access. Multiple threads can borrow and release simultaneously without external synchronization.
+`PooledConnection` is a **Proxy** as well, in the smart-reference sense GoF describe on
+p. 208: `close()` means *I am finished with it*, not *close the socket*.
 
-4. **Timeout handling.** `borrow(timeoutMs)` uses `poll()` with a timeout. If no connection is available within the timeout, it returns `null` — the caller handles the failure.
+## What to take from it
 
-## What to look for in the code
+If you are about to call something a flyweight, ask whether two holders at the same time
+is correct or catastrophic. If catastrophic, it is a pool.
 
-- The constructor prints "expensive!" — in the real system this is where TCP+TLS happens
-- `borrow()` marks the connection in-use before returning it
-- `release()` marks it free and puts it back in the queue
-- The demo spawns 10 threads competing for 3 connections — some will time out
-- Each connection has a unique `id` — you can trace which request got which connection
+## Run it with
+
+```bash
+mvn -q compile
+mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.pool.Main
+mvn -q test -Dtest=PoolIsNotFlyweightTest
+```

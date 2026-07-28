@@ -1,0 +1,46 @@
+@startuml "Flyweight - Particles (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Flyweight — homework 3: a million particles, four kinds
+
+
+class ParticleType <<ConcreteFlyweight>> {
+  - name, color : String
+  - mass : double
+  - lifetimeTicks : int
+  - sprite : byte[]
+  + render(x, y, age)
+}
+
+class ParticleFactory <<FlyweightFactory>> {
+  - types : Map<String, ParticleType>
+  + get(name, color, mass, life) : ParticleType
+}
+
+class ParticleSystem {
+  - x, y, dx, dy : double[]
+  - age : int[]
+  - types : List<ParticleType>
+  + spawn(type, x, y, dx, dy)
+  + tick()
+}
+
+ParticleSystem o--> ParticleType : "shared"
+ParticleFactory ..> ParticleType
+
+note right of ParticleSystem
+  The state that <b>cannot</b> be shared —
+  position, velocity, age — changes 60
+  times a second.
+
+  So it is kept in <b>parallel arrays</b>,
+  not in a million objects. Flyweight
+  removed the shared state; this removes
+  the rest.
+end note
+
+note bottom of ParticleType
+  1,000,000 particles -> <b>4</b> objects.
+end note
+
+@enduml
