@@ -47,12 +47,39 @@ is refused rather than silently overwriting the first.
 The lesson worth taking: `close()` on the proxy does not mean *close*. It means *I am
 finished with it*.
 
+## 4 · `licence`
+
+A university buys three seats of an expensive application. Five students want to work.
+A program has to find a free seat before it launches anything.
+
+**Why this one is worth doing last:** a single class ends up being **three of GoF's five
+kinds at once**, and naming all three is the exercise.
+
+| Kind | What it does here |
+|---|---|
+| **Protection** | `launch()` refuses when every seat is taken — a throw, not a half-started application |
+| **Virtual** | the real application is not built until a seat is granted, so a refused student costs nothing |
+| **Smart reference** | `close()` gives the seat back and promotes whoever has waited longest |
+
+**The decision:** what a refusal looks like. A disabled application, or a caller blocked
+forever, are both worse than a clear no with a queue position attached.
+
+**Settled by the tests:** 3 seats and 5 students give 3 sessions, 2 refusals and **3**
+applications created — three refusals in a row still create nothing. Closing a seat
+promotes the head of the queue **in order**, and the promoted student's application is
+built only then.
+
+Note what `LicenceServer` is *not*: it is not the pattern. It is the resource being
+rationed. The pattern is `LicenceProxy`, standing in front of the application — and the
+student's code names `Application`, which mentions no licence anywhere.
+
 ## Run it with
 
 ```bash
-mvn -o test -Dtest='CachingProxyTest,RemoteProxyTest,SmartReferenceTest'    # 19 tests
+mvn -o test -Dtest='CachingProxyTest,RemoteProxyTest,SmartReferenceTest,LicenceProxyTest'    # 19 tests
 
 java -cp target/classes dev.kaldiroglu.dp.structural.proxy.hw.pricing.Main
 java -cp target/classes dev.kaldiroglu.dp.structural.proxy.hw.remote.Main
 java -cp target/classes dev.kaldiroglu.dp.structural.proxy.hw.vault.Main
+mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.proxy.hw.licence.Main
 ```

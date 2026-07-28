@@ -1,10 +1,10 @@
 package dev.kaldiroglu.dp.structural.proxy.pm.pm1;
 
 /**
- * Stage 1 — no proxy at all. The Prime Minister takes the calls himself.
+ * Stage 1 — no proxy at all. The Prime Minister takes the calls herself.
  * <p>
  * Notice what this class is doing. Two jobs, not one: it <em>resolves</em> problems, which is
- * the Prime Minister's actual work, and it <em>decides which problems are worth his time</em>,
+ * the Prime Minister's actual work, and it <em>decides which problems are worth her time</em>,
  * which is not. The screening logic sits inside the very class it exists to protect.
  * <p>
  * That is the design this package exists to criticize. Compare {@code pm2} and {@code pm3}.
@@ -32,7 +32,7 @@ public class PM {
      * The screening rule — and the problem with this design.
      * <p>
      * It is a perfectly sensible rule. It is simply in the wrong class: the Prime Minister
-     * has to run it himself, on every call, before he can do any of his own work.
+     * has to run it herself, on every call, before she can do any of her own work.
      */
     private boolean worthMyTime(String problem) {
         return !problem.toLowerCase().contains("job")

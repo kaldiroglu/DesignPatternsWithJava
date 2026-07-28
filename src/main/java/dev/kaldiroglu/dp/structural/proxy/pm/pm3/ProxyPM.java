@@ -34,7 +34,7 @@ public class ProxyPM implements PM {
             pm.listen(problem);
         } else {
             callsRefused++;
-            System.out.println("ProxyPM: I am afraid that is not something he deals with.");
+            System.out.println("ProxyPM: I am afraid that is not something she deals with.");
         }
     }
 

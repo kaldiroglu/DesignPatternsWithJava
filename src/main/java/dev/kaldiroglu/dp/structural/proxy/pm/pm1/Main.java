@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.proxy.pm.pm1;
 
 /**
- * Stage 1 — everyone gets through, and the Prime Minister does his own screening.
+ * Stage 1 — everyone gets through, and the Prime Minister does her own screening.
  */
 public class Main {
 
@@ -17,16 +17,16 @@ public class Main {
         bora.askForJob();
 
         System.out.println();
-        System.out.printf("problems heard by the PM himself : %d%n", pm.problemsHeard());
+        System.out.printf("problems heard by the PM herself : %d%n", pm.problemsHeard());
         System.out.printf("problems actually resolved       : %d%n", pm.problemsResolved());
         System.out.println("""
 
-                Both calls reached him. He listened to both, and screened both,
-                before doing any work of his own.
+                Both calls reached her. She listened to both, and screened both,
+                before doing any work of her own.
 
                 Two things are wrong, and neither is the screening rule:
-                  1. The Prime Minister's class contains a job that is not his.
-                  2. Every citizen holds a direct reference to him. There is no
+                  1. The Prime Minister's class contains a job that is not hers.
+                  2. Every citizen holds a direct reference to her. There is no
                      way to change who answers without changing the citizens.""");
     }
 }

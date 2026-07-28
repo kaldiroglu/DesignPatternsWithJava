@@ -33,7 +33,7 @@ public class Proxy {
             callsPassedOn++;
             pm.listen(problem);
         } else {
-            System.out.println("Proxy: I am afraid that is not something he deals with.");
+            System.out.println("Proxy: I am afraid that is not something she deals with.");
         }
     }
 

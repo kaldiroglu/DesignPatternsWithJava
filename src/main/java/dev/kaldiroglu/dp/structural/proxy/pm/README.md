@@ -12,7 +12,7 @@ third is the pattern — which is the point of having all three.
 
 | | What it does | What is wrong with it |
 |---|---|---|
-| `pm1` | The citizen holds the PM directly; the PM screens his own calls | The screening rule lives **inside the class it exists to protect**, and every citizen has his direct number |
+| `pm1` | The citizen holds the PM directly; the PM screens her own calls | The screening rule lives **inside the class it exists to protect**, and every citizen holds the Prime Minister's own number |
 | `pm2` | A `Proxy` class screens, and the PM does one job | `Proxy` and `PM` **share no type**, so `Citizen`'s field had to change — every client was edited to accept the stand-in |
 | `pm3` | A `PM` interface, `RealPM`, `ProxyPM`, and a `PMSecretary` that hands out the proxy | Nothing. This is the pattern |
 
@@ -34,7 +34,7 @@ called at all, and `findJob` is answered without ever forwarding. No decorator w
 that — a decorator adds to what the subject does; this one may replace it entirely.
 
 `PMSecretary` makes it a **virtual proxy** as well: the Prime Minister is not created until
-somebody actually asks for him.
+somebody actually asks for her.
 
 ## Run it with
 

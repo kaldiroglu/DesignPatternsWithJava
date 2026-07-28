@@ -1,0 +1,63 @@
+@startuml "Proxy - Licence (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Proxy — homework 4: three kinds of proxy in one class
+
+
+left to right direction
+
+interface Application <<Subject>> {
+  + launch()
+  + open(document)
+  + close()
+}
+
+class LicenceProxy <<Proxy>> {
+  - user : String
+  - real : Application
+  + launch()
+  + close()
+  + hasLicence() : boolean
+}
+
+class VlsiDesigner <<RealSubject>> {
+  + launch()
+  + open(document)
+}
+
+class LicenceServer {
+  - seats : int
+  - holders : Set<String>
+  - waiting : Deque<String>
+  + acquire(user) : boolean
+  + release(user) : String
+}
+
+class Student
+
+Application <|.. LicenceProxy
+Application <|.. VlsiDesigner
+Student --> Application
+LicenceProxy --> "0..1" VlsiDesigner : "built only once a seat is granted"
+LicenceProxy --> LicenceServer : "asks"
+
+note bottom of LicenceProxy
+  <b>Three kinds at once.</b>
+  <b>Protection</b> — refuses when the seats are gone.
+  <b>Virtual</b> — a refused student costs no object.
+  <b>Smart reference</b> — close() gives the seat back
+  and promotes whoever waited longest.
+end note
+
+note bottom of VlsiDesigner
+  Holds <b>no reference</b> to LicenceServer.
+  The university can buy more seats
+  without recompiling it.
+end note
+
+note top of Student
+  Names <b>Application</b>, and nothing
+  on that interface mentions a licence.
+end note
+
+@enduml

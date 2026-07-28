@@ -34,7 +34,7 @@ public class Main {
                 nothing in RealPM changed either.
 
                 Two proxy kinds are at work in this one object:
-                  protection — one call was refused, and findJob never reached him
+                  protection — one call was refused, and findJob never reached her
                   virtual    — the Prime Minister did not exist until asked for""");
     }
 }

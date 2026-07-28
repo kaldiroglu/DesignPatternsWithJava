@@ -4,7 +4,7 @@ package dev.kaldiroglu.dp.structural.proxy.pm.pm2;
  * Stage 2 — the Prime Minister, relieved of the screening.
  * <p>
  * This class is now doing one job, which is an improvement on {@code pm1}. Everything that
- * reaches {@code listen} is something he should be hearing.
+ * reaches {@code listen} is something she should be hearing.
  */
 public class PM {
 

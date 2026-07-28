@@ -22,7 +22,7 @@ public class Main {
         System.out.println("""
 
                 Better: the Prime Minister's class no longer screens anything,
-                and one of the two calls never reached him.
+                and one of the two calls never reached her.
 
                 Still wrong: Citizen holds a Proxy, not a PM. The two classes
                 share no type, so the stand-in is visible to every client — and

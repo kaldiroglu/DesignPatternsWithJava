@@ -4,8 +4,8 @@ package dev.kaldiroglu.dp.structural.proxy.pm.pm2;
  * A citizen who now telephones a {@code Proxy}.
  * <p>
  * Read the field type. In {@code pm1} it was {@code PM}; here it is {@code Proxy}. The
- * citizen was <em>rewritten</em> because the way he is answered changed — and that is the
- * whole defect of this stage. Substituting a stand-in should be invisible to him.
+ * citizen was <em>rewritten</em> because the way she is answered changed — and that is the
+ * whole defect of this stage. Substituting a stand-in should be invisible to her.
  */
 public class Citizen {
 

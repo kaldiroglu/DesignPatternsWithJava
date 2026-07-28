@@ -3,7 +3,7 @@ package dev.kaldiroglu.dp.structural.proxy.pm.pm3;
 /**
  * The RealSubject: the Prime Minister, doing one job.
  * <p>
- * No screening, no gatekeeping, no awareness that anybody stands in front of him. Compare
+ * No screening, no gatekeeping, no awareness that anybody stands in front of her. Compare
  * {@code pm1.PM}, which had to do all three.
  */
 public class RealPM implements PM {

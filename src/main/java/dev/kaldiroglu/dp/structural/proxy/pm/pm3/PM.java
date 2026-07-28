@@ -5,7 +5,7 @@ package dev.kaldiroglu.dp.structural.proxy.pm.pm3;
  * <p>
  * This one interface is the whole difference between {@code pm2} and the pattern. Because
  * {@link RealPM} and {@link ProxyPM} both implement it, a citizen holding a {@code PM} cannot
- * tell which he has — and does not need to be rewritten when the answer changes.
+ * tell which she has — and does not need to be rewritten when the answer changes.
  */
 public interface PM {
 
