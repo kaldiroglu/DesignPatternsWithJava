@@ -1,6 +1,6 @@
 package dev.kaldiroglu.dp.structural.flyweight.book;
 
-public class Test {
+public class Main {
 
 	public static void main(String[] args) {
 		Factory factory = new BookFactory();
