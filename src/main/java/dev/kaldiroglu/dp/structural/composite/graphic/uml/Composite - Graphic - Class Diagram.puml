@@ -1,0 +1,66 @@
+@startuml "Composite - Graphic - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Composite — shapes on a canvas, the safe variant
+
+
+interface Graphic <<Component>> {
+  + draw() : void
+  + erase() : void
+  + paint() : void
+  + shapeCount() : int
+}
+
+abstract class GraphicObject {
+  # name : String
+  # color : String
+}
+
+class Circle <<Leaf>>
+class Ellipse <<Leaf>>
+class Triangle <<Leaf>>
+class Rectangle <<Leaf>>
+
+interface CompositeGraphic {
+  + addGraphic(g : Graphic) : void
+  + removeGraphic(g : Graphic) : void
+  + getGraphics() : Collection<Graphic>
+  + listGraphic() : void
+}
+
+class Canvas <<Composite>>
+
+Graphic <|.. GraphicObject
+GraphicObject <|-- Circle
+GraphicObject <|-- Ellipse
+GraphicObject <|-- Triangle
+GraphicObject <|-- Rectangle
+GraphicObject <|-- Canvas
+CompositeGraphic <|.. Canvas
+Canvas o--> "*" Graphic : elements
+
+note right of CompositeGraphic
+  Child management is <b>not</b> on the
+  Component — the <b>safe</b> side of GoF's
+  implementation issue 1.
+
+  A Circle cannot be given children,
+  because the method does not exist
+  on it. The compiler says so.
+end note
+
+note bottom of Canvas
+  The price of safety: a client that
+  <b>builds</b> a tree must hold a
+  CompositeGraphic, not a Graphic.
+  Compare composite.hw.surveyform,
+  which chose the other side.
+end note
+
+note as N1
+  shapeCount() is the payoff. A leaf
+  answers 1, a canvas sums its children,
+  and the client asks one object.
+end note
+
+@enduml
