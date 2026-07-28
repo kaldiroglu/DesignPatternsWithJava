@@ -1,0 +1,112 @@
+@startuml Composite-BOM-Problem
+skinparam classAttributeIconSize 0
+title THE PROBLEM — bill of materials WITHOUT Composite\n(package dev.kaldiroglu.composite.bom.problem)\nNo common type, so the clients carry the recursion
+
+package "problem — the naive design" {
+
+  class Part {
+    - partNumber : String
+    - name : String
+    - unitCost : Money
+    - weightGrams : int
+  }
+  note bottom of Part
+    Data only.
+    No operations —
+    they cannot live here.
+  end note
+
+  class Assembly {
+    - partNumber : String
+    - name : String
+    - assemblyCost : Money
+    - assemblyWeightGrams : int
+    - parts : List<Part>
+    - subAssemblies : List<Assembly>
+    + parts() : List<Part>
+    + subAssemblies() : List<Assembly>
+    + addPart(p : Part) : void
+    + addPart(p : Part, qty : int) : void
+    + addSubAssembly(a : Assembly) : void
+  }
+  note bottom of Assembly
+    TWO child collections,
+    because no type covers both.
+
+    Every walk must remember
+    to visit both.
+
+    addPart(p, 32) adds the SAME
+    part 32 times — quantity has
+    nowhere to live.
+  end note
+
+  class Service {
+    - partNumber : String
+    - name : String
+    - fee : Money
+  }
+  note bottom of Service
+    Added later.
+
+    Assembly cannot even hold
+    one: it would need a THIRD
+    collection, and every walk
+    would need a third loop.
+  end note
+}
+
+package "the clients — one copy of the walk each" {
+
+  class NaiveCosting <<static>> {
+    + {static} totalCost(node : Object) : Money
+    + {static} partCount(node : Object) : int
+  }
+  note bottom of NaiveCosting
+    walk #1 and walk #2
+
+    if (node instanceof Part) ...
+    else if (node instanceof Assembly) ...
+    else throw
+
+    Parameter is Object, so the
+    compiler cannot help at all.
+  end note
+
+  class NaiveShipping <<static>> {
+    + {static} totalWeightGrams(node : Object) : int
+    + {static} estimate(node : Object) : Money
+  }
+  note bottom of NaiveShipping
+    walk #3 — the same recursion
+    a third time, written by a
+    different team months later
+    because there was nothing
+    to reuse.
+  end note
+}
+
+Assembly *--> "parts\n*" Part
+Assembly *--> "subAssemblies\n*" Assembly
+
+NaiveCosting ..> Assembly : instanceof Part,\nelse instanceof Assembly,\nelse throw
+NaiveShipping ..> Assembly : the same chain again
+NaiveCosting ..> Service : throws — unknown type
+
+note as CostNote
+  <b>What this design costs</b>
+  1. No common supertype → operations become
+     static functions over Object.
+  2. The same recursion exists three times.
+  3. Two collections to keep in step.
+  4. No quantities → 85 list entries per query,
+     and two separate wheel objects that can
+     silently drift apart.
+  5. A new kind of item breaks every client.
+
+  Compare Composite-BOM-Solution.png:
+  one type, one walk, 13 line entries,
+  one wheel object.
+end note
+
+@enduml

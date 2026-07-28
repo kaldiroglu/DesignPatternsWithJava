@@ -1,0 +1,42 @@
+@startuml "Composite - Graphics - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Composite — GoF's graphics example
+
+
+abstract class Graphic <<Component>> {
+  + draw() : void
+  + add(g : Graphic) : void
+  + remove(g : Graphic) : void
+  + getChild(i : int) : Graphic
+}
+
+class Line <<Leaf>>
+class Rectangle <<Leaf>>
+class Text <<Leaf>>
+class Picture <<Composite>> {
+  - children : List<Graphic>
+}
+
+Graphic <|-- Line
+Graphic <|-- Rectangle
+Graphic <|-- Text
+Graphic <|-- Picture
+Picture o--> "*" Graphic : children
+
+note right of Graphic
+  Child management is declared <b>here</b>,
+  on the Component — GoF's own choice,
+  and the <b>transparent</b> one. Every
+  element looks alike to a client.
+
+  The price: add() on a Line has to fail
+  at run time, because it compiles.
+end note
+
+note bottom of Picture
+  draw() draws itself, then asks each
+  child to draw. That is the pattern.
+end note
+
+@enduml

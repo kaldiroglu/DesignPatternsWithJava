@@ -1,0 +1,118 @@
+@startuml Composite-BOM-Solution
+skinparam classAttributeIconSize 0
+title THE SOLUTION — bill of materials WITH Composite\n(package dev.kaldiroglu.composite.bom.solution)\nCost, weight and part counts answered identically for a part and a product
+
+abstract class BomComponent {
+  - partNumber : String
+  - name : String
+  + {abstract} totalCost() : Money
+  + {abstract} totalWeightGrams() : int
+  + {abstract} partCount() : int
+  + lines() : List<BomLine>
+  + isAssembly() : boolean
+  + toTree() : String
+  ~ containsDeep(target) : boolean
+}
+note right of BomComponent
+  Component
+
+  Only QUERIES live here.
+  add / remove are declared on
+  Assembly — the safe variant of
+  GoF p. 168, chosen because the
+  many read-only clients never
+  edit the structure.
+end note
+
+class Part {
+  - unitCost : Money
+  - weightGrams : int
+  + totalCost() : Money
+  + totalWeightGrams() : int
+  + partCount() : int
+}
+note bottom of Part
+  Leaf
+
+  A purchased part.
+  The recursion stops here.
+end note
+
+class Assembly {
+  - assemblyCost : Money
+  - assemblyWeightGrams : int
+  - lines : List<BomLine>
+  - parents : List<Assembly>
+  - cachedCost : Money
+  - cachedWeightGrams : Integer
+  - cachedPartCount : Integer
+  + add(c : BomComponent, qty : int) : Assembly
+  + remove(c : BomComponent) : boolean
+  + changeQuantity(c : BomComponent, qty : int) : void
+  + totalCost() : Money
+  + totalWeightGrams() : int
+  + partCount() : int
+  + parents() : List<Assembly>
+  - invalidate() : void
+}
+note bottom of Assembly
+  Composite
+
+  totalCost() = assemblyCost
+             + Σ line.extendedCost()
+
+  Caches the roll-up (GoF p. 169) and
+  therefore needs parent references
+  (GoF p. 167) to invalidate upwards.
+end note
+
+class Service {
+  - fee : Money
+  + totalCost() : Money
+  + totalWeightGrams() : int
+  + partCount() : int
+}
+note bottom of Service
+  Leaf, added LAST
+
+  A subcontracted operation:
+  a fee, 0 g, 0 parts.
+
+  Writing this class was the
+  whole change. No client and
+  no other class was edited
+  (GoF p. 166, consequence 3).
+end note
+
+class BomLine <<record>> {
+  + component : BomComponent
+  + quantity : int
+  + extendedCost() : Money
+  + extendedWeightGrams() : int
+  + extendedPartCount() : int
+}
+note left of BomLine
+  The quantity lives on the EDGE,
+  so one sub-assembly object can be
+  shared by many parents (GoF p. 167).
+end note
+
+class Money <<record>> {
+  - amount : BigDecimal
+  + plus(other : Money) : Money
+  + times(quantity : int) : Money
+}
+
+class Demo
+note top of Demo : Client\n(costing, shipping, reporting)
+
+Demo --> BomComponent
+BomComponent <|-- Part
+BomComponent <|-- Service
+BomComponent <|-- Assembly
+Assembly *--> "lines\n*" BomLine
+BomLine --> "1" BomComponent
+Assembly ..> "parents\n*" Assembly : invalidates
+BomComponent ..> Money
+
+@enduml

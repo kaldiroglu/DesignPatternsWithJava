@@ -1,0 +1,38 @@
+@startuml "Composite - Equipment - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Composite — GoF's equipment example, where the roll-up is money
+
+
+abstract class Equipment <<Component>> {
+  + name() : String
+  + power() : int
+  + netPrice() : Currency
+  + discountPrice() : Currency
+}
+
+class FloppyDisk <<Leaf>>
+class Card <<Leaf>>
+abstract class CompositeEquipment <<Composite>> {
+  - parts : List<Equipment>
+}
+class Chassis
+class Cabinet
+class Bus
+
+Equipment <|-- FloppyDisk
+Equipment <|-- Card
+Equipment <|-- CompositeEquipment
+CompositeEquipment o--> "*" Equipment : parts
+CompositeEquipment <|-- Chassis
+CompositeEquipment <|-- Cabinet
+CompositeEquipment <|-- Bus
+
+note right of CompositeEquipment
+  netPrice() adds up the parts.
+  A cabinet holding a chassis holding
+  cards answers one number, and no
+  client writes the loop.
+end note
+
+@enduml

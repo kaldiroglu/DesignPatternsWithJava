@@ -1,0 +1,66 @@
+@startuml Composite-BOM-Solution-Objects
+title THE SOLUTION as objects — 14 objects, 13 lines, one wheel required twice
+
+skinparam objectAttributeIconSize 0
+
+object "bicycle : Assembly" as bicycle {
+  BIKE-CITY
+  assemblyCost = $40.00
+  totalCost() = $396.00
+  totalWeightGrams() = 5950
+}
+
+object "frame : Assembly" as frame {
+  FRAME-ASM
+  totalCost() = $168.00
+}
+
+object "wheel : Assembly" as wheel {
+  WHEEL-ASM
+  totalCost() = $85.00
+  totalWeightGrams() = 1535
+}
+
+object "hub : Assembly" as hub {
+  HUB-ASM
+  totalCost() = $13.70
+}
+
+object "saddle : Part" as saddle {
+  SADDLE-CR
+  unitCost = $18.00
+}
+
+object "rim, spoke, tire, tube : Part" as wheelParts
+object "tubeset, fork, paint : Part" as frameParts
+object "axle, bearing : Part" as hubParts
+
+bicycle --> frame : qty 1
+bicycle --> wheel : qty 2
+bicycle --> saddle : qty 1
+frame --> frameParts
+wheel --> wheelParts
+wheel --> hub : qty 1
+hub --> hubParts
+
+note right of wheel
+  ONE wheel object, required twice —
+  the quantity is on the EDGE, so there
+  are not two wheel objects.
+
+  This instance is still a tree. The MODEL
+  allows a DAG: attach this same wheel to a
+  spare wheelset and it gains a second
+  parent. That is why "the parent" is a
+  LIST, and why cache invalidation has to
+  walk all of them.
+end note
+
+note bottom of bicycle
+  A client calls totalCost() here.
+  Each node adds its own cost to the
+  sum of (child cost x quantity),
+  bottoming out at the Parts.
+end note
+
+@enduml
