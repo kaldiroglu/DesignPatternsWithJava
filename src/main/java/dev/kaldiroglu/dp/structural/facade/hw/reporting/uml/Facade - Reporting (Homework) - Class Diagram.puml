@@ -1,0 +1,50 @@
+@startuml "Facade - Reporting (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Facade — homework 2, and the one that did not help
+
+
+class LeakyReportFacade {
+  + planFor(..) : QueryPlan
+  + run(plan : QueryPlan) : ResultSetCursor
+  + toPdf(title, rows) : byte[]
+}
+
+class ReportFacade <<Facade>> {
+  + monthlyReport(table, filter, limit) : byte[]
+}
+
+class QueryPlan <<subsystem>>
+class ResultSetCursor <<subsystem>>
+class QueryEngine <<subsystem>>
+class PdfRenderer <<subsystem>>
+
+LeakyReportFacade ..> QueryPlan
+LeakyReportFacade ..> ResultSetCursor
+ReportFacade ..> QueryEngine
+ReportFacade ..> PdfRenderer
+
+note bottom of LeakyReportFacade
+  Every signature names a <b>subsystem
+  type</b>. Callers still import
+  QueryPlan and ResultSetCursor, and
+  still have to know that advance()
+  comes before current().
+
+  A layer was added. No dependency
+  was removed.
+end note
+
+note bottom of ReportFacade
+  Strings in, bytes out.
+  <b>Nothing</b> from the subsystem appears
+  in the signature.
+end note
+
+note as N1
+  A facade is judged by what its clients
+  have to <b>name</b> — not by how many classes
+  it wraps.
+end note
+
+@enduml

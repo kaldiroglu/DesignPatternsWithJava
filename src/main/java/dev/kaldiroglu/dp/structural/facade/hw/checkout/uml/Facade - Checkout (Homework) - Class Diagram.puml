@@ -1,0 +1,42 @@
+@startuml "Facade - Checkout (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Facade — homework 1, and what it owes you on partial failure
+
+
+class CheckoutFacade <<Facade>> {
+  + placeOrder(customer, sku, qty, amount, address) : OrderResult
+}
+class OrderResult <<record>>
+
+class InventoryService
+class PaymentService
+class ShippingService
+class ReceiptService
+
+CheckoutFacade ..> InventoryService
+CheckoutFacade ..> PaymentService
+CheckoutFacade ..> ShippingService
+CheckoutFacade ..> ReceiptService
+CheckoutFacade ..> OrderResult
+
+note right of CheckoutFacade
+  Reserve, charge, book, receipt.
+  One call, four subsystems.
+end note
+
+note as N1
+  <b>The exercise is partial failure.</b>
+
+  Stock is reserved, then the payment is
+  declined. Somebody must put it back — and
+  if the facade does not, every caller needs
+  the subsystem knowledge the facade exists
+  to remove.
+
+  So compensation lives here. A facade over
+  several subsystems <b>inherits responsibility
+  for half-finished work</b>.
+end note
+
+@enduml

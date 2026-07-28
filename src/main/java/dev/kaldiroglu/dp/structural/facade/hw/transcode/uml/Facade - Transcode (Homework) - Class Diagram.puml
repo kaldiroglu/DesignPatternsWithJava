@@ -1,0 +1,43 @@
+@startuml "Facade - Transcode (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Facade — homework 3, where the knowledge is the order
+
+
+class VideoConverter <<Facade>> {
+  + convert(source, target)
+}
+
+class Demuxer
+class AudioDecoder
+class VideoDecoder
+class Scaler
+class Encoder
+class Muxer
+
+VideoConverter ..> Demuxer
+VideoConverter ..> AudioDecoder
+VideoConverter ..> VideoDecoder
+VideoConverter ..> Scaler
+VideoConverter ..> Encoder
+VideoConverter ..> Muxer
+
+note right of VideoConverter
+  demux -> decode -> scale
+  -> encode -> mux
+end note
+
+note as N1
+  Six classes, each easy on its own.
+
+  They work in <b>one order</b>, and nothing in
+  their interfaces says so. Get it wrong and
+  there is no error — just a file that is
+  quietly wrong.
+
+  That is the most valuable thing a facade
+  can absorb: knowledge a client could not
+  have discovered from the subsystem itself.
+end note
+
+@enduml
