@@ -4,7 +4,7 @@ import dev.kaldiroglu.dp.structural.adapter.electricity.domain.tr.Appliance;
 import dev.kaldiroglu.dp.structural.adapter.electricity.domain.tr.TurkishHomeAppliance;
 import dev.kaldiroglu.dp.structural.adapter.electricity.domain.us.*;
 
-public class Test {
+public class Main {
 
 	public static void main(String[] args) {
 		USPowerSource usPowerSource = new USPowerProvider();

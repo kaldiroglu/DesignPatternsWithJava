@@ -1,10 +1,10 @@
 package dev.kaldiroglu.dp.structural.adapter.electricity.domain.us;
 
-public class USHomeApplicance {
+public class USHomeAppliance {
 	private String name;
 	private USPowerSource usPowerSource;
 
-	public USHomeApplicance(String name){
+	public USHomeAppliance(String name){
 		this.name = name;
 	}
 	
@@ -13,12 +13,12 @@ public class USHomeApplicance {
 	}
 
 	public void start() {
-		System.out.println("USHomeApplicance " + name + " is turning on!");
+		System.out.println("USHomeAppliance " + name + " is turning on!");
 		usPowerSource.pushSwitch();
 	}
 
 	public void stop() {
-		System.out.println("USHomeApplicance " + name + " turning off!");
+		System.out.println("USHomeAppliance " + name + " turning off!");
 		usPowerSource.pushSwitch();
 	}
 }

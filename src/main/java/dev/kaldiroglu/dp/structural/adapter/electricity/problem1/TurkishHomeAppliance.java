@@ -35,7 +35,7 @@ public class TurkishHomeAppliance extends HomeAppliance {
 
 	@Override
 	public void stop() {
-		System.out.println("TurkishHomeAppliance " + name + " stoping!");
+		System.out.println("TurkishHomeAppliance " + name + " stopping!");
 		if (turkishPowerSource)
 			powerSource.turnOff();
 		else

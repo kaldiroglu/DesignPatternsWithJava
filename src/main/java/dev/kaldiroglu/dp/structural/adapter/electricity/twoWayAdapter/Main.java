@@ -5,11 +5,11 @@ import dev.kaldiroglu.dp.structural.adapter.electricity.domain.tr.Appliance;
 import dev.kaldiroglu.dp.structural.adapter.electricity.domain.tr.TurkishHomeAppliance;
 import dev.kaldiroglu.dp.structural.adapter.electricity.domain.tr.TurkishPowerProvider;
 import dev.kaldiroglu.dp.structural.adapter.electricity.domain.tr.TurkishPowerSource;
-import dev.kaldiroglu.dp.structural.adapter.electricity.domain.us.USHomeApplicance;
+import dev.kaldiroglu.dp.structural.adapter.electricity.domain.us.USHomeAppliance;
 import dev.kaldiroglu.dp.structural.adapter.electricity.domain.us.USPowerProvider;
 import dev.kaldiroglu.dp.structural.adapter.electricity.domain.us.USPowerSource;
 
-public class Test {
+public class Main {
 
 	public static void main(String[] args) {
 		// In US with Turkish home appliance
@@ -31,7 +31,7 @@ public class Test {
 		
 		System.out.println();
 		
-		USHomeApplicance usBroom = new USHomeApplicance("Broom");
+		USHomeAppliance usBroom = new USHomeAppliance("Broom");
 		usBroom.setPowerSource(twoWayUSTurkishPowerAdapter2);
 		usBroom.start();
 		usBroom.stop();

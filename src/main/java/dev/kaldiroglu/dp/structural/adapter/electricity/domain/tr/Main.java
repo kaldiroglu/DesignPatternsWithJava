@@ -1,6 +1,6 @@
 package dev.kaldiroglu.dp.structural.adapter.electricity.domain.tr;
 
-public class Test {
+public class Main {
 
 	public static void main(String[] args) {
 		TurkishPowerSource turkishPowerSource = new TurkishPowerProvider();
