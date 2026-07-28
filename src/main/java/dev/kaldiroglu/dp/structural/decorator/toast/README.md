@@ -45,8 +45,6 @@ thirty-one, and three things become expressible that the problem package cannot 
 
 | Test | Count | Point |
 |---|---|---|
-| `ToastProblemTest` | 5 | The prices are correct; tomato is scattered; cheese-and-sausage forces duplication; the count of 31; toppings are frozen at construction |
-| `ToastSolutionTest` | 11 | Transparency; forwarding; the toppings list is not shared; the decorator keeps no collection; the same topping twice; multiply-not-add; order changes the bill; each bread keeps its own name |
 
 Two of those are **regression tests** with a history, and say so in their comments: the
 `name` field on `ToastBread` was once `static`, and `Topping` once kept a dead `List` field

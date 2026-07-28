@@ -33,7 +33,6 @@ shape composes them:
 | `Rectangle` | four lines |
 | `Triangle` | three lines |
 
-`Triangle` was written **after** both drawers, and neither drawer changed. `ShapeBridgeTest`
 has a test that fails the day a shape name appears in the implementor interface again.
 
 ## The detail worth stopping on

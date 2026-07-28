@@ -77,10 +77,6 @@ email, 160 over SMS, 120 over push.**
 
 | Test | Count | Point |
 |---|---|---|
-| `ProblemTest` | 9 | All three naive designs work — and each is measured for what it costs, including the SMS digest that throws |
-| `ClassicBridgeTest` | 10 | Every kind over every channel; the retry written once; limits asked for rather than assumed; run-time swap; a new channel and a new kind each cost one class |
-| `VariationsTest` | 6 | Preference-driven channel selection; one implementor shared by three abstractions |
-| `DesignComparisonTest` | 2 | All designs put the same message on the wire |
 
 ## Run it with
 

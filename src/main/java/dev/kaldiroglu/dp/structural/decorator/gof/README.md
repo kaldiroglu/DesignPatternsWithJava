@@ -77,10 +77,6 @@ folding:
 
 | Test | Count | Point |
 |---|---|---|
-| `VisualProblemTest` | 4 | The subclass design works — and the scrollbar exists three times, and nothing can be added to an object that already exists |
-| `VisualSolutionTest` | 6 | Each decorator alone; both orders; a property twice; run-time decoration; identity is not preserved (p. 179) |
-| `DesignComparisonTest` | 3 | Both designs draw the identical picture; a third embellishment costs 11 classes against 1 |
-| `StreamTest` | 9 | Both codecs; one decorator serving every destination; nesting; **order matters**; `close()` propagates outward; every link buffers independently |
 
 ## Run it with
 

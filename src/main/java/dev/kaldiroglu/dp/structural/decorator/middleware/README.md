@@ -63,7 +63,6 @@ first listed is outermost. `PriceFeed` has one method, so in Java a lambda alrea
 **`fluent`** — `PriceFeedPipeline.around(feed).withTiming(...).withRetry(3).build()`, first
 listed = outermost, so the code reads in the direction a request travels.
 
-`VariationsTest` asserts all three build behaviorally identical chains.
 
 ## Ordering — the centerpiece
 
@@ -78,11 +77,6 @@ listed = outermost, so the code reads in the direction a request travels.
 
 | Test | Count | Point |
 |---|---|---|
-| `ProblemTest` | 9 | All three naive designs work — and each is measured for what it costs |
-| `ClassicDecoratorTest` | 12 | Each decorator alone; retry respects retryability; failures are not cached; decoration of a `final` class; identity is not preserved |
-| `OrderingTest` | 4 | The four ordering results above |
-| `VariationsTest` | 4 | Classic, functional and fluent are behaviorally identical |
-| `DesignComparisonTest` | 2 | All designs produce the same quote from the same supplier calls |
 
 ## Run it with
 

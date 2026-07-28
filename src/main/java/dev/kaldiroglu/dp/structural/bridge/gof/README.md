@@ -68,9 +68,6 @@ learns why.
 
 | Test | Count | Point |
 |---|---|---|
-| `WindowProblemTest` | 5 | The subclass design works — and the platform *is* the class, the X code exists three times, and kinds multiply platforms |
-| `WindowSolutionTest` | 6 | One kind over every platform; one platform under every kind; the implementation swaps at run time; the abstraction speaks only in primitives; a new platform costs one class |
-| `DesignComparisonTest` | 3 | Both designs draw identical windows; 6 classes against 5, and the gap widens |
 
 ## Run it with
 
