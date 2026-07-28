@@ -1,0 +1,50 @@
+@startuml "Composite - Org Chart (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Composite — homework 1, the org chart
+
+
+interface Employee <<Component>> {
+  + getName() : String
+  + totalCost() : long
+  + headcount() : int
+  + render(indent) : String
+}
+
+class IndividualContributor <<Leaf>> {
+  - role : String
+  - salary : long
+}
+
+class Manager <<Composite>> {
+  - salary : long
+  - reports : List<Employee>
+  + add(e : Employee) : Manager
+  + distinctHeadcount() : int
+}
+
+Employee <|.. IndividualContributor
+Employee <|.. Manager
+Manager o--> "*" Employee : reports
+
+note right of Manager
+  A manager counts <b>their own</b> salary
+  as well as their reports'. Otherwise
+  the cost of the company excludes the
+  chief executive.
+end note
+
+note as N1
+  <b>The trap.</b> One person reporting to two
+  managers makes the structure a graph,
+  not a tree — and every roll-up over it
+  silently over-counts:
+
+    headcount()          7
+    distinctHeadcount()  6
+
+  Nothing throws. Nothing warns.
+  Composite assumes a tree.
+end note
+
+@enduml

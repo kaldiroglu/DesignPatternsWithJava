@@ -1,0 +1,57 @@
+@startuml "Composite - Survey Form (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Composite — homework 3, the transparent variant
+
+
+interface FormElement <<Component>> {
+  + getTitle() : String
+  + validate() : List<String>
+  + questionCount() : int
+  + answeredCount() : int
+  + render(indent) : String
+  + add(e : FormElement) : void
+}
+
+class Question <<Leaf>> {
+  - required : boolean
+  - answer : String
+  + answer(a : String) : Question
+}
+
+class Section <<Composite>> {
+  - children : List<FormElement>
+  + with(elements...) : Section
+}
+
+FormElement <|.. Question
+FormElement <|.. Section
+Section o--> "*" FormElement : children
+
+note right of FormElement
+  add() is declared <b>here</b> — the
+  <b>transparent</b> side of GoF's
+  implementation issue 1.
+
+  Every element looks alike, and no
+  client ever tests a type.
+end note
+
+note bottom of Question
+  The bill: add() on a Question must
+  throw, and the call that does it
+  <b>compiles without complaint</b>.
+
+  composite.graphic and
+  composite.fileSystem chose safety
+  instead. Compare the three.
+end note
+
+note as N1
+  validate() <b>concatenates</b> rather than
+  sums — the shape most real composite
+  operations take, and slightly harder
+  than adding numbers up.
+end note
+
+@enduml

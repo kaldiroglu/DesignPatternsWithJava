@@ -1,0 +1,58 @@
+@startuml "Composite - Expression (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Composite — homework 2, where the tree is the data
+
+
+interface Expression <<Component>> {
+  + evaluate() : double
+  + toText() : String
+  + nodeCount() : int
+}
+
+class Number <<Leaf>> {
+  - value : double
+}
+
+abstract class BinaryOperation <<Composite>> {
+  # left : Expression
+  # right : Expression
+  # symbol() : String
+}
+
+class Add
+class Subtract
+class Multiply
+class Divide
+
+Expression <|.. Number
+Expression <|.. BinaryOperation
+BinaryOperation o--> "1" Expression : left
+BinaryOperation o--> "1" Expression : right
+BinaryOperation <|-- Add
+BinaryOperation <|-- Subtract
+BinaryOperation <|-- Multiply
+BinaryOperation <|-- Divide
+
+note right of BinaryOperation
+  <b>Exactly two children</b>, not a list.
+  A Composite holds <b>components</b> — it
+  does not have to hold an unbounded
+  collection of them.
+end note
+
+note bottom of Divide
+  A node that cannot answer throws
+  rather than inventing a number.
+  A wrong total is worse than none.
+end note
+
+note as N1
+  A leaf and an operation are one type to
+  the client, so (3 + 4) * (10 - 2) / 4
+  can be replaced by 56 / 4 and nothing
+  above it notices: 14.0 either way,
+  9 nodes against 3.
+end note
+
+@enduml
