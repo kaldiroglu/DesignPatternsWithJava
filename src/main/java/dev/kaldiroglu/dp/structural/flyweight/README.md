@@ -29,34 +29,35 @@ over a field, that field is extrinsic.**
 | Package | What it is | The number |
 |---|---|---|
 | `gof` | GoF's document editor — glyphs, rows, columns | 61 characters → **17** objects |
-| `book.problem` | A book editor written as Flyweight, that shares nothing | kept as written |
-| `book.solution` | The same, corrected | 236 characters → **29** objects |
+| `book` | A book of shared characters | 236 characters → **29** objects |
 | `forest.problem` | A tree per tree, texture and all | 10,000 trees → **10,000** texture loads |
 | `forest.solution` | A type per kind of tree | 10,000 trees → **2** texture loads |
 | `quote.problem` | A market data tick carrying its instrument | 10,000 ticks → **10,000** symbol objects |
 | `quote.solution` | Instruments interned in a registry | 10,000 ticks → **1** symbol object |
-| `circles.problem` | An animation written as Flyweight, that shares nothing | kept as written |
-| `circles.solution` | Style shared, position passed in | 10,000 circles → **≤100** style objects |
 | `pool` | **Not Flyweight.** A connection pool, kept as the counter-example | see its README |
 | `hw` | Three homework problems, worked | see `hw/README.md` |
 
-## Two examples are kept broken on purpose
+## What the book example used to get wrong
 
-`book.problem` and `circles.problem` were both written as illustrations of this pattern and
-neither implements it. They are preserved exactly as they were, because what is wrong with
-them is the lesson — and each defect is pinned by a test so it cannot be quietly fixed in
-the wrong place. Their `package-info.java` files list every one.
+`book` was written as an illustration of this pattern and did not implement it. It is now
+fixed, and the two failures are worth knowing because they interlock:
 
-The two failures are the same failure, and they interlock:
+1. **The factory never pooled.** `createCharacter` called `new` on every request, while a
+   field that was presumably meant to be the pool was never read or written.
+2. **The flyweight stored extrinsic state.** `Character` held `line` and `position`, in
+   fields the class itself *labelled* "Extrinsic properties" in a comment.
 
-1. **The factory never pools.** `createCharacter` and `create()` both call `new` every time.
-2. **The flyweight stores extrinsic state.** `Character` holds its `position`; `Circle`
-   holds its `center`. Both classes even *label* those fields extrinsic in a comment while
-   storing them as fields.
+The second is why fixing the first alone would have introduced a bug rather than the
+pattern: share a `Character` that remembers its own position and the second occurrence of a
+letter overwrites the first. The corrected `Line` holds position as an index instead — it
+turned out to need no home at all.
 
-The second is why fixing the first alone would introduce a bug rather than the pattern:
-share a `Character` that remembers its own position and the second occurrence of a letter
-overwrites the first.
+Three smaller defects went with them: `upperCase` was recorded and then ignored, so a
+capital T rendered lower case; a line declared itself full at `capacity + 1`; and
+`addEndOfLine()` appended without consulting the capacity check at all.
+
+The original is in the history if you want to show it: `git log -- src/main/java/dev/
+kaldiroglu/dp/structural/flyweight/book`.
 
 ## The mistake worth knowing
 
@@ -78,11 +79,10 @@ mvn -q compile
 # GoF's own example
 mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.gof.Main
 
-# the corrected book, forest, quotes and circles
-mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.book.solution.Main
+# the corrected book, and the forest and market data examples
+mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.book.Main
 mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.forest.solution.Main
 mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.quote.solution.Main
-mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.circles.solution.Main
 
 # and the counter-example
 mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.pool.Main

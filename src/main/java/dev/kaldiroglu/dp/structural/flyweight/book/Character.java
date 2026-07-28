@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.flyweight.book.solution;
+package dev.kaldiroglu.dp.structural.flyweight.book;
 
 /**
  * <b>ConcreteFlyweight</b> (GoF, p. 198).
@@ -16,9 +16,11 @@ package dev.kaldiroglu.dp.structural.flyweight.book.solution;
  *       the pooling.</li>
  * </ul>
  *
- * <p>Compare with {@code book.problem.Character}, which stores {@code line} and
- * {@code position}. Those describe where an occurrence <em>sits</em>, not what it
- * <em>is</em> — extrinsic state, and storing it is what made that version unshareable.</p>
+ * <p>This class used to carry {@code line} and {@code position} fields as well — labelled
+ * "Extrinsic properties" in a comment and then stored anyway. Those describe where an
+ * occurrence <em>sits</em>, not what it <em>is</em>, and storing them is what made the
+ * earlier version unshareable: two occurrences of the same letter would have fought over
+ * one field. They are gone, and {@link Line} holds position as an index instead.</p>
  */
 public final class Character {
 

@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.flyweight.book.solution;
+package dev.kaldiroglu.dp.structural.flyweight.book;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +10,8 @@ import java.util.Map;
  * When a client requests a flyweight, the FlyweightFactory object supplies an existing
  * instance or creates one, if none exists."</p>
  *
- * <p>The problem version had a field for the pool and never used it, so every request
- * allocated. This one does the thing the participant is named for, and
+ * <p>This class used to hold a field for the pool and never read or wrote it, so every
+ * request allocated. It now does the thing the participant is named for, and
  * {@link #createdCount()} makes the difference a number rather than a claim.</p>
  *
  * <p>The key must identify the intrinsic state <em>completely</em>. Here that means the

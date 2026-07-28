@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.flyweight.book.solution;
+package dev.kaldiroglu.dp.structural.flyweight.book;
 
 /**
  * Client demo.

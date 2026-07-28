@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.flyweight.book.solution;
+package dev.kaldiroglu.dp.structural.flyweight.book;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.List;
  * <b>Client</b>-side container, and the place the extrinsic state actually lives.
  *
  * <p>This is the part worth reading twice. A character's position is no longer stored
- * anywhere: it <em>is</em> the index in this list. The problem version wrote a
+ * anywhere: it <em>is</em> the index in this list. An earlier version wrote a
  * {@code position} field onto the character itself, which is what made the character
  * unshareable — two occurrences of the same letter would have fought over one field.</p>
  *
@@ -27,7 +27,7 @@ public class Line {
     /**
      * Appends a character if there is room.
      *
-     * <p>The problem version declared itself full at {@code capacity + 1}, so a line built
+     * <p>It used to declare itself full at {@code capacity + 1}, so a line built
      * for ten characters accepted eleven.</p>
      *
      * @return true if the character was added, false if the line is full
