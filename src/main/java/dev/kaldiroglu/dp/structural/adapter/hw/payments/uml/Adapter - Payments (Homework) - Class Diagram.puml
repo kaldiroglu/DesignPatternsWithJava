@@ -1,0 +1,52 @@
+@startuml "Adapter - Payments (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Adapter — homework 1, and the three mismatches
+
+
+interface PaymentProcessor <<Target>> {
+  + charge(customerId, amount : BigDecimal) : String
+  + refund(reference, amount : BigDecimal)
+}
+
+class LegacyGateway <<Adaptee>> {
+  + submitTxn(custId, cents : long, out : String[])
+  + reverseTxn(reference, cents : long) : int
+}
+
+class LegacyGatewayAdapter <<Adapter>> {
+  - toCents(amount) : long
+  - describe(code) : String
+}
+
+class PaymentDeclinedException
+
+PaymentProcessor <|.. LegacyGatewayAdapter
+LegacyGatewayAdapter o--> "1" LegacyGateway
+LegacyGatewayAdapter ..> PaymentDeclinedException : throws
+
+note right of LegacyGatewayAdapter
+  <b>Three</b> mismatches, and only the
+  first is about method names:
+
+  names — submitTxn -> charge
+  data  — BigDecimal -> integer cents
+  errors — status codes -> exceptions
+end note
+
+note bottom of LegacyGateway
+  Status in <b>out[0]</b>, reference in
+  <b>out[1]</b>. An idiom from a language
+  without multiple returns — and the
+  adapter is where it stops.
+end note
+
+note as N1
+  The riskiest line is the <b>default</b> case:
+  a code you have not seen must still be
+  a failure. Translating only the codes
+  you know is how a decline becomes a
+  delivered order.
+end note
+
+@enduml

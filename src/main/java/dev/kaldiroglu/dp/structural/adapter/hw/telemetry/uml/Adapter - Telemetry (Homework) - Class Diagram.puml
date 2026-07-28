@@ -1,0 +1,50 @@
+@startuml "Adapter - Telemetry (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Adapter — homework 3, the pluggable form
+
+
+interface CelsiusSensor <<Target>> {
+  + name() : String
+  + readCelsius() : double
+}
+
+class FahrenheitProbe <<Adaptee>> {
+  + getLabel() : String
+  + currentF() : double
+}
+
+class KelvinThermometer <<Adaptee>> {
+  + serial() : String
+  + kelvin() : double
+}
+
+class PluggableSensorAdapter <<Adapter>> {
+  - nameFn : Supplier<String>
+  - celsiusFn : DoubleSupplier
+  + {static} of(probe) : CelsiusSensor
+  + {static} of(thermometer) : CelsiusSensor
+}
+
+CelsiusSensor <|.. PluggableSensorAdapter
+PluggableSensorAdapter ..> FahrenheitProbe : via a lambda
+PluggableSensorAdapter ..> KelvinThermometer : via a lambda
+
+note right of PluggableSensorAdapter
+  <b>One</b> adapter class, any number of
+  instruments — GoF technique (c),
+  p. 143.
+
+  The obvious design is one adapter
+  per adaptee, and a new class every
+  quarter.
+end note
+
+note as N1
+  The trade: nothing names the adaptee
+  any more, so the compiler cannot check
+  that the right conversion was paired
+  with the right instrument.
+end note
+
+@enduml

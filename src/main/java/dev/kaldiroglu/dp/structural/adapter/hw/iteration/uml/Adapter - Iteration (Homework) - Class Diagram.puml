@@ -1,0 +1,44 @@
+@startuml "Adapter - Iteration (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Adapter — homework 2, and the method that cannot be adapted
+
+
+interface Iterator <<Target>> {
+  + hasNext() : boolean
+  + next() : T
+  + remove()
+}
+
+interface Cursor <<Adaptee>> {
+  + hasMoreElements() : boolean
+  + nextElement() : T
+}
+
+class ArrayCursor
+class CursorIteratorAdapter <<Adapter>>
+
+Iterator <|.. CursorIteratorAdapter
+Cursor <|.. ArrayCursor
+CursorIteratorAdapter o--> "1" Cursor
+
+note right of CursorIteratorAdapter
+  hasNext and next map cleanly.
+
+  <b>remove maps onto nothing.</b> A Cursor
+  has no notion of removal, and no
+  translation invents one.
+end note
+
+note as N1
+  GoF, p. 141: how useful an adapter is
+  depends on how much of the Target the
+  adaptee can support.
+
+  The honest answer is to <b>throw</b>. The
+  tempting one is to do nothing quietly,
+  and hand back a collection the caller
+  believes it has modified.
+end note
+
+@enduml

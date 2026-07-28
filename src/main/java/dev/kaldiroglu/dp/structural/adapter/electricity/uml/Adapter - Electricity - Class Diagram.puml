@@ -1,0 +1,48 @@
+@startuml "Adapter - Electricity - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Adapter — a Turkish appliance on an American socket
+
+
+interface Appliance <<Client-facing>> {
+  + setPowerSource(s : TurkishPowerSource)
+  + start()
+  + stop()
+}
+
+interface TurkishPowerSource <<Target>> {
+  + providePowerAt220V()
+  + turnOn()
+  + turnOff()
+}
+
+interface USPowerSource <<Adaptee>> {
+  + providePowerAt110V()
+  + pushSwitch()
+}
+
+class TurkishHomeAppliance
+class USTurkishPowerAdapter <<Adapter>> {
+  - usPowerSource : USPowerSource
+  - on : boolean
+}
+
+Appliance <|.. TurkishHomeAppliance
+TurkishHomeAppliance --> TurkishPowerSource
+TurkishPowerSource <|.. USTurkishPowerAdapter
+USTurkishPowerAdapter o--> "1" USPowerSource
+
+note right of USTurkishPowerAdapter
+  Two operations onto <b>one toggle</b>.
+  Only correct if the adapter
+  remembers the state — otherwise
+  "on" twice leaves it off.
+end note
+
+note bottom of TurkishHomeAppliance
+  <b>Unchanged and unaware.</b> It holds
+  the Target interface, exactly as
+  it always did.
+end note
+
+@enduml

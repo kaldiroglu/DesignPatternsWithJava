@@ -1,0 +1,41 @@
+@startuml "Adapter - Electricity (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Adapter — the two attempts that do not use the pattern
+
+
+package "problem1 — teach the appliance" {
+  class TurkishHomeAppliance1 as "TurkishHomeAppliance" {
+    - powerSource : TurkishPowerSource
+    - usPowerSource : USPowerSource
+    - turkishPowerSource : boolean
+    + setUSPowerSource(s)
+  }
+}
+
+package "problem2 — subclass it" {
+  class Compat as "TurkishHomeApplianceCompatibleWithUSPowerSource" {
+    - usPowerSource : USPowerSource
+    - turkishPowerSource : boolean
+  }
+}
+
+note bottom of TurkishHomeAppliance1
+  setUSPowerSource is <b>not on the
+  Appliance interface</b>, so the client
+  must name the concrete class.
+
+  Polymorphism was the reason the
+  interface existed.
+end note
+
+note bottom of Compat
+  A class name that states <b>two things</b>
+  is a class carrying two axes.
+
+  A third socket standard costs a
+  third class; a fourth appliance
+  kind costs all of them again.
+end note
+
+@enduml
