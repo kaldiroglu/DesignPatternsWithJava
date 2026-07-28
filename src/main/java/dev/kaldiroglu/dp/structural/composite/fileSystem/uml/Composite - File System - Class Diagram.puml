@@ -1,0 +1,80 @@
+@startuml "Composite - File System - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Composite — a file system, with a recursive iterator
+
+
+interface Storage <<Component>> {
+  + getName() : String
+  + rename(name) : void
+  + save() : void
+  + delete() : void
+  + copy() : Storage
+  + move(target : Directory) : void
+  + size() : long
+  + render(indent) : String
+}
+
+abstract class StorageElement {
+  - name : String
+  - parent : Directory
+  # attach() : void
+  + path() : String
+}
+
+class File <<Leaf>> {
+  - bytes : long
+}
+abstract class Link <<Leaf>> {
+  - target : Storage
+}
+class Alias
+class ShortCut
+
+interface StorageContainer {
+  + add(e : Storage) : void
+  + remove(e : Storage) : void
+  + elements() : List<Storage>
+  + iterator() : StorageIterator
+}
+
+class Directory <<Composite>>
+
+interface StorageIterator
+class DirectoryIterator
+
+Storage <|.. StorageElement
+StorageElement <|-- File
+StorageElement <|-- Link
+Link <|-- Alias
+Link <|-- ShortCut
+StorageElement <|-- Directory
+StorageContainer <|.. Directory
+Directory o--> "*" Storage : elements
+Directory ..> DirectoryIterator : creates
+StorageIterator <|.. DirectoryIterator
+
+note right of Directory
+  size() is the payoff: one call,
+  any depth, no loop at the call site.
+
+  render() used to ask isDirectory()
+  and branch — a type test in the one
+  pattern that exists to remove them.
+  Each element now renders itself.
+end note
+
+note bottom of Link
+  A link is its own 64 bytes, <b>not</b> the
+  size of its target. Any other answer
+  makes size() on a root double-count.
+end note
+
+note bottom of DirectoryIterator
+  Depth-first over the whole subtree.
+  The first version returned the
+  immediate children only, so nested
+  directories were never entered.
+end note
+
+@enduml

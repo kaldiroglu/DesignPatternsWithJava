@@ -1,30 +1,53 @@
-
 package dev.kaldiroglu.dp.structural.composite.fileSystem.iterator;
 
 import dev.kaldiroglu.dp.structural.composite.fileSystem.Directory;
 import dev.kaldiroglu.dp.structural.composite.fileSystem.Storage;
 
-import java.util.Iterator;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+/**
+ * Walks a directory tree depth-first.
+ * <p>
+ * The first version handed back {@code elements.iterator()}, so it visited the immediate
+ * children only — a directory nested inside was returned as a single item and everything
+ * under it was never seen. For a Composite that is the wrong default: the reason to have an
+ * iterator at all is to reach the whole tree without the caller writing the recursion.
+ * <p>
+ * GoF mention exactly this under Composite's implementation notes: enumerating children is a
+ * job for an Iterator, and traversal is where the two patterns meet.
+ */
 public class DirectoryIterator implements StorageIterator {
-	private Directory dir;
-	private List<Storage> elements;
-	private Iterator<Storage> iterator;
-	
-	public DirectoryIterator(Directory dir){
-		this.dir = dir;
-		elements = dir.elements();
-		iterator = elements.iterator();
-	}
 
-	@Override
-	public boolean hasNext() {
-		return iterator.hasNext();
-	}
+    private final Deque<Storage> pending = new ArrayDeque<>();
 
-	@Override
-	public Storage next() {
-		return iterator.next();
-	}
+    public DirectoryIterator(Directory root) {
+        pushAll(root.elements());
+    }
+
+    @Override
+    public boolean hasNext() {
+        return !pending.isEmpty();
+    }
+
+    @Override
+    public Storage next() {
+        if (pending.isEmpty()) {
+            throw new NoSuchElementException("the tree has been walked to the end");
+        }
+        Storage next = pending.pop();
+        if (next instanceof Directory directory) {
+            pushAll(directory.elements());
+        }
+        return next;
+    }
+
+    /** Pushed in reverse so siblings come back in the order they were added. */
+    private void pushAll(List<Storage> elements) {
+        for (int i = elements.size() - 1; i >= 0; i--) {
+            pending.push(elements.get(i));
+        }
+    }
 }

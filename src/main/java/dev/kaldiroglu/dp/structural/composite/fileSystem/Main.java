@@ -1,50 +1,51 @@
 
 package dev.kaldiroglu.dp.structural.composite.fileSystem;
 
+import dev.kaldiroglu.dp.structural.composite.fileSystem.iterator.StorageIterator;
+
+/**
+ * A small tree, and the four things the first version could not do.
+ */
 public class Main {
 
-	public static void main(String[] args) {
-		Directory user = new Directory("/Users/akin");
-		user.list();
-		
-		Directory devDir = new Directory("Dev", user); // /Users/akin/Dev directory
-		File file1 = new File("Readme.txt", devDir);	// /Users/akin/Dev/Readme.txt file
-		File file2 = new File("Report.docs", devDir);	// /Users/akin/Dev/Report.docx file
-		File file3 = new File("Selam.java", devDir);	// /Users/akin/Dev/Selam.java file
-		
-		devDir.list();
-		user.list();
-//		
-		Directory reportDir = new Directory("Reports", devDir); // /Users/akin/Reports directory
-		File file4 = new File("ImportantReport.docs", reportDir);	// /Users/akin/Dev/Report.docx file
-		File file5 = new File("SelamTest.java", reportDir);	// /Users/akin/Dev/Selam.java file
-		
-		devDir.list();
-//		
-		reportDir.list();
-//		
-		file2.move(reportDir);
-//		
-		System.out.println("\nAfter moving: " + file2 + " to " + reportDir);
-		
-		devDir.list();
-		
-		reportDir.list();
-//		
-//		user.list();
-//		
-		reportDir.move(user);
-//		
-//		System.out.println("\nAfter moving: " + reportDir + " to " + user);
-//		
-		user.list();
-//		
-//		System.out.println("\nAfter moving: " + reportDir + " to " + user);
-//		
-//		reportDir.delete();
-//		
-//		System.out.println("\nAfter delete.");
-//		
-//		user.list();
-	}
+    public static void main(String[] args) {
+        Directory home = new Directory("akin");
+        Directory dev = new Directory("Dev", home);
+        new File("Readme.txt", dev, 2_048);
+        File report = new File("Report.docx", dev, 45_000);
+        new File("Selam.java", dev, 3_100);
+
+        Directory reports = new Directory("Reports", dev);
+        new File("ImportantReport.docx", reports, 120_000);
+        new Alias("Latest report", reports, report);
+
+        home.list();
+
+        System.out.println();
+        System.out.println("size of the whole tree : " + home.size() + " bytes");
+        System.out.println("size of Reports only   : " + reports.size() + " bytes");
+        System.out.println("elements below home    : " + home.count());
+        System.out.println("  One call, any depth, and no loop at the call site.");
+
+        System.out.println("\n-- move Report.docx into Reports --");
+        report.move(reports);
+        home.list();
+        System.out.println("Report.docx now lives at: " + report.path());
+        System.out.println("  It left Dev and arrived in Reports. The first version did one");
+        System.out.println("  or the other, never both.");
+
+        System.out.println("\n-- copy the Reports directory --");
+        Storage duplicate = (Storage) reports.copy();
+        duplicate.rename("Reports (copy)");
+        System.out.println("copy is a real object : " + (duplicate != null));
+        System.out.println("copy size             : " + duplicate.size() + " bytes");
+        System.out.println("  copy() used to call clone() on a class that was not Cloneable,");
+        System.out.println("  catch the exception, print a line and return null. Every time.");
+
+        System.out.println("\n-- walk the tree depth-first --");
+        StorageIterator walker = home.iterator();
+        while (walker.hasNext()) {
+            System.out.println("  " + walker.next().getName());
+        }
+    }
 }
