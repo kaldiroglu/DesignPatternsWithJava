@@ -2,12 +2,19 @@
  * All rights reserved
  * Written by Akin Kaldiroglu for Design Patterns Seminar
  * 27 May 2009
- * akink@bilginc.com
  */
 
 package dev.kaldiroglu.dp.structural.proxy.network;
 
+/**
+ * The Subject: what any network endpoint offers.
+ * <p>
+ * {@link Gateway} is the real thing and {@link ProxyServer} stands in front of it. Because
+ * both implement this, {@link NetworkServer} can hand out either and no client can tell.
+ */
 public interface Network {
-	public void telnet(String ip, String targetIp) throws YasakKardesimException;
-	public void ftp(String ip, String targetIp) throws YasakKardesimException;
+
+    void telnet(String ip, String targetIp) throws ForbiddenAccessException;
+
+    void ftp(String ip, String targetIp) throws ForbiddenAccessException;
 }

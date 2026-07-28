@@ -2,44 +2,55 @@
  * All rights reserved
  * Written by Akin Kaldiroglu for Design Patterns Seminar
  * 27 May 2009
- * akink@bilginc.com
  */
 
 package dev.kaldiroglu.dp.structural.proxy.network;
 
+/**
+ * The Proxy — a <em>protection proxy</em> (GoF, p. 208), which is to say a firewall.
+ * <p>
+ * It implements {@link Network} and holds a {@link Network}, so it is substitutable for the
+ * real gateway. Every request is logged, then checked, and only then forwarded. A refused
+ * request never reaches the gateway at all.
+ * <p>
+ * This is the same role {@code proxy.pm.pm3.ProxyPM} plays, in a domain with no people in it
+ * — which is a useful pairing: the pattern is about controlling access, not about politeness.
+ */
 public class ProxyServer implements Network {
-	
-	private Network gateway;
-	
-	public ProxyServer(){
-		gateway = Gateway.getInstance();
-	}
-	
-	public void ftp(String ip, String targetIp) throws YasakKardesimException{
-		Logger.log(ip + ", " + targetIp + " adresine ftp yapmak istiyor");
-		
-		filter("ftp", ip, targetIp);
-		
-		gateway.ftp(ip, targetIp);
-	}
 
-	public void telnet(String ip, String targetIp) throws YasakKardesimException{
-		Logger.log(ip + ", " + targetIp + " adresine telnet yapmak istiyor");
-		
-		filter("telnet", ip, targetIp);
-		
-		gateway.telnet(ip, targetIp);
-	}
-	
-	private void filter(String protocol, String ip, String targetIp) throws YasakKardesimException{
-		if(protocol.equals("ftp")){
-			if(targetIp.startsWith("192"))
-				throw new YasakKardesimException(targetIp + " adresine ftp yapmaniz yasaktir!");
-		}
-		
-		if(protocol.equals("telnet")){
-			if(ip.startsWith("10"))
-				throw new YasakKardesimException(ip + " adresinden telnet yapmaniz yasaktir!");
-		}
-	}
+    private final Network gateway;
+
+    public ProxyServer() {
+        this(Gateway.getInstance());
+    }
+
+    public ProxyServer(Network gateway) {
+        this.gateway = gateway;
+    }
+
+    @Override
+    public void ftp(String ip, String targetIp) throws ForbiddenAccessException {
+        Logger.log(ip + " wants to ftp to " + targetIp);
+        filter("ftp", ip, targetIp);
+        gateway.ftp(ip, targetIp);
+    }
+
+    @Override
+    public void telnet(String ip, String targetIp) throws ForbiddenAccessException {
+        Logger.log(ip + " wants to telnet to " + targetIp);
+        filter("telnet", ip, targetIp);
+        gateway.telnet(ip, targetIp);
+    }
+
+    /** The access rules. The gateway knows nothing about them. */
+    private void filter(String protocol, String ip, String targetIp)
+            throws ForbiddenAccessException {
+
+        if (protocol.equals("ftp") && targetIp.startsWith("192")) {
+            throw new ForbiddenAccessException("ftp to " + targetIp + " is not permitted");
+        }
+        if (protocol.equals("telnet") && ip.startsWith("10")) {
+            throw new ForbiddenAccessException("telnet from " + ip + " is not permitted");
+        }
+    }
 }

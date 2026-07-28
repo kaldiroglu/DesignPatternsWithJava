@@ -1,29 +1,63 @@
 package dev.kaldiroglu.dp.structural.proxy.pm.pm3;
 
-public class ProxyPM implements PM{
-    private PM pm;
+import java.util.Objects;
 
-    public ProxyPM(PM pm){
-        this.pm = pm;
+/**
+ * The Proxy — a <em>protection proxy</em> in GoF's terms (p. 208): it controls access to the
+ * real subject.
+ * <p>
+ * It implements {@link PM}, which is what makes it substitutable, and holds a {@link PM},
+ * which is what lets it forward. Being both is the pattern, and it is the same shape as
+ * Decorator — the difference is the intent. A decorator <em>adds</em> to what the subject
+ * does; this one <em>decides whether the subject is called at all</em>.
+ * <p>
+ * Note also that it answers {@link #findJob} entirely by itself. A proxy is allowed to
+ * satisfy a request without ever touching the real subject, which no decorator would do.
+ */
+public class ProxyPM implements PM {
+
+    private final PM pm;
+    private int callsScreened;
+    private int callsPassedOn;
+    private int callsRefused;
+
+    public ProxyPM(PM pm) {
+        this.pm = Objects.requireNonNull(pm, "a proxy must stand in front of something");
     }
 
+    @Override
     public void listen(String problem) {
-        System.out.println("Proxy: Listening to you.");
-        if(sortOut(problem))
-            delegate(problem);
+        callsScreened++;
+        System.out.println("ProxyPM: let me hear it first.");
+        if (worthHisTime(problem)) {
+            callsPassedOn++;
+            pm.listen(problem);
+        } else {
+            callsRefused++;
+            System.out.println("ProxyPM: I am afraid that is not something he deals with.");
+        }
     }
 
+    /** Answered here and never forwarded — the request does not reach the real subject. */
+    @Override
     public void findJob(String name) {
-        System.out.println("Proxy: 'I'll find out what I can do for you!'");
+        System.out.println("ProxyPM: I will see what can be done, " + name + ".");
     }
 
-    private void delegate(String problem) {
-        pm.listen(problem);
+    private boolean worthHisTime(String problem) {
+        return !problem.toLowerCase().contains("job")
+                && !problem.toLowerCase().contains("cousin");
     }
 
-    private boolean sortOut(String problem){
-        boolean b = true;
-        //...
-        return b;
+    public int callsScreened() {
+        return callsScreened;
+    }
+
+    public int callsPassedOn() {
+        return callsPassedOn;
+    }
+
+    public int callsRefused() {
+        return callsRefused;
     }
 }
