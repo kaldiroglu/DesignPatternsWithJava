@@ -5,10 +5,8 @@ import java.util.Objects;
 /**
  * A Leaf that points at another element.
  * <p>
- * {@link Alias} and {@link ShortCut} were previously two identical empty classes that
- * referenced nothing, so neither was distinguishable from a {@link File} or from each other.
- * A link that names its target is both a real thing and a good question: <strong>how big is
- * it?</strong>
+ * A link names what it points at, which makes it a real element of the tree and raises a
+ * good question: <strong>how big is it?</strong>
  * <p>
  * The answer taken here is that a link costs its own few bytes and <em>not</em> the size of
  * what it points at, because the target is counted where it actually lives. Any other answer

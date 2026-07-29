@@ -11,10 +11,10 @@ import java.util.NoSuchElementException;
 /**
  * Walks a directory tree depth-first.
  * <p>
- * The first version handed back {@code elements.iterator()}, so it visited the immediate
- * children only — a directory nested inside was returned as a single item and everything
- * under it was never seen. For a Composite that is the wrong default: the reason to have an
- * iterator at all is to reach the whole tree without the caller writing the recursion.
+ * Depth-first over the whole subtree, not just the immediate children. That is the only
+ * version worth having over a Composite: a nested directory is not one item, it is
+ * everything underneath it, and the reason to have an iterator at all is to reach the whole
+ * tree without the caller writing the recursion.
  * <p>
  * GoF mention exactly this under Composite's implementation notes: enumerating children is a
  * job for an Iterator, and traversal is where the two patterns meet.

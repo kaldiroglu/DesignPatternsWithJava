@@ -5,9 +5,9 @@ import java.util.Objects;
 /**
  * Shared state and behavior for anything that can sit in a directory.
  * <p>
- * Note the type of {@code parent}: {@link Directory}, not {@code Storage}. The first version
- * declared it as {@code Storage} and then cast to {@code Directory} in three places — and a
- * cast that always succeeds is a field with the wrong type.
+ * Note the type of {@code parent}: {@link Directory}, not {@code Storage}. Only a directory
+ * can hold anything, so that is the type the field should have — declaring it as
+ * {@code Storage} would only buy casts back to {@code Directory} at every use.
  */
 public abstract class StorageElement implements Storage {
 
@@ -47,7 +47,7 @@ public abstract class StorageElement implements Storage {
         System.out.println("Saving " + name);
     }
 
-    /** Null-safe: the first version threw a NullPointerException on a root directory. */
+    /** Null-safe: a root has no parent to be detached from, and that is not an error. */
     @Override
     public final void delete() {
         if (parent != null) {
@@ -59,12 +59,10 @@ public abstract class StorageElement implements Storage {
     /**
      * Moves properly, which neither of the first two versions did.
      * <p>
-     * {@code StorageElement.move} used to remove the element from its old parent without
-     * updating {@code parent}, so the element still believed it lived where it no longer did.
-     * {@code Directory.move} used to do the opposite — set the new parent and add itself to
-     * the target, while leaving the old directory still listing it, so one directory appeared
-     * in two places at once. Doing both, once, in one place, fixes both.
-     */
+     * Both halves happen here, in one place: leave the old parent, then join the new one.
+     * Doing only one of them is how an element ends up believing it lives where it does not,
+     * or appearing in two directories at once.
+*/
     @Override
     public final void move(Directory target) {
         Objects.requireNonNull(target, "move needs somewhere to move to");

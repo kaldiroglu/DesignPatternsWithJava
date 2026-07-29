@@ -24,15 +24,17 @@ of GoF's implementation issue 3 (p. 167), and the opposite of what the book reco
 `composite.bom` and `composite.hw.surveyform` take the transparent side, so the repository
 contains both answers and they can be compared rather than asserted.
 
-## What was fixed
+## What the code does
 
-| Was | Now |
+| Class | Role |
 |---|---|
-| `"Drawing a cirle"`, `"Painting a circle. : "` | spelling and punctuation, all four leaves |
-| `Test.java` | `Main.java`, matching the rest of the repository |
-| `listGraphic()` printed one level — a nested canvas showed as one `toString` line and its contents never appeared | recurses, with indentation |
-| no aggregate operation | `shapeCount()` on the Component |
-| `setName` unused, no `getColor`, mutable fields | fields final, both accessors present |
+| `Graphic` | **Component** — `draw()`, `paint()`, `shapeCount()`, and child management |
+| `Circle` · `Square` · `Triangle` · `Line` | **Leaf** — draw themselves and count as one |
+| `CompositeGraphic` · `Canvas` | **Composite** — hold graphics and answer by asking them |
+
+`shapeCount()` is the aggregate worth having: a canvas reports every shape beneath it,
+however deep the nesting goes, and `listGraphic()` prints the tree with indentation using the
+same recursion.
 
 ## Run it with
 

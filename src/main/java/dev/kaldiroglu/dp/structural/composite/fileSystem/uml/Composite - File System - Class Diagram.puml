@@ -58,10 +58,10 @@ note right of Directory
   size() is the payoff: one call,
   any depth, no loop at the call site.
 
-  render() used to ask isDirectory()
-  and branch — a type test in the one
-  pattern that exists to remove them.
-  Each element now renders itself.
+  render() never asks what kind of
+  element it holds. Each one renders
+  itself — which is the one thing
+  this pattern is for.
 end note
 
 note bottom of Link
@@ -71,10 +71,10 @@ note bottom of Link
 end note
 
 note bottom of DirectoryIterator
-  Depth-first over the whole subtree.
-  The first version returned the
-  immediate children only, so nested
-  directories were never entered.
+  Depth-first over the whole subtree,
+  not the immediate children: a nested
+  directory is not one item, it is
+  everything underneath it.
 end note
 
 @enduml

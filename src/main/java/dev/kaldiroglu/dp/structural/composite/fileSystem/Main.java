@@ -4,7 +4,8 @@ package dev.kaldiroglu.dp.structural.composite.fileSystem;
 import dev.kaldiroglu.dp.structural.composite.fileSystem.iterator.StorageIterator;
 
 /**
- * A small tree, and the four things the first version could not do.
+ * A small tree, and the four operations that make it a Composite: a total across the
+ * whole subtree, a move, a deep copy, and a depth-first walk.
  */
 public class Main {
 
@@ -31,16 +32,14 @@ public class Main {
         report.move(reports);
         home.list();
         System.out.println("Report.docx now lives at: " + report.path());
-        System.out.println("  It left Dev and arrived in Reports. The first version did one");
-        System.out.println("  or the other, never both.");
+        System.out.println("  It left Dev and arrived in Reports — both halves, in one call.");
 
         System.out.println("\n-- copy the Reports directory --");
         Storage duplicate = (Storage) reports.copy();
         duplicate.rename("Reports (copy)");
-        System.out.println("copy is a real object : " + (duplicate != null));
         System.out.println("copy size             : " + duplicate.size() + " bytes");
-        System.out.println("  copy() used to call clone() on a class that was not Cloneable,");
-        System.out.println("  catch the exception, print a line and return null. Every time.");
+        System.out.println("  A deep copy: the directory and everything under it, detached");
+        System.out.println("  from any parent, with the same total.");
 
         System.out.println("\n-- walk the tree depth-first --");
         StorageIterator walker = home.iterator();

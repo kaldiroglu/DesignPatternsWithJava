@@ -52,9 +52,8 @@ public class Directory extends StorageElement implements StorageContainer {
     /**
      * Renders the subtree.
      * <p>
-     * The first version asked {@code isDirectory()} and branched on the answer — a type test
-     * in the one pattern whose entire purpose is to remove them. Each element now renders
-     * itself, and this method neither knows nor asks what kind it is.
+     * Each element renders itself, and this method neither knows nor asks what kind it is.
+     * A type test here would defeat the one thing the pattern is for.
      */
     @Override
     public String render(String indent) {

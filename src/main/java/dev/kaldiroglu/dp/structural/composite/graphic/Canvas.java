@@ -69,9 +69,10 @@ public class Canvas extends GraphicObject implements CompositeGraphic {
     }
 
     /**
-     * Recurses, which the first version did not: a nested canvas used to print as one line of
-     * {@code toString} and its contents never appeared at all.
-     */
+     * Recurses, with indentation: a nested canvas prints its own contents rather than one
+     * line of its own. Listing a tree is the same shape as measuring one — do this node's
+     * part, then ask the children to do theirs.
+*/
     private void listGraphic(String indent) {
         System.out.println(indent + this);
         for (Graphic element : elements) {
