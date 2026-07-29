@@ -1,9 +1,9 @@
 package dev.kaldiroglu.dp.structural.flyweight;
 
-import dev.kaldiroglu.dp.structural.flyweight.book.Book;
-import dev.kaldiroglu.dp.structural.flyweight.book.CharacterFactory;
-import dev.kaldiroglu.dp.structural.flyweight.book.Line;
-import dev.kaldiroglu.dp.structural.flyweight.book.Page;
+import dev.kaldiroglu.dp.structural.flyweight.book.correct.Book;
+import dev.kaldiroglu.dp.structural.flyweight.book.correct.CharacterFactory;
+import dev.kaldiroglu.dp.structural.flyweight.book.correct.Line;
+import dev.kaldiroglu.dp.structural.flyweight.book.correct.Page;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,13 +19,65 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * The point of this class.
  * <p>
- * The book example was originally written as an illustration of Flyweight and shared
- * nothing: its factory allocated on every call, and its Character stored the line and
- * position of one occurrence. These tests hold the corrected version to what the pattern
- * actually promises — as a count, not as an adjective — and each one would fail against
- * the code as it was.
+ * Both versions of the book example are in the repository, and this class tests both. The
+ * first four tests pin the defects in {@code book.wrong} so they cannot be quietly fixed
+ * in the wrong place; the rest hold {@code book.correct} to what the pattern actually
+ * promises — as a count, not as an adjective.
  */
 class BookFlyweightTest {
+
+    // ------------------------------------------------------------------ the problem
+
+    @Test
+    @DisplayName("the original factory allocates a new object for every character")
+    void originalFactorySharesNothing() {
+        var factory = new dev.kaldiroglu.dp.structural.flyweight.book.wrong.BookFactory();
+
+        var first = factory.createCharacter('e', false);
+        var second = factory.createCharacter('e', false);
+
+        assertNotSame(first, second, "a FlyweightFactory that always allocates is a constructor");
+    }
+
+    @Test
+    @DisplayName("the original stores extrinsic state on the character, so it cannot be shared")
+    void originalStoresPositionInsideTheFlyweight() {
+        var factory = new dev.kaldiroglu.dp.structural.flyweight.book.wrong.BookFactory();
+        var line = factory.createLine(10);
+
+        var shared = factory.createCharacter('o', false);
+        line.add(shared);          // position 0
+        line.add(shared);          // the same object, added again
+
+        // Both occurrences are the same object, so the second write clobbered the first.
+        // This is what makes the original unshareable, and it is why fixing only the
+        // factory would introduce a bug rather than the pattern.
+        assertEquals(1, shared.getPosition(),
+                "one object cannot remember two positions");
+        assertEquals(2, line.getChars().size(), "yet the line believes it holds two");
+    }
+
+    @Test
+    @DisplayName("the original records upperCase and then renders lower case")
+    void originalIgnoresItsOwnIntrinsicState() {
+        var factory = new dev.kaldiroglu.dp.structural.flyweight.book.wrong.BookFactory();
+        var capital = factory.createCharacter('t', true);
+
+        assertTrue(capital.isUpperCase(), "it was asked for as a capital");
+        assertEquals('t', capital.getValue(), "and it renders as lower case anyway");
+    }
+
+    @Test
+    @DisplayName("the original line accepts one character more than it was built for")
+    void originalLineIsOffByOne() {
+        var factory = new dev.kaldiroglu.dp.structural.flyweight.book.wrong.BookFactory();
+        var line = factory.createLine(3);
+
+        for (int i = 0; i < 4; i++) {
+            assertTrue(line.add(factory.createCharacter('x', false)), "accepted #" + (i + 1));
+        }
+        assertEquals(4, line.getChars().size(), "a line built for 3 holds 4");
+    }
 
     // ------------------------------------------------------------------ the solution
 

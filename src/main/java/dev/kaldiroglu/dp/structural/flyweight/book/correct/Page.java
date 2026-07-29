@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.flyweight.book;
+package dev.kaldiroglu.dp.structural.flyweight.book.correct;
 
 import java.util.ArrayList;
 import java.util.List;

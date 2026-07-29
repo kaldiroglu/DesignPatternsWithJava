@@ -1,6 +1,6 @@
 package dev.kaldiroglu.dp.structural.flyweight;
 
-import dev.kaldiroglu.dp.structural.flyweight.book.CharacterFactory;
+import dev.kaldiroglu.dp.structural.flyweight.book.correct.CharacterFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -86,7 +86,7 @@ class PoolIsNotFlyweightTest {
                         .getDeclaredMethods())
                 .anyMatch(m -> m.getName().startsWith("mark"));
         boolean flyweightIsMutable = java.util.Arrays.stream(
-                        dev.kaldiroglu.dp.structural.flyweight.book.Character.class
+                        dev.kaldiroglu.dp.structural.flyweight.book.correct.Character.class
                                 .getDeclaredMethods())
                 .anyMatch(m -> m.getName().startsWith("set"));
 

@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.flyweight.book;
+package dev.kaldiroglu.dp.structural.flyweight.book.correct;
 
 /**
  * <b>ConcreteFlyweight</b> (GoF, p. 198).

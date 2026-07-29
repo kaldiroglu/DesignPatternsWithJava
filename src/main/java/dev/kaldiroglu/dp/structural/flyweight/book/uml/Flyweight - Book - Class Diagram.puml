@@ -1,62 +1,62 @@
 @startuml "Flyweight - Book - Class Diagram"
 skinparam classAttributeIconSize 0
 hide empty members
-title Flyweight — a book of shared characters
+title Flyweight — the same example written twice
 
 
-class Character <<ConcreteFlyweight>> {
-  - value : char
-  - upperCase : boolean
-  + getValue() : char
+package "book.wrong — not the pattern" {
+  class "Character" as WC {
+    - value : char
+    - upperCase : boolean
+    - line : Line
+    - position : int
+    + setLine(line)
+    + setPosition(int)
+  }
+  class "BookFactory" as WF {
+    - as : List<Character>
+    + createCharacter(c, upper) : Character
+  }
+  WF ..> WC : "new, every time"
 }
 
-class CharacterFactory <<FlyweightFactory>> {
-  - characters : Map<String, Character>
-  + createCharacter(c, upper) : Character
-  + createdCount() : int
-  + savedCount() : int
+package "book.correct — the pattern" {
+  class "Character" as CC <<ConcreteFlyweight>> {
+    - value : char
+    - upperCase : boolean
+    + getValue() : char
+  }
+  class "CharacterFactory" as CF <<FlyweightFactory>> {
+    - characters : Map<String, Character>
+    + createCharacter(c, upper) : Character
+    + createdCount() : int
+  }
+  class "Line" as CL {
+    - chars : List<Character>
+    + characterAt(position) : Character
+  }
+  CF ..> CC : "pools by (value, case)"
+  CL o-- CC : "shared"
 }
 
-interface Factory
-class Line {
-  - chars : List<Character>
-  - capacity : int
-  + add(character) : boolean
-  + characterAt(position) : Character
-}
-class Page
-class Book
-
-Factory <|.. CharacterFactory
-CharacterFactory ..> Character : "pools by (value, case)"
-Line o-- Character : "shared"
-Page o-- Line
-Book o-- Page
-
-note right of Character
-  <b>Two fields, both intrinsic.</b>
-  Immutable, package-private
-  constructor.
-
-  It used to carry <b>line</b> and
-  <b>position</b> as well — labelled
-  extrinsic in a comment and
-  stored anyway, which is what
-  made it unshareable.
+note bottom of WC
+  <b>Two defects, and they interlock.</b>
+  The factory never pools — and it could not,
+  because position is stored <i>here</i>.
+  Two occurrences of 'o' would fight
+  over one field.
 end note
 
-note bottom of Line
+note bottom of WF
+  The pool field is
+  <b>never read or written</b>.
+end note
+
+note bottom of CL
   Position is the <b>index in this list</b>.
   It needed no home at all.
 
   236 characters -> <b>29</b> objects.
-end note
-
-note bottom of CharacterFactory
-  The pool used to be a field
-  that was <b>never read or written</b>,
-  while createCharacter allocated
-  on every call.
 end note
 
 @enduml
