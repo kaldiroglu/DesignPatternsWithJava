@@ -1,80 +1,101 @@
 @startuml "Composite - File System - Class Diagram"
 skinparam classAttributeIconSize 0
 hide empty members
-title Composite — a file system, with a recursive iterator
+title Composite — a file system, and six questions answered at any depth
 
+
+left to right direction
+skinparam ranksep 16
+skinparam nodesep 18
 
 interface Storage <<Component>> {
-  + getName() : String
-  + rename(name) : void
-  + save() : void
-  + delete() : void
-  + copy() : Storage
-  + move(target : Directory) : void
+  .. roll-ups ..
   + size() : long
+  + count() : int
+  + lastModified() : Instant
+  + largest() : Optional<Storage>
+  + find(name) : Optional<Storage>
+  + findAll(test) : List<Storage>
   + render(indent) : String
+  .. element operations ..
+  + rename(name)
+  + save()
+  + delete()
+  + copy() : Storage
+  + move(target)
+}
+
+interface StorageContainer {
+  + add(element)
+  + remove(element)
+  + elements() : List<Storage>
+  + iterator() : StorageIterator
 }
 
 abstract class StorageElement {
   - name : String
   - parent : Directory
-  # attach() : void
-  + path() : String
+  - modified : Instant
 }
 
 class File <<Leaf>> {
   - bytes : long
 }
+
 abstract class Link <<Leaf>> {
   - target : Storage
 }
-class Alias
-class ShortCut
 
-interface StorageContainer {
-  + add(e : Storage) : void
-  + remove(e : Storage) : void
-  + elements() : List<Storage>
-  + iterator() : StorageIterator
+class Directory <<Composite>> {
+  - elements : List<Storage>
+  - cachedSize : long
+  ~ invalidate()
 }
 
-class Directory <<Composite>>
-
-interface StorageIterator
-class DirectoryIterator
+class DiskReport <<Client>> {
+  - root : Storage
+  + totalBytes() : long
+  + biggest() : String
+}
 
 Storage <|.. StorageElement
 StorageElement <|-- File
 StorageElement <|-- Link
-Link <|-- Alias
-Link <|-- ShortCut
 StorageElement <|-- Directory
 StorageContainer <|.. Directory
-Directory o--> "*" Storage : elements
-Directory ..> DirectoryIterator : creates
-StorageIterator <|.. DirectoryIterator
+Directory o--> "*" Storage
+Directory --> Directory : "parent"
+DiskReport --> Storage
 
-note right of Directory
-  size() is the payoff: one call,
-  any depth, no loop at the call site.
-
-  render() never asks what kind of
-  element it holds. Each one renders
-  itself — which is the one thing
-  this pattern is for.
+note bottom of Directory
+  Every operation is the same two lines:
+  do this directory's part, then ask
+  the children to do theirs.
 end note
 
-note bottom of Link
+note top of DiskReport
+  Names <b>Storage</b> and nothing else.
+  Hand it one file and every
+  answer is still right.
+end note
+
+note bottom of Storage
+  <b>Roll-ups</b> aggregate; <b>element operations</b>
+  do not. A Component interface grows —
+  GoF list "overly general" as a liability.
+end note
+
+note right of Link
   A link is its own 64 bytes, <b>not</b> the
-  size of its target. Any other answer
-  makes size() on a root double-count.
+  size of its target, or size() on a
+  root would double-count.
 end note
 
-note bottom of DirectoryIterator
-  Depth-first over the whole subtree,
-  not the immediate children: a nested
-  directory is not one item, it is
-  everything underneath it.
+note bottom of File
+  <b>cachedSize</b> + <b>invalidate()</b> are GoF
+  implementation issue 8. A change
+  invalidates its ancestors <b>upward</b> —
+  which is what the parent reference is for.
 end note
 
 @enduml

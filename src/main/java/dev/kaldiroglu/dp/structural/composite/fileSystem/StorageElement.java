@@ -1,6 +1,10 @@
 package dev.kaldiroglu.dp.structural.composite.fileSystem;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 /**
  * Shared state and behavior for anything that can sit in a directory.
@@ -13,6 +17,7 @@ public abstract class StorageElement implements Storage {
 
     private String name;
     private Directory parent;
+    private Instant modified = Instant.EPOCH;
 
     protected StorageElement(String name, Directory parent) {
         this.name = Objects.requireNonNull(name, "every element needs a name");
@@ -74,6 +79,39 @@ public abstract class StorageElement implements Storage {
         }
         parent = target;
         target.add(this);
+    }
+
+    /** When this element itself last changed. A directory takes the newest of its subtree. */
+    @Override
+    public Instant lastModified() {
+        return modified;
+    }
+
+    /** Records a modification time. Bubbles nothing: a directory asks its children instead. */
+    public final void touch(Instant when) {
+        this.modified = Objects.requireNonNull(when);
+    }
+
+    /** A leaf is one element. {@link Directory} adds its children. */
+    @Override
+    public int count() {
+        return 1;
+    }
+
+    /** A leaf is its own largest. {@link Directory} asks its children. */
+    @Override
+    public Optional<Storage> largest() {
+        return Optional.of(this);
+    }
+
+    @Override
+    public Optional<Storage> find(String wanted) {
+        return name.equals(wanted) ? Optional.of(this) : Optional.empty();
+    }
+
+    @Override
+    public List<Storage> findAll(Predicate<Storage> test) {
+        return test.test(this) ? List.of(this) : List.of();
     }
 
     public Directory getParent() {

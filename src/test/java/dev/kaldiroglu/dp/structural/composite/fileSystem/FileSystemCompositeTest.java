@@ -4,7 +4,10 @@ import dev.kaldiroglu.dp.structural.composite.fileSystem.iterator.StorageIterato
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Method;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,14 +15,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The point of this class.
  * <p>
- * Four of these are regression tests with a history: copy() always returned null, move() did
- * half its job and did a different half depending on the receiver's type, delete() threw on a
- * root, and rendering asked what kind of element it was holding.
+ * Six roll-ups, asserted as numbers rather than described: a sum, a count, a maximum, a
+ * reduction to an element, a search, and a rendering. Each is asked of a root and answered
+ * for the whole subtree, and each is asked again of a single leaf to show the client cannot
+ * tell the difference.
+ * <p>
+ * The last group covers GoF implementation issue 8 — caching the total in the composite, and
+ * invalidating upward when anything changes.
  */
 class FileSystemCompositeTest {
 
@@ -132,7 +141,8 @@ class FileSystemCompositeTest {
 
         assertEquals(List.of("Dev", "Readme.txt", "Report.docx", "Reports", "Important.docx"),
                 visited);
-        assertEquals(5, home.count());
+        assertEquals(5, visited.size(), "the iterator yields the descendants");
+        assertEquals(6, home.count(), "count() includes the element itself, so a leaf is one");
     }
 
     @Test
@@ -144,6 +154,146 @@ class FileSystemCompositeTest {
 
         assertEquals(before + 64, home.size());
         assertTrue(home.size() < before + report.size());
+    }
+
+
+    // ------------------------------------------------------------------ the roll-ups
+
+    @Test
+    @DisplayName("count crosses every level, and a leaf is one")
+    void countIsARollUp() {
+        tree();
+
+        assertEquals(6, home.count(), "akin, Dev, Readme, Report, Reports, Important");
+        assertEquals(2, reports.count(), "Reports and the file in it");
+        assertEquals(1, report.count(), "a leaf is one element, and answers for itself");
+    }
+
+    @Test
+    @DisplayName("lastModified is a maximum, not a sum")
+    void lastModifiedIsAMaximum() {
+        tree();
+        Instant older = Instant.parse("2026-01-04T09:00:00Z");
+        Instant newest = Instant.parse("2026-07-21T17:45:00Z");
+        report.touch(older);
+        ((StorageElement) reports.elements().get(0)).touch(newest);
+
+        assertEquals(newest, home.lastModified(), "the newest anywhere beneath the root");
+        assertEquals(newest, reports.lastModified());
+        assertEquals(older, report.lastModified(), "and a leaf answers for itself");
+    }
+
+    @Test
+    @DisplayName("largest reduces the subtree to an element, not a number")
+    void largestReturnsAnElement() {
+        tree();
+
+        Storage biggest = home.largest().orElseThrow();
+
+        assertEquals("Important.docx", biggest.getName());
+        assertEquals(120_000, biggest.size());
+        assertSame(report, report.largest().orElseThrow(), "a leaf is its own largest");
+        assertTrue(new Directory("empty").largest().isEmpty(), "and an empty directory has none");
+    }
+
+    @Test
+    @DisplayName("find reaches any depth, and the caller writes no recursion")
+    void findCrossesLevels() {
+        tree();
+
+        assertEquals("Important.docx",
+                home.find("Important.docx").map(Storage::getName).orElseThrow(),
+                "three levels down from the root");
+        assertEquals("Reports", home.find("Reports").map(Storage::getName).orElseThrow(),
+                "and a directory is findable too");
+        assertTrue(home.find("nothing.txt").isEmpty());
+    }
+
+    @Test
+    @DisplayName("findAll returns composites and leaves alike, because the test never asks")
+    void findAllDoesNotDistinguish() {
+        tree();
+
+        List<String> big = home.findAll(element -> element.size() > 40_000)
+                .stream().map(Storage::getName).toList();
+
+        assertEquals(List.of("akin", "Dev", "Report.docx", "Reports", "Important.docx"), big,
+                "a directory over 40 KB is over 40 KB — the predicate did not ask what it was");
+    }
+
+    // ------------------------------------------------------------------ the client
+
+    @Test
+    @DisplayName("the client names one type, and works on a leaf as well as a tree")
+    void theClientCannotTellTheDifference() {
+        tree();
+
+        DiskReport ofTree = new DiskReport(home);
+        assertEquals(home.size(), ofTree.totalBytes());
+        assertEquals(6, ofTree.elements());
+        assertEquals("Important.docx", ofTree.biggest());
+
+        DiskReport ofLeaf = new DiskReport(report);      // one file, same five questions
+        assertEquals(45_000, ofLeaf.totalBytes());
+        assertEquals(1, ofLeaf.elements());
+        assertEquals("Report.docx", ofLeaf.biggest());
+    }
+
+    @Test
+    @DisplayName("and it names no concrete element type anywhere")
+    void theClientNamesOnlyTheComponent() {
+        List<Class<?>> concrete = List.of(Directory.class, File.class, Link.class,
+                Alias.class, ShortCut.class, StorageElement.class);
+
+        for (Method m : DiskReport.class.getDeclaredMethods()) {
+            assertFalse(concrete.contains(m.getReturnType()), m.getName() + " returns a leaf type");
+            assertTrue(Arrays.stream(m.getParameterTypes()).noneMatch(concrete::contains),
+                    m.getName() + " takes a concrete type");
+        }
+        assertTrue(Arrays.stream(DiskReport.class.getDeclaredFields())
+                        .allMatch(f -> f.getType() == Storage.class),
+                "the only type it holds is the Component");
+    }
+
+    // ------------------------------------------------- caching, GoF implementation issue 8
+
+    @Test
+    @DisplayName("a cached total is not recomputed while nothing changes")
+    void theTotalIsCached() {
+        tree();
+        home.size();                       // warm every level
+        Directory.resetRecomputations();
+
+        home.size();
+        home.size();
+        home.size();
+
+        assertEquals(0, Directory.recomputations(), "three calls, and the tree is not walked");
+    }
+
+    @Test
+    @DisplayName("a change invalidates exactly its ancestors, and nothing else")
+    void invalidationRunsUpward() {
+        tree();
+        home.size();
+        Directory.resetRecomputations();
+
+        new File("Notes.md", reports, 900);   // three levels down
+        long after = home.size();
+
+        assertEquals(3, Directory.recomputations(), "Reports, Dev and akin — no more");
+        assertEquals(168_716, after, "and the answer is right");
+    }
+
+    @Test
+    @DisplayName("removing invalidates too, and the total goes back down")
+    void removingInvalidates() {
+        tree();
+        long before = home.size();
+
+        report.delete();
+
+        assertEquals(before - 45_000, home.size(), "the tree noticed");
     }
 
     @Test
