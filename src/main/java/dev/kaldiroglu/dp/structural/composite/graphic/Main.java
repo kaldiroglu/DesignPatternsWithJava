@@ -22,6 +22,9 @@ public class Main {
         display.addGraphic(logo);
 
         display.listGraphic();
+        System.out.println("****************");
+        display.draw();
+        System.out.println("****************");
 
         System.out.println();
         System.out.println("shapes on the display: " + display.shapeCount());
