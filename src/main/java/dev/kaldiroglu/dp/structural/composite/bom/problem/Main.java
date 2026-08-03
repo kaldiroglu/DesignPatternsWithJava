@@ -8,7 +8,7 @@ import dev.kaldiroglu.dp.structural.composite.bom.domain.Money;
  *
  * <p>The totals it prints are <b>correct</b> — this is not a demonstration of a
  * broken program. It is a demonstration of a program that is correct today and
- * expensive to keep correct. Run {@code solution.Demo} straight afterwards and
+ * expensive to keep correct. Run {@code solution.Main} straight afterwards and
  * compare.</p>
  */
 public class Main {

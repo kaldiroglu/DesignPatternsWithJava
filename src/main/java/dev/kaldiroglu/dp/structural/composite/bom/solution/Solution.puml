@@ -85,10 +85,10 @@ class Money <<record>> {
   + times(quantity : int) : Money
 }
 
-class Demo
-note top of Demo : Client\n(costing, shipping, reporting)
+class Main
+note top of Main : Client\n(costing, shipping, reporting)
 
-Demo --> BomComponent
+Main --> BomComponent
 BomComponent <|-- Part
 BomComponent <|-- Assembly
 Assembly *--> "lines\n*" BomLine

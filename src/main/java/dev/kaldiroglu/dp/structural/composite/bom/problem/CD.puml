@@ -1,7 +1,7 @@
 @startuml Composite-BOM-Problem
 skinparam classAttributeIconSize 0
-skinparam nodesep 20
-skinparam ranksep 50
+skinparam nodesep 50
+skinparam ranksep 30
 skinparam linetype ortho
 
 title BoM Problem
@@ -34,13 +34,13 @@ package "problem — the naive design" {
     + addSubAssembly(a : Assembly) : void
   }
   note bottom of Assembly
-    TWO child collections,
+    Two child collections,
     because no type covers both.
 
     Every walk must remember
     to visit both.
 
-    addPart(p, 32) adds the SAME
+    addPart(p, 32) adds the same
     part 32 times — quantity has
     nowhere to live.
   end note
@@ -54,7 +54,7 @@ package "problem — the naive design" {
     Added later.
 
     Assembly cannot even hold
-    one: it would need a THIRD
+    one: it would need a third
     collection, and every walk
     would need a third loop.
   end note

@@ -10,13 +10,13 @@ import dev.kaldiroglu.dp.structural.composite.bom.domain.Money;
  * against {@link BomComponent}. Nowhere does this client test whether it is
  * holding a part or an assembly.</p>
  *
- * <p>Run {@code problem.Demo} first. It builds the same bicycle from the same
+ * <p>Run {@code problem.Main} first. It builds the same bicycle from the same
  * figures and reaches the same totals — the difference this demo is meant to show
  * is not in the answers, it is in what the code had to do to get them.</p>
  */
-public final class Demo {
+public final class Main {
 
-    private Demo() {
+    private Main() {
     }
 
     public static void main(String[] args) {

@@ -13,7 +13,7 @@
  *   <tr><td>Leaf</td><td>{@link dev.kaldiroglu.composite.bom.solution.Part},
  *       {@link dev.kaldiroglu.composite.bom.solution.Service}</td></tr>
  *   <tr><td>Composite</td><td>{@link dev.kaldiroglu.composite.bom.solution.Assembly}</td></tr>
- *   <tr><td>Client</td><td>{@link dev.kaldiroglu.composite.bom.solution.Demo}</td></tr>
+ *   <tr><td>Client</td><td>{@link dev.kaldiroglu.dp.structural.composite.bom.solution.Main}</td></tr>
  * </table>
  *
  * <table border="1">
