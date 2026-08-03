@@ -1,5 +1,8 @@
 @startuml Composite-BOM
 skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 40
+
 title Composite applied — bill-of-materials roll-up\nCost, weight and part counts answered identically for a part and a product
 
 abstract class BomComponent {
@@ -13,10 +16,9 @@ abstract class BomComponent {
   + toTree() : String
   ~ containsDeep(target) : boolean
 }
-note right of BomComponent
+note left of BomComponent
   Component
-
-  Only QUERIES live here.
+  Only queries live here.
   add / remove are declared on
   Assembly — the safe variant of
   GoF p. 168, chosen because the
@@ -33,7 +35,6 @@ class Part {
 }
 note bottom of Part
   Leaf
-
   A purchased part.
   The recursion stops here.
 end note
@@ -57,7 +58,6 @@ class Assembly {
 }
 note bottom of Assembly
   Composite
-
   totalCost() = assemblyCost
              + Σ line.extendedCost()
 
@@ -73,7 +73,7 @@ class BomLine <<record>> {
   + extendedWeightGrams() : int
   + extendedPartCount() : int
 }
-note left of BomLine
+note bottom of BomLine
   The quantity lives on the EDGE,
   so one sub-assembly object can be
   shared by many parents (GoF p. 167).
@@ -86,7 +86,7 @@ class Money <<record>> {
 }
 
 class Main
-note top of Main : Client\n(costing, shipping, reporting)
+note left of Main : Client\n(costing, shipping, reporting)
 
 Main --> BomComponent
 BomComponent <|-- Part
@@ -94,6 +94,6 @@ BomComponent <|-- Assembly
 Assembly *--> "lines\n*" BomLine
 BomLine --> "1" BomComponent
 Assembly ..> "parents\n*" Assembly : invalidates
-BomComponent ..> Money
+BomComponent .right.> Money
 
 @enduml
