@@ -5,7 +5,8 @@ import dev.kaldiroglu.dp.structural.composite.fileSystem.iterator.StorageIterato
 import java.util.List;
 
 /**
- * Child management, kept off {@link Storage} on purpose — GoF implementation issue 1.
+ * Child management, kept off {@link Storage} on purpose — GoF implementation issue 4
+ * (Declaring the child management operations, p. 168).
  * <p>
  * Declaring {@code add} here rather than on the Component means a {@link File} cannot be
  * given children: the method does not exist on it, so the mistake is a compile error rather

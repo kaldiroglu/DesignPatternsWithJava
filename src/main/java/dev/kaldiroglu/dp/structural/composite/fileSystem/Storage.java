@@ -25,7 +25,8 @@ import java.util.function.Predicate;
  * pattern's liabilities.</p>
  *
  * <p>Child management lives on {@link StorageContainer}, not here — the <strong>safe</strong>
- * side of GoF's implementation issue 1, the same choice {@code composite.graphic} makes.</p>
+ * side of GoF's implementation issue 4 (Declaring the child management operations,
+ * p. 168), the same choice {@code composite.graphic} makes.</p>
  */
 public interface Storage {
 
