@@ -14,7 +14,7 @@ client asks one object for a number that covers the whole tree.
 ## The design decision
 
 Child management is on **`CompositeGraphic`**, not on `Graphic`. That is the **safe** side
-of GoF's implementation issue 3 (p. 167), and the opposite of what the book recommends:
+of GoF's implementation issue 4 (p. 167), and the opposite of what the book recommends:
 
 - **The gain.** `new Circle(..).addGraphic(..)` does not compile. The mistake is caught by
   the compiler rather than by a run-time exception.

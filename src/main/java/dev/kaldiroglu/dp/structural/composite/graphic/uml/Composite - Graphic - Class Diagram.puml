@@ -42,7 +42,7 @@ Canvas o--> "*" Graphic : elements
 note right of CompositeGraphic
   Child management is <b>not</b> on the
   Component — the <b>safe</b> side of GoF's
-  implementation issue 1.
+  implementation issue 4.
 
   A Circle cannot be given children,
   because the method does not exist

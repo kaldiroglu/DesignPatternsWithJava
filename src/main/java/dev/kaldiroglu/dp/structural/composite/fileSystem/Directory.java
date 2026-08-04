@@ -25,7 +25,7 @@ public class Directory extends StorageElement implements StorageContainer {
     /**
      * The cached total, and the number of times any directory has had to work one out.
      *
-     * <p>GoF's implementation issue 8: "the Composite class can cache traversal or search
+     * <p>GoF's implementation issue 7: "the Composite class can cache traversal or search
      * information about its children". Without it, {@code size()} walks the whole subtree on
      * every call, and a report asking four questions walks it four times.</p>
      *

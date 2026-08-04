@@ -22,7 +22,7 @@ Five example packages, and the one design decision that separates them.
 
 ## The decision that runs through all of them
 
-GoF's implementation issue 3 (p. 167): does child management belong on the **Component**, or
+GoF's implementation issue 4 (p. 167): does child management belong on the **Component**, or
 on the Composite alone?
 
 | | Packages | Gain | Bill |

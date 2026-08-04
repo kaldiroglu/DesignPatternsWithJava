@@ -5,7 +5,7 @@ import java.util.Collection;
 /**
  * Child management, kept off {@link Graphic} on purpose.
  * <p>
- * GoF, implementation issue 1 (p. 167): declaring {@code add} and {@code remove} on the
+ * GoF, implementation issue 4 (p. 167): declaring {@code add} and {@code remove} on the
  * Component buys <em>transparency</em> — every element looks alike — at the cost of
  * <em>safety</em>, because adding a child to a leaf is then a call that compiles and fails at
  * run time. Declaring it here instead buys safety and costs transparency.

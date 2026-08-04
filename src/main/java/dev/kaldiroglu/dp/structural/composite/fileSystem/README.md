@@ -70,7 +70,7 @@ reach for this pattern at all.
 root and every answer is still correct — a test asserts both halves, including that no
 concrete element type appears anywhere in its signatures.
 
-## Caching the total — GoF implementation issue 8
+## Caching the total — GoF implementation issue 7
 
 `Directory` caches its size and throws the cache away when anything changes:
 
@@ -92,7 +92,7 @@ This is also what makes the `parent` reference load-bearing rather than a conven
 
 ## Two decisions worth arguing about
 
-**Child management is on `StorageContainer`, not on `Storage`.** GoF's implementation issue 1,
+**Child management is on `StorageContainer`, not on `Storage`.** GoF's implementation issue 4,
 answered on the **safe** side: `add` does not exist on `File`, so giving a file children is a
 compile error rather than a run-time one. The price is that code *building* a tree has to know
 it is holding a `Directory`. `composite.graphic` makes the same choice and `composite.bom`

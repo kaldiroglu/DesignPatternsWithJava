@@ -31,7 +31,7 @@ Section o--> "*" FormElement : children
 note right of FormElement
   add() is declared <b>here</b> — the
   <b>transparent</b> side of GoF's
-  implementation issue 1.
+  implementation issue 4.
 
   Every element looks alike, and no
   client ever tests a type.

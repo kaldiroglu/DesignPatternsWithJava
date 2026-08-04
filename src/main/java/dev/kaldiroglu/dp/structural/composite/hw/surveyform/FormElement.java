@@ -9,7 +9,7 @@ import java.util.List;
  * than a number, which is the more common shape in real systems and slightly harder: a
  * composite has to concatenate what its children return instead of adding it up.
  * <p>
- * This package takes the <strong>transparent</strong> side of GoF's implementation issue 1 —
+ * This package takes the <strong>transparent</strong> side of GoF's implementation issue 4 —
  * {@link #add} is declared here, on the Component, so every element looks alike and a client
  * never asks what it is holding. The price is on the next line down.
  */
