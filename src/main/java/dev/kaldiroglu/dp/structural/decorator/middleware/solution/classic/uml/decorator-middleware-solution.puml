@@ -17,31 +17,37 @@ class VendorPriceFeed <<ConcreteComponent, final>> {
 
 abstract class PriceFeedDecorator <<Decorator>> {
   - inner : PriceFeed
+  # PriceFeedDecorator(inner : PriceFeed)
   + quoteFor(sku : String) : Quote
   # inner() : PriceFeed
 }
 
 class LoggingPriceFeed {
   - log : CallLog
+  + LoggingPriceFeed(inner : PriceFeed, log : CallLog, name : String)
   + quoteFor(sku : String) : Quote
 }
 class TimingPriceFeed {
   - clock : Clock
   - metrics : Metrics
+  + TimingPriceFeed(inner : PriceFeed, clock : Clock, metrics : Metrics)
   + quoteFor(sku : String) : Quote
 }
 class RetryingPriceFeed {
   - maxAttempts : int
+  + RetryingPriceFeed(inner : PriceFeed, maxAttempts : int)
   + quoteFor(sku : String) : Quote
 }
 class CachingPriceFeed {
   - ttl : Duration
+  + CachingPriceFeed(inner : PriceFeed, clock : Clock, ttl : Duration)
   + quoteFor(sku : String) : Quote
   + hits() : int
 }
 class RateLimitingPriceFeed {
   - limit : int
   - window : Duration
+  + RateLimitingPriceFeed(inner : PriceFeed, clock : Clock, limit : int, window : Duration)
   + quoteFor(sku : String) : Quote
 }
 
@@ -70,6 +76,11 @@ note bottom of VendorPriceFeed
 end note
 
 note as N1
+  **Every constructor takes a PriceFeed** — the abstract Decorator
+  requires one, and each concrete decorator passes it up. That
+  parameter *is* the wrapping: it is where a chain is joined, and
+  it is why any decorator can hold any other.
+
   **Six classes, all five concerns, every order.**
   A sixth concern is one new class and no edits —
   the open-closed principle stated as an invoice.

@@ -167,6 +167,34 @@ class ClassicDecoratorTest {
     }
 
     @Test
+    @DisplayName("the same chain wraps any supplier, however it gets its prices")
+    void theSameChainWrapsAnySupplier() {
+        // Two suppliers with nothing in common but the interface. The vendor's is final,
+        // holds no catalog and answers a flat rate without leaving the process; ours reads
+        // a catalog and costs 200 ms of round trip. Neither knows a decorator exists.
+        VendorPriceFeed vendor = new VendorPriceFeed();
+        CallLog vendorLog = new CallLog();
+        PriceFeed decoratedVendor = new CachingPriceFeed(
+                new LoggingPriceFeed(vendor, vendorLog, "vendor"), clock, TTL);
+
+        CallLog remoteLog = new CallLog();
+        PriceFeed decoratedRemote = new CachingPriceFeed(
+                new LoggingPriceFeed(supplier, remoteLog, "remote"), clock, TTL);
+
+        // Same two requests through each chain.
+        assertEquals("42.00", decoratedVendor.quoteFor("SKU-999").amount().toString());
+        assertEquals("42.00", decoratedVendor.quoteFor("SKU-999").amount().toString());
+        assertEquals("249.00", decoratedRemote.quoteFor(SKU).amount().toString());
+        assertEquals("249.00", decoratedRemote.quoteFor(SKU).amount().toString());
+
+        // One supplier call each: the cache answered the second request both times.
+        assertEquals(1, vendor.callCount());
+        assertEquals(1, supplier.callCount());
+        assertEquals(2, vendorLog.size());
+        assertEquals(2, remoteLog.size());
+    }
+
+    @Test
     @DisplayName("GoF Consequence 3: the decorated feed is not the same object as the feed")
     void identityIsNotPreserved() {
         PriceFeed decorated = new RetryingPriceFeed(supplier, 3);
