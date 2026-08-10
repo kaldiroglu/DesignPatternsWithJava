@@ -1,0 +1,95 @@
+@startuml Decorator-Visual-Skin-And-Guts
+skinparam classAttributeIconSize 0
+title GoF implementation issue 4 (skin versus guts) — both patterns, doing different jobs
+
+interface VisualComponent {
+  + width() : int
+  + height() : int
+  + draw(canvas, x, y) : void
+}
+
+class TextView {
+  + draw(canvas, x, y) : void
+}
+
+abstract class Decorator {
+  - component : VisualComponent
+  # component() : VisualComponent
+  + draw(canvas, x, y) : void
+}
+
+VisualComponent <|.. TextView
+VisualComponent <|.. Decorator
+Decorator o--> "1" VisualComponent : component
+
+class SwitchingBorderDecorator {
+  - style : Style
+  + draw(canvas, x, y) : void
+}
+
+enum Style {
+  SOLID
+  DASHED
+  THICK
+}
+
+class StyledBorderDecorator {
+  - style : BorderStyle
+  + draw(canvas, x, y) : void
+}
+
+interface BorderStyle {
+  + stroke(canvas, x, y, w, h) : void
+}
+
+class SolidBorder {
+  + stroke(...) : void
+}
+
+class DashedBorder {
+  + stroke(...) : void
+}
+
+class ThickBorder {
+  + stroke(...) : void
+}
+
+Decorator <|-- SwitchingBorderDecorator
+Decorator <|-- StyledBorderDecorator
+SwitchingBorderDecorator --> Style : reads
+StyledBorderDecorator o--> "1" BorderStyle : style
+BorderStyle <|.. SolidBorder
+BorderStyle <|.. DashedBorder
+BorderStyle <|.. ThickBorder
+
+note right of TextView
+  **The skin, in both designs.**
+  It is wrapped, and it knows nothing
+  about borders or styles. A test asserts
+  that it names no type from this package.
+end note
+
+note bottom of SwitchingBorderDecorator
+  The decorator **decides**.
+  A fourth style edits draw() and the
+  enum — and retests the other three.
+end note
+
+note bottom of StyledBorderDecorator
+  The decorator **asks**.
+  A fourth style is a new class; nothing
+  in this one changes. That is the guts
+  half, and it is Strategy.
+end note
+
+note as N1
+  Decorator and Strategy are not alternatives here — they are stacked.
+  Decorator adds a responsibility to an object that was never designed
+  for it. Strategy varies one decision inside an object that was.
+
+  GoF, p. 180: Strategy is the better answer "where the Component class
+  is intrinsically heavyweight", because a decorator pays for the whole
+  Component interface and a strategy pays only for the hook.
+end note
+
+@enduml
