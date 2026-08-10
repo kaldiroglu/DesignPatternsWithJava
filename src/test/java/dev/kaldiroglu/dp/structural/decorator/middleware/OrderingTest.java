@@ -120,7 +120,7 @@ class OrderingTest {
         assertEquals(1, limiterInside.callsInWindow());  // three requests, one real call
 
         // The supplier's contract limits calls *to the supplier*, so the second chain is
-        // the correct one — and the first would exhaust a real quota nine times faster.
+        // the correct one — and the first spends quota three times faster than necessary.
         assertEquals(1, supplierA.callCount());
         assertEquals(1, supplierB.callCount());
     }

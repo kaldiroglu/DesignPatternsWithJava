@@ -5,6 +5,7 @@ import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Clock;
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.ManualClock;
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Metrics;
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.PriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.domain.RateLimitExceededException;
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.SimulatedRemotePriceFeed;
 import dev.kaldiroglu.dp.structural.decorator.middleware.problem.CachingRetryingLoggingPriceFeed;
 import dev.kaldiroglu.dp.structural.decorator.middleware.problem.CopyPasteOrderService;
@@ -16,6 +17,7 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -132,6 +134,36 @@ class ProblemTest {
     @DisplayName("flags: five booleans are thirty-two behaviors, and nobody tests thirty-two")
     void flagsAreCombinatorial() {
         assertEquals(32, 1 << 5);
+    }
+
+    @Test
+    @DisplayName("flags: the retry loop sits inside the rate limiter, so one slot buys three calls")
+    void retriesAreInvisibleToTheRateLimiter() {
+        ManualClock clock = Clock.manual();
+        SimulatedRemotePriceFeed supplier = SimulatedRemotePriceFeed.withDefaults(clock);
+
+        // A quota of three calls per window, and up to three attempts per call. Caching and
+        // the rest are off, so nothing else can absorb or add a call and the count is exact.
+        FlaggedPriceFeed feed = new FlaggedPriceFeed(
+                supplier, clock,
+                false, false, true, false, true,   // logging, timing, retry, caching, rate limit
+                new CallLog(), new Metrics(), 3,
+                TTL, 3, Duration.ofMinutes(1));    // window long enough not to roll over
+
+        // Three requests, each of which meets two outages before it is answered.
+        for (int request = 1; request <= 3; request++) {
+            supplier.failNext(2);
+            assertEquals("249.00", feed.quoteFor(SKU).amount().toString());
+        }
+
+        // The quota of three is now spent: the limiter counted three requests.
+        assertThrows(RateLimitExceededException.class, () -> feed.quoteFor(SKU));
+
+        // The supplier, however, was called nine times: three requests of three attempts
+        // each. callsInWindow++ runs once, before the retry loop, so every attempt after
+        // the first is invisible to the limiter — a limit of 3 permitted 3x the traffic it
+        // exists to prevent. Were the limiter inside the loop, this would be 3.
+        assertEquals(9, supplier.callCount());
     }
 
     @Test
