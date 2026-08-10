@@ -57,6 +57,32 @@ note bottom of s4
   The hit never reached the timer.
 end note
 
+package "rate limiting outside the cache" {
+  object "aRateLimitingPriceFeed" as k5
+  object "aCachingPriceFeed  " as c5
+  object "theSupplier    " as s5
+  k5 --> c5 : inner
+  c5 --> s5 : inner
+}
+note bottom of s5
+  3 requests, 1 miss + 2 hits
+  **3 of the quota spent** for 1 real call.
+  It charges for calls that never happened.
+end note
+
+package "rate limiting inside the cache" {
+  object "aCachingPriceFeed   " as c6
+  object "aRateLimitingPriceFeed " as k6
+  object "theSupplier     " as s6
+  c6 --> k6 : inner
+  k6 --> s6 : inner
+}
+note bottom of s6
+  3 requests, 1 miss + 2 hits
+  **1 of the quota spent** for 1 real call.
+  The contract limits calls *to the supplier*.
+end note
+
 note as N1
   Nothing in the type system distinguishes these chains.
   Both compile, both run, both look right in review.

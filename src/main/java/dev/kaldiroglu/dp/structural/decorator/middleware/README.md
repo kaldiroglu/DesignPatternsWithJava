@@ -16,15 +16,21 @@ runnable, all tested, all measured against the same scenario.
 
 ```
 middleware/
-├── uml/                  5 diagrams, .puml + .png
 ├── domain/               PriceFeed, Quote, Clock/ManualClock, CallLog, Metrics,
 │                         SimulatedRemotePriceFeed, VendorPriceFeed (final), exceptions
 ├── problem/              CopyPasteOrderService, FlaggedPriceFeed, 5-class subclass chain
+│   └── uml/              the problem class diagram
 └── solution/
+    ├── uml/              the three variations, side by side
     ├── classic/          PriceFeedDecorator + 5 decorators
+    │   └── uml/          class diagram, call sequence, and the ordering object diagram
     ├── functional/       PriceFeedMiddleware — the same concerns as lambdas
     └── fluent/           PriceFeedPipeline — assembly in reading order
 ```
+
+Each diagram lives in a `uml/` folder beside the package it describes; the object
+diagram of the four orderings sits with `classic/` because those are the objects it
+draws. There are five diagrams in all, `.puml` source and `.png` beside each other.
 
 ## The measuring instruments
 
@@ -83,5 +89,6 @@ listed = outermost, so the code reads in the direction a request travels.
 ```bash
 mvn -o test -Dtest='ProblemTest,ClassicDecoratorTest,OrderingTest,VariationsTest,DesignComparisonTest'
 java -cp target/classes dev.kaldiroglu.dp.structural.decorator.middleware.Main
-plantuml -tpng uml/**/*.puml
+find src/main/java/dev/kaldiroglu/dp/structural/decorator/middleware -name '*.puml' \
+     -exec plantuml -tpng {} \;      # all 5 diagrams, wherever they nest
 ```
