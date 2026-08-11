@@ -58,3 +58,16 @@ java -cp target/classes dev.kaldiroglu.dp.structural.decorator.toast.problem.Mai
 java -cp target/classes dev.kaldiroglu.dp.structural.decorator.toast.solution.Main
 plantuml -tpng uml/*.puml
 ```
+
+The solution's four demonstrations each run on their own, so none of them needs a line
+commented out to be seen alone:
+
+```bash
+S=dev.kaldiroglu.dp.structural.decorator.toast.solution
+java -cp target/classes $S.StepByStepMain         # one topping at a time
+java -cp target/classes $S.OneExpressionMain      # the same toast, as one expression
+java -cp target/classes $S.DoubleCheeseMain       # the same topping twice
+java -cp target/classes $S.PromotionPositionMain  # a discount, at two positions
+```
+
+`solution.Main` runs all four and then self-checks every number they printed.

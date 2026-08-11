@@ -88,7 +88,32 @@ listed = outermost, so the code reads in the direction a request travels.
 
 ```bash
 mvn -o test -Dtest='ProblemTest,ClassicDecoratorTest,OrderingTest,VariationsTest,DesignComparisonTest'
+
+# every design, in the order the deck presents them
 java -cp target/classes dev.kaldiroglu.dp.structural.decorator.middleware.Main
+
 find src/main/java/dev/kaldiroglu/dp/structural/decorator/middleware -name '*.puml' \
      -exec plantuml -tpng {} \;      # all 5 diagrams, wherever they nest
 ```
+
+Each example also runs on its own, from the package it belongs to — no editing required
+to see one of them:
+
+```bash
+P=dev.kaldiroglu.dp.structural.decorator.middleware
+java -cp target/classes $P.problem.CopyPasteMain              # the copied call sites
+java -cp target/classes $P.problem.FlagsMain                  # one class, five booleans
+java -cp target/classes $P.problem.SubclassChainMain          # a subclass per combination
+
+java -cp target/classes $P.solution.classic.ClassicChainMain  # five decorators
+java -cp target/classes $P.solution.classic.OrderingMain      # three orderings, measured
+java -cp target/classes $P.solution.classic.RateLimitPlacementMain
+java -cp target/classes $P.solution.classic.VendorFeedMain    # decorating a final class
+
+java -cp target/classes $P.solution.functional.FunctionalMain # decorators as lambdas
+java -cp target/classes $P.solution.fluent.FluentMain         # assembled in reading order
+```
+
+`Main` is the composition root and calls the nine above in order; it holds no example code
+of its own. `Console` carries the headings so a single example still prints like part of
+the same programme.
