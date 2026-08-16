@@ -17,10 +17,16 @@ import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.Urgent
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -179,14 +185,59 @@ class ClassicBridgeTest {
         assertEquals(3, log.sendCount());
     }
 
+    /**
+     * Every class file in a package, loaded. Nested and anonymous classes are skipped:
+     * only the top-level types a reader would count on a class diagram are returned.
+     */
+    private static List<Class<?>> typesIn(String packageName) throws Exception {
+        String resource = packageName.replace('.', '/');
+        URL url = ClassicBridgeTest.class.getClassLoader().getResource(resource);
+        assertNotNull(url, "package not on the test classpath: " + packageName);
+        try (Stream<Path> files = Files.list(Path.of(url.toURI()))) {
+            List<Class<?>> types = new ArrayList<>();
+            for (Path file : files.sorted().toList()) {
+                String name = file.getFileName().toString();
+                if (!name.endsWith(".class") || name.contains("$")) {
+                    continue;
+                }
+                types.add(Class.forName(packageName + '.' + name.substring(0, name.length() - 6)));
+            }
+            return types;
+        }
+    }
+
+    /**
+     * The class counts quoted on the slides, counted from the package rather than asserted
+     * as arithmetic on literals. Writing {@code assertEquals(6, 3 + 3)} proves something
+     * about integers; this fails the day somebody adds a fourth channel and leaves the
+     * slide saying six.
+     */
     @Test
-    @DisplayName("class arithmetic: kinds + channels, not kinds x channels")
-    void theArithmetic() {
-        int kinds = 3, channels = 3;
-        assertEquals(9, kinds * channels);       // the problem package
-        assertEquals(6, kinds + channels);       // this package
-        assertEquals(7, kinds + (channels + 1)); // a fourth channel: one class
-        assertEquals(7, (kinds + 1) + channels); // a fourth kind: one class
+    @DisplayName("class arithmetic: kinds + channels, counted from the package itself")
+    void theArithmetic() throws Exception {
+        List<Class<?>> types = typesIn(Notification.class.getPackageName());
+
+        long kinds = types.stream()
+                .filter(Notification.class::isAssignableFrom)
+                .filter(t -> t != Notification.class)
+                .count();
+        long channels = types.stream()
+                .filter(NotificationChannel.class::isAssignableFrom)
+                .filter(t -> t != NotificationChannel.class)
+                .count();
+
+        assertEquals(3, kinds, "refined abstractions");
+        assertEquals(3, channels, "concrete implementors");
+
+        // The slides' headline pair. m + n is what the pattern replaces m x n with, and
+        // the two roots are the overhead it charges for doing so.
+        assertEquals(6, kinds + channels, "m + n, the classes that carry the two axes");
+        assertEquals(9, kinds * channels, "m x n, the grid a class-per-pair design writes out");
+        assertEquals(8, kinds + channels + 2, "every type on the design diagram");
+
+        // And the two roots really are exactly two, so that last figure is not a guess.
+        assertTrue(types.contains(Notification.class));
+        assertTrue(types.contains(NotificationChannel.class));
     }
 
     @Test
