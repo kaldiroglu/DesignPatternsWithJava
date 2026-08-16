@@ -4,9 +4,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -79,17 +86,61 @@ class FileBridgeTest {
 
     @Test
     @DisplayName("2 departments and 3 stores are 5 classes, not 6")
-    void mPlusNNotMTimesN() {
-        List<Class<?>> departments = List.of(FinanceFileManager.class, InsuranceFileManager.class);
-        List<Class<?>> providers = List.of(
-                EvernoteProvider.class, SharepointProvider.class, FileNetProvider.class);
+    void mPlusNNotMTimesN() throws Exception {
+        // Counted from the package, not from two lists written here. Listing the classes and
+        // then asserting 2 + 3 == 5 would prove something about integers, and would go on
+        // passing the day a fourth store is added and the slide still says five.
+        List<Class<?>> types = typesIn(FileManager.class.getPackageName());
 
-        assertEquals(5, departments.size() + providers.size());
-        assertEquals(6, departments.size() * providers.size());
+        long departments = types.stream()
+                .filter(FileManager.class::isAssignableFrom)
+                .filter(t -> t != FileManager.class)
+                .count();
+        long stores = types.stream()
+                .filter(FileProvider.class::isAssignableFrom)
+                .filter(t -> !Modifier.isAbstract(t.getModifiers()))
+                .count();
+
+        assertEquals(2, departments, "refined abstractions");
+        assertEquals(3, stores, "concrete implementors");
+        assertEquals(5, departments + stores, "m + n, the classes that carry the two axes");
+        assertEquals(6, departments * stores, "m x n, the grid a class-per-pair design writes");
+
         assertEquals(FileProvider.class,
                 java.util.Arrays.stream(FileManager.class.getDeclaredFields())
                         .filter(f -> f.getName().equals("provider"))
                         .findFirst().orElseThrow().getType());
+    }
+
+    /**
+     * Every top-level class file in a package, loaded.
+     * <p>
+     * All roots are scanned, not just the first. This package name exists under both
+     * {@code target/classes} and {@code target/test-classes}, and {@code getResource}
+     * returns whichever comes first on the classpath — which is how this method silently
+     * found nothing but tests the first time it was written.
+     */
+    private static List<Class<?>> typesIn(String packageName) throws Exception {
+        List<URL> roots = java.util.Collections.list(
+                FileBridgeTest.class.getClassLoader().getResources(packageName.replace('.', '/')));
+        assertFalse(roots.isEmpty(), "package not on the test classpath: " + packageName);
+
+        List<Class<?>> types = new ArrayList<>();
+        for (URL root : roots) {
+            try (Stream<Path> files = Files.list(Path.of(root.toURI()))) {
+                for (Path file : files.sorted().toList()) {
+                    String name = file.getFileName().toString();
+                    if (name.endsWith(".class") && !name.contains("$")) {
+                        Class<?> type = Class.forName(
+                                packageName + '.' + name.substring(0, name.length() - 6));
+                        if (!types.contains(type)) {
+                            types.add(type);
+                        }
+                    }
+                }
+            }
+        }
+        return types;
     }
 
     @Test
