@@ -14,6 +14,9 @@ import dev.kaldiroglu.dp.structural.bridge.notifications.problem.UrgentSmsNotifi
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -50,7 +53,7 @@ class ProblemTest {
     }
 
     @Test
-    @DisplayName("switch: the SMS rule is stated four times, so one branch forgot it")
+    @DisplayName("switch: three branches send an SMS and two state the rule, so one forgot")
     void theForgottenRule() {
         SwitchingNotifier notifier = new SwitchingNotifier(transports);
 
@@ -64,11 +67,45 @@ class ProblemTest {
                 () -> notifier.send(SwitchingNotifier.Kind.DIGEST, ChannelKind.SMS, akin, LONG));
     }
 
+    /**
+     * The counts the slides quote about this class, read from the class itself.
+     * <p>
+     * These are claims about the <em>source text</em> — how many branches there are, and
+     * how many of them remember a rule — so the source is what the test reads. Asserting
+     * {@code 9 == 3 * 3} would prove something about integers and would go on passing
+     * after somebody added a branch or deleted a limit.
+     */
     @Test
-    @DisplayName("switch: kinds and channels multiply into branches")
-    void branchesMultiply() {
-        assertEquals(9, 3 * 3);        // and every one of them is written by hand
-        assertEquals(12, 3 * 4);       // a fourth channel edits every kind's branch
+    @DisplayName("switch: nine branches by hand, and the SMS rule written in two of three")
+    void branchesMultiply() throws Exception {
+        String source = Files.readString(Path.of(
+                "src/main/java/dev/kaldiroglu/dp/structural/bridge/notifications"
+                + "/problem/SwitchingNotifier.java"));
+        String body = source.substring(source.indexOf("public final class"));
+
+        // Twelve case labels in all: three for the kind, then three per kind for the
+        // channel. The nine the slides count are the leaves — the (kind, channel) pairs.
+        assertEquals(12, countOf(body, "case "), "case labels in the whole class");
+        int leaves = countOf(body, "case EMAIL ->")
+                   + countOf(body, "case SMS ->")
+                   + countOf(body, "case PUSH ->");
+        assertEquals(9, leaves, "branches, one per pair, written by hand");
+
+        assertEquals(3, countOf(body, "case SMS ->"), "branches that send an SMS");
+        assertEquals(2, countOf(body, "Transports.SMS_LIMIT"), "of them state the limit");
+
+        // The push limit, by contrast, is remembered in all three of its branches. The
+        // design does not fail reliably; it fails wherever somebody happened to forget.
+        assertEquals(3, countOf(body, "case PUSH ->"), "branches that send a push");
+        assertEquals(3, countOf(body, "Transports.PUSH_LIMIT"), "all of them state the limit");
+    }
+
+    private static int countOf(String text, String needle) {
+        int count = 0;
+        for (int i = text.indexOf(needle); i >= 0; i = text.indexOf(needle, i + needle.length())) {
+            count++;
+        }
+        return count;
     }
 
     // ------------------------------------------- design 2: a class per (kind, channel)
