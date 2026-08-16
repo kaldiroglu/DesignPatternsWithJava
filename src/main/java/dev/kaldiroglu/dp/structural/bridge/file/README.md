@@ -47,15 +47,22 @@ future. Finance keeps five versions; insurance keeps two.
 The vendors are simulated in memory so the example runs anywhere and a test can assert what
 was stored — the same reason `notifications.domain.Transports` exists.
 
-## Known gap
+## The pain that motivates it
 
-There is no `problem` package here, so this example shows the answer without the pain that
-motivates it. Teach it after `bridge.shape` or `bridge.notifications`, both of which carry
-their naive counterpart.
+`bridge.file.problem` carries the three designs a team writes before reaching for this one —
+a switch on each axis, a class per pair, and the store as a superclass. Read it first if you
+want the answer to cost something.
+
+Its most useful moment is a bug: with the rule repeated per branch, the insurance branch for
+FileNet never applies it, so insurance keeps every version for ever. Nothing throws. In this
+package the same rule is written once per department and is correct on every store, present
+and future.
 
 ## Run it with
 
 ```bash
 mvn -o test -Dtest=FileBridgeTest
+mvn -o test -Dtest=FileProblemTest
 java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.Main
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.problem.Main
 ```
