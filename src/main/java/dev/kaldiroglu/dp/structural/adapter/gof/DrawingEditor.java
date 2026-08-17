@@ -10,7 +10,7 @@ import dev.kaldiroglu.dp.structural.adapter.gof.classadapter.TextShape;
  * <p>The drawing editor collaborates with everything through the {@link Shape} interface. It never
  * learns that some of those shapes are really {@link TextView}s underneath &ndash; that knowledge
  * is sealed inside the adapters. Notice the {@code for} loop treats adapted and native shapes
- * identically: that uniformity is the whole benefit of the Adapter pattern.</p>
+ * identically: that uniformity is the whole benefit of the Adapter solution.</p>
  */
 public final class DrawingEditor {
 

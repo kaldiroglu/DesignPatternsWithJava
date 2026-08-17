@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Variation 2 — <b>sharing implementors</b> (GoF implementation issue 3, p. 155).
  * <p>
  * A channel is usually expensive: an SMTP connection, an HTTP client, a vendor session.
- * Nothing in the pattern says every abstraction needs its own — several notifications can
+ * Nothing in the solution says every abstraction needs its own — several notifications can
  * point at the same implementor object, and usually should.
  * <p>
  * This wrapper makes the sharing visible. It counts how many abstractions are using it and

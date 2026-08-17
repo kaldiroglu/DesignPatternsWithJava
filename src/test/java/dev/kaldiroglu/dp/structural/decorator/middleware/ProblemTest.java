@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The naive designs work. Every test here passes, and that is the point: an argument for a
- * pattern is worth nothing if the alternative was never given a fair hearing. What these
+ * solution is worth nothing if the alternative was never given a fair hearing. What these
  * tests then measure is the cost.
  */
 class ProblemTest {

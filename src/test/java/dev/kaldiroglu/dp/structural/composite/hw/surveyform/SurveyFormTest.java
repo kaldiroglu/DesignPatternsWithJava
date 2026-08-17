@@ -19,7 +19,7 @@ class SurveyFormTest {
                         new Question("Role", true).answer("engineer"),
                         new Question("Years of experience", true)),
                 new Section("The session").with(
-                        new Question("Which pattern was clearest?", true).answer("Composite"),
+                        new Question("Which solution was clearest?", true).answer("Composite"),
                         new Section("Exercises").with(
                                 new Question("Was the homework the right length?", true))));
     }

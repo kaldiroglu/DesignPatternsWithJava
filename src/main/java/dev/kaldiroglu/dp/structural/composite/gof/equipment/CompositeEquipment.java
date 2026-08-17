@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Composite role of the Composite pattern — the {@code CompositeEquipment}
+ * Composite role of the Composite solution — the {@code CompositeEquipment}
  * class of the GoF Sample Code (GoF, p. 171).
  *
  * <p>The base class for equipment that <em>contains</em> other equipment. It
@@ -14,7 +14,7 @@ import java.util.List;
  * ({@link Chassis}, {@link Cabinet}, {@link Bus}) inherit that behavior and add
  * their own contribution on top of it.</p>
  *
- * <p>This is where the pattern earns its keep. Note that
+ * <p>This is where the solution earns its keep. Note that
  * {@link #netPrice()} does not care whether a child is a card or another whole
  * chassis — the recursion terminates by itself when it reaches leaves.</p>
  */

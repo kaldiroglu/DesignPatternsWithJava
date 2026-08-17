@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Iterator;
 
 /**
- * Component role of the Composite pattern — the {@code Equipment} class of the
+ * Component role of the Composite solution — the {@code Equipment} class of the
  * GoF Sample Code (GoF, "Design Patterns", p. 170).
  *
  * <p>Computer equipment such as a disk drive can be assembled into larger
@@ -16,7 +16,7 @@ import java.util.Iterator;
  * <p>The book's operations are all here: {@link #power()}, {@link #netPrice()},
  * {@link #discountPrice()}, the child operations {@link #add(Equipment)} /
  * {@link #remove(Equipment)}, and {@code CreateIterator} — expressed in Java by
- * implementing {@link Iterable}, which is the language's own Iterator pattern
+ * implementing {@link Iterable}, which is the language's own Iterator solution
  * (GoF, p. 257; see the "Related Patterns" note that Iterator is used to
  * traverse composites).</p>
  */

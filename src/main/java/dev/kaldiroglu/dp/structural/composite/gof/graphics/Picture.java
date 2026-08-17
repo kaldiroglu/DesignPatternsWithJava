@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Composite role of the Composite pattern (GoF, p. 164).
+ * Composite role of the Composite solution (GoF, p. 164).
  *
  * <p>A {@code Picture} is a {@link Graphic} that is made of other
  * {@code Graphic}s. Its children may be primitives or other pictures, to any
- * depth — that recursion is the whole point of the pattern.</p>
+ * depth — that recursion is the whole point of the solution.</p>
  *
  * <p>Notice how small {@link #draw(Point)} is: a composite implements the
  * Component operations by <em>forwarding them to its children</em>. There is no

@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * The point of this class.
  * <p>
- * Stacking is ordinary Decorator and needs three assertions. Removal is the half the pattern
+ * Stacking is ordinary Decorator and needs three assertions. Removal is the half the solution
  * does not answer, and it needs the rest of the file.
  */
 class PowerUpsTest {

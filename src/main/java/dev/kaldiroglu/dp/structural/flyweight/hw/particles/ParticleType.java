@@ -3,7 +3,7 @@ package dev.kaldiroglu.dp.structural.flyweight.hw.particles;
 /**
  * <b>ConcreteFlyweight</b> — what a particle is: sprite, color, mass, lifetime.
  *
- * <p>This is the homework that shows the pattern's limit as clearly as its benefit. Sharing
+ * <p>This is the homework that shows the solution's limit as clearly as its benefit. Sharing
  * the <em>kind</em> of particle is easy. The position and velocity cannot be shared, cannot
  * be made immutable, and change sixty times a second — so they stay outside, in a place the
  * flyweight never sees.</p>

@@ -74,8 +74,8 @@ learns why.
 ```bash
 mvn -o test -Dtest='WindowProblemTest,WindowSolutionTest,DesignComparisonTest'
 
-java -cp target/classes dev.kaldiroglu.dp.structural.bridge.gof.window.solution.Main
-java -cp target/classes dev.kaldiroglu.dp.structural.bridge.gof.window.problem.Main
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.gof.solution.Main
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.gof.problem.Main
 
 find uml -name "*.puml" -exec plantuml -tpng {} \;
 ```

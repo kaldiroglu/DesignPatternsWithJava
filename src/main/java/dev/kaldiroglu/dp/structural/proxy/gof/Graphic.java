@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.proxy.gof;
 
 /**
- * Subject role of the Proxy pattern (GoF, "Design Patterns", p. 207).
+ * Subject role of the Proxy solution (GoF, "Design Patterns", p. 207).
  *
  * <p>A graphical element that can appear in a document. Both the real
  * {@link Image} and its stand-in {@link ImageProxy} implement this interface,

@@ -11,7 +11,7 @@ import java.util.List;
  * to walk. Keeping the varying state in {@code double[]} arrays instead means the particles
  * are not objects at all; only their four <em>kinds</em> are.</p>
  *
- * <p>That is the pattern taken to its conclusion: Flyweight removes objects, and the state
+ * <p>That is the solution taken to its conclusion: Flyweight removes objects, and the state
  * that could not be shared did not have to become objects either.</p>
  */
 public class ParticleSystem {

@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.List;
 
 /**
- * A <b>Client</b>, and the argument for the pattern in one class.
+ * A <b>Client</b>, and the argument for the solution in one class.
  *
  * <p>It answers five questions about a tree of unknown shape and depth, and it names exactly
  * one type: {@link Storage}. There is no {@code instanceof}, no {@code isDirectory()}, and

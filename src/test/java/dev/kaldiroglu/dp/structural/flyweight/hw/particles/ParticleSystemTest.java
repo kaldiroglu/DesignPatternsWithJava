@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * <p>
  * This one is chosen for what it cannot share. Position and velocity change sixty times a
  * second, so they can be neither shared nor made immutable — and the answer is not to give
- * up on the pattern but to notice that they need not be objects at all.
+ * up on the solution but to notice that they need not be objects at all.
  */
 class ParticleSystemTest {
 

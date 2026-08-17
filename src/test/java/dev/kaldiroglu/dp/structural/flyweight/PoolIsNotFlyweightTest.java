@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * The point of this class.
  * <p>
  * The pool package documented itself as an implementation of Flyweight. It is an object
- * pool, which is the commonest thing mistaken for this pattern. Rather than delete the code,
+ * pool, which is the commonest thing mistaken for this solution. Rather than delete the code,
  * these tests state the difference in the only terms that settle it — what the two factories
  * actually return.
  */

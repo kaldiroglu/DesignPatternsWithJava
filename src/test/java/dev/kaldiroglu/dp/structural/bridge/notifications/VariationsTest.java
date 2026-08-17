@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * The two variations. Neither changes the pattern; each answers a question the classic
+ * The two variations. Neither changes the solution; each answers a question the classic
  * version leaves to the caller.
  */
 class VariationsTest {

@@ -1,11 +1,11 @@
 package dev.kaldiroglu.dp.structural.bridge.gof.window;
 
-import dev.kaldiroglu.dp.structural.bridge.gof.window.problem.PMIconWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.problem.XIconWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.solution.IconWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.solution.PMWindowImp;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.solution.Window;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.solution.XWindowImp;
+import dev.kaldiroglu.dp.structural.bridge.gof.problem.PMIconWindow;
+import dev.kaldiroglu.dp.structural.bridge.gof.problem.XIconWindow;
+import dev.kaldiroglu.dp.structural.bridge.gof.solution.IconWindow;
+import dev.kaldiroglu.dp.structural.bridge.gof.solution.PMWindowImp;
+import dev.kaldiroglu.dp.structural.bridge.gof.solution.Window;
+import dev.kaldiroglu.dp.structural.bridge.gof.solution.XWindowImp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +31,7 @@ class DesignComparisonTest {
     @DisplayName("both designs draw the same icon window on X")
     void sameOutputOnX() {
         assertEquals(
-                dev.kaldiroglu.dp.structural.bridge.gof.window.problem.Window.render(new XIconWindow(14, 5, "a.txt")),
+                dev.kaldiroglu.dp.structural.bridge.gof.problem.Window.render(new XIconWindow(14, 5, "a.txt")),
                 Window.render(new IconWindow(14, 5, "a.txt", new XWindowImp())));
     }
 
@@ -39,7 +39,7 @@ class DesignComparisonTest {
     @DisplayName("both designs draw the same icon window on Presentation Manager")
     void sameOutputOnPm() {
         assertEquals(
-                dev.kaldiroglu.dp.structural.bridge.gof.window.problem.Window.render(new PMIconWindow(14, 5, "a.txt")),
+                dev.kaldiroglu.dp.structural.bridge.gof.problem.Window.render(new PMIconWindow(14, 5, "a.txt")),
                 Window.render(new IconWindow(14, 5, "a.txt", new PMWindowImp())));
     }
 

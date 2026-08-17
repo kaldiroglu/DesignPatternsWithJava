@@ -7,7 +7,7 @@ import java.util.Objects;
  * real subject.
  * <p>
  * It implements {@link PM}, which is what makes it substitutable, and holds a {@link PM},
- * which is what lets it forward. Being both is the pattern, and it is the same shape as
+ * which is what lets it forward. Being both is the solution, and it is the same shape as
  * Decorator — the difference is the intent. A decorator <em>adds</em> to what the subject
  * does; this one <em>decides whether the subject is called at all</em>.
  * <p>

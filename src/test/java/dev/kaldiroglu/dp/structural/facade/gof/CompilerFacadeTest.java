@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * <p>
  * GoF's own example. The compiler subsystem has a scanner, a parser, a node builder and a
  * family of code generators; most clients want none of that and one method. These tests
- * measure both halves of the pattern's promise — the simple path, and the fact that it does
+ * measure both halves of the solution's promise — the simple path, and the fact that it does
  * not block the direct one.
  */
 class CompilerFacadeTest {

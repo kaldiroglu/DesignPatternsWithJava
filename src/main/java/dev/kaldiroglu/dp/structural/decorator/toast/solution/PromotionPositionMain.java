@@ -16,7 +16,7 @@ public final class PromotionPositionMain {
         System.out.println("\nA 25% discount, same toast, two positions in the chain:");
         System.out.println("  outermost, so it discounts everything   " + discountOutside.calculatePrice());
         System.out.println("  innermost, so it discounts only bread   " + discountInside.calculatePrice());
-        System.out.println("  Order is a design decision, not a detail. The pattern makes it");
+        System.out.println("  Order is a design decision, not a detail. The solution makes it");
         System.out.println("  visible and cheap to change; the problem package made it neither.");
     }
 }

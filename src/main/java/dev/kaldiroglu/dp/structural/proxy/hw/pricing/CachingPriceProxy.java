@@ -18,7 +18,7 @@ import java.util.Objects;
  * <p>
  * The hard question the exercise is really about is not the cache — it is
  * <strong>invalidation</strong>. A price that changed at the supplier is still wrong here for
- * up to {@code ttlMillis}, and no amount of pattern makes that go away. It is a decision
+ * up to {@code ttlMillis}, and no amount of solution makes that go away. It is a decision
  * about how stale the business can afford to be.
  */
 public class CachingPriceProxy implements PriceService {

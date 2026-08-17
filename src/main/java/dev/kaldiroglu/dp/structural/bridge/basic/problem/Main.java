@@ -15,6 +15,6 @@ public class Main {
         System.out.println();
         System.out.println("2 refinements x 2 implementations = 4 leaf classes,");
         System.out.println("plus the 2 refinements themselves = 6.");
-        System.out.println("A third implementation costs 2 more. basic.pattern would cost 1.");
+        System.out.println("A third implementation costs 2 more. basic.solution would cost 1.");
     }
 }

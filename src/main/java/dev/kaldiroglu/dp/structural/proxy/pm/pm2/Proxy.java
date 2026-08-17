@@ -2,7 +2,7 @@ package dev.kaldiroglu.dp.structural.proxy.pm.pm2;
 
 /**
  * Stage 2 — a stand-in that screens, and the reason this stage is <strong>not yet</strong>
- * the pattern.
+ * the solution.
  * <p>
  * The screening has moved out of {@link PM}, which was the point, and this class does it
  * well. But look at what it <em>is</em>: a class of its own, related to {@code PM} by nothing

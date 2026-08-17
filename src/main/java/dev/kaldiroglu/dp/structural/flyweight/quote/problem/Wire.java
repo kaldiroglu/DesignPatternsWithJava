@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
  *
  * <p>This class exists to keep the example honest. Written with string literals, the problem
  * below appears to cost nothing: {@code "AAPL"} is interned by the compiler, so a million
- * ticks share one object and the memory the pattern is supposed to save is already saved by
+ * ticks share one object and the memory the solution is supposed to save is already saved by
  * accident.</p>
  *
  * <p>A real handler does not receive literals. It receives bytes, and decoding them produces

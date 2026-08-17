@@ -7,8 +7,8 @@ import java.math.RoundingMode;
  * The {@code Currency} value type used by the GoF equipment example (p. 170).
  *
  * <p>A tiny immutable wrapper over {@link BigDecimal} so that money is never
- * held in a binary floating-point type. It exists only to keep the pattern code
- * readable — it is not part of the pattern.</p>
+ * held in a binary floating-point type. It exists only to keep the solution code
+ * readable — it is not part of the solution.</p>
  *
  * @param amount the monetary amount, always scaled to two decimal places
  */

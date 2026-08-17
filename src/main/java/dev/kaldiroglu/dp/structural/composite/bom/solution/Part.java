@@ -4,7 +4,7 @@ import dev.kaldiroglu.dp.structural.composite.bom.domain.Catalog;
 import dev.kaldiroglu.dp.structural.composite.bom.domain.Money;
 
 /**
- * Leaf role of the Composite pattern — a purchased part that is not broken down
+ * Leaf role of the Composite solution — a purchased part that is not broken down
  * any further.
  *
  * <p>A rim, a spoke, a bearing. It has a price from a supplier and a mass, and

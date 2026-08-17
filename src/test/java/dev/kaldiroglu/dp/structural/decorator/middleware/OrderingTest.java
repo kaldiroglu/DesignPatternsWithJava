@@ -149,7 +149,7 @@ class OrderingTest {
         assertEquals(2, supplierB.callCount());
 
         // The lesson is not "order always matters". It is that order is a design decision
-        // you must reason about for each pair — the pattern makes it visible and cheap to
+        // you must reason about for each pair — the solution makes it visible and cheap to
         // change, where the naive designs made it invisible and expensive.
     }
 }

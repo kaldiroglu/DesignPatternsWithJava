@@ -36,7 +36,7 @@ import java.util.function.UnaryOperator;
  * same reason, and it is worth stating out loud, because the opposite convention is just
  * as defensible and the two are indistinguishable until something breaks.
  * <p>
- * Nothing here is new pattern machinery. The builder collects the decorators and applies
+ * Nothing here is new solution machinery. The builder collects the decorators and applies
  * them in reverse; it is convenience, not design. That is the point worth making to
  * students: this variation changes how the code <em>reads</em>, not how it <em>works</em>,
  * and {@code FluentTest} proves the two produce identical chains.

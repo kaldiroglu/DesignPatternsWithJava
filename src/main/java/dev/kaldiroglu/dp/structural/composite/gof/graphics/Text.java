@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.composite.gof.graphics;
 
 /**
- * Leaf role of the Composite pattern (GoF, p. 165) — a primitive graphic.
+ * Leaf role of the Composite solution (GoF, p. 165) — a primitive graphic.
  *
  * <p>A run of text on the canvas. Childless, like the other primitives.</p>
  */

@@ -1,11 +1,11 @@
 package dev.kaldiroglu.dp.structural.bridge.gof.window;
 
-import dev.kaldiroglu.dp.structural.bridge.gof.window.problem.PMIconWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.problem.PMWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.problem.Window;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.problem.XIconWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.problem.XTransientWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.problem.XWindow;
+import dev.kaldiroglu.dp.structural.bridge.gof.problem.PMIconWindow;
+import dev.kaldiroglu.dp.structural.bridge.gof.problem.PMWindow;
+import dev.kaldiroglu.dp.structural.bridge.gof.problem.Window;
+import dev.kaldiroglu.dp.structural.bridge.gof.problem.XIconWindow;
+import dev.kaldiroglu.dp.structural.bridge.gof.problem.XTransientWindow;
+import dev.kaldiroglu.dp.structural.bridge.gof.problem.XWindow;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The design GoF start from works. These tests prove it works, and then measure what it
- * costs - which is the only honest way to argue for a pattern.
+ * costs - which is the only honest way to argue for a solution.
  */
 class WindowProblemTest {
 

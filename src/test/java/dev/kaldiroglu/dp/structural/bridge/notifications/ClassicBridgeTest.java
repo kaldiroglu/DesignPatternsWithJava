@@ -229,7 +229,7 @@ class ClassicBridgeTest {
         assertEquals(3, kinds, "refined abstractions");
         assertEquals(3, channels, "concrete implementors");
 
-        // The slides' headline pair. m + n is what the pattern replaces m x n with, and
+        // The slides' headline pair. m + n is what the solution replaces m x n with, and
         // the two roots are the overhead it charges for doing so.
         assertEquals(6, kinds + channels, "m + n, the classes that carry the two axes");
         assertEquals(9, kinds * channels, "m x n, the grid a class-per-pair design writes out");

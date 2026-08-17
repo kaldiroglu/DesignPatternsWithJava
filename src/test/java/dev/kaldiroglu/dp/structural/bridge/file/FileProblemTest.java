@@ -159,7 +159,7 @@ class FileProblemTest {
         assertTrue(EvernoteBoundFinanceManager.class.getSimpleName().contains("Evernote"));
     }
 
-    // ------------------------------------------- and what the pattern costs instead
+    // ------------------------------------------- and what the solution costs instead
 
     @Test
     @DisplayName("the bridge does what none of the three can: move a live manager to another store")

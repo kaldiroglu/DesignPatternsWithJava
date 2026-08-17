@@ -1,12 +1,12 @@
 package dev.kaldiroglu.dp.structural.bridge.shape;
 
-import dev.kaldiroglu.dp.structural.bridge.shape.pattern.Circle;
-import dev.kaldiroglu.dp.structural.bridge.shape.pattern.MacOSDrawer;
-import dev.kaldiroglu.dp.structural.bridge.shape.pattern.Rectangle;
-import dev.kaldiroglu.dp.structural.bridge.shape.pattern.Shape;
-import dev.kaldiroglu.dp.structural.bridge.shape.pattern.ShapeDrawer;
-import dev.kaldiroglu.dp.structural.bridge.shape.pattern.Triangle;
-import dev.kaldiroglu.dp.structural.bridge.shape.pattern.XWindowsDrawer;
+import dev.kaldiroglu.dp.structural.bridge.shape.solution.Circle;
+import dev.kaldiroglu.dp.structural.bridge.shape.solution.MacOSDrawer;
+import dev.kaldiroglu.dp.structural.bridge.shape.solution.Rectangle;
+import dev.kaldiroglu.dp.structural.bridge.shape.solution.Shape;
+import dev.kaldiroglu.dp.structural.bridge.shape.solution.ShapeDrawer;
+import dev.kaldiroglu.dp.structural.bridge.shape.solution.Triangle;
+import dev.kaldiroglu.dp.structural.bridge.shape.solution.XWindowsDrawer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

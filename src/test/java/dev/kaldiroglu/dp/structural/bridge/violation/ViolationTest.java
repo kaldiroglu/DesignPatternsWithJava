@@ -76,7 +76,7 @@ class ViolationTest {
     @Test
     @DisplayName("the fix is delegation, not a better override")
     void delegationCannotDoThis() {
-        // A refinement in bridge.basic.pattern owns its own doIt() and merely calls the
+        // A refinement in bridge.basic.solution owns its own doIt() and merely calls the
         // implementation. Whatever the implementation does, the refinement's own contract
         // is still executed — there is no override to break it.
         assertTrue(dev.kaldiroglu.dp.structural.bridge.basic.pattern.AnAbstraction.class

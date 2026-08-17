@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The two variations produce the same chain as the classic one. They are ways of writing
- * the pattern, not different patterns — which is exactly the claim these tests check.
+ * the solution, not different patterns — which is exactly the claim these tests check.
  */
 class VariationsTest {
 
@@ -119,7 +119,7 @@ class VariationsTest {
         SimulatedRemotePriceFeed supplier = SimulatedRemotePriceFeed.withDefaults(clock);
 
         // PriceFeed has one method, so this lambda IS a PriceFeed — and wrapping one in
-        // another is all the pattern has ever asked for.
+        // another is all the solution has ever asked for.
         PriceFeed uppercasing = sku -> supplier.quoteFor(sku.toUpperCase());
 
         assertEquals("249.00", uppercasing.quoteFor("sku-200").amount().toString());

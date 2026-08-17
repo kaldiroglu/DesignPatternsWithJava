@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The subclassing design works. These tests prove it works, and then measure what it
- * costs — which is the only honest way to argue for a pattern.
+ * costs — which is the only honest way to argue for a solution.
  */
 class VisualProblemTest {
 

@@ -23,13 +23,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * The point of this class.
  * <p>
- * GoF's own example, and the one that shows the pattern's least obvious half: the same
+ * GoF's own example, and the one that shows the solution's least obvious half: the same
  * shared object rendered in two different fonts, because the font was never inside it.
  */
 class GlyphFlyweightTest {
 
-    private static final String LINE_ONE = "flyweight is a nice pattern";
-    private static final String LINE_TWO = "lightweight is also a nice pattern";
+    private static final String LINE_ONE = "flyweight is a nice solution";
+    private static final String LINE_TWO = "lightweight is also a nice solution";
 
     private record Built(Column document, GlyphFactory factory, int occurrences) {
     }

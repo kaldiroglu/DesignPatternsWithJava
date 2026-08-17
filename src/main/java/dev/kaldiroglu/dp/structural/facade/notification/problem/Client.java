@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.facade.notification.problem;
 
 /**
- * BEFORE the Facade pattern — every client class that needs to send
+ * BEFORE the Facade solution — every client class that needs to send
  * a notification carries five subsystem dependencies, duplicates
  * channel-selection logic, and repeats the same try-catch ceremony.
  *

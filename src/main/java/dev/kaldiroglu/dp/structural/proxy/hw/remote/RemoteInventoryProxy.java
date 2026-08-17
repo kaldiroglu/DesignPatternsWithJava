@@ -12,7 +12,7 @@ import java.util.Objects;
  * <strong>The call is not the same call.</strong> It takes a hundred times longer, it can
  * fail for reasons that have nothing to do with inventory, and a loop that was harmless when
  * the object was local becomes a hundred round trips when it is not. The interface says none
- * of this. Making a remote object look local is exactly what the pattern is for, and exactly
+ * of this. Making a remote object look local is exactly what the solution is for, and exactly
  * what makes it easy to misuse.
  * <p>
  * The retry here is a decision, not a given: it hides brief outages and doubles the delay of

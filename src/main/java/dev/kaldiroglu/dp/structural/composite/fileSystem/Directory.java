@@ -14,7 +14,7 @@ import java.util.function.Predicate;
  * The Composite: a directory is storage, and it holds storage.
  * <p>
  * Every operation here is the same two lines — do this directory's part, then ask the
- * children to do theirs. The recursion is the pattern; there is nothing else to it.
+ * children to do theirs. The recursion is the solution; there is nothing else to it.
  */
 public class Directory extends StorageElement implements StorageContainer {
 
@@ -102,7 +102,7 @@ public class Directory extends StorageElement implements StorageContainer {
      * Renders the subtree.
      * <p>
      * Each element renders itself, and this method neither knows nor asks what kind it is.
-     * A type test here would defeat the one thing the pattern is for.
+     * A type test here would defeat the one thing the solution is for.
      */
     @Override
     public String render(String indent) {

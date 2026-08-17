@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Client role of the Proxy pattern (GoF, p. 207) — a small stand-in for the
+ * Client role of the Proxy solution (GoF, p. 207) — a small stand-in for the
  * book's document editor.
  *
  * <p>A document is a sequence of {@link Graphic}s. Laying out the page only

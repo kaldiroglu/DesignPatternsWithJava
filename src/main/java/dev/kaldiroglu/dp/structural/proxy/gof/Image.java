@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.proxy.gof;
 
 /**
- * RealSubject role of the Proxy pattern (GoF, p. 207).
+ * RealSubject role of the Proxy solution (GoF, p. 207).
  *
  * <p>The actual raster image. Constructing it is <em>expensive</em> because the
  * whole pixel buffer has to be read from disk, so we want to defer creating it

@@ -19,7 +19,7 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * The naive designs and the pattern are only worth comparing if they do the same job.
+ * The naive designs and the solution are only worth comparing if they do the same job.
  * These tests run one scenario through all three and check they agree, so that every
  * remaining difference is a difference of design and not of behavior.
  */

@@ -14,7 +14,7 @@ package dev.kaldiroglu.dp.structural.proxy.network;
  * request never reaches the gateway at all.
  * <p>
  * This is the same role {@code proxy.pm.pm3.ProxyPM} plays, in a domain with no people in it
- * — which is a useful pairing: the pattern is about controlling access, not about politeness.
+ * — which is a useful pairing: the solution is about controlling access, not about politeness.
  */
 public class ProxyServer implements Network {
 

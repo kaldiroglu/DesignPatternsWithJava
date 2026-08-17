@@ -13,7 +13,7 @@ import java.util.function.Predicate;
  * <p><b>The roll-ups</b> — {@link #size()}, {@link #count()}, {@link #lastModified()},
  * {@link #largest()}, {@link #find(String)}, {@link #findAll(Predicate)} and
  * {@link #render(String)}. Each asks one element a question and gets an answer for the whole
- * subtree beneath it. These are why the pattern is here: a caller writes {@code root.size()}
+ * subtree beneath it. These are why the solution is here: a caller writes {@code root.size()}
  * and no loop, at any depth, without knowing what it is holding. They are also, not by
  * accident, exactly the operations a real file system does <em>not</em> branch on —
  * {@code du}, {@code find} and {@code ls -lt} treat a file and a directory alike.</p>
@@ -22,7 +22,7 @@ import java.util.function.Predicate;
  * {@link #copy()} and {@link #move}. These act on one element and are on the Component
  * because every element needs them, not because they aggregate anything. Worth naming: a
  * Component interface grows, and GoF list "can make your design overly general" among this
- * pattern's liabilities.</p>
+ * solution's liabilities.</p>
  *
  * <p>Child management lives on {@link StorageContainer}, not here — the <strong>safe</strong>
  * side of GoF's implementation issue 4 (Declaring the child management operations,

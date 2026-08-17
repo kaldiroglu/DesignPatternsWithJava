@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * <p>
  * The library's own decorators, measured. The same two methods are run over three different
  * stacks and produce the same invoice every time, while the bytes on disk differ. That gap
- * between "same answer" and "different work" is the whole benefit of the pattern.
+ * between "same answer" and "different work" is the whole benefit of the solution.
  */
 class DataInputOutputStreamDemoTest {
 

@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.proxy.gof;
 
 /**
- * Proxy role of the Proxy pattern (GoF, p. 207) — a <em>virtual proxy</em>.
+ * Proxy role of the Proxy solution (GoF, p. 207) — a <em>virtual proxy</em>.
  *
  * <p>A lightweight stand-in for an {@link Image}. It keeps the file name and a
  * cached {@link Extent} so the document editor can lay out the page without

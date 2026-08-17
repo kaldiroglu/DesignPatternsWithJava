@@ -8,7 +8,7 @@ import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Quote;
  * concern.
  * <p>
  * The idea is sound in outline — give each concern its own class — and it is only one
- * step away from the Decorator pattern. The step it misses is the one that matters:
+ * step away from the Decorator solution. The step it misses is the one that matters:
  * these classes are joined by <em>inheritance</em>, fixed at compile time, instead of by
  * <em>a reference</em>, chosen at run time.
  */

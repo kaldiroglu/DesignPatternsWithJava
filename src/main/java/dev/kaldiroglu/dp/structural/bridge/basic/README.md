@@ -35,6 +35,6 @@ implementation. It is the argument for this pattern, from the other direction.
 ```bash
 mvn -o test -Dtest=BasicBridgeTest
 
-java -cp target/classes dev.kaldiroglu.dp.structural.bridge.basic.pattern.Main
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.basic.solution.Main
 java -cp target/classes dev.kaldiroglu.dp.structural.bridge.basic.problem.Main
 ```

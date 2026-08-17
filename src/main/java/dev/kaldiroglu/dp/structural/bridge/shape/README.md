@@ -62,6 +62,6 @@ The circle never learns why, and must not have to.
 ```bash
 mvn -o test -Dtest=ShapeBridgeTest
 
-java -cp target/classes dev.kaldiroglu.dp.structural.bridge.shape.pattern.Main
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.shape.solutionn.Main
 java -cp target/classes dev.kaldiroglu.dp.structural.bridge.shape.problem.Main
 ```

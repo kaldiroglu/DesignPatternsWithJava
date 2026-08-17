@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.composite.gof.graphics;
 
 /**
- * Leaf role of the Composite pattern (GoF, p. 165) — a primitive graphic.
+ * Leaf role of the Composite solution (GoF, p. 165) — a primitive graphic.
  *
  * <p>Like {@link Line}, a {@code Rectangle} is childless: it draws itself and
  * rejects every child operation it inherits from {@link Graphic}.</p>

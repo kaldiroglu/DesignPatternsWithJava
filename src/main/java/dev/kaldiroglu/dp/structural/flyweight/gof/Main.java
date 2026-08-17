@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         GlyphFactory factory = new GlyphFactory();
 
-        String[] lines = {"flyweight is a nice pattern", "lightweight is also a nice pattern"};
+        String[] lines = {"flyweight is a nice solution", "lightweight is also a nice solution"};
 
         // Build the document tree: a Column of Rows of (shared) Characters.
         Column document = factory.createColumn();

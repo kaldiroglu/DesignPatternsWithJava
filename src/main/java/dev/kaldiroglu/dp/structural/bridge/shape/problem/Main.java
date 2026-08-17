@@ -6,7 +6,7 @@ import java.util.List;
  * The grid, and what it costs.
  * <p>
  * Three shape kinds and two devices are nine classes here. The same three kinds and two
- * devices in {@code shape.pattern} are seven — and the gap widens with every addition.
+ * devices in {@code shape.solution} are seven — and the gap widens with every addition.
  */
 public class Main {
 
@@ -37,6 +37,6 @@ public class Main {
         int devices = 2;
         System.out.printf("%n%d kinds x %d devices = %d leaf classes, plus %d abstract ones.%n",
                 kinds, devices, kinds * devices, kinds + 1);
-        System.out.println("shape.pattern covers the same ground with 3 shapes + 2 drawers.");
+        System.out.println("shape.solution covers the same ground with 3 shapes + 2 drawers.");
     }
 }

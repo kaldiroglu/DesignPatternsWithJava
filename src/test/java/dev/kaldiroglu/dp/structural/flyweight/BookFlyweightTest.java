@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * <p>
  * Both versions of the book example are in the repository, and this class tests both. The
  * first four tests pin the defects in {@code book.wrong} so they cannot be quietly fixed
- * in the wrong place; the rest hold {@code book.correct} to what the pattern actually
+ * in the wrong place; the rest hold {@code book.correct} to what the solution actually
  * promises — as a count, not as an adjective.
  */
 class BookFlyweightTest {
@@ -51,7 +51,7 @@ class BookFlyweightTest {
 
         // Both occurrences are the same object, so the second write clobbered the first.
         // This is what makes the original unshareable, and it is why fixing only the
-        // factory would introduce a bug rather than the pattern.
+        // factory would introduce a bug rather than the solution.
         assertEquals(1, shared.getPosition(),
                 "one object cannot remember two positions");
         assertEquals(2, line.getChars().size(), "yet the line believes it holds two");

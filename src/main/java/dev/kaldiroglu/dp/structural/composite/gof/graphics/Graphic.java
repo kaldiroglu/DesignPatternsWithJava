@@ -3,7 +3,7 @@ package dev.kaldiroglu.dp.structural.composite.gof.graphics;
 import java.util.List;
 
 /**
- * Component role of the Composite pattern (GoF, "Design Patterns", p. 163).
+ * Component role of the Composite solution (GoF, "Design Patterns", p. 163).
  *
  * <p>The abstraction for all drawable objects in a graphics editor. Both
  * primitive graphics ({@link Line}, {@link Rectangle}, {@link Text}) and

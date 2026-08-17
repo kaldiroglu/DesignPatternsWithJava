@@ -8,7 +8,7 @@ import java.util.Objects;
  * The <b>Decorator</b>: it maintains a reference to a Component object and defines an
  * interface that conforms to Component's interface (GoF p. 178).
  * <p>
- * Two properties make the whole pattern work, and both are visible in this small class:
+ * Two properties make the whole solution work, and both are visible in this small class:
  * <ol>
  *   <li>it <em>is</em> a {@link VisualComponent}, so a decorated object can be used
  *       anywhere an undecorated one can — including inside another decorator; and</li>

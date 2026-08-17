@@ -12,7 +12,7 @@ import java.util.List;
  * unshareable — two occurrences of the same letter would have fought over one field.</p>
  *
  * <p>So the extrinsic state did not move to a new home. It turned out never to have needed
- * one, which is the cheapest form this pattern takes.</p>
+ * one, which is the cheapest form this solution takes.</p>
  */
 public class Line {
 

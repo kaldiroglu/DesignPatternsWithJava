@@ -13,12 +13,12 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * The Decorator pattern as the Java library itself uses it.
+ * The Decorator solution as the Java library itself uses it.
  * <p>
  * The GoF name {@code java.io} as a known use, and it is the clearest one a Java developer
  * already has on disk. The four roles map onto classes everyone has used:
  * <table border="1">
- *   <caption>The pattern's roles in java.io</caption>
+ *   <caption>The solution's roles in java.io</caption>
  *   <tr><th>GoF role</th><th>java.io</th></tr>
  *   <tr><td>Component</td><td>{@link java.io.InputStream}, {@link java.io.OutputStream}</td></tr>
  *   <tr><td>ConcreteComponent</td><td>{@link FileInputStream}, {@link FileOutputStream}</td></tr>
@@ -30,7 +30,7 @@ import java.util.zip.GZIPOutputStream;
  * {@code OutputStream} directly rather than {@code FilterOutputStream}, so it is a component
  * in its own right, not a decoration of one.
  * <p>
- * The demonstration below is about the pattern rather than about the library.
+ * The demonstration below is about the solution rather than about the library.
  * {@link #writeInvoice} and {@link #readInvoice} are written once and never change. They are
  * then run over two <em>different</em> stacks of decorators, and the second stack compresses
  * the file on the way through. The two methods do not know this, cannot find out, and were
@@ -84,7 +84,7 @@ public class DataInputOutputStreamDemo {
 
         // Read back through the mirror image of the chain that wrote it. Every layer added on
         // the way out needs its counterpart on the way in, in the opposite order. That is the
-        // one real obligation the pattern places on the caller, and it is worth saying aloud.
+        // one real obligation the solution places on the caller, and it is worth saying aloud.
         try (DataInputStream in = new DataInputStream(
                 new BufferedInputStream(
                         new GZIPInputStream(

@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.facade.notification.solution1;
 
 /**
- * AFTER the Facade pattern — every client depends on ONE class,
+ * AFTER the Facade solution — every client depends on ONE class,
  * calls ONE method, and gets a structured result back.
  *
  * Compare this file to before/Client.java. Same business outcome,

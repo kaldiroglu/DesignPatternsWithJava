@@ -2,7 +2,7 @@ package dev.kaldiroglu.dp.structural.adapter.gof;
 
 /**
  * A <i>native</i> {@link Shape} &ndash; not an adapter. It exists so the demo shows the editor
- * treating adapted text and ordinary shapes <b>uniformly</b>, which is the payoff of the pattern.
+ * treating adapted text and ordinary shapes <b>uniformly</b>, which is the payoff of the solution.
  *
  * <p>A line is defined by two endpoints.</p>
  */

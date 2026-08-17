@@ -6,7 +6,7 @@ package dev.kaldiroglu.dp.structural.bridge.hw.routeplanner;
  * Every primitive here is a measurement of one leg. None of them is a routing decision, and
  * none of them mentions a vendor. That is the property the exercise is checking: if a single
  * vendor type name reaches the abstraction, swapping vendors will touch the routing rules,
- * and the whole point of the pattern is lost.
+ * and the whole point of the solution is lost.
  */
 public interface MapProvider {
 

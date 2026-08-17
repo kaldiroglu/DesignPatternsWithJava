@@ -6,7 +6,7 @@ import java.util.List;
  * A RefinedAbstraction: insurance keeps only the current version and the one before it.
  * <p>
  * Named to match {@link FinanceFileManager}; it was previously {@code InsuranceManager},
- * which broke the pattern of the name and made the two look like different kinds of thing.
+ * which broke the solution of the name and made the two look like different kinds of thing.
  */
 public class InsuranceFileManager extends FileManager {
 

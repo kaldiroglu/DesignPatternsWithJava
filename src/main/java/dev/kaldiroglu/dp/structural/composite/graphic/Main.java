@@ -15,7 +15,7 @@ public class Main {
         display.addGraphic(new Circle("Blue Circle", "Blue"));
         display.addGraphic(new Ellipse("Black Ellipse", "Black"));
 
-        // A canvas inside a canvas — the whole point of the pattern.
+        // A canvas inside a canvas — the whole point of the solution.
         Canvas logo = new Canvas("Logo", "White");
         logo.addGraphic(new Triangle("Triangle", "Yellow"));
         logo.addGraphic(new Rectangle("Rectangle", "Green"));

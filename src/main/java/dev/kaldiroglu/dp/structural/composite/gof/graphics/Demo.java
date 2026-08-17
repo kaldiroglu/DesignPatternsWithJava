@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.composite.gof.graphics;
 
 /**
- * Client of the Composite pattern — the "graphics editor" of GoF p. 163.
+ * Client of the Composite solution — the "graphics editor" of GoF p. 163.
  *
  * <p>The client builds a tree and then issues a single request to its root. It
  * never distinguishes a primitive from a container.</p>

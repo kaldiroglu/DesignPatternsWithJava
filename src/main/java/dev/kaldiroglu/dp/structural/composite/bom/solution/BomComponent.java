@@ -5,7 +5,7 @@ import dev.kaldiroglu.dp.structural.composite.bom.domain.Money;
 import java.util.List;
 
 /**
- * Component role of the Composite pattern — one entry in a bill of materials.
+ * Component role of the Composite solution — one entry in a bill of materials.
  *
  * <p>A bill of materials describes what a manufactured product is made of. A
  * bicycle contains wheels; a wheel contains a rim, spokes and a hub; a hub

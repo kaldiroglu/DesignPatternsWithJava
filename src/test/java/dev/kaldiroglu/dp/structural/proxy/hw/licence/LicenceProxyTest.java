@@ -147,7 +147,7 @@ class LicenceProxyTest {
         assertEquals(2, server.available());
     }
 
-    // ------------------------------------------------------------------ the pattern
+    // ------------------------------------------------------------------ the solution
 
     @Test
     @DisplayName("the student's code names Application, never the licence machinery")

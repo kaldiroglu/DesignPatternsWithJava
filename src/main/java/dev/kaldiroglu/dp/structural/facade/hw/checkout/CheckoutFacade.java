@@ -12,7 +12,7 @@ import java.util.Objects;
  * put the stock back, and if the facade does not, every caller has to know enough about the
  * subsystem to do it themselves. Which is the very knowledge the facade exists to remove.
  * <p>
- * So the compensation lives here. That is a real cost of the pattern and worth naming: a
+ * So the compensation lives here. That is a real cost of the solution and worth naming: a
  * facade that spans several subsystems inherits responsibility for what happens when one of
  * them fails halfway through.
  */

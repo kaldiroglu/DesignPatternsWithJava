@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * The point of this class.
  * <p>
  * GoF's own example: an editor that manipulates everything through {@code Shape}, and a
- * {@code TextView} that already does the work but does not fit. Both forms of the pattern are
+ * {@code TextView} that already does the work but does not fit. Both forms of the solution are
  * here, so the difference between them can be asserted rather than described.
  */
 class DrawingEditorAdapterTest {

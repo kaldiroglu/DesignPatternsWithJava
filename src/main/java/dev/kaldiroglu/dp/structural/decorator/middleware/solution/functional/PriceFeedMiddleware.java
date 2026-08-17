@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.function.UnaryOperator;
 
 /**
- * Variation 2: the same pattern with no class per concern.
+ * Variation 2: the same solution with no class per concern.
  * <p>
  * A decorator is a function from a component to a component. Say that literally — a
  * {@code PriceFeed -> PriceFeed} — and the abstract base class, the subclasses and the
@@ -23,8 +23,8 @@ import java.util.function.UnaryOperator;
  * below returns a lambda that captures the next feed and returns a new one.
  * <p>
  * This works in Java because {@link PriceFeed} has a single abstract method, so
- * {@code sku -> ...} <em>is</em> a {@code PriceFeed}. It is not a different pattern; it is
- * the same pattern written with the language's own tools. Every web framework you have used
+ * {@code sku -> ...} <em>is</em> a {@code PriceFeed}. It is not a different solution; it is
+ * the same solution written with the language's own tools. Every web framework you have used
  * builds its middleware pipeline this way.
  *
  * <h2>When to prefer it</h2>

@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * The point of this class.
  * <p>
- * The pattern reduced to its bones, and the counting argument that justifies it.
+ * The solution reduced to its bones, and the counting argument that justifies it.
  */
 class BasicBridgeTest {
 
@@ -39,13 +39,13 @@ class BasicBridgeTest {
                 dev.kaldiroglu.dp.structural.bridge.basic.problem.AnotherConcreteImplementation1.class,
                 dev.kaldiroglu.dp.structural.bridge.basic.problem.AnotherConcreteImplementation2.class);
 
-        // Four leaves plus the two refinements they extend: six against the pattern's four.
+        // Four leaves plus the two refinements they extend: six against the solution's four.
         assertEquals(4, leaves.size());
         assertEquals(6, leaves.size() + 2);
     }
 
     @Test
-    @DisplayName("in the pattern the refinement holds an implementation; in the problem it is one")
+    @DisplayName("in the solution the refinement holds an implementation; in the problem it is one")
     void heldAgainstInherited() {
         assertEquals(1,
                 dev.kaldiroglu.dp.structural.bridge.basic.pattern.ASubAbstraction.class

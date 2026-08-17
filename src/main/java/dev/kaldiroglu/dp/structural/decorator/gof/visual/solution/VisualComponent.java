@@ -3,7 +3,7 @@ package dev.kaldiroglu.dp.structural.decorator.gof.visual.solution;
 import dev.kaldiroglu.dp.structural.decorator.gof.visual.Canvas;
 
 /**
- * The <b>Component</b> of the pattern: the interface for objects that can have
+ * The <b>Component</b> of the solution: the interface for objects that can have
  * responsibilities added to them dynamically (GoF p. 178).
  * <p>
  * GoF's implementation issue 3, "keeping Component classes lightweight" (p. 180), is

@@ -13,7 +13,7 @@ public final class MessageFormatter {
     private MessageFormatter() {
     }
 
-    /** Substitutes each <code>{}</code> in {@code pattern} with the next argument, in order. */
+    /** Substitutes each <code>{}</code> in {@code solution} with the next argument, in order. */
     public static String format(String pattern, Object... arguments) {
         if (pattern == null || arguments == null || arguments.length == 0) {
             return pattern;

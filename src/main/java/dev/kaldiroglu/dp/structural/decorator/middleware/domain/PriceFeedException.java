@@ -12,7 +12,7 @@ public abstract class PriceFeedException extends RuntimeException {
      * <p>
      * The retry decorator consults this instead of catching everything. Retrying a call
      * that can never succeed just multiplies the load on a supplier who is already saying
-     * no — a real outage pattern, and the reason a blanket {@code catch} is a bug.
+     * no — a real outage solution, and the reason a blanket {@code catch} is a bug.
      */
     public abstract boolean isRetryable();
 }

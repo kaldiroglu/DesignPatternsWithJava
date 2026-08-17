@@ -9,7 +9,7 @@ import java.util.List;
  * <p>
  * Being <em>both</em> is what makes the tree work — a canvas can be added to another canvas,
  * because the thing being added only has to be a {@link Graphic}. Every operation here does
- * its own bit and then forwards to the children, which is the pattern in four methods.
+ * its own bit and then forwards to the children, which is the solution in four methods.
  */
 public class Canvas extends GraphicObject implements CompositeGraphic {
 

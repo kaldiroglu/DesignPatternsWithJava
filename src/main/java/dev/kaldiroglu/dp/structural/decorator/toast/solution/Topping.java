@@ -8,7 +8,7 @@ import java.util.Objects;
  * The Decorator role: a topping is itself something you can order, and it holds the thing it
  * was added to.
  * <p>
- * Both halves of that sentence matter, and they are the pattern in one class. {@code Topping}
+ * Both halves of that sentence matter, and they are the solution in one class. {@code Topping}
  * <em>implements</em> {@link Toastable}, so a topped toast can go anywhere a plain one can.
  * It also <em>holds</em> a {@code Toastable}, so it can pass the question down and add its own
  * answer to whatever comes back. Being both is what lets toppings stack without limit.

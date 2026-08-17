@@ -7,7 +7,7 @@ package dev.kaldiroglu.dp.structural.flyweight.gof;
  * <em>extrinsic</em> state. In the Lexi editor every visible element of a
  * document is a {@code Glyph}.</p>
  *
- * <p>Note that GoF folds the Composite pattern into the same hierarchy: a Glyph
+ * <p>Note that GoF folds the Composite solution into the same hierarchy: a Glyph
  * also declares child-management operations so that {@link Row}s and
  * {@link Column}s can contain other glyphs. Leaf flyweights ({@link CharacterGlyph})
  * simply ignore them.</p>

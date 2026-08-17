@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Composite role of the Composite pattern — a sub-assembly or a finished
+ * Composite role of the Composite solution — a sub-assembly or a finished
  * product.
  *
  * <p>An assembly has its own cost (labor, fasteners, paint — whatever is spent

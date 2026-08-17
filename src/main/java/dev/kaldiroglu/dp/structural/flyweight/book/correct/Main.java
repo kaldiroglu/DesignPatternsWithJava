@@ -3,7 +3,7 @@ package dev.kaldiroglu.dp.structural.flyweight.book.correct;
 /**
  * Client demo.
  *
- * <p>Types a real paragraph rather than nine hand-written letters, because the pattern only
+ * <p>Types a real paragraph rather than nine hand-written letters, because the solution only
  * becomes visible at volume: the saving is the gap between how many characters the text has
  * and how many distinct ones it uses, and that gap cannot be seen in a nine-letter sample.</p>
  */
@@ -41,7 +41,7 @@ public class Main {
         System.out.println("Distinct flyweights allocated     : " + factory.createdCount());
         System.out.println("Occurrences that cost no object   : " + factory.savedCount());
 
-        // The claim the pattern actually makes: one object, in many places at once.
+        // The claim the solution actually makes: one object, in many places at once.
         Line first = page.getLines().get(0);
         Line second = page.getLines().get(1);
         Character eInLineOne = first.characterAt(indexOf(first, 'e'));

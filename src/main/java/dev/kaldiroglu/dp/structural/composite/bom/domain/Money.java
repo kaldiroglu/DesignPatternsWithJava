@@ -7,7 +7,7 @@ import java.math.RoundingMode;
  * An amount of money, held in {@link BigDecimal} so that costs never drift the
  * way binary floating-point values do.
  *
- * <p>A supporting value type, not part of the Composite pattern.</p>
+ * <p>A supporting value type, not part of the Composite solution.</p>
  *
  * @param amount the amount, always scaled to two decimal places
  */

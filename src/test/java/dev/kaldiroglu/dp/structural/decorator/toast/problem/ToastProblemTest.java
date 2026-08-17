@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
  * The point of this class.
  * <p>
  * The naive design is not broken: every price it computes is correct. These tests measure what
- * it costs instead, so the argument for the pattern rests on numbers rather than on taste.
+ * it costs instead, so the argument for the solution rests on numbers rather than on taste.
  */
 class ToastProblemTest {
 
@@ -68,7 +68,7 @@ class ToastProblemTest {
 
         // There is no method to call here. Adding tomato means becoming a CheeseTomatoToast,
         // and an object cannot change its class. The only route is to throw the order away
-        // and construct a different one, which is what the pattern removes the need for.
+        // and construct a different one, which is what the solution removes the need for.
         assertEquals(5, ordered.calculatePrice());
         assertEquals(1, ordered.getClass().getMethods().length
                 - Object.class.getMethods().length

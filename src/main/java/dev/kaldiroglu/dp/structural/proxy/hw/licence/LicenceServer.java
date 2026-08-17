@@ -14,8 +14,8 @@ import java.util.Set;
  * timing. A student who cannot get a seat is enqueued and promoted the moment somebody
  * closes theirs.</p>
  *
- * <p>Worth noticing what this class is <em>not</em>: it is not the pattern. It is the
- * resource being rationed. The pattern is {@link LicenceProxy}, which stands in front of
+ * <p>Worth noticing what this class is <em>not</em>: it is not the solution. It is the
+ * resource being rationed. The solution is {@link LicenceProxy}, which stands in front of
  * the application and consults this.</p>
  */
 public class LicenceServer {

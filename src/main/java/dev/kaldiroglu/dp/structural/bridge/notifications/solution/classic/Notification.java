@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * The <b>Abstraction</b>: what a notification is, to the rest of the application.
  * <p>
- * One field, and it is the entire pattern. This class does not extend a channel — it
+ * One field, and it is the entire solution. This class does not extend a channel — it
  * <em>holds</em> one, and it can be handed a different one at any moment, including after
  * it has been constructed.
  * <p>

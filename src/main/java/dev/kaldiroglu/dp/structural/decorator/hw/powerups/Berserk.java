@@ -6,7 +6,7 @@ package dev.kaldiroglu.dp.structural.decorator.hw.powerups;
  * This is a decorator that forwards <em>zero</em> times, which GoF's own description allows.
  * It is worth arguing about: it satisfies the structure completely, and it silently discards
  * every effect underneath it, so a player who drinks a potion and then goes berserk has
- * wasted the potion. The pattern constrains the shape of the code, not the honesty of it.
+ * wasted the potion. The solution constrains the shape of the code, not the honesty of it.
  */
 public final class Berserk extends PowerUp {
 

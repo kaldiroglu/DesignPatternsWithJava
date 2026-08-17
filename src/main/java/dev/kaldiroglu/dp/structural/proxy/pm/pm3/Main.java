@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.proxy.pm.pm3;
 
 /**
- * Stage 3 — the pattern. The citizen's code is the same shape it was in stage 1, and every
+ * Stage 3 — the solution. The citizen's code is the same shape it was in stage 1, and every
  * call is screened.
  */
 public class Main {

@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.composite.gof.equipment;
 
 /**
- * Leaf role of the Composite pattern (GoF, p. 172) — a simple piece of
+ * Leaf role of the Composite solution (GoF, p. 172) — a simple piece of
  * equipment: an expansion card that plugs into a {@link Bus}.
  */
 public class Card extends Equipment {

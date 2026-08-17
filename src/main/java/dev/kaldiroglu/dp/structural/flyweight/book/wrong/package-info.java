@@ -3,7 +3,7 @@
  * the word "flyweight" nowhere justified by the code.
  *
  * <p>The classes here are kept <b>exactly as written</b>, because what is wrong with them is
- * the lesson. Every one of these is the mistake the pattern exists to prevent, and every one
+ * the lesson. Every one of these is the mistake the solution exists to prevent, and every one
  * of them is asserted by {@code BookFlyweightTest} so that it cannot be quietly fixed here
  * instead of in {@code book.correct}.</p>
  *

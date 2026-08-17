@@ -8,7 +8,7 @@ package dev.kaldiroglu.dp.structural.adapter.gof;
  * {@link Shape}: it speaks {@code getOrigin}/{@code getExtent}, not
  * {@code boundingBox}/{@code createManipulator}.</p>
  *
- * <p>The whole point of the pattern is to reuse this class <i>without modifying it</i>.</p>
+ * <p>The whole point of the solution is to reuse this class <i>without modifying it</i>.</p>
  */
 public class TextView {
 

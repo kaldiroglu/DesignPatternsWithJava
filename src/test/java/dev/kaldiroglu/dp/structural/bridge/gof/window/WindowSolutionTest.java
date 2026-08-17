@@ -1,11 +1,12 @@
 package dev.kaldiroglu.dp.structural.bridge.gof.window;
 
-import dev.kaldiroglu.dp.structural.bridge.gof.window.solution.IconWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.solution.PMWindowImp;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.solution.TransientWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.solution.Window;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.solution.WindowImp;
-import dev.kaldiroglu.dp.structural.bridge.gof.window.solution.XWindowImp;
+import dev.kaldiroglu.dp.structural.bridge.gof.Canvas;
+import dev.kaldiroglu.dp.structural.bridge.gof.solution.IconWindow;
+import dev.kaldiroglu.dp.structural.bridge.gof.solution.PMWindowImp;
+import dev.kaldiroglu.dp.structural.bridge.gof.solution.TransientWindow;
+import dev.kaldiroglu.dp.structural.bridge.gof.solution.Window;
+import dev.kaldiroglu.dp.structural.bridge.gof.solution.WindowImp;
+import dev.kaldiroglu.dp.structural.bridge.gof.solution.XWindowImp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

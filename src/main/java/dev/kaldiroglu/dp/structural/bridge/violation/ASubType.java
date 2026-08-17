@@ -16,7 +16,7 @@ package dev.kaldiroglu.dp.structural.bridge.violation;
  * <em>how</em> something is done, which is exactly what an implementation is for — and
  * changing behavior by overriding can break a contract the supertype made, silently.
  * Delegating to an implementor cannot: {@code ASubAbstraction} in
- * {@code bridge.basic.pattern} calls {@code implementation.doingIt()} and remains responsible
+ * {@code bridge.basic.solution} calls {@code implementation.doingIt()} and remains responsible
  * for its own contract no matter which implementation it holds. That difference is the whole
  * argument for putting the implementation behind a reference rather than above it in a
  * hierarchy.

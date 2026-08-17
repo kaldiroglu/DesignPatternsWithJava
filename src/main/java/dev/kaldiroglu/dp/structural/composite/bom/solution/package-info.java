@@ -1,6 +1,6 @@
 /**
  * The real design — the same bill of materials, modelled <b>with</b> the
- * Composite pattern.
+ * Composite solution.
  *
  * <p>Compare it class by class with {@code ..bom.problem}. Both build the same
  * bicycle from the same figures in {@code ..bom.domain.Catalog} and both get the

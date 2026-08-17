@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Each decorator, on its own. Being testable alone is the practical payoff of the
- * pattern: none of these tests could be written against the flagged god-class, because
+ * solution: none of these tests could be written against the flagged god-class, because
  * there is no way to have only one of its concerns.
  */
 class ClassicDecoratorTest {

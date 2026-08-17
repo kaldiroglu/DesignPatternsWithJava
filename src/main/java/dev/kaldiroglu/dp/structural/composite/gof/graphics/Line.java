@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.composite.gof.graphics;
 
 /**
- * Leaf role of the Composite pattern (GoF, p. 165) — a primitive graphic.
+ * Leaf role of the Composite solution (GoF, p. 165) — a primitive graphic.
  *
  * <p>A {@code Line} has no children. It implements {@link #draw(Point)} by
  * doing the actual work itself; it inherits the failing child operations from

@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.composite.gof.equipment;
 
 /**
- * Leaf role of the Composite pattern (GoF, p. 172) — a simple piece of
+ * Leaf role of the Composite solution (GoF, p. 172) — a simple piece of
  * equipment.
  *
  * <p>A disk drive answers the {@link Equipment} operations from its own state:
