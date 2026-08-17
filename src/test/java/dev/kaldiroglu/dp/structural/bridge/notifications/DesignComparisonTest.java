@@ -9,11 +9,17 @@ import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Transports;
 import dev.kaldiroglu.dp.structural.bridge.notifications.problem.SwitchingNotifier;
 import dev.kaldiroglu.dp.structural.bridge.notifications.problem.UrgentEmailNotification;
 import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.EmailChannel;
+import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.SimpleNotification;
+import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.NotificationChannel;
+import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.DigestNotification;
 import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.UrgentNotification;
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The designs are only worth comparing if they do the same job. These tests run one
@@ -47,21 +53,54 @@ class DesignComparisonTest {
         assertEquals(byPairClass.body(), byBridge.body());
     }
 
+    /**
+     * What a fourth channel costs, demonstrated rather than counted.
+     * <p>
+     * Adding WhatsApp to a system with three notification kinds means, in the three naive
+     * designs, editing every kind's branch or writing one class per kind — and in the
+     * inheritance design no object that already exists can ever use the new channel at all.
+     * <p>
+     * None of that is asserted here as arithmetic, because it was: this method used to say
+     * {@code assertEquals(3, kinds)} and {@code assertEquals(1, 1)}, neither of which can
+     * fail. The bridge half is the half that can actually be shown, so it is shown — a
+     * channel written inside this method, used by every kind that already exists, with not
+     * one of them touched. The counted version of the class arithmetic lives in
+     * {@code ClassicBridgeTest.theArithmetic}, which reads the package.
+     */
     @Test
-    @DisplayName("what a fourth channel costs in each design")
+    @DisplayName("a fourth channel is one class here, and every existing kind can use it")
     void costOfTheNextChannel() {
-        // Adding WhatsApp to a system with 3 notification kinds:
-        //
-        //   switch          : edit every kind's branch in one shared method, and hope the
-        //                     length and subject rules are remembered in all three.
-        //   class per pair  : write 3 new classes, one per kind, each repeating that
-        //                     kind's logic.
-        //   inherit channel : write 3 new classes, and no existing object can ever use
-        //                     the new channel.
-        //   bridge          : write 1 new class. Change nothing else. Every kind that
-        //                     exists, and every kind written next year, can use it.
-        int kinds = 3;
-        assertEquals(3, kinds);      // classes added by the first three designs
-        assertEquals(1, 1);          // classes added by the bridge
+        // The whole of a fourth channel. Nothing above it is edited, or even recompiled.
+        NotificationChannel whatsApp = new NotificationChannel() {
+            public String name() {
+                return "whatsapp";
+            }
+
+            public String addressOf(Recipient recipient) {
+                return recipient.phone();
+            }
+
+            public int maxBodyLength() {
+                return 4096;
+            }
+
+            public boolean supportsSubject() {
+                return false;
+            }
+
+            public boolean deliver(String address, String subject, String body) {
+                return true;
+            }
+        };
+
+        // Every kind that already exists, reaching a channel written after all of them —
+        // and the result names this channel, so the abstraction really did use it.
+        for (DeliveryResult result : List.of(
+                new SimpleNotification(whatsApp).notify(akin, SHORT),
+                new UrgentNotification(whatsApp).notify(akin, SHORT),
+                new DigestNotification(whatsApp).add(SHORT).notify(akin, SHORT))) {
+            assertTrue(result.delivered());
+            assertEquals("whatsapp", result.channel());
+        }
     }
 }

@@ -11,13 +11,18 @@ import dev.kaldiroglu.dp.structural.bridge.notifications.problem.EmailBoundUrgen
 import dev.kaldiroglu.dp.structural.bridge.notifications.problem.SwitchingNotifier;
 import dev.kaldiroglu.dp.structural.bridge.notifications.problem.UrgentEmailNotification;
 import dev.kaldiroglu.dp.structural.bridge.notifications.problem.UrgentSmsNotification;
+import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.Notification;
+import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.NotificationChannel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -136,13 +141,57 @@ class ProblemTest {
         assertEquals(2, new UrgentSmsNotification(transports).send(akin, SHORT).attempts());
     }
 
+    /**
+     * The product the slides quote, with the two axes counted from the bridge package rather
+     * than written here as literals.
+     * <p>
+     * This package deliberately writes only three of the nine pair classes, so the nine
+     * cannot be counted directly — but the two axes can, and the product follows from them.
+     * The version this replaced declared {@code int kinds = 3, channels = 3} and then
+     * asserted {@code 9 == kinds * channels}, which is true of the integers whatever the
+     * design contains.
+     */
     @Test
     @DisplayName("class per pair: the class count is the product of the two axes")
-    void classesMultiply() {
-        int kinds = 3, channels = 3;
-        assertEquals(9, kinds * channels);
-        assertEquals(12, kinds * (channels + 1));   // a fourth channel: three new classes
-        assertEquals(12, (kinds + 1) * channels);   // a fourth kind: three new classes
+    void classesMultiply() throws Exception {
+        long kinds = countIn(Notification.class.getPackageName(), Notification.class);
+        long channels = countIn(NotificationChannel.class.getPackageName(),
+                NotificationChannel.class);
+
+        assertEquals(3, kinds, "notification kinds");
+        assertEquals(3, channels, "channels");
+
+        assertEquals(9, kinds * channels, "classes a design with one per pair must write");
+        assertEquals(12, kinds * (channels + 1), "a fourth channel: three more");
+        assertEquals(12, (kinds + 1) * channels, "a fourth kind: three more");
+
+        // And the same two axes cost kinds + channels in the bridge design.
+        assertEquals(6, kinds + channels, "m + n, next door in solution.classic");
+    }
+
+    /** Concrete implementations of {@code root} declared in {@code packageName}. */
+    private static long countIn(String packageName, Class<?> root) throws Exception {
+        List<URL> roots = java.util.Collections.list(ProblemTest.class.getClassLoader()
+                .getResources(packageName.replace('.', '/')));
+        assertFalse(roots.isEmpty(), "package not on the test classpath: " + packageName);
+        java.util.Set<Class<?>> found = new java.util.LinkedHashSet<>();
+        for (URL url : roots) {
+            try (java.util.stream.Stream<Path> files = Files.list(Path.of(url.toURI()))) {
+                for (Path file : files.sorted().toList()) {
+                    String name = file.getFileName().toString();
+                    if (!name.endsWith(".class") || name.contains("$")) {
+                        continue;
+                    }
+                    Class<?> type = Class.forName(
+                            packageName + '.' + name.substring(0, name.length() - 6));
+                    if (root.isAssignableFrom(type) && type != root
+                            && !java.lang.reflect.Modifier.isAbstract(type.getModifiers())) {
+                        found.add(type);
+                    }
+                }
+            }
+        }
+        return found.size();
     }
 
     // ------------------------------------------------ design 3: inherit the channel
