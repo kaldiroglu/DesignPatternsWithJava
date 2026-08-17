@@ -1,0 +1,67 @@
+@startuml "Bridge - Notifications (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+title After — two hierarchies, one reference between them
+
+
+abstract class Notification <<Abstraction>> {
+  - channel : NotificationChannel
+  + notify(to, message) : DeliveryResult
+  + setChannel(NotificationChannel) : void
+  # dispatch(to, message, attempts) : DeliveryResult
+  # fit(body) : String
+}
+
+class SimpleNotification <<RefinedAbstraction>> {
+  + notify(..) : DeliveryResult
+}
+class UrgentNotification <<RefinedAbstraction>> {
+  - maxAttempts : int
+  + notify(..) : DeliveryResult
+}
+class DigestNotification <<RefinedAbstraction>> {
+  - pending : List<Message>
+  + add(Message) : DigestNotification
+  + flush(to) : DeliveryResult
+}
+
+interface NotificationChannel <<Implementor>> {
+  + name() : String
+  + addressOf(Recipient) : String
+  + maxBodyLength() : int
+  + supportsSubject() : boolean
+  + deliver(address, subject, body) : boolean
+}
+
+class EmailChannel <<ConcreteImplementor>>
+class SmsChannel <<ConcreteImplementor>>
+class PushChannel <<ConcreteImplementor>>
+
+Notification o--> "channel" NotificationChannel
+Notification <|-- SimpleNotification
+Notification <|-- UrgentNotification
+Notification <|-- DigestNotification
+NotificationChannel <|.. EmailChannel
+NotificationChannel <|.. SmsChannel
+NotificationChannel <|.. PushChannel
+
+note right of NotificationChannel
+  <b>Primitives, and questions about the channel.</b>
+  No sendUrgent, no sendDigest. The abstraction
+  <b>asks</b> maxBodyLength() and supportsSubject();
+  it never asks <i>which</i> channel it is holding,
+  and there is no instanceof in this package.
+end note
+
+note bottom of UrgentNotification
+  The retry lives <b>here, once</b> — and is
+  therefore true over every channel that
+  exists, and every channel added later.
+end note
+
+note as N1
+  3 kinds <b>+</b> 3 channels = <b>6 classes</b>, covering all 9 combinations.
+  A 4th channel costs 1 class and no kind is touched.
+  A 4th kind costs 1 class and no channel is touched.
+end note
+
+@enduml

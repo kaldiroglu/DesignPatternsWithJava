@@ -1,0 +1,56 @@
+@startuml "Bridge - Notifications (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+title Before — three naive answers to two independent axes
+
+
+package "1 - one class, a switch on each axis" {
+  class SwitchingNotifier {
+    + send(kind, channel, to, message) : DeliveryResult
+    - sendSimple(channel, ..) : DeliveryResult
+    - sendUrgent(channel, ..) : DeliveryResult
+    - sendDigest(channel, ..) : DeliveryResult
+  }
+  note bottom of SwitchingNotifier
+    3 kinds x 3 channels = <b>9 branches</b>, by hand.
+    No edit touches one axis alone.
+    The 160-character SMS rule appears in 4 places —
+    and <b>sendDigest forgot it</b>, so SMS digests throw.
+  end note
+}
+
+package "2 - a class per (kind, channel) pair" {
+  class UrgentEmailNotification
+  class UrgentSmsNotification
+  class DigestEmailNotification
+  class "...six more..." as More
+  note bottom of More
+    The class name has to name <b>both axes</b>,
+    so the class count is their product:
+    3 x 3 = <b>9 classes</b>, and the retry loop
+    is written once per channel.
+  end note
+}
+
+package "3 - the notification inherits the channel" {
+  abstract class EmailSender {
+    # deliver(address, subject, body) : boolean
+  }
+  class EmailBoundUrgentNotification {
+    + send(to, message) : DeliveryResult
+  }
+  EmailSender <|-- EmailBoundUrgentNotification
+  note bottom of EmailBoundUrgentNotification
+    It <b>is an</b> EmailSender — not "has a channel".
+    So a user who prefers SMS cannot be served by
+    this object at any price: a superclass is chosen
+    when the code compiles, and never again.
+  end note
+}
+
+note as N1
+  All three work. All three make the same mistake in different
+  handwriting: <b>the two axes are welded together</b>, so neither
+  can change without disturbing the other.
+end note
+
+@enduml
