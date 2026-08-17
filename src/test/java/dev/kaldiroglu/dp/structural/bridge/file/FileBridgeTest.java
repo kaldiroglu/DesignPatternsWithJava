@@ -1,5 +1,6 @@
 package dev.kaldiroglu.dp.structural.bridge.file;
 
+import dev.kaldiroglu.dp.structural.bridge.file.solution.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

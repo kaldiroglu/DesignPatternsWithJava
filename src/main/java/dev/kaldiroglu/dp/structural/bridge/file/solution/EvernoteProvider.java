@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.bridge.file;
+package dev.kaldiroglu.dp.structural.bridge.file.solution;
 
 /** A ConcreteImplementor: the Evernote document store. */
 public class EvernoteProvider extends InMemoryProvider {

@@ -8,6 +8,7 @@ import dev.kaldiroglu.dp.structural.bridge.file.problem.InsuranceEvernoteManager
 import dev.kaldiroglu.dp.structural.bridge.file.problem.Store;
 import dev.kaldiroglu.dp.structural.bridge.file.problem.SwitchingFileManager;
 import dev.kaldiroglu.dp.structural.bridge.file.problem.VendorStores;
+import dev.kaldiroglu.dp.structural.bridge.file.solution.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

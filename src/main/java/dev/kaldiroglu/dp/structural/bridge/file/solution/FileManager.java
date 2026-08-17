@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.bridge.file;
+package dev.kaldiroglu.dp.structural.bridge.file.solution;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
