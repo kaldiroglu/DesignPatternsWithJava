@@ -47,6 +47,12 @@ arithmetic on literals. It also asserts the thing that keeps this honest: `Vendo
 exactly `name`, `open`, `pull`, `release` and **no `submit`** — an implementor that grows to
 mirror its abstraction is the failure GoF warn about on p. 154.
 
+## The diagram
+
+`uml/Bridge - Retrofit - Class Diagram.puml`, rendered to PNG and SVG beside it. The
+slide-optimized version of the same structure is `Deck/UML/p4-retrofit.puml` in the course
+repository — same classes, prose removed, larger type.
+
 ## Run it with
 
 ```bash

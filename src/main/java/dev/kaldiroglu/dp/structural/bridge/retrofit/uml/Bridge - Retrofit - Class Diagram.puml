@@ -1,0 +1,70 @@
+@startuml "Bridge - Retrofit - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A standard arrives over a system that already works
+
+package "What the standard requires — we do not design this" {
+  abstract class RegulatoryReport <<Abstraction>> {
+    # engine : VendorClient
+    + submit(period) : List<String>
+    + setEngine(VendorClient)
+    + engineName() : String
+    # {abstract} statementFor(period) : String
+    # decorateRows(rows) : List<String>
+  }
+  class QuarterlyReport <<RefinedAbstraction>>
+  class AuditedReport <<RefinedAbstraction>>
+  RegulatoryReport <|-- QuarterlyReport
+  RegulatoryReport <|-- AuditedReport
+}
+
+package "What we already have — nobody rewrites this" {
+  interface VendorClient <<Implementor>> {
+    + name() : String
+    + open(database) : String
+    + pull(handle, statement) : List<String>
+    + release(handle)
+  }
+  class LegacyEngine <<ConcreteImplementor>> {
+    + reportDirectly(statement) : String
+  }
+  class PurchasedEngine <<ConcreteImplementor>>
+  VendorClient <|.. LegacyEngine
+  VendorClient <|.. PurchasedEngine
+}
+
+RegulatoryReport o--> "engine" VendorClient
+
+note right of RegulatoryReport
+  <b>submit</b> is the operation the regulation names.
+  It exists nowhere in the engine: it is composed
+  from open, pull and release.
+
+  <b>engine</b> is protected, not private, because a
+  refinement may need the primitives itself.
+end note
+
+note bottom of VendorClient
+  <b>Four methods, and no submit.</b> A test asserts the
+  whole list. An implementor that grows to mirror its
+  abstraction is the failure GoF warn about on p. 154 —
+  the same interface written twice, for an indirection.
+end note
+
+note bottom of LegacyEngine
+  <b>reportDirectly</b> is a caller from ten years ago.
+  It still works, untouched, and knows of no standard.
+  A test runs it, because that is the whole promise.
+end note
+
+note as N1
+  <b>Bridge, not Adapter.</b> One class fitted to one required
+  interface, after the fact, is an Adapter — and should be
+  called one. This is a Bridge because both sides are
+  families: the standard grows refinements, and a second
+  engine sits behind it.
+
+  At 2 x 2 a wrapper per pair costs the same four classes.
+  That is the last size at which it does.
+end note
+@enduml
