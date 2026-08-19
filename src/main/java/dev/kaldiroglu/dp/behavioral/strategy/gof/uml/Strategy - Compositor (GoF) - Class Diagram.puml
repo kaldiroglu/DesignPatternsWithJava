@@ -1,0 +1,78 @@
+@startuml "Strategy - Compositor (GoF) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title GoF's own example — Design Patterns, pp. 315-316
+
+package "before the pattern" {
+  class "problem.Composition" as Naive {
+    - components : List<Component>
+    - lineWidth : int
+    - quality : boolean
+    + repair() : Layout
+    - firstFit() : Layout
+    - bestFit() : Layout
+  }
+  note bottom of Naive
+    A document that also typesets. The flag is
+    GoF's second objection made into a parameter:
+    <b>different algorithms suit different times.</b>
+
+    The greedy pass is written twice, because
+    bestFit needs it and there is nowhere to put it.
+  end note
+}
+
+package "after it" {
+  class "solution.Composition" as Context <<Context>> {
+    - compositor : Compositor
+    + insert(Component)
+    + setCompositor(Compositor)
+    + repair() : Layout
+  }
+
+  interface Compositor <<Strategy>> {
+    + name() : String
+    + compose(components, lineWidth) : Layout
+  }
+
+  class SimpleCompositor <<ConcreteStrategy>>
+  class TeXCompositor <<ConcreteStrategy>>
+  class ArrayCompositor <<ConcreteStrategy>> {
+    - perLine : int
+  }
+
+  Context o--> "compositor" Compositor
+  Compositor <|.. SimpleCompositor
+  Compositor <|.. TeXCompositor
+  Compositor <|.. ArrayCompositor
+}
+
+Naive -[hidden]right- Context
+
+note right of Compositor
+  <b>One method, and it is the algorithm.</b>
+  Handed the components and the measure,
+  it answers where the lines break. It does
+  not own the text and cannot decide whether
+  it should be the algorithm in use.
+end note
+
+note bottom of ArrayCompositor
+  <b>Counts components, not columns.</b> Six to a
+  row whatever they are — 33 wide in a
+  26-column measure, which neither text
+  algorithm would ever produce.
+
+  An interface designed around "fit text to a
+  width" could not have held this class.
+end note
+
+note as N1
+  Same paragraph, same measure, four lines either way.
+  Greedy leaves a worst gap of 8; reading the whole
+  paragraph first brings it to 5. Both figures are
+  asserted by CompositorTest.
+end note
+N1 .. Context
+
+@enduml
