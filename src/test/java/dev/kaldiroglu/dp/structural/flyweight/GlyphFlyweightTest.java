@@ -50,13 +50,13 @@ class GlyphFlyweightTest {
     }
 
     @Test
-    @DisplayName("sixty-one characters of text cost seventeen objects")
+    @DisplayName("sixty-three characters of text cost sixteen objects")
     void sharingIsMeasured() {
         Built built = document();
 
-        assertEquals(61, built.occurrences(), "characters typed");
-        assertEquals(17, built.factory().createdCharacterCount(), "objects allocated");
-        assertEquals(44, built.occurrences() - built.factory().createdCharacterCount(),
+        assertEquals(63, built.occurrences(), "characters typed");
+        assertEquals(16, built.factory().createdCharacterCount(), "objects allocated");
+        assertEquals(47, built.occurrences() - built.factory().createdCharacterCount(),
                 "occurrences that cost nothing");
     }
 
@@ -118,7 +118,7 @@ class GlyphFlyweightTest {
 
         assertEquals(new Font("Times"), first.font());
         assertEquals(new Font("Courier"), second.font());
-        assertEquals(61, window.rendered().size(), "every occurrence was drawn");
+        assertEquals(63, window.rendered().size(), "every occurrence was drawn");
     }
 
     @Test
