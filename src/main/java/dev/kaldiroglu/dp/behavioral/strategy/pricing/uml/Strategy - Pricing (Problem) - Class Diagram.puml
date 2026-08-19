@@ -1,0 +1,77 @@
+@startuml "Strategy - Pricing (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+title Before — three ways to weld a family of algorithms to a till
+
+package "stage one - a branch per campaign" {
+  class SwitchingCheckout {
+    + ring(basket, campaign : String) : Receipt
+  }
+  note bottom of SwitchingCheckout
+    Five campaigns, five branches, one method.
+    The campaign is a <b>String</b>, so a typo is a
+    run-time failure and no rule can be tested
+    on its own.
+  end note
+}
+
+package "stage two - the compiler helps" {
+  enum Campaign {
+    NONE
+    STUDENT
+    STAFF
+    BLACK_FRIDAY
+    BUY_TWO_GET_ONE
+  }
+  class EnumCheckout {
+    + ring(basket, campaign : Campaign) : Receipt
+  }
+  EnumCheckout ..> Campaign
+  note bottom of EnumCheckout
+    <b>A real improvement.</b> The switch is exhaustive,
+    so adding a constant stops this file compiling
+    until the branch is written.
+
+    Still two edits in two files, and nothing
+    outside them can add a campaign.
+  end note
+}
+
+package "stage three - a class per campaign" {
+  abstract class Checkout {
+    + ring(basket) : Receipt
+    # {abstract} priceFor(basket) : Money
+    # {abstract} campaignName() : String
+  }
+  class PlainCheckout
+  class StudentCheckout
+  class BlackFridayCheckout
+  Checkout <|-- PlainCheckout
+  Checkout <|-- StudentCheckout
+  Checkout <|-- BlackFridayCheckout
+
+  class Till {
+    - everyCampaign : List<Checkout>
+    + bestFor(basket) : Receipt
+  }
+  Till o--> "3" Checkout
+  note bottom of Till
+    <b>The reversal.</b> Pricing one basket several ways
+    needs several tills, so the caller names every
+    campaign class in the company.
+
+    The branch did not go away. It moved here and
+    became a list of type names.
+  end note
+}
+
+' Teaching order, left to right; Graphviz would otherwise place these by size.
+SwitchingCheckout -[hidden]right- EnumCheckout
+EnumCheckout -[hidden]right- Checkout
+
+note as N1
+  All three price correctly, and each is a real improvement on the one
+  before. What none of them can do is treat the campaign as a value:
+  something chosen on the day, by somebody else, for one basket.
+end note
+
+@enduml

@@ -1,0 +1,69 @@
+@startuml "Strategy - Pricing (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title After — the campaign is an object the till holds
+
+class Checkout <<Context>> {
+  - rule : PricingRule
+  + ring(basket) : Receipt
+  + setRule(PricingRule)
+  + ruleName() : String
+}
+
+interface PricingRule <<Strategy>> {
+  + name() : String
+  + priceFor(basket) : Money
+}
+
+class ShelfPrice <<ConcreteStrategy>>
+class PercentageOff <<ConcreteStrategy>> {
+  - percent : int
+  - qualifies : Predicate<Basket>
+}
+class TieredPercentageOff <<ConcreteStrategy>> {
+  - threshold : Money
+}
+class CheapestOfEveryThird <<ConcreteStrategy>> {
+  - category : String
+}
+
+class CampaignBook {
+  - rules : List<PricingRule>
+  + add(PricingRule) : CampaignBook
+  + bestFor(basket) : PricingRule
+  + quoteAll(basket) : List<Receipt>
+}
+
+Checkout o--> "rule" PricingRule
+PricingRule <|.. ShelfPrice
+PricingRule <|.. PercentageOff
+PricingRule <|.. TieredPercentageOff
+PricingRule <|.. CheapestOfEveryThird
+CampaignBook o--> "*" PricingRule
+
+note right of PricingRule
+  <b>Two methods, both about the algorithm.</b>
+  No appliesTo, no priority, no isBetterThan —
+  the moment a rule ranks itself against the
+  others, every rule knows every other rule.
+end note
+
+note bottom of CheapestOfEveryThird
+  Not a percentage at all. Had the interface
+  been <b>int percentOff()</b>, this campaign
+  could not have been written.
+end note
+
+note bottom of CampaignBook
+  <b>Who chooses</b> (GoF implementation issue 1):
+  not the strategies, not the context. A small
+  object whose only job is choosing.
+end note
+
+note left of Checkout
+  <b>The rule is a field.</b> One till prices one
+  basket five ways, and names no campaign class
+  to do it.
+end note
+
+@enduml
