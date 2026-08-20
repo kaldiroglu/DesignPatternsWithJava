@@ -123,6 +123,14 @@ class FreightTest {
         assertEquals(List.of("Yurtici", "Aras", "UPS", "Marketplace"),
                 forPillow.stream().map(Quote::carrier).toList());
 
+        // Both parcels priced by all four. Every figure here is on a slide.
+        assertEquals(List.of(Money.of("760.00"), Money.of("190.00"),
+                        Money.of("345.00"), Money.of("89.90")),
+                forPillow.stream().map(Quote::price).toList());
+        assertEquals(List.of(Money.of("190.00"), Money.of("70.00"),
+                        Money.of("138.00"), Money.of("89.90")),
+                forBooks.stream().map(Quote::price).toList());
+
         // The flat rate wins the big light parcel by a mile; the band table wins the small
         // heavy one. That is the point of holding four cards rather than picking one.
         assertEquals("Marketplace", board().cheapestFor(PILLOW).carrier());
