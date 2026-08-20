@@ -1,0 +1,60 @@
+@startuml "Strategy - Freight (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Four carriers, four ways of reaching a price
+
+class ShippingDesk <<Context>> {
+  - card : RateCard
+  + book(shipment) : Quote
+  + setCard(RateCard)
+}
+
+interface RateCard <<Strategy>> {
+  + carrier() : String
+  + quote(shipment) : Money
+}
+
+class ByDesi <<ConcreteStrategy>> {
+  volume over 3000, billed as kilos
+}
+class ByWeightBand <<ConcreteStrategy>> {
+  a printed table, one price per band
+}
+class ByZone <<ConcreteStrategy>> {
+  route price + per kilo + fuel surcharge
+}
+class FlatRate <<ConcreteStrategy>> {
+  one price, whatever it is
+}
+
+class CarrierBoard {
+  + add(RateCard) : CarrierBoard
+  + quoteAll(shipment) : List<Quote>
+  + cheapestFor(shipment) : Quote
+}
+
+ShippingDesk o--> "card" RateCard
+RateCard <|.. ByDesi
+RateCard <|.. ByWeightBand
+RateCard <|.. ByZone
+RateCard <|.. FlatRate
+CarrierBoard o--> "*" RateCard
+
+note bottom of ByWeightBand
+  <b>A lookup, not a rate.</b> One gram over a
+  band edge costs a whole band more, which
+  no Money perKilo() could express.
+end note
+
+note bottom of ByZone
+  <b>The only card that holds moving state.</b>
+  The fuel surcharge follows the oil price,
+  not the contract.
+end note
+
+note left of CarrierBoard
+  <b>Who chooses.</b> A carrier signed on Monday
+  is a line here. No card and no desk is touched.
+end note
+
+@enduml
