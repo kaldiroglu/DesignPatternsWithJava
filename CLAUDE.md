@@ -40,6 +40,12 @@ mvn -o test -Dtest='SolutionTest' -DfailIfNoTests=false
 
 - **Read the per-suite lines, not just the exit code.** A single stale figure fails the
   build and says nothing about the other 480 tests.
+- **`-q` hides the very lines you need.** `mvn -o -q clean test` prints nothing but the
+  failures, so a green run gives no total to quote. Run plain `mvn -o test` when the number
+  matters, and grep `^\[INFO\] Tests run:` for the summary.
+- **The branch is `master`, not `main`.** `git push origin main` fails with "src refspec
+  main does not match any" — a message that reads like a missing commit rather than a wrong
+  branch name. Push with `git push origin HEAD`. The two deck repositories use `main`.
 - **Surefire never collects a class named `*Main`.** Renaming a test class to `Main`
   silently removes its tests from the run and the build still passes.
 
@@ -54,6 +60,10 @@ The decks quote numbers off these tests, so they are written to fail when the co
 - **Every figure on a slide is asserted here.** If no test asserts it, it does not go on a
   slide. This is the rule that caught `GlyphFlyweightTest` still claiming 61 characters
   after the sample text had been changed to one that types 63.
+- **When a slide quotes a column, assert the column.** A table of four carriers times two
+  parcels is eight figures, and asserting them one at a time leaves gaps — `FreightTest`
+  covered six and the slide printed all eight. Assert the whole `List` the code produces in
+  one call: a rate change fails, and so does a fifth card the slide does not show.
 - **A "this file contains no X" test must strip comments first.** Well-commented code names
   what it excludes, so a plain search matches the class's own javadoc and proves nothing.
 - **Some numbers are properties of the input, not of the code.** The two text compositors
