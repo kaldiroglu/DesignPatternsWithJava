@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="org.javaturk.dp.ch08.command.account.problem.Account"
+    project="Design Patterns 2.0" 
+    file="/Design Patterns 2.0/src/org/javaturk/dp/ch06/command/account/problem/Account.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="155" width="218" x="274" y="95"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="true" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <classifier-display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+    sort-features="true" accessors="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false" static="false"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
