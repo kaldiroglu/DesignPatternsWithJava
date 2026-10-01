@@ -1,0 +1,71 @@
+@startuml "Command - Account (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title The teller's undo, three honest attempts
+
+package "stage one" {
+  class OneStepAccount {
+    - balance : Money
+    - lastKind : String
+    - lastAmount : Money
+    + deposit(Money)
+    + withdraw(Money)
+    + undo()
+  }
+  note bottom of OneStepAccount
+    <b>One step only.</b> A second undo finds nothing.
+    Two of its fields are bookkeeping for a screen.
+  end note
+}
+
+package "stage two" {
+  class HistoryAccount {
+    - balance : Money
+    - done : Deque<Entry>
+    - undone : Deque<Entry>
+    + deposit(Money)
+    + withdraw(Money)
+    + undo()
+    + redo()
+    + journal() : List<String>
+    + canUndo() : boolean
+    + canRedo() : boolean
+  }
+  note bottom of HistoryAccount
+    <b>Undo, redo and a journal, all on the account.</b>
+    Eight public operations, three of them banking.
+    Each operation lives in three places.
+  end note
+}
+
+package "stage three" {
+  class Teller {
+    - done : Deque<Entry>
+    + deposit(Account, Money)
+    + withdraw(Account, Money)
+    + transfer(Account, Account, Money)
+    + undo()
+    + redo()
+  }
+  class Account {
+    + deposit(Money)
+    + withdraw(Money)
+  }
+  enum Kind {
+    DEPOSIT
+    WITHDRAW
+  }
+  Teller ..> Account
+  Teller ..> Kind
+  note bottom of Teller
+    <b>The account is clean again.</b> The teller
+    branches on a kind to undo and to redo.
+    transfer() reuses withdraw() and deposit(),
+    records two entries, and one undo takes
+    back only the deposit.
+  end note
+}
+
+OneStepAccount -[hidden]right- HistoryAccount
+HistoryAccount -[hidden]right- Teller
+@enduml

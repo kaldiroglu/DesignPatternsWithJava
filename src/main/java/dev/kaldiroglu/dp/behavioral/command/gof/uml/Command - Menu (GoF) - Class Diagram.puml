@@ -1,0 +1,66 @@
+@startuml "Command - Menu (GoF) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title GoF's own example — Design Patterns, pp. 233-242
+
+package "before the pattern" {
+  class "problem.MenuItem" as Naive {
+    - label : String
+    - application : Application
+    + clicked()
+  }
+  note bottom of Naive
+    The toolkit's menu item imports the
+    application and branches on its label.
+    <b>Every new menu entry edits the toolkit.</b>
+  end note
+}
+
+package "after it" {
+  class Menu
+  class "solution.MenuItem" as Item <<Invoker>> {
+    - command : Command
+    + clicked()
+    + setCommand(Command)
+  }
+  interface Command <<Command>> {
+    + execute()
+  }
+  class PasteCommand <<ConcreteCommand>>
+  class OpenCommand <<ConcreteCommand>>
+  class MacroCommand <<ConcreteCommand>> {
+    + add(Command)
+    + remove(Command)
+  }
+  class "SimpleCommand<R>" as Simple <<ConcreteCommand>> {
+    - receiver : R
+    - action : Consumer<R>
+  }
+  class Document <<Receiver>> {
+    + open()
+    + copy()
+    + paste()
+  }
+  class Application <<Receiver, Client>> {
+    + add(Document)
+  }
+
+  Menu o--> "*" Item
+  Item o--> "command" Command
+  Command <|.. PasteCommand
+  Command <|.. OpenCommand
+  Command <|.. MacroCommand
+  Command <|.. Simple
+  MacroCommand o--> "*" Command
+  PasteCommand --> Document
+  OpenCommand --> Application
+}
+
+Naive -[hidden]right- Menu
+
+note right of Simple
+  GoF's C++ template. In Java the
+  member-function pointer is a method
+  reference: Document::paste
+end note
+@enduml

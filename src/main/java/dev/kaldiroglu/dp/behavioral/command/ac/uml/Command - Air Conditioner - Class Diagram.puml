@@ -1,0 +1,52 @@
+@startuml "Command - Air Conditioner - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A switch with four buttons
+
+class Person <<Client>> {
+  + action()
+}
+class ACSwitch <<Invoker>> {
+  - turnOnCommand : Command
+  - turnOffCommand : Command
+  - turnOnHeaterCommand : Command
+  - turnOnCoolerCommand : Command
+  + turnOn(int)
+  + turnOff()
+  + turnOnHeater(int)
+  + turnOnCooler(int)
+}
+interface Command {
+  + execute(Temperature)
+  + undo()
+  + redo()
+}
+class TurnOnCommand
+class TurnOffCommand
+class HeatCommand
+class CoolCommand
+class AirConditioner <<Receiver>> {
+  + turnOn(Temperature)
+  + turnOff()
+  + turnOnHeater(Temperature)
+  + turnOnCooler(Temperature)
+}
+
+Person --> ACSwitch
+ACSwitch o--> "4" Command
+Command <|.. TurnOnCommand
+Command <|.. TurnOffCommand
+Command <|.. HeatCommand
+Command <|.. CoolCommand
+TurnOnCommand --> AirConditioner
+TurnOffCommand --> AirConditioner
+HeatCommand --> AirConditioner
+CoolCommand --> AirConditioner
+
+note right of Command
+  undo() and redo() are declared and
+  not yet implemented: each command
+  holds only the air conditioner, not
+  the temperature it replaced.
+end note
+@enduml

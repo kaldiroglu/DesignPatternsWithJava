@@ -1,0 +1,57 @@
+@startuml "Command - Lender - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title The lender, from a direct call to a command
+
+package "problem1" {
+  class "Lender" as L1 {
+    + lend(Borrower, int)
+  }
+  class "Borrower" as B1 {
+    + borrow(int)
+  }
+  L1 --> B1
+  note bottom of L1
+    Knows the object and the method.
+  end note
+}
+
+package "problem2" {
+  class "Lender" as L2 {
+    + lend(Borrower, int)
+  }
+  interface "Borrower" as B2 {
+    + borrow(int)
+  }
+  class ConcreteBorrower1
+  class ConcreteBorrower2
+  L2 --> B2
+  B2 <|.. ConcreteBorrower1
+  B2 <|.. ConcreteBorrower2
+  note bottom of L2
+    Strategy: the object is hidden,
+    the method still says "borrow".
+  end note
+}
+
+package "pattern" {
+  class "Lender" as L3 {
+    + lend(Command, int)
+  }
+  interface Command {
+    + execute(int)
+  }
+  class "Borrower" as B3
+  class TaxOffice
+  L3 --> Command
+  Command <|.. B3
+  Command <|.. TaxOffice
+  note bottom of L3
+    Command: neither the object nor
+    what it does with the money.
+  end note
+}
+
+L1 -[hidden]right- L2
+L2 -[hidden]right- L3
+@enduml

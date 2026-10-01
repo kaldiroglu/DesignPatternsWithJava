@@ -1,0 +1,12 @@
+package dev.kaldiroglu.dp.behavioral.command.gof.solution;
+
+/**
+ * The <b>Command</b>: "declares an interface for executing an operation" (p. 233).
+ * <p>
+ * One method, with no arguments and no name worth the word. A menu item that holds one can
+ * ask for it to happen without knowing what "it" is or what it happens to.
+ */
+public interface Command {
+
+    void execute();
+}

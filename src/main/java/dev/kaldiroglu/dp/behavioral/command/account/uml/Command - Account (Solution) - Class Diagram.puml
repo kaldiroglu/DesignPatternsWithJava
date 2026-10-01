@@ -1,0 +1,70 @@
+@startuml "Command - Account (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title The teller, with each request an object
+
+class Teller <<Invoker>> {
+  - done : Deque<Transaction>
+  - undone : Deque<Transaction>
+  + perform(Transaction)
+  + undo()
+  + redo()
+  + journal() : List<String>
+}
+
+interface Transaction <<Command>> {
+  + execute()
+  + undo()
+  + description() : String
+}
+
+class Deposit <<ConcreteCommand>>
+class Withdraw <<ConcreteCommand>>
+class CloseOut <<ConcreteCommand>> {
+  - taken : Money
+}
+class Transfer <<ConcreteCommand>> {
+  - steps : List<Transaction>
+}
+
+class Account <<Receiver>> {
+  + balance() : Money
+  + deposit(Money)
+  + withdraw(Money)
+}
+
+class StandingOrders {
+  - tonight : Queue<Transaction>
+  + schedule(Transaction)
+  + runThrough(Teller)
+}
+
+Teller o--> "*" Transaction
+StandingOrders o--> "*" Transaction
+Transaction <|.. Deposit
+Transaction <|.. Withdraw
+Transaction <|.. CloseOut
+Transaction <|.. Transfer
+Transfer o--> "2" Transaction
+Deposit --> Account
+Withdraw --> Account
+CloseOut --> Account
+
+note right of Teller
+  <b>No switch, no case, no operation named.</b>
+  Undo takes the last transaction off the
+  pile and asks it to undo itself.
+end note
+
+note bottom of CloseOut
+  <b>Remembers what it took.</b>
+  The request had no amount;
+  undo needs the one it found.
+end note
+
+note bottom of Transfer
+  <b>One object on the history.</b>
+  A withdrawal and a deposit,
+  undone together, in reverse.
+end note
+@enduml
