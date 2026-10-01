@@ -1,13 +1,13 @@
 package dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.app;
 
-import org.javaturk.dp.ch08.command.account.account2.pattern.domain.AccountService;
-import org.javaturk.dp.ch08.command.account.account2.pattern.domain.Money;
-import org.javaturk.dp.ch08.command.account.account2.pattern.domain.transaction.TransactionTypes;
-import org.javaturk.dp.ch08.command.account.account2.pattern.ex.AccountNotFoundException;
-import org.javaturk.dp.ch08.command.account.account2.pattern.ex.IllegalMoneyException;
-import org.javaturk.dp.ch08.command.account.account2.pattern.domain.Account;
-import org.javaturk.dp.ch08.command.account.account2.pattern.ex.InsufficientBalanceException;
-import org.javaturk.dp.ch08.command.account.account2.pattern.repo.AccountRepository;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.AccountService;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.Money;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.transaction.TransactionTypes;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.AccountNotFoundException;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.IllegalMoneyException;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.Account;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.InsufficientBalanceException;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.repo.AccountRepository;
 
 import java.math.BigDecimal;
 import java.util.logging.Logger;

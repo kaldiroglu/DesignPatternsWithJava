@@ -1,10 +1,9 @@
 package dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain;
 
-
-import org.javaturk.dp.ch08.command.account.account2.pattern.domain.transaction.Deposit;
-import org.javaturk.dp.ch08.command.account.account2.pattern.domain.transaction.Withdraw;
-import org.javaturk.dp.ch08.command.account.account2.pattern.ex.IllegalMoneyException;
-import org.javaturk.dp.ch08.command.account.account2.pattern.ex.InsufficientBalanceException;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.transaction.Deposit;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.transaction.Withdraw;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.IllegalMoneyException;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.InsufficientBalanceException;
 
 import javax.security.auth.login.AccountLockedException;
 

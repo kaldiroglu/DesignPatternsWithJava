@@ -1,12 +1,10 @@
 package dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain;
 
-import org.javaturk.dp.ch08.command.account.account2.pattern.ex.IllegalMoneyException;
-import org.javaturk.dp.ch08.command.account.account2.pattern.ex.InsufficientBalanceException;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.IllegalMoneyException;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.InsufficientBalanceException;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Currency;
-import java.util.Objects;
 
 final public class Money {
     private final BigDecimal value;

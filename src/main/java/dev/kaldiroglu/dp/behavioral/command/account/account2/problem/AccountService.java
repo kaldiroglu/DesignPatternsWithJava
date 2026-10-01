@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.behavioral.command.account.account2.problem;
 
-import org.javaturk.dp.ch08.command.account.account2.problem.ex.*;
-import org.javaturk.dp.ch08.command.account.account2.problem.repo.AccountRepository;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.problem.ex.*;
+import dev.kaldiroglu.dp.behavioral.command.account.account2.problem.repo.AccountRepository;
 
 import java.util.logging.Logger;
 
