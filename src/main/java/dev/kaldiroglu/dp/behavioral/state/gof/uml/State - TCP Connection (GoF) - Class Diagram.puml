@@ -1,0 +1,47 @@
+@startuml "State - TCP Connection (GoF) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title GoF's own example — Design Patterns, pp. 305-313
+
+package "before the pattern" {
+  class "problem.TCPConnection" as P {
+    - state : State
+    + activeOpen()
+    + passiveOpen()
+    + send(data)
+    + acknowledge()
+    + close()
+  }
+  note bottom of P
+    <b>Every operation is a switch</b>
+    <b>over the three states.</b>
+  end note
+}
+package "after it" {
+  class TCPConnection <<Context>> {
+    - state : TCPState
+    ~ changeState(TCPState)
+  }
+  abstract class TCPState <<State>> {
+    + activeOpen(TCPConnection)
+    + passiveOpen(TCPConnection)
+    + send(TCPConnection, data)
+    + acknowledge(TCPConnection)
+    + close(TCPConnection)
+    # changeState(TCPConnection, TCPState)
+  }
+  class TCPClosed <<singleton>>
+  class TCPListen <<singleton>>
+  class TCPEstablished <<singleton>>
+  TCPConnection o--> TCPState
+  TCPState <|-- TCPClosed
+  TCPState <|-- TCPListen
+  TCPState <|-- TCPEstablished
+}
+P -[hidden]right- TCPConnection
+note right of TCPState
+  Every request is ignored by default.
+  Each state overrides what it answers,
+  and calls changeState() to move on.
+end note
+@enduml

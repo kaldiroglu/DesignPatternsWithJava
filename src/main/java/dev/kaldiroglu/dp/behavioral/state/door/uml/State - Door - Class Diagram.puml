@@ -1,0 +1,47 @@
+@startuml "State - Door - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A door: who changes its state?
+
+package "problem" {
+  class "Door" as D0 {
+    - open : boolean
+    + open()
+    + close()
+  }
+}
+package "pattern1 · the states decide" {
+  class "Door" as D1 {
+    - state : DoorState
+    ~ changeState(DoorState)
+  }
+  interface "DoorState" as S1
+  class "OpenDoor" as O1
+  class "ClosedDoor" as C1
+  D1 o--> S1
+  S1 <|.. O1
+  S1 <|.. C1
+  O1 ..> C1 : knows
+  C1 ..> O1 : knows
+}
+package "pattern2 · a manager decides" {
+  class "Door" as D2 {
+    - state : DoorState
+  }
+  class DoorStateManager {
+    + openDoor()
+    + closeDoor()
+  }
+  interface "DoorState" as S2
+  class "OpenDoor" as O2
+  class "ClosedDoor" as C2
+  D2 o--> S2
+  D2 --> DoorStateManager
+  S2 <|.. O2
+  S2 <|.. C2
+  O2 --> DoorStateManager
+  C2 --> DoorStateManager
+}
+D0 -[hidden]right- D1
+D1 -[hidden]right- D2
+@enduml

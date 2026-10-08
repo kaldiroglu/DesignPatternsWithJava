@@ -1,0 +1,51 @@
+@startuml "State - Order (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title An order's status: three attempts
+
+package "stage one" {
+  class FlagOrder {
+    - paid : boolean
+    - shipped : boolean
+    - delivered : boolean
+    - cancelled : boolean
+  }
+  note bottom of FlagOrder
+    <b>Four flags, sixteen combinations.</b>
+    Only five of them are real statuses.
+  end note
+}
+package "stage two" {
+  class SwitchingOrder {
+    - status : Status
+  }
+  enum Status
+  SwitchingOrder ..> Status
+  note bottom of SwitchingOrder
+    <b>One status, a switch in every method.</b>
+    A status's rules are spread out.
+  end note
+}
+package "stage three" {
+  class EnumOrder {
+    - status : OrderStatus
+    ~ trackingNumber : String
+    ~ failedAttempts : int
+  }
+  enum OrderStatus {
+    PLACED
+    PAID
+    SHIPPED
+    DELIVERED
+    CANCELLED
+  }
+  EnumOrder --> OrderStatus
+  note bottom of EnumOrder
+    <b>A constant cannot hold one order's data.</b>
+    failedAttempts lives in the order and
+    is not reset for a second shipment.
+  end note
+}
+FlagOrder -[hidden]right- SwitchingOrder
+SwitchingOrder -[hidden]right- EnumOrder
+@enduml

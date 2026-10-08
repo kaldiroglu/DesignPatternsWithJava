@@ -1,0 +1,46 @@
+@startuml "State - Order (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title An order that forwards to its state
+
+class Order <<Context>> {
+  - state : OrderState
+  + pay()
+  + ship(trackingNumber)
+  + failDelivery()
+  + deliver()
+  + cancel()
+}
+interface OrderState <<State, sealed>> {
+  + pay(Order) : OrderState
+  + ship(Order, trackingNumber) : OrderState
+  + failDelivery(Order) : OrderState
+  + deliver(Order) : OrderState
+  + cancel(Order) : OrderState
+}
+class Placed <<record>>
+class Paid <<record>>
+class Shipped <<record>> {
+  trackingNumber : String
+  failedAttempts : int
+}
+class Delivered <<record>>
+class Cancelled <<record>>
+
+Order o--> OrderState
+OrderState <|.. Placed
+OrderState <|.. Paid
+OrderState <|.. Shipped
+OrderState <|.. Delivered
+OrderState <|.. Cancelled
+
+note right of OrderState
+  <b>Each operation returns the next state.</b>
+  By default every operation is refused;
+  a state overrides only what it allows.
+end note
+note bottom of Shipped
+  <b>Its data belongs to this shipment.</b>
+  A new shipment starts at zero attempts.
+end note
+@enduml
