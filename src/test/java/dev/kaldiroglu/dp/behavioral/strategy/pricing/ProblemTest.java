@@ -1,17 +1,7 @@
 package dev.kaldiroglu.dp.behavioral.strategy.pricing;
 
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.domain.Basket;
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.domain.Customer;
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.domain.Line;
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.domain.Money;
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.domain.Receipt;
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.BlackFridayCheckout;
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.Campaign;
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.Checkout;
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.EnumCheckout;
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.StudentCheckout;
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.SwitchingCheckout;
-import dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.Till;
+import dev.kaldiroglu.dp.behavioral.strategy.pricing.domain.*;
+import dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,10 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The point of this class.

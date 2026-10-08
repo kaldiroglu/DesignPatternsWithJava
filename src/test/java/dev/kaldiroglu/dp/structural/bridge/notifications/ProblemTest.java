@@ -1,16 +1,7 @@
 package dev.kaldiroglu.dp.structural.bridge.notifications;
 
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.ChannelKind;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.DeliveryResult;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Message;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Recipient;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.TransportLog;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Transports;
-import dev.kaldiroglu.dp.structural.bridge.notifications.problem.DigestEmailNotification;
-import dev.kaldiroglu.dp.structural.bridge.notifications.problem.EmailBoundUrgentNotification;
-import dev.kaldiroglu.dp.structural.bridge.notifications.problem.SwitchingNotifier;
-import dev.kaldiroglu.dp.structural.bridge.notifications.problem.UrgentEmailNotification;
-import dev.kaldiroglu.dp.structural.bridge.notifications.problem.UrgentSmsNotification;
+import dev.kaldiroglu.dp.structural.bridge.notifications.domain.*;
+import dev.kaldiroglu.dp.structural.bridge.notifications.problem.*;
 import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.Notification;
 import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.NotificationChannel;
 import org.junit.jupiter.api.DisplayName;
@@ -21,11 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * All three naive designs work. Every test here passes, and that is the point: an argument

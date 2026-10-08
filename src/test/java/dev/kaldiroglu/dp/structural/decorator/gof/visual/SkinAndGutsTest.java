@@ -1,11 +1,6 @@
 package dev.kaldiroglu.dp.structural.decorator.gof.visual;
 
-import dev.kaldiroglu.dp.structural.decorator.gof.visual.skinandguts.BorderStyle;
-import dev.kaldiroglu.dp.structural.decorator.gof.visual.skinandguts.DashedBorder;
-import dev.kaldiroglu.dp.structural.decorator.gof.visual.skinandguts.SolidBorder;
-import dev.kaldiroglu.dp.structural.decorator.gof.visual.skinandguts.StyledBorderDecorator;
-import dev.kaldiroglu.dp.structural.decorator.gof.visual.skinandguts.SwitchingBorderDecorator;
-import dev.kaldiroglu.dp.structural.decorator.gof.visual.skinandguts.ThickBorder;
+import dev.kaldiroglu.dp.structural.decorator.gof.visual.skinandguts.*;
 import dev.kaldiroglu.dp.structural.decorator.gof.visual.solution.TextView;
 import dev.kaldiroglu.dp.structural.decorator.gof.visual.solution.VisualComponent;
 import org.junit.jupiter.api.DisplayName;

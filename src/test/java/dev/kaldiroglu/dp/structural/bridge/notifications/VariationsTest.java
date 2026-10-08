@@ -1,16 +1,7 @@
 package dev.kaldiroglu.dp.structural.bridge.notifications;
 
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.ChannelKind;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.DeliveryResult;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Message;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Recipient;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.TransportLog;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Transports;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.DigestNotification;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.EmailChannel;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.Notification;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.SimpleNotification;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.UrgentNotification;
+import dev.kaldiroglu.dp.structural.bridge.notifications.domain.*;
+import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.*;
 import dev.kaldiroglu.dp.structural.bridge.notifications.solution.factory.NotificationService;
 import dev.kaldiroglu.dp.structural.bridge.notifications.solution.factory.PreferenceChannelFactory;
 import dev.kaldiroglu.dp.structural.bridge.notifications.solution.shared.PooledChannel;
@@ -19,9 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The two variations. Neither changes the solution; each answers a question the classic

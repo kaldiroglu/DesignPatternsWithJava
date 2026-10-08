@@ -1,19 +1,11 @@
 package dev.kaldiroglu.dp.structural.bridge.gof.window;
 
 import dev.kaldiroglu.dp.structural.bridge.gof.Canvas;
-import dev.kaldiroglu.dp.structural.bridge.gof.solution.IconWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.solution.PMWindowImp;
-import dev.kaldiroglu.dp.structural.bridge.gof.solution.TransientWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.solution.Window;
-import dev.kaldiroglu.dp.structural.bridge.gof.solution.WindowImp;
-import dev.kaldiroglu.dp.structural.bridge.gof.solution.XWindowImp;
+import dev.kaldiroglu.dp.structural.bridge.gof.solution.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class WindowSolutionTest {
 

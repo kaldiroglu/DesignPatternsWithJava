@@ -1,10 +1,6 @@
 package dev.kaldiroglu.dp.structural.composite.hw.orgchart;
 
-import java.util.ArrayList;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * The Composite: someone with reports, who is also somebody's report.

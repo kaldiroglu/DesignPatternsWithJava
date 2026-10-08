@@ -1,19 +1,7 @@
 package dev.kaldiroglu.dp.structural.bridge.notifications;
 
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.ChannelKind;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.DeliveryResult;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Message;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Recipient;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.TransportLog;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Transports;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.DigestNotification;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.EmailChannel;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.Notification;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.NotificationChannel;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.PushChannel;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.SimpleNotification;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.SmsChannel;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.UrgentNotification;
+import dev.kaldiroglu.dp.structural.bridge.notifications.domain.*;
+import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,11 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The two hierarchies, and the ways they meet. The point of almost every test here is

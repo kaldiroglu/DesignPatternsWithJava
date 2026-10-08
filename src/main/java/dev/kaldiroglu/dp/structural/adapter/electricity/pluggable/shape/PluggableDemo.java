@@ -1,6 +1,9 @@
 package dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.shape;
 
-import dev.kaldiroglu.dp.structural.adapter.gof.*;
+import dev.kaldiroglu.dp.structural.adapter.gof.BoundingBox;
+import dev.kaldiroglu.dp.structural.adapter.gof.Point;
+import dev.kaldiroglu.dp.structural.adapter.gof.Shape;
+import dev.kaldiroglu.dp.structural.adapter.gof.TextView;
 
 import java.util.List;
 

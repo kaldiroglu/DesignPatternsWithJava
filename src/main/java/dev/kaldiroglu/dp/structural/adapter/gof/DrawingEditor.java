@@ -1,8 +1,8 @@
 package dev.kaldiroglu.dp.structural.adapter.gof;
 
-import java.util.List;
-
 import dev.kaldiroglu.dp.structural.adapter.gof.classadapter.TextShape;
+
+import java.util.List;
 
 /**
  * <b>Client</b> participant (GoF p. 146).

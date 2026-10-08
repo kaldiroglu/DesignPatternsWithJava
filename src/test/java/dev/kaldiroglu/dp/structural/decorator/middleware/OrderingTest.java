@@ -1,16 +1,7 @@
 package dev.kaldiroglu.dp.structural.decorator.middleware;
 
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.CallLog;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Clock;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.ManualClock;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Metrics;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.PriceFeed;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.SimulatedRemotePriceFeed;
-import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.CachingPriceFeed;
-import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.LoggingPriceFeed;
-import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.RateLimitingPriceFeed;
-import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.RetryingPriceFeed;
-import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.TimingPriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.domain.*;
+import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

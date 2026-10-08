@@ -1,31 +1,15 @@
 package dev.kaldiroglu.dp.behavioral.strategy.hw;
 
-import dev.kaldiroglu.dp.behavioral.strategy.hw.latefee.CappedFee;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.latefee.FeeRule;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.latefee.GraceThenDouble;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.latefee.Loan;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.latefee.ReturnsDesk;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.latefee.StandardFee;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.seating.BookingDesk;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.seating.FirstAvailable;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.seating.KeepTogether;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.seating.SeatPlan;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.seating.WindowPreferred;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.validation.MinimumLength;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.validation.MixedCharacters;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.validation.NoCommonWords;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.validation.PassphraseRule;
-import dev.kaldiroglu.dp.behavioral.strategy.hw.validation.SignUpForm;
+import dev.kaldiroglu.dp.behavioral.strategy.hw.latefee.*;
+import dev.kaldiroglu.dp.behavioral.strategy.hw.seating.*;
+import dev.kaldiroglu.dp.behavioral.strategy.hw.validation.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Worked solutions for the three homework problems, so that every figure on the homework

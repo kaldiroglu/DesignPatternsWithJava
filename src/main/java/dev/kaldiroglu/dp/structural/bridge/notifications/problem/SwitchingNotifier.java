@@ -1,10 +1,6 @@
 package dev.kaldiroglu.dp.structural.bridge.notifications.problem;
 
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.ChannelKind;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.DeliveryResult;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Message;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Recipient;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Transports;
+import dev.kaldiroglu.dp.structural.bridge.notifications.domain.*;
 
 /**
  * Naive design 1: one class, one method, and a switch on each axis.

@@ -2,7 +2,8 @@ package dev.kaldiroglu.dp.structural.adapter.electricity.powerAdapter2;
 
 import dev.kaldiroglu.dp.structural.adapter.electricity.domain.tr.Appliance;
 import dev.kaldiroglu.dp.structural.adapter.electricity.domain.tr.TurkishHomeAppliance;
-import dev.kaldiroglu.dp.structural.adapter.electricity.domain.us.*;
+import dev.kaldiroglu.dp.structural.adapter.electricity.domain.us.USPowerProvider;
+import dev.kaldiroglu.dp.structural.adapter.electricity.domain.us.USPowerSource;
 
 public class Main {
 

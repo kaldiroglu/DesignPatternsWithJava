@@ -1,10 +1,6 @@
 package dev.kaldiroglu.dp.structural.proxy.hw.licence;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The seats the university actually bought, and the queue for the next one.

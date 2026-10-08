@@ -1,11 +1,6 @@
 package dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic;
 
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.ChannelKind;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Console;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.DeliveryResult;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Recipient;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.TransportLog;
-import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Transports;
+import dev.kaldiroglu.dp.structural.bridge.notifications.domain.*;
 
 import java.util.List;
 

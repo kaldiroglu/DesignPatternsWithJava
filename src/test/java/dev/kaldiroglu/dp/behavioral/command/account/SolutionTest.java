@@ -3,13 +3,7 @@ package dev.kaldiroglu.dp.behavioral.command.account;
 import dev.kaldiroglu.dp.behavioral.command.account.domain.Account;
 import dev.kaldiroglu.dp.behavioral.command.account.domain.InsufficientFundsException;
 import dev.kaldiroglu.dp.behavioral.command.account.domain.Money;
-import dev.kaldiroglu.dp.behavioral.command.account.solution.CloseOut;
-import dev.kaldiroglu.dp.behavioral.command.account.solution.Deposit;
-import dev.kaldiroglu.dp.behavioral.command.account.solution.StandingOrders;
-import dev.kaldiroglu.dp.behavioral.command.account.solution.Teller;
-import dev.kaldiroglu.dp.behavioral.command.account.solution.Transaction;
-import dev.kaldiroglu.dp.behavioral.command.account.solution.Transfer;
-import dev.kaldiroglu.dp.behavioral.command.account.solution.Withdraw;
+import dev.kaldiroglu.dp.behavioral.command.account.solution.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,10 +15,7 @@ import java.util.stream.Stream;
 
 import static dev.kaldiroglu.dp.behavioral.command.account.ProblemTest.codeOf;
 import static dev.kaldiroglu.dp.behavioral.command.account.ProblemTest.countOf;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The same teller, with each request an object. Every figure on the Part 3 slides is

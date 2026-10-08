@@ -1,13 +1,6 @@
 package dev.kaldiroglu.dp.structural.bridge.file;
 
-import dev.kaldiroglu.dp.structural.bridge.file.problem.Department;
-import dev.kaldiroglu.dp.structural.bridge.file.problem.EvernoteBoundFinanceManager;
-import dev.kaldiroglu.dp.structural.bridge.file.problem.FinanceEvernoteManager;
-import dev.kaldiroglu.dp.structural.bridge.file.problem.FinanceSharepointManager;
-import dev.kaldiroglu.dp.structural.bridge.file.problem.InsuranceEvernoteManager;
-import dev.kaldiroglu.dp.structural.bridge.file.problem.Store;
-import dev.kaldiroglu.dp.structural.bridge.file.problem.SwitchingFileManager;
-import dev.kaldiroglu.dp.structural.bridge.file.problem.VendorStores;
+import dev.kaldiroglu.dp.structural.bridge.file.problem.*;
 import dev.kaldiroglu.dp.structural.bridge.file.solution.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,9 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The three naive designs, and the way each of them fails.

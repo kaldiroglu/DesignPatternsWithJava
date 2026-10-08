@@ -1,11 +1,11 @@
 package dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.app;
 
+import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.Account;
 import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.AccountService;
 import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.Money;
 import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.transaction.TransactionTypes;
 import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.AccountNotFoundException;
 import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.IllegalMoneyException;
-import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.Account;
 import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.InsufficientBalanceException;
 import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.repo.AccountRepository;
 

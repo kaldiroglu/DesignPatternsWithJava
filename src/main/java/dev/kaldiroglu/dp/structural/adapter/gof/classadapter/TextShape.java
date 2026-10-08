@@ -1,11 +1,6 @@
 package dev.kaldiroglu.dp.structural.adapter.gof.classadapter;
 
-import dev.kaldiroglu.dp.structural.adapter.gof.BoundingBox;
-import dev.kaldiroglu.dp.structural.adapter.gof.Manipulator;
-import dev.kaldiroglu.dp.structural.adapter.gof.Point;
-import dev.kaldiroglu.dp.structural.adapter.gof.Shape;
-import dev.kaldiroglu.dp.structural.adapter.gof.TextManipulator;
-import dev.kaldiroglu.dp.structural.adapter.gof.TextView;
+import dev.kaldiroglu.dp.structural.adapter.gof.*;
 
 /**
  * <b>Class Adapter</b> (GoF p. 146).

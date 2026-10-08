@@ -1,13 +1,6 @@
 package dev.kaldiroglu.dp.structural.flyweight;
 
-import dev.kaldiroglu.dp.structural.flyweight.gof.CharacterGlyph;
-import dev.kaldiroglu.dp.structural.flyweight.gof.Column;
-import dev.kaldiroglu.dp.structural.flyweight.gof.Font;
-import dev.kaldiroglu.dp.structural.flyweight.gof.Glyph;
-import dev.kaldiroglu.dp.structural.flyweight.gof.GlyphContext;
-import dev.kaldiroglu.dp.structural.flyweight.gof.GlyphFactory;
-import dev.kaldiroglu.dp.structural.flyweight.gof.Row;
-import dev.kaldiroglu.dp.structural.flyweight.gof.Window;
+import dev.kaldiroglu.dp.structural.flyweight.gof.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,10 +8,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The point of this class.

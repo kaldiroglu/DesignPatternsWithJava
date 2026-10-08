@@ -5,8 +5,6 @@ import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.domain.tran
 import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.IllegalMoneyException;
 import dev.kaldiroglu.dp.behavioral.command.account.account2.pattern.ex.InsufficientBalanceException;
 
-import javax.security.auth.login.AccountLockedException;
-
 public class AccountService {
 
     public void deposit(Account sourceAccount, Money amount) throws InsufficientBalanceException, IllegalMoneyException {

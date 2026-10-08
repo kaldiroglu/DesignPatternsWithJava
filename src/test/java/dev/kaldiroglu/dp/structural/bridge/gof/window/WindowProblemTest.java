@@ -1,17 +1,10 @@
 package dev.kaldiroglu.dp.structural.bridge.gof.window;
 
-import dev.kaldiroglu.dp.structural.bridge.gof.problem.PMIconWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.problem.PMWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.problem.Window;
-import dev.kaldiroglu.dp.structural.bridge.gof.problem.XIconWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.problem.XTransientWindow;
-import dev.kaldiroglu.dp.structural.bridge.gof.problem.XWindow;
+import dev.kaldiroglu.dp.structural.bridge.gof.problem.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The design GoF start from works. These tests prove it works, and then measure what it

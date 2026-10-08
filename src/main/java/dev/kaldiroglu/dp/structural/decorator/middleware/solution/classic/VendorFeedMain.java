@@ -1,11 +1,7 @@
 package dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic;
 
 import dev.kaldiroglu.dp.structural.decorator.middleware.Console;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.CallLog;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Clock;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.ManualClock;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.PriceFeed;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.VendorPriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.domain.*;
 
 import java.time.Duration;
 

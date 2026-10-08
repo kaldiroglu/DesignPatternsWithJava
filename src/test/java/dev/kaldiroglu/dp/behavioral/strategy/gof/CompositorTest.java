@@ -1,10 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.strategy.gof;
 
-import dev.kaldiroglu.dp.behavioral.strategy.gof.solution.ArrayCompositor;
-import dev.kaldiroglu.dp.behavioral.strategy.gof.solution.Composition;
-import dev.kaldiroglu.dp.behavioral.strategy.gof.solution.Compositor;
-import dev.kaldiroglu.dp.behavioral.strategy.gof.solution.SimpleCompositor;
-import dev.kaldiroglu.dp.behavioral.strategy.gof.solution.TeXCompositor;
+import dev.kaldiroglu.dp.behavioral.strategy.gof.solution.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,10 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The point of this class.

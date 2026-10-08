@@ -4,9 +4,9 @@ import dev.kaldiroglu.dp.structural.bridge.notifications.domain.DeliveryResult;
 import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Message;
 import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Recipient;
 import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.Notification;
+import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.NotificationChannel;
 
 import java.util.function.Function;
-import dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.NotificationChannel;
 
 /**
  * What the application actually calls.

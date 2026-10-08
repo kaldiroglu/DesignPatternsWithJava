@@ -1,12 +1,7 @@
 package dev.kaldiroglu.dp.structural.decorator.middleware.problem;
 
 import dev.kaldiroglu.dp.structural.decorator.middleware.Console;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.CallLog;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Clock;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.ManualClock;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Metrics;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.PriceFeed;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.SimulatedRemotePriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.domain.*;
 
 /** Naive design 2: one class, five boolean flags. */
 public final class FlagsMain {

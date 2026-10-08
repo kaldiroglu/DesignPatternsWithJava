@@ -1,6 +1,9 @@
 package dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.shape;
 
-import dev.kaldiroglu.dp.structural.adapter.gof.*;
+import dev.kaldiroglu.dp.structural.adapter.gof.BoundingBox;
+import dev.kaldiroglu.dp.structural.adapter.gof.Manipulator;
+import dev.kaldiroglu.dp.structural.adapter.gof.Shape;
+import dev.kaldiroglu.dp.structural.adapter.gof.TextManipulator;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;

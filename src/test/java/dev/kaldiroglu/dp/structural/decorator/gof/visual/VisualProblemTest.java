@@ -1,10 +1,6 @@
 package dev.kaldiroglu.dp.structural.decorator.gof.visual;
 
-import dev.kaldiroglu.dp.structural.decorator.gof.visual.problem.BorderedScrolledTextView;
-import dev.kaldiroglu.dp.structural.decorator.gof.visual.problem.BorderedTextView;
-import dev.kaldiroglu.dp.structural.decorator.gof.visual.problem.ScrolledBorderedTextView;
-import dev.kaldiroglu.dp.structural.decorator.gof.visual.problem.ScrolledTextView;
-import dev.kaldiroglu.dp.structural.decorator.gof.visual.problem.TextView;
+import dev.kaldiroglu.dp.structural.decorator.gof.visual.problem.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

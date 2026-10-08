@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.behavioral.strategy.sorting;
 
-import dev.kaldiroglu.dp.behavioral.strategy.sorting.pattern.SortingContext;
 import dev.kaldiroglu.dp.behavioral.strategy.sorting.pattern.Sorter;
+import dev.kaldiroglu.dp.behavioral.strategy.sorting.pattern.SortingContext;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,11 +10,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The point of this class.

@@ -1,12 +1,6 @@
 package dev.kaldiroglu.dp.structural.decorator.middleware;
 
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.CallLog;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Clock;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.ManualClock;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Metrics;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.PriceFeed;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.RateLimitExceededException;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.SimulatedRemotePriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.domain.*;
 import dev.kaldiroglu.dp.structural.decorator.middleware.problem.CachingRetryingLoggingPriceFeed;
 import dev.kaldiroglu.dp.structural.decorator.middleware.problem.CopyPasteOrderService;
 import dev.kaldiroglu.dp.structural.decorator.middleware.problem.FlaggedPriceFeed;
@@ -15,10 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The naive designs work. Every test here passes, and that is the point: an argument for a
