@@ -39,9 +39,9 @@ whole, because the request was never a thing it could hold.
 | `Teller` | Invoker | Performs, keeps, undoes and redoes; names no operation |
 | `StandingOrders` | — | Requests made in the morning and run at night: the "queue requests" half of the intent |
 
-## The author's earlier versions — `account1`, `account2`
+## The earlier versions — `account1`, `account2`
 
-Kept as they were. `account1` is the version in the author's original slides, with a
+Kept as they were. `account1` is the version in the original slides, with a
 `Transaction` interface carrying `execute`, `undo` and `redo` and two factories.
 `account2` is a later variation in which the account accepts a transaction —
 `Account.changeBalance(Transaction)` — so the receiver runs the command it is handed.

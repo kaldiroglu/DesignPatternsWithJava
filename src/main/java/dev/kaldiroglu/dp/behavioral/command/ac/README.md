@@ -4,7 +4,7 @@
 
 For further enquiry please contact Akin Kaldiroglu at akin@kaldiroglu.dev
 
-The author's own example. A wall switch with four buttons — on, off, heat, cool — drives an
+A wall switch with four buttons — on, off, heat, cool — drives an
 air conditioner through four commands.
 
 | Class | Participant |

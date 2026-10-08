@@ -4,7 +4,7 @@
 
 For further enquiry please contact Akin Kaldiroglu at akin@kaldiroglu.dev
 
-The author's own example, in three steps. Somebody lends money and should not know who
+An example in three steps. Somebody lends money and should not know who
 takes it — nor what is done with it.
 
 | Package | What the lender knows | Pattern |

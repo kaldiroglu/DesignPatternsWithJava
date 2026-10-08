@@ -4,7 +4,7 @@
 
 For further enquiry please contact Akin Kaldiroglu at akin@kaldiroglu.dev
 
-The author's own Strategy example, carried over from `org.javaturk.dp.ch08.strategy.sorting`
+A Strategy example carried over from `org.javaturk.dp.ch08.strategy.sorting`
 in the earlier *Design Patterns 2.0* material. Three sorting algorithms, and which one suits
 the array is decided by its size: under a hundred elements bubble, under a million quicksort,
 above that hand it to the library.
@@ -33,7 +33,7 @@ A deck that promises the `if` goes away is teaching something the code does not 
 example is where that gets said, and `SortingTest.theBranchMovedRatherThanVanished` measures
 it: both files carry the thresholds, only one carries a `partition`.
 
-The cost is the one GoF list and the author's own slides repeat: as algorithms are added,
+The cost is the one GoF list: as algorithms are added,
 that selection method grows. A registry keyed on the input — `pricing.CampaignBook` — is the
 usual next step.
 

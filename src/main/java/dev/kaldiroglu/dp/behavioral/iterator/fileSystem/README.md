@@ -4,7 +4,7 @@
 
 For further enquiry please contact Akin Kaldiroglu at akin@kaldiroglu.dev
 
-The author's own example. A `Directory` holds files, shortcuts, aliases and other
+A `Directory` holds files, shortcuts, aliases and other
 directories, and gives out a `DirectoryIterator` to list them.
 
 | Class | Participant |

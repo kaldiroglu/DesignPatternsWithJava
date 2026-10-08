@@ -1,7 +1,7 @@
 @startuml "Iterator - File System - Class Diagram"
 skinparam classAttributeIconSize 0
 hide empty members
-title The author's file system, with a directory iterator
+title A file system, with a directory iterator
 
 interface Storage {
   + rename(String)
