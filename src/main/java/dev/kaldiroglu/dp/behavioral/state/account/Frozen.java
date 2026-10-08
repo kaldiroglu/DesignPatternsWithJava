@@ -16,10 +16,14 @@ public class Frozen implements AccountStatus {
 	@Override
 	public void deposit(int amount) {
 		int balance = account.getBalance();
-		balance =+ amount;
+		balance += amount;
 		account.setBalance(balance);
-		if(account.getBalance() >= 0)
+		if (balance >= 0)
 			account.setStatus(new Active(account));
+		else if (balance > -account.getOverdraftLimit())
+			account.setStatus(new Overdrawn(account));
+		else
+			System.out.println("Status: Frozen and balance: " + account.getBalance());
 	}
 
 	@Override

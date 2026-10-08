@@ -15,6 +15,6 @@ public class GoingUpState implements ElevatorState {
 	}
 
 	public void stop() {
-		System.out.println("Stooping!");
+		System.out.println("Stopping!");
 	}
 }

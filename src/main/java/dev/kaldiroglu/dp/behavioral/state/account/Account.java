@@ -11,7 +11,7 @@ public class Account {
 	public Account(int balance, boolean frozen) {
 		this.balance = balance;
 		this.frozen = frozen;
-		if (balance > 0)
+		if (balance >= 0)
 			status = new Active(this);
 		else
 			throw new RuntimeException("Initial balance can't be negative!");

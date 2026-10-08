@@ -30,12 +30,12 @@ public class Overdrawn implements AccountStatus {
 	@Override
 	public void deposit(int amount) {
 		int balance = account.getBalance();
-		amount -= account.getOverdraftLimit();
-		balance =+ amount;
+		balance += amount;
 		account.setBalance(balance);
-		if(account.getBalance() >= 0){
+		if (balance >= 0)
 			account.setStatus(new Active(account));
-		}
+		else
+			System.out.println("Status: Overdrawn and balance: " + account.getBalance());
 	}
 
 	@Override
