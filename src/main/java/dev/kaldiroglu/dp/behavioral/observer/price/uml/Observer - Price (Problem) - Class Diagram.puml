@@ -1,0 +1,47 @@
+@startuml "Observer - Price (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Three readers of one price: three attempts
+package "stage one" {
+  class DirectPriceFeed {
+    + setPrice(int)
+  }
+  note bottom of DirectPriceFeed
+    <b>The feed calls every reader.</b>
+    It knows each one by class.
+  end note
+}
+package "stage two" {
+  class PollingReaders {
+    + poll()
+  }
+  note bottom of PollingReaders
+    <b>The readers poll every second.</b>
+    Late, and most reads find nothing.
+  end note
+}
+package "stage three" {
+  class ChangeOnlyReaders {
+    - lastSeen : int
+    + poll()
+  }
+  note bottom of ChangeOnlyReaders
+    <b>Poll often, act only on a change.</b>
+    A spike between two polls is never seen.
+  end note
+}
+class PriceFeed {
+  + setPrice(int)
+  + price() : int
+}
+class Chart
+class Ticker
+class PriceAlert
+DirectPriceFeed --> Chart
+DirectPriceFeed --> Ticker
+DirectPriceFeed --> PriceAlert
+PollingReaders --> PriceFeed
+ChangeOnlyReaders --> PriceFeed
+DirectPriceFeed -[hidden]right- PollingReaders
+PollingReaders -[hidden]right- ChangeOnlyReaders
+@enduml

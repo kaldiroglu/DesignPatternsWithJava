@@ -1,0 +1,28 @@
+@startuml "Observer - Payment - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title An invoice and two observers, with java.util.Observable
+class "java.util.Observable" as Observable <<deprecated since 9>> {
+  + addObserver(Observer)
+  + deleteObserver(Observer)
+  # setChanged()
+  + notifyObservers()
+}
+interface "java.util.Observer" as Observer <<deprecated since 9>> {
+  + update(Observable, Object)
+}
+class Invoice {
+  + payBalance(double)
+}
+class Boss
+class Accountant
+Observable <|-- Invoice
+Observer <|.. Boss
+Observer <|.. Accountant
+Observable o--> "*" Observer
+note bottom of Invoice
+  Must extend Observable, so it can
+  extend nothing else. The order of
+  notifications is not specified.
+end note
+@enduml

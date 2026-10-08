@@ -1,0 +1,40 @@
+@startuml "Observer - Clock Timer (GoF) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title GoF's own example — Design Patterns, pp. 293-303
+package "before the pattern" {
+  class "problem.ClockTimer" as P {
+    + tick()
+    - drawDigital()
+    - drawAnalog()
+  }
+  note bottom of P
+    <b>The timer draws its own clocks.</b>
+  end note
+}
+package "after it" {
+  abstract class Subject {
+    + attach(Observer)
+    + detach(Observer)
+    # notifyObservers()
+  }
+  interface Observer {
+    + update(Subject)
+  }
+  class ClockTimer <<ConcreteSubject>> {
+    + tick()
+    + hour() : int
+    + minute() : int
+    + second() : int
+  }
+  class DigitalClock <<ConcreteObserver>>
+  class AnalogClock <<ConcreteObserver>>
+  Subject o--> "*" Observer
+  Subject <|-- ClockTimer
+  Observer <|.. DigitalClock
+  Observer <|.. AnalogClock
+  DigitalClock --> ClockTimer : pulls the time
+  AnalogClock --> ClockTimer : pulls the time
+}
+P -[hidden]right- Subject
+@enduml

@@ -1,0 +1,40 @@
+@startuml "Observer - Publisher - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Magazines and their subscribers
+interface Publication <<Subject>> {
+  + addSubscriber(Subscriber)
+  + removeSubscriber(Subscriber)
+  + publish(date)
+}
+abstract class AbstractPublication {
+  # subscribers : List<Subscriber>
+}
+class Newsweek
+class FourFourTwo
+interface Subscriber <<Observer>> {
+  + receive(Publication)
+}
+abstract class AbstractSubscriber
+class IndividualSubscriber {
+  + read(Publication)
+}
+class InstitutionalSubscriber {
+  + putOnShelf(Publication)
+}
+class Publisher
+Publication <|.. AbstractPublication
+AbstractPublication <|-- Newsweek
+AbstractPublication <|-- FourFourTwo
+Subscriber <|.. AbstractSubscriber
+AbstractSubscriber <|-- IndividualSubscriber
+AbstractSubscriber <|-- InstitutionalSubscriber
+AbstractPublication o--> "*" Subscriber
+Publisher --> Newsweek
+Publisher --> FourFourTwo
+note bottom of Subscriber
+  Each kind of subscriber reacts
+  in its own way: one reads,
+  one puts it on the shelf.
+end note
+@enduml

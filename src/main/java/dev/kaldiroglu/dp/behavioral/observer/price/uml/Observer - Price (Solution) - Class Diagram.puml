@@ -1,0 +1,32 @@
+@startuml "Observer - Price (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A feed that tells its listeners
+class PriceFeed <<Subject>> {
+  - listeners : List<PriceListener>
+  + subscribe(PriceListener)
+  + unsubscribe(PriceListener)
+  + setPrice(int)
+}
+interface PriceListener <<Observer>> {
+  + priceChanged(PriceChange)
+}
+class PriceChange <<record>> {
+  symbol : String
+  oldPrice : int
+  newPrice : int
+}
+class Chart <<ConcreteObserver>>
+class Ticker <<ConcreteObserver>>
+class PriceAlert <<ConcreteObserver>>
+PriceFeed o--> "*" PriceListener
+PriceListener <|.. Chart
+PriceListener <|.. Ticker
+PriceListener <|.. PriceAlert
+PriceFeed ..> PriceChange : sends
+note right of PriceFeed
+  <b>Knows only PriceListener.</b>
+  Notifies at the moment of the change,
+  so no change is missed.
+end note
+@enduml
