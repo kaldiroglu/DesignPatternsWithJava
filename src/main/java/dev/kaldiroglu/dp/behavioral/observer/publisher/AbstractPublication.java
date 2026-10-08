@@ -7,6 +7,7 @@ import java.util.List;
 public abstract class AbstractPublication implements Publication{
 	
 	protected String name;
+	protected String issueDate;
 	protected List<Subscriber> subscribers;
 
 	protected AbstractPublication(String name) {
@@ -17,6 +18,11 @@ public abstract class AbstractPublication implements Publication{
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public String getIssue() {
+		return name + " - " + issueDate;
 	}
 
 	@Override

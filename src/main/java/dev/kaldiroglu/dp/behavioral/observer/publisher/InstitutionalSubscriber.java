@@ -1,8 +1,7 @@
 package dev.kaldiroglu.dp.behavioral.observer.publisher;
 
 public class InstitutionalSubscriber extends AbstractSubscriber  {
-	private String name;
-	
+
 	public InstitutionalSubscriber(String name) {
 		super(name);
 	}
@@ -12,6 +11,6 @@ public class InstitutionalSubscriber extends AbstractSubscriber  {
 	}
 
 	public void putOnShelf(Publication publication) {
-		System.out.println(publication.getName() + " is on the shelf of " + name);
+		System.out.println(publication.getIssue() + " is on the shelf of " + name);
 	}
 }

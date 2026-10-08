@@ -11,6 +11,6 @@ public class IndividualSubscriber extends AbstractSubscriber {
 	}
 
 	public void read(Publication publication) {
-		System.out.println(name + " is reading " + publication.getName());
+		System.out.println(name + " is reading " + publication.getIssue());
 	}
 }

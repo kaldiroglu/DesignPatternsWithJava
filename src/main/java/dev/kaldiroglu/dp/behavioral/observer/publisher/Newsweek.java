@@ -9,7 +9,7 @@ public class Newsweek extends AbstractPublication {
 	}
 	
 	public void publish(String date) {
-		name = name + " - " + date;
+		issueDate = date;
 		Iterator<Subscriber> iterator = subscribers.iterator();
 		while(iterator.hasNext()) {
 			Subscriber subscriber = iterator.next();
