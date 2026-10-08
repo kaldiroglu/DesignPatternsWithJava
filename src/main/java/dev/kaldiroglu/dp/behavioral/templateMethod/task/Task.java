@@ -3,12 +3,12 @@ package dev.kaldiroglu.dp.behavioral.templateMethod.task;
 public abstract class Task {
 	protected String name;
 	protected int interval;
-	protected int repetation;
+	protected int repetition;
 	
-	public Task(String name, int interval, int repetation) {
+	public Task(String name, int interval, int repetition) {
 		this.name = name;
 		this.interval = interval;
-		this.repetation = repetation;
+		this.repetition = repetition;
 	}
 
 	public void prepare() {
@@ -31,12 +31,12 @@ public abstract class Task {
 
 	public final void run() {
 		prepare();
-		int repetationCount = 0;
-		while (repetationCount < repetation) {
+		int repetitionCount = 0;
+		while (repetitionCount < repetition) {
 			before();
 			doTask();
 			after();
-			repetationCount++;
+			repetitionCount++;
 			try {
 				Thread.sleep(interval * 1000);
 			} catch (InterruptedException e) {
