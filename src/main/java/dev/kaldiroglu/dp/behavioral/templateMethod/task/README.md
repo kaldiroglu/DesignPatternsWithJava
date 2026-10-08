@@ -14,8 +14,12 @@ many times as asked, waiting between repetitions, then clean up.
 | `Print` | ConcreteClass — also overrides the `prepare` and `clean` hooks |
 | `Test` | Client, with a `main` method |
 
-`Test` runs a print task ten times with a one-second interval, so it takes about ten
-seconds.
+`run()` waits only between repetitions, not after the last one. If the thread is
+interrupted while it waits, `run()` keeps the interrupt flag, stops repeating, and still
+calls `clean()`.
+
+`Test` runs a print task ten times with a one-second interval: nine waits, so it takes
+about nine seconds.
 
 ## Run it with
 

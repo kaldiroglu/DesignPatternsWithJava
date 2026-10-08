@@ -6,7 +6,7 @@ title A repeated task
 abstract class Task {
   # name : String
   # interval : int
-  # repetation : int
+  # repetition : int
   + {final} run()
   + prepare()
   + before()

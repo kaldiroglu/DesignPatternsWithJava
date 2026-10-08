@@ -37,12 +37,17 @@ public abstract class Task {
 			doTask();
 			after();
 			repetitionCount++;
-			try {
-				Thread.sleep(interval * 1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			// Wait only between repetitions, not after the last one.
+			if (repetitionCount < repetition) {
+				try {
+					Thread.sleep(interval * 1000L);
+				} catch (InterruptedException e) {
+					// Someone asked this thread to stop: keep the interrupt flag and stop.
+					Thread.currentThread().interrupt();
+					break;
+				}
 			}
 		}
-		 clean() ;
+		clean();
 	}
 }

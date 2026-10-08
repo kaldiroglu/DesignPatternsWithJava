@@ -2,8 +2,8 @@ package dev.kaldiroglu.dp.behavioral.templateMethod.task;
 
 public class Scan extends Task {
 
-	public Scan(String name, int interval, int repetation) {
-		super(name, interval, repetation);
+	public Scan(String name, int interval, int repetition) {
+		super(name, interval, repetition);
 	}
 
 	@Override
