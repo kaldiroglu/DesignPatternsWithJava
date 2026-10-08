@@ -1,0 +1,60 @@
+@startuml "Iterator - List (GoF) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title GoF's own example — Design Patterns, pp. 257-271
+
+package "before the pattern" {
+  class "CursorList<T>" as Cursor {
+    - cursor : int
+    + first()
+    + next()
+    + isDone() : boolean
+    + currentItem() : T
+  }
+  note bottom of Cursor
+    <b>The walk's position is in the list.</b>
+    A loop inside a loop moves the same cursor.
+  end note
+}
+
+package "after it" {
+  abstract class "AbstractList<T>" as Abstract <<Aggregate>> {
+    + {abstract} createIterator() : Iterator<T>
+  }
+  class "List<T>" as List <<ConcreteAggregate>>
+  class "ChainList<T>" as Chain <<ConcreteAggregate>>
+  interface "Iterator<T>" as Iterator {
+    + first()
+    + next()
+    + isDone() : boolean
+    + currentItem() : T
+  }
+  class "ListIterator<T>" as LI <<ConcreteIterator>>
+  class "ReverseListIterator<T>" as RLI <<ConcreteIterator>>
+  class "ChainListIterator<T>" as CLI <<ConcreteIterator>>
+  abstract class "ListTraverser<T>" as Traverser {
+    + traverse() : boolean
+    # {abstract} processItem(T) : boolean
+  }
+  class PrintNEmployees
+
+  Abstract <|-- List
+  Abstract <|-- Chain
+  Iterator <|.. LI
+  Iterator <|.. RLI
+  Iterator <|.. CLI
+  List ..> LI : creates
+  Chain ..> CLI : creates
+  RLI --> List
+  Traverser --> Iterator
+  Traverser <|-- PrintNEmployees
+}
+
+Cursor -[hidden]right- Abstract
+
+note right of Traverser
+  <b>An internal iterator.</b>
+  It runs the loop; a subclass
+  handles each item.
+end note
+@enduml

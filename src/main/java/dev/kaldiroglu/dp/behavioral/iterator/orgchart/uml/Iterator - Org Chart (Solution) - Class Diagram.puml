@@ -1,0 +1,47 @@
+@startuml "Iterator - Org Chart (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A department that gives out iterators
+
+interface "Iterable<Employee>" as Iterable
+interface "Iterator<Employee>" as Iterator {
+  + hasNext() : boolean
+  + next() : Employee
+}
+class Department <<Aggregate>> {
+  - members : List<Employee>
+  - units : List<Department>
+  + add(Employee)
+  + add(Department)
+  + iterator() : Iterator<Employee>
+  + byLevel() : Iterable<Employee>
+}
+class DepthFirstIterator <<ConcreteIterator>> {
+  - departments : Deque<Department>
+}
+class LevelOrderIterator <<ConcreteIterator>> {
+  - waiting : Deque<Department>
+}
+class ChangeReport {
+  + firstDifference(before, after) : Optional<String>
+}
+
+Iterable <|.. Department
+Iterator <|.. DepthFirstIterator
+Iterator <|.. LevelOrderIterator
+Department ..> DepthFirstIterator : creates
+Department ..> LevelOrderIterator : creates
+ChangeReport ..> Iterator : two at once
+
+note right of Department
+  <b>No getter for its lists.</b>
+  Callers get an iterator and decide
+  when to move and when to stop.
+end note
+note bottom of DepthFirstIterator
+  A stack: department by department.
+end note
+note bottom of LevelOrderIterator
+  A queue: level by level.
+end note
+@enduml

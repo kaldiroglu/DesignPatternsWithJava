@@ -1,0 +1,46 @@
+@startuml "Iterator - File System - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title The author's file system, with a directory iterator
+
+interface Storage {
+  + rename(String)
+  + save()
+  + delete()
+  + copy() : Storage
+  + move(Directory)
+}
+abstract class StorageElement
+class File
+class ShortCut
+class Alias
+class Directory {
+  - elements : List<Storage>
+  + add(Storage)
+  + elements() : List<Storage>
+  + iterator() : DirectoryIterator<Storage>
+}
+class "DirectoryIterator<Storage>" as DI {
+  + hasNext() : boolean
+  + next() : Storage
+}
+interface "java.util.Iterator<T>" as JI
+
+Storage <|.. StorageElement
+StorageElement <|-- File
+StorageElement <|-- ShortCut
+StorageElement <|-- Alias
+StorageElement <|-- Directory
+Directory o--> "*" Storage
+JI <|.. DI
+Directory ..> DI : creates
+
+note right of DI
+  Walks the directory's own elements,
+  not the folders inside it.
+end note
+note bottom of Directory
+  elements() returns the internal list,
+  so callers can still go around the iterator.
+end note
+@enduml

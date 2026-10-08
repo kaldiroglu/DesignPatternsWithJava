@@ -1,0 +1,50 @@
+@startuml "Iterator - Org Chart (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Reaching everyone in a department: three attempts
+
+package "stage one" {
+  class OpenDepartment {
+    + members() : List<Employee>
+    + units() : List<OpenDepartment>
+  }
+  class PayrollRun {
+    + payslips(OpenDepartment) : List<String>
+  }
+  PayrollRun ..> OpenDepartment
+  note bottom of OpenDepartment
+    <b>Gives out its internal lists.</b>
+    Every caller writes the same recursion,
+    and any caller can change the lists.
+  end note
+}
+
+package "stage two" {
+  class CopyingDepartment {
+    + everyone() : List<Employee>
+  }
+  note bottom of CopyingDepartment
+    <b>Copies everyone into a new list.</b>
+    The whole department, on every call,
+    in one order only.
+  end note
+}
+
+package "stage three" {
+  class CallbackDepartment {
+    + forEachMember(Consumer<Employee>)
+    + forEachMemberByLevel(Consumer<Employee>)
+  }
+  class ChangeReport {
+    + firstDifference(before, after)
+  }
+  ChangeReport ..> CallbackDepartment
+  note bottom of ChangeReport
+    <b>Cannot walk two charts side by side.</b>
+    It copies both into lists first.
+  end note
+}
+
+OpenDepartment -[hidden]right- CopyingDepartment
+CopyingDepartment -[hidden]right- CallbackDepartment
+@enduml
