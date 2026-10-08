@@ -1,7 +1,5 @@
 
-package dev.kaldiroglu.dp.behavioral.iterator.fileSystem.iterator;
-
-import dev.kaldiroglu.dp.behavioral.iterator.fileSystem.Directory;
+package dev.kaldiroglu.dp.behavioral.iterator.fileSystem;
 
 import java.util.Iterator;
 import java.util.List;

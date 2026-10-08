@@ -1,8 +1,6 @@
 
 package dev.kaldiroglu.dp.behavioral.iterator.fileSystem;
 
-import dev.kaldiroglu.dp.behavioral.iterator.fileSystem.iterator.DirectoryIterator;
-
 public class Test {
 
 	public static void main(String[] args) {

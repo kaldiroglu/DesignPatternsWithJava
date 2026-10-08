@@ -1,9 +1,8 @@
 
 package dev.kaldiroglu.dp.behavioral.iterator.fileSystem;
 
-import dev.kaldiroglu.dp.behavioral.iterator.fileSystem.iterator.DirectoryIterator;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Directory extends StorageElement {
@@ -55,8 +54,8 @@ public class Directory extends StorageElement {
 		}
 	}
 
-	public List<Storage> elements() {
-		return elements;
+	List<Storage> elements() {
+		return Collections.unmodifiableList(elements);
 	}
 
 	public DirectoryIterator<Storage> iterator() {

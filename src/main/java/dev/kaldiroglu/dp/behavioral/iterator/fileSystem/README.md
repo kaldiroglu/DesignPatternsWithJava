@@ -12,16 +12,19 @@ directories, and gives out a `DirectoryIterator` to list them.
 | `Storage`, `StorageElement` | the element type |
 | `File`, `ShortCut`, `Alias` | elements |
 | `Directory` | Aggregate — `iterator()` creates the iterator |
-| `iterator.DirectoryIterator` | ConcreteIterator — implements `java.util.Iterator` |
+| `DirectoryIterator` | ConcreteIterator — implements `java.util.Iterator` |
 | `Test` | Client, with a `main` method |
 
-Three things worth knowing, all used in the deck's exercises:
+Only the iterator can reach the directory's list. `Directory.elements()` is
+package-private and returns an unmodifiable list, and `DirectoryIterator` is in the same
+package so that it can call it. (It used to be public and to return the internal list, with
+the iterator in a sub-package `iterator`.)
+
+Two things worth knowing, both used in the deck's exercises:
 
 - `DirectoryIterator` walks only the directory's own elements. A folder inside it is one
-  element; its contents are not visited. The Composite deck's
+  element; the files inside it are not visited. The Composite deck's
   `structural.composite.fileSystem.iterator.DirectoryIterator` walks the whole tree.
-- `Directory.elements()` returns the internal list. While that method is public, a caller
-  can go around the iterator and change the directory.
 - In `DirectoryIterator<Storage>`, `Storage` is a type parameter, not the `Storage`
   interface. The name hides the interface inside the class.
 
