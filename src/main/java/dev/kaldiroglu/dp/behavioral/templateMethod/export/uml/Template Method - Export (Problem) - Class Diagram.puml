@@ -1,0 +1,53 @@
+@startuml "Template Method - Export (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Exporting a report: three attempts
+
+package "stage one" {
+  class StandaloneCsvExport {
+    + export(User, Report) : Export
+  }
+  class StandaloneHtmlExport {
+    + export(User, Report) : Export
+  }
+  note bottom of StandaloneHtmlExport
+    <b>Each format copies the whole algorithm.</b>
+    A fix must be made in every copy.
+  end note
+}
+
+package "stage two" {
+  class SwitchingExporter {
+    + export(User, Report, Format) : Export
+  }
+  enum Format {
+    CSV
+    HTML
+  }
+  SwitchingExporter ..> Format
+  note bottom of SwitchingExporter
+    <b>One algorithm, a switch in each step.</b>
+    A new format edits this class.
+  end note
+}
+
+package "stage three" {
+  abstract class ExportSupport {
+    + {abstract} export(User, Report) : Export
+    # checkPermission(User)
+    # recordAudit(User, Export, Report)
+  }
+  class CsvExport
+  class MarkdownExport
+  ExportSupport <|-- CsvExport
+  ExportSupport <|-- MarkdownExport
+  note bottom of MarkdownExport
+    <b>Shared steps, but each subclass</b>
+    <b>writes the order.</b> This one never
+    calls recordAudit().
+  end note
+}
+
+StandaloneCsvExport -[hidden]right- SwitchingExporter
+SwitchingExporter -[hidden]right- ExportSupport
+@enduml

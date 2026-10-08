@@ -1,0 +1,31 @@
+@startuml "Template Method - Export (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title The export algorithm, written once
+
+abstract class ReportExporter <<AbstractClass>> {
+  + {final} export(User, Report) : Export
+  # {abstract} header() : String
+  # {abstract} row(Sale) : String
+  # {abstract} extension() : String
+  # footer() : String
+}
+class CsvExporter <<ConcreteClass>>
+class HtmlExporter <<ConcreteClass>> {
+  # footer() : String
+}
+class MarkdownExporter <<ConcreteClass>>
+class AuditLog
+
+ReportExporter <|-- CsvExporter
+ReportExporter <|-- HtmlExporter
+ReportExporter <|-- MarkdownExporter
+ReportExporter --> AuditLog
+
+note right of ReportExporter
+  <b>export() is the template method, and final.</b>
+  Check permission, header, rows, footer,
+  file name, audit — always in this order.
+  footer() is a hook: empty by default.
+end note
+@enduml

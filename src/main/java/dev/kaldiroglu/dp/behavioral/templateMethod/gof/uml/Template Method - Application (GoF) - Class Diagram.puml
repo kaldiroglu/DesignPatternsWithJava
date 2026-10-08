@@ -1,0 +1,54 @@
+@startuml "Template Method - Application (GoF) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title GoF's own example — Design Patterns, pp. 325-330
+
+package "before the pattern" {
+  class "problem.DrawApplication" as PD {
+    + openDocument(name)
+  }
+  class "problem.SpreadsheetApplication" as PS {
+    + openDocument(name)
+  }
+  note bottom of PS
+    <b>Each application copies the steps.</b>
+    The spreadsheet adds its own step
+    where it chose.
+  end note
+}
+
+package "after it" {
+  abstract class Application <<AbstractClass>> {
+    + {final} openDocument(name)
+    # {abstract} canOpenDocument(name) : boolean
+    # {abstract} doCreateDocument(name) : Document
+    # aboutToOpenDocument(Document)
+  }
+  abstract class Document {
+    + open()
+    # {abstract} doRead(events)
+  }
+  class DrawApplication <<ConcreteClass>>
+  class SpreadsheetApplication <<ConcreteClass>> {
+    # aboutToOpenDocument(Document)
+  }
+  class DrawDocument
+  class SpreadsheetDocument
+
+  Application <|-- DrawApplication
+  Application <|-- SpreadsheetApplication
+  Document <|-- DrawDocument
+  Document <|-- SpreadsheetDocument
+  Application o--> "*" Document
+  DrawApplication ..> DrawDocument : creates
+  SpreadsheetApplication ..> SpreadsheetDocument : creates
+}
+
+PD -[hidden]right- Application
+
+note right of Application
+  <b>openDocument() is the template method.</b>
+  doCreateDocument() is a factory method;
+  aboutToOpenDocument() is a hook.
+end note
+@enduml

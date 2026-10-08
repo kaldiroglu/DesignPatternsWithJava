@@ -1,0 +1,31 @@
+@startuml "Template Method - Pattern - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title GoF's Application and Document, in a short form
+
+abstract class Application {
+  ~ openDocument(fileName)
+  ~ {abstract} canOpenDocument(fileName) : boolean
+  ~ {abstract} createDocument(fileName) : Document
+  ~ addDocument(Document)
+}
+abstract class Document {
+  ~ {abstract} open()
+  ~ {abstract} read()
+  ~ {abstract} save()
+  ~ {abstract} close()
+}
+class MyApplication
+class MyDocument
+
+Application <|-- MyApplication
+Document <|-- MyDocument
+Application o--> "*" Document
+MyApplication ..> MyDocument : creates
+
+note right of Application
+  <b>openDocument() is the template method.</b>
+  The full version, with the hook and the
+  final keyword, is in the gof package.
+end note
+@enduml

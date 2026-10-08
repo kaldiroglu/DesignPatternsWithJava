@@ -1,0 +1,40 @@
+@startuml "Template Method - Task - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A repeated task
+
+abstract class Task {
+  # name : String
+  # interval : int
+  # repetation : int
+  + {final} run()
+  + prepare()
+  + before()
+  + {abstract} doTask()
+  + after()
+  + clean()
+}
+class Fax {
+  + doTask()
+}
+class Print {
+  + prepare()
+  + doTask()
+  + clean()
+}
+class Scan {
+  + doTask()
+}
+
+Task <|-- Fax
+Task <|-- Print
+Task <|-- Scan
+
+note right of Task
+  <b>run() is the template method, and final.</b>
+  prepare, then (before, doTask, after) as
+  many times as asked, then clean.
+  doTask() must be written; the others are
+  hooks with a default.
+end note
+@enduml
