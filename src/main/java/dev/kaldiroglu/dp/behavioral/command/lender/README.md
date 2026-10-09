@@ -27,7 +27,8 @@ takes nothing.
 `pattern.Command` has one method, `execute(int)`, so it is a function from an amount to
 nothing, which the JDK already has as `IntConsumer`. In `lambda`, `Lender.lend` takes an
 `IntConsumer`, and `Main` lends to two lambdas: a borrower and a tax office. There is no
-`Command` interface and no command class, and the output is the same as `pattern.Main`.
+`Command` interface and no command class. The tax office's lambda also prints the amount it
+receives: `Receiving for the tax payment: 2000`.
 This is the form most Java code uses for a command with no undo.
 
 ## Tests

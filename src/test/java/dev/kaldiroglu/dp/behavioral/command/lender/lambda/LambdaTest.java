@@ -31,11 +31,9 @@ class LambdaTest {
     }
 
     @Test
-    @DisplayName("Main prints the same two lines as the version with command classes")
-    void sameOutputAsThePattern() {
-        assertEquals(by(() -> dev.kaldiroglu.dp.behavioral.command.lender.pattern.Main.main(new String[0])),
-                by(() -> Main.main(new String[0])));
+    @DisplayName("Main prints the borrower's line, and the tax office's line with the amount it received")
+    void mainPrintsTheTwoLines() {
         assertEquals(List.of("Borrowing 1000 and spending for family!",
-                "Receiving for the tax payment!"), by(() -> Main.main(new String[0])));
+                "Receiving for the tax payment: 2000"), by(() -> Main.main(new String[0])));
     }
 }
