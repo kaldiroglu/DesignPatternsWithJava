@@ -8,7 +8,7 @@ public class Main {
 	public static void main(String[] args) {
 		IntConsumer borrower = money ->
 				System.out.println("Borrowing " + money + " and spending for family!");
-		IntConsumer taxOffice = money -> System.out.println("Receiving for the tax payment!");
+		IntConsumer taxOffice = money -> System.out.println("Receiving for the tax payment: " + money);
 
 		Lender lender = new Lender();
 		lender.lend(borrower, 1000);
