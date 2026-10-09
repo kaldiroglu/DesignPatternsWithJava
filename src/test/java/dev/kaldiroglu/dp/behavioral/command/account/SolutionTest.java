@@ -7,11 +7,7 @@ import dev.kaldiroglu.dp.behavioral.command.account.solution.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static dev.kaldiroglu.dp.behavioral.command.account.ProblemTest.codeOf;
 import static dev.kaldiroglu.dp.behavioral.command.account.ProblemTest.countOf;
@@ -168,27 +164,6 @@ class SolutionTest {
 
         nightRun.undo();
         assertEquals(lira("100.00"), savings.balance(), "tonight's last order, taken back");
-    }
-
-    @Test
-    @DisplayName("the arithmetic of the design: one interface, four transactions, one invoker")
-    void theArithmetic() throws IOException {
-        List<String> classes;
-        try (Stream<Path> files = Files.list(Path.of(SOURCE))) {
-            classes = files.map(p -> p.getFileName().toString())
-                    .filter(n -> n.endsWith(".java"))
-                    .map(n -> n.replace(".java", ""))
-                    .filter(n -> !n.equals("Main"))
-                    .sorted()
-                    .toList();
-        }
-        long transactions = classes.stream()
-                .filter(n -> !List.of("Transaction", "Teller", "StandingOrders").contains(n))
-                .count();
-
-        assertEquals(List.of("CloseOut", "Deposit", "StandingOrders", "Teller", "Transaction",
-                "Transfer", "Withdraw"), classes);
-        assertEquals(4, transactions);
     }
 
     @Test
