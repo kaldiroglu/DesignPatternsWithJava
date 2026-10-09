@@ -101,6 +101,21 @@ class ProblemTest {
     }
 
     @Test
+    @DisplayName("stage three: Main's reorganized chart has three new people, and all three are reported")
+    void theProblemReportFindsAllThreeChanges() {
+        ChangeReport report = new ChangeReport();
+        CallbackDepartment before = Main.company("Deniz");
+        CallbackDepartment after = Main.company("Zeynep", "Burak", "Ece");
+
+        assertEquals(Optional.of("Deniz (head of sales) -> Zeynep (head of sales)"),
+                report.firstDifference(before, after));
+        assertEquals(List.of(
+                "Deniz (head of sales) -> Zeynep (head of sales)",
+                "Can (export) -> Burak (export)",
+                "Elif (support) -> Ece (support)"), report.allDifferences(before, after));
+    }
+
+    @Test
     @DisplayName("stage three: the change report answers none for equal charts and sees a size change")
     void theProblemReportHandlesEqualAndShorterCharts() {
         CallbackDepartment shorter = new CallbackDepartment("Head office").add(AYSE);

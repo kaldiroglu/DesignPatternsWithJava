@@ -12,13 +12,17 @@ import java.util.List;
 public final class Main {
 
     static CallbackDepartment company(String salesHead) {
+        return company(salesHead, "Can", "Elif");
+    }
+
+    static CallbackDepartment company(String salesHead, String exporter, String supporter) {
         CallbackDepartment sales = new CallbackDepartment("Sales")
                 .add(new Employee(salesHead, "head of sales"))
                 .add(new Employee("Ali", "sales"))
-                .add(new CallbackDepartment("Export").add(new Employee("Can", "export")));
+                .add(new CallbackDepartment("Export").add(new Employee(exporter, "export")));
         CallbackDepartment operations = new CallbackDepartment("Operations")
                 .add(new Employee("Mert", "head of operations"))
-                .add(new CallbackDepartment("Support").add(new Employee("Elif", "support")));
+                .add(new CallbackDepartment("Support").add(new Employee(supporter, "support")));
         return new CallbackDepartment("Head office")
                 .add(new Employee("Ayse", "CEO")).add(sales).add(operations);
     }
@@ -41,8 +45,12 @@ public final class Main {
         before.forEachMemberByLevel(byLevel::add);
         System.out.println("Stage three, level by level: " + byLevel);
 
+        // three people are new after the reorganization
+        CallbackDepartment after = company("Zeynep", "Burak", "Ece");
+        ChangeReport report = new ChangeReport();
         System.out.println("HR compares two charts: "
-                + new ChangeReport().firstDifference(before, company("Zeynep")).orElse("none"));
+                + report.firstDifference(before, after).orElse("none"));
+        System.out.println("All changes: " + report.allDifferences(before, after));
         System.out.println("A callback walks one chart at a time,"
                 + " so the report first copied both charts whole.");
     }
