@@ -3,16 +3,14 @@ package dev.kaldiroglu.dp.behavioral.memento.pattern2;
 public class Test {
 
 	private static Originator originator;
-	private static Originator.Memento memento;
 
 	public static void main(String[] args) {
 		originator = new Originator("state-0");
-		memento = originator.getMemento();
 		
 		OriginatorTrigger trigger = new OriginatorTrigger();
 		trigger.start();
 
-		Caretaker caretaker = new Caretaker(memento);
+		Caretaker caretaker = new Caretaker(originator);
 		caretaker.start();
 	}
 

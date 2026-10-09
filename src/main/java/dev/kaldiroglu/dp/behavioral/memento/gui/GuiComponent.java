@@ -8,7 +8,6 @@ public class GuiComponent {
 	private int width;
 	
 	private GuiComponentMemento memento;
-	private GuiComponentState state;
 	
 	public GuiComponent(String name, int x, int y, int length, int width) {
 		this.name = name;
@@ -16,7 +15,6 @@ public class GuiComponent {
 		this.y = y;
 		this.length = length;
 		this.width = width;
-		state = new GuiComponentState(x, y, length, width);
 	}
 	
 	public void setMemento(GuiComponentMemento memento){
@@ -63,12 +61,13 @@ public class GuiComponent {
 		this.width = width;
 	}
 
+	/** Saves a new state object with the current values, so later changes cannot reach it. */
 	public void saveState(){
-		memento.setState(state);
+		memento.setState(new GuiComponentState(x, y, length, width));
 	}
-	
+
 	public void undo(){
-		state = memento.getState();
+		GuiComponentState state = memento.getState();
 		x = state.getX();
 		y = state.getY();
 		length = state.getLength();

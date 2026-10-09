@@ -1,15 +1,17 @@
 package dev.kaldiroglu.dp.behavioral.memento.pattern2;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * The originator, with its memento nested inside it.
+ * <p>
+ * The memento's field and constructor are private. Because the class is nested, the
+ * originator can read the field; no other class can. The originator therefore needs no
+ * public {@code getState()}.
+ */
 public class Originator {
 	private volatile String state;
-	private Memento memento = new Memento();
 
 	public Originator(String state) {
 		this.state = state;
-		memento.setOriginator(this);
 	}
 
 	public synchronized void setState(String state) {
@@ -17,8 +19,12 @@ public class Originator {
 		this.state = state;
 	}
 
-	public Memento getMemento() {
-		return memento;
+	public synchronized Memento createMemento() {
+		return new Memento(state);
+	}
+
+	public void restore(Memento memento) {
+		setState(memento.state);
 	}
 
 	@Override
@@ -26,33 +32,12 @@ public class Originator {
 		return "Originator [state=" + state + "]";
 	}
 
-	class Memento {
-		private Originator originator;
-		private List<String> states;
-		private int position = 0;
+	/** The memento: the caretaker can keep it, but cannot read it. */
+	public static final class Memento {
+		private final String state;
 
-		public Memento() {
-//			states = Collections.synchronizedList(new ArrayList<String>());
-			states = new ArrayList<>();
-		}
-
-		public void setOriginator(Originator originator) {
-			this.originator = originator;
-		}
-
-		public synchronized void save() {
-			String state = originator.state;
-			System.out.println("Memento: Saving state: " + state);
-			states.add(state);
-			position++;
-		}
-
-		public synchronized void undo() {
-			int currentPosition = position;
-			currentPosition -= 2;
-			String previousState = states.get(currentPosition);
-			originator.setState(previousState);
-			System.err.println("Memento: Undoing to: " + previousState);
+		private Memento(String state) {
+			this.state = state;
 		}
 	}
 }

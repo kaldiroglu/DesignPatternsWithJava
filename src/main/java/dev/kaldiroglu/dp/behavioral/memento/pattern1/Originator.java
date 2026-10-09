@@ -1,12 +1,11 @@
 package dev.kaldiroglu.dp.behavioral.memento.pattern1;
 
+/** The originator: it creates a memento of its state, and restores itself from one. */
 public class Originator {
 	private volatile String state;
-	private Memento memento = new Memento();
 
 	public Originator(String state) {
 		this.state = state;
-		memento.setOriginator(this);
 	}
 
 	public String getState() {
@@ -18,8 +17,12 @@ public class Originator {
 		this.state = state;
 	}
 
-	public Memento getMemento() {
-		return memento;
+	public synchronized Memento createMemento() {
+		return new Memento(state);
+	}
+
+	public void restore(Memento memento) {
+		setState(memento.getState());
 	}
 
 	@Override
