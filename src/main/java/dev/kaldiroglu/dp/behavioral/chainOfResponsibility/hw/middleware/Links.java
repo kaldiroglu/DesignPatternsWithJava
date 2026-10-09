@@ -2,7 +2,7 @@ package dev.kaldiroglu.dp.behavioral.chainOfResponsibility.hw.middleware;
 
 import java.util.List;
 
-/** Three links: one that logs and passes on, one that may stop the request, one that times. */
+/** Three links: one that logs and passes on, one that may stop the request, one that adds a header. */
 public final class Links {
 
     private Links() {
