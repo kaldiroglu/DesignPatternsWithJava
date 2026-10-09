@@ -18,8 +18,8 @@ air conditioner through four commands.
 
 **Left open on purpose.** `undo()` and `redo()` are declared and not yet implemented, and
 each command holds only the air conditioner — not the temperature it replaced, which undo
-would need. The deck uses that as an exercise. Note also that `AirConditioner.turnOff()`
-resets the current temperature to zero, so turning it back on at 20 starts the heater.
+would need. The deck uses that as an exercise. `AirConditioner.turnOff()` keeps the room's
+temperature, so turning it back on at the same temperature starts only the fan.
 
 ## The lambda version — `lambda`
 
@@ -32,12 +32,13 @@ same lines. A request that must be undone still needs a class.
 
 ## Tests
 
-`src/test/java/dev/kaldiroglu/dp/behavioral/command/ac/AirConditionerTest.java` holds 10
+`src/test/java/dev/kaldiroglu/dp/behavioral/command/ac/AirConditionerTest.java` holds 11
 tests. They check what the switch and the air conditioner print: the fan, the heater or
 the cooler when it is turned on; the warnings when it is already on or off, or off when the
 heater or cooler is asked for; that the cooler only cools and the heater only heats; that
 each command passes its request to the air conditioner; that the switch holds four
-`Command` fields; and that `undo` and `redo` do nothing yet.
+`Command` fields; that turning off keeps the room temperature; and that `undo` and `redo`
+do nothing yet.
 
 `ac/lambda/LambdaSwitchTest.java` adds 3 tests for the lambda switch.
 

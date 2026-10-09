@@ -26,8 +26,7 @@ public class AirConditioner {
 		if (isOn) {
 			System.out.println("AirConditioner is turned off.\n");
 			isOn = false;
-			currentTemperature = 0;
-			targetTemperature = 0;
+			targetTemperature = 0;	// the room keeps its temperature
 		} else
 			System.out.println("AirConditioner is already off!\n");
 	}

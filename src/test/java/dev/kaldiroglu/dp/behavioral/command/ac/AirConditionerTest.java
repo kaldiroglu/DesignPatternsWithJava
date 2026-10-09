@@ -77,6 +77,16 @@ class AirConditionerTest {
     }
 
     @Test
+    @DisplayName("turning off keeps the room temperature: back on at 20, only the fan starts")
+    void turnOffKeepsTheRoomTemperature() {
+        ACSwitch acSwitch = new ACSwitch();
+        acSwitch.turnOn(20);                  // cools the room from 22 to 20
+        printed(acSwitch::turnOff);
+        assertEquals(List.of("", "Fan is turned on. Target temperature is: 20"),
+                printed(() -> acSwitch.turnOn(20)));
+    }
+
+    @Test
     @DisplayName("the heater and the cooler need the air conditioner to be on")
     void heaterAndCoolerNeedPower() {
         ACSwitch acSwitch = new ACSwitch();
