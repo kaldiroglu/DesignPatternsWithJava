@@ -1,0 +1,36 @@
+@startuml "Visitor - File - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Files: checks inside the files, in an operator, then in a visitor
+package problem1 {
+  class "TextFile" as T1 {
+    + checkFormat() : boolean
+  }
+  class "XMLFile" as X1 {
+    + validate() : boolean
+  }
+}
+package problem2 {
+  class FileOperator {
+    + operate(List<File>)
+  }
+  note bottom of FileOperator
+    instanceof and casts
+    for each kind of file.
+  end note
+}
+package pattern1 {
+  abstract class File {
+    + accept(Visitor) : boolean
+  }
+  interface Visitor {
+    + visit(TextFile) : boolean
+    + visit(XMLFile) : boolean
+  }
+  class FileVisitor
+  Visitor <|.. FileVisitor
+  File ..> Visitor
+}
+T1 -[hidden]right- FileOperator
+FileOperator -[hidden]right- File
+@enduml

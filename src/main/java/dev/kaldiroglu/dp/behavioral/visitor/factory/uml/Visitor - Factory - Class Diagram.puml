@@ -1,0 +1,37 @@
+@startuml "Visitor - Factory - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A health check for every employee, and for the boss
+class Employee {
+  + accept(Visitor)
+}
+class Manager
+class Director
+class Engineer
+class Secretary
+class Boss {
+  + accept(Visitor)
+}
+interface Visitor {
+  + visit(Employee)
+  + visit(Boss)
+}
+class HealthVisitor
+class Company {
+  + setVisitor(Visitor)
+}
+Employee <|-- Manager
+Manager <|-- Director
+Employee <|-- Engineer
+Employee <|-- Secretary
+Visitor <|.. HealthVisitor
+Company o--> "*" Employee
+note bottom of Boss
+  Not an Employee: a visitor can
+  visit classes with no common parent.
+end note
+note bottom of HealthVisitor
+  One visit(Employee) for four classes,
+  so it tests instanceof Manager.
+end note
+@enduml

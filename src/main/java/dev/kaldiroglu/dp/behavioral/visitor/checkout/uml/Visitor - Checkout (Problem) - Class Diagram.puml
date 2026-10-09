@@ -1,0 +1,39 @@
+@startuml "Visitor - Checkout (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Tax for every kind of item: three attempts
+package "stage one" {
+  interface "methods.Item" as MI {
+    + tax() : int
+    + shippingCost() : int
+    + receiptLine() : String
+  }
+  note bottom of MI
+    <b>Every item computes everything.</b>
+    A new operation edits every item class.
+  end note
+}
+package "stage two" {
+  class OverloadedTax {
+    + taxOf(Book) : int
+    + taxOf(Food) : int
+    + taxOf(Electronics) : int
+    + taxOf(Item) : int
+  }
+  note bottom of OverloadedTax
+    <b>The overload is chosen at compile time.</b>
+    Every item goes to taxOf(Item).
+  end note
+}
+package "stage three" {
+  class TypeTestTax {
+    + taxOf(Item) : int
+  }
+  note bottom of TypeTestTax
+    <b>if instanceof ... else standard rate.</b>
+    A gift card falls into the else.
+  end note
+}
+MI -[hidden]right- OverloadedTax
+OverloadedTax -[hidden]right- TypeTestTax
+@enduml

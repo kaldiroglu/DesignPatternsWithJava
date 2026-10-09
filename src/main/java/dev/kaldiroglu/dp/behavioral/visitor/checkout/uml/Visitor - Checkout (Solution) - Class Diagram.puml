@@ -1,0 +1,37 @@
+@startuml "Visitor - Checkout (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Items accept visitors; each operation is one visitor
+interface Item <<Element>> {
+  + accept(ItemVisitor<R>) : R
+}
+class Book <<record>>
+class Food <<record>>
+class Electronics <<record>>
+class GiftCard <<record>>
+interface "ItemVisitor<R>" as V <<Visitor>> {
+  + visit(Book) : R
+  + visit(Food) : R
+  + visit(Electronics) : R
+  + visit(GiftCard) : R
+}
+class TaxVisitor
+class ShippingVisitor
+class ReceiptLineVisitor
+class Checkout <<ObjectStructure>> {
+  + total(ItemVisitor<Integer>) : int
+}
+Item <|.. Book
+Item <|.. Food
+Item <|.. Electronics
+Item <|.. GiftCard
+V <|.. TaxVisitor
+V <|.. ShippingVisitor
+V <|.. ReceiptLineVisitor
+Checkout o--> "*" Item
+Item ..> V : accept calls visit(this)
+note bottom of V
+  <b>A new item kind is a new method here.</b>
+  Every visitor that misses it stops compiling.
+end note
+@enduml

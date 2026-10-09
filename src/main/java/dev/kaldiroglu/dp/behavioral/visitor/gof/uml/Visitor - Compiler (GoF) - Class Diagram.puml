@@ -1,0 +1,33 @@
+@startuml "Visitor - Compiler (GoF) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title GoF's motivation — Design Patterns, pp. 331-344
+interface Node <<Element>> {
+  + accept(NodeVisitor)
+}
+class AssignmentNode
+class VariableRefNode
+class ConstantNode
+class AddNode
+interface NodeVisitor <<Visitor>> {
+  + visitAssignment(AssignmentNode)
+  + visitVariableRef(VariableRefNode)
+  + visitConstant(ConstantNode)
+  + visitAdd(AddNode)
+}
+class TypeCheckingVisitor
+class CodeGeneratingVisitor
+class PrettyPrintingVisitor
+Node <|.. AssignmentNode
+Node <|.. VariableRefNode
+Node <|.. ConstantNode
+Node <|.. AddNode
+NodeVisitor <|.. TypeCheckingVisitor
+NodeVisitor <|.. CodeGeneratingVisitor
+NodeVisitor <|.. PrettyPrintingVisitor
+note right of Node
+  Before the pattern, every node had
+  typeCheck(), generateCode() and
+  prettyPrint(). See gof.problem.
+end note
+@enduml
