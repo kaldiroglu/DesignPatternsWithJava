@@ -39,7 +39,7 @@ mvn -o test -Dtest='SolutionTest' -DfailIfNoTests=false
 ```
 
 - **Read the per-suite lines, not just the exit code.** A single stale figure fails the
-  build and says nothing about the other 480 tests.
+  build and says nothing about the other 800 or so tests.
 - **`-q` hides the very lines you need.** `mvn -o -q clean test` prints nothing but the
   failures, so a green run gives no total to quote. Run plain `mvn -o test` when the number
   matters, and grep `^\[INFO\] Tests run:` for the summary.
