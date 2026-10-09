@@ -1,0 +1,31 @@
+@startuml "Chain of Responsibility - Help Topics - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Handlers that add their help to the help of the next handler
+interface Handler {
+  + handleRequest(Context) : Help
+}
+abstract class AbstractHandler {
+  # successor : Handler
+  # predecessor : Handler
+  # help : Help
+}
+class ConcreteHandler1
+class ConcreteHandler2
+class ConcreteHandler3
+interface Help {
+  + show()
+  + setOtherHelp(Help)
+}
+enum Context {
+  GENERIC
+  SPECIFIC
+  MORE_SPECIFIC
+}
+Handler <|.. AbstractHandler
+AbstractHandler <|-- ConcreteHandler1
+AbstractHandler <|-- ConcreteHandler2
+AbstractHandler <|-- ConcreteHandler3
+AbstractHandler --> Handler : successor
+AbstractHandler --> Help
+@enduml

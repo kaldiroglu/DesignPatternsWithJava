@@ -1,0 +1,24 @@
+@startuml "Chain of Responsibility - Help (GoF) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title GoF's motivation — Design Patterns, pp. 223-232
+abstract class HelpHandler <<Handler>> {
+  - successor : HelpHandler
+  - topic : String
+  + hasHelp() : boolean
+  + handleHelp() : String
+}
+abstract class Widget
+class Button
+class Dialog
+class Application
+HelpHandler <|-- Widget
+Widget <|-- Button
+Widget <|-- Dialog
+HelpHandler <|-- Application
+HelpHandler --> "0..1" HelpHandler : successor
+note right of HelpHandler
+  A widget's successor is its parent.
+  A dialog's successor is the application.
+end note
+@enduml

@@ -1,0 +1,35 @@
+@startuml "Chain of Responsibility - Expense (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Who approves an expense: three attempts
+package "stage one" {
+  class ApprovalService {
+    + approve(Expense) : String
+  }
+  note bottom of ApprovalService
+    <b>One method, one if per level.</b>
+    Every name and limit is in it.
+  end note
+}
+package "stage two" {
+  class TeamLead
+  class Manager
+  class Director
+  class Cfo
+  TeamLead --> Manager : new Manager()
+  Manager --> Director : new Director()
+  Director --> Cfo : new Cfo()
+}
+package "stage three" {
+  class LimitTable {
+    - approvers : TreeMap<Integer, String>
+    + approve(Expense) : String
+  }
+  note bottom of LimitTable
+    <b>Chooses by amount alone.</b>
+    The manager approves their own expense.
+  end note
+}
+ApprovalService -[hidden]right- TeamLead
+Cfo -[hidden]right- LimitTable
+@enduml

@@ -1,0 +1,29 @@
+@startuml "Chain of Responsibility - Call Center - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A call passes from the standard desk to the gold desk to the VIP desk
+interface CallTaker {
+  + answer(Customer)
+}
+abstract class AbstractCallTaker {
+  # next : CallTaker
+}
+class StandardCallTaker
+class GoldCallTaker
+class VipCallTaker
+interface Customer {
+  + askAQuestion()
+  + receiveAnswer(String)
+}
+class StandardCustomer
+class GoldCustomer
+class VipCustomer
+CallTaker <|.. AbstractCallTaker
+AbstractCallTaker <|-- StandardCallTaker
+AbstractCallTaker <|-- GoldCallTaker
+AbstractCallTaker <|-- VipCallTaker
+AbstractCallTaker --> CallTaker : next
+Customer <|.. StandardCustomer
+Customer <|.. GoldCustomer
+Customer <|.. VipCustomer
+@enduml

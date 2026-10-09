@@ -1,0 +1,29 @@
+@startuml "Chain of Responsibility - Expense (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Each link decides, or passes the expense on
+abstract class ExpenseHandler <<Handler>> {
+  - next : ExpenseHandler
+  + then(ExpenseHandler) : ExpenseHandler
+  + handle(Expense) : String
+  # tryToHandle(Expense) : String
+}
+class Approver <<ConcreteHandler>> {
+  - name : String
+  - limit : int
+}
+class AuditLog <<ConcreteHandler>>
+class Expense <<record>>
+ExpenseHandler <|-- Approver
+ExpenseHandler <|-- AuditLog
+ExpenseHandler --> "0..1" ExpenseHandler : next
+ExpenseHandler ..> Expense
+note bottom of Approver
+  <b>Within my limit, and not my own.</b>
+  Otherwise the next link decides.
+end note
+note bottom of AuditLog
+  Records every expense,
+  and always passes it on.
+end note
+@enduml
