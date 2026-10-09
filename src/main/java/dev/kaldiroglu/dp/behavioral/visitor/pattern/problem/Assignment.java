@@ -8,7 +8,7 @@ public class Assignment implements Node {
 	}
 
 	@Override
-	public void generatoCode() {
+	public void generateCode() {
 
 	}
 

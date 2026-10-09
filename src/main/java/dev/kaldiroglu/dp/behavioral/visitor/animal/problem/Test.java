@@ -6,14 +6,14 @@ public class Test {
 		Feeder feeder = new Feeder();
 		
 		Animal a = new Dog();
-		a.eat(); // Prints "Gnaws bones"
+		a.eat(); // Prints "Woof"
 		
 		feeder.feed(a);
 
 		System.out.println();
 		
 		a = new Cat();
-		a.eat(); // Prints "Gnaws bones"
+		a.eat(); // Prints "Meeoow"
 		
 		feeder.feed(a);
 

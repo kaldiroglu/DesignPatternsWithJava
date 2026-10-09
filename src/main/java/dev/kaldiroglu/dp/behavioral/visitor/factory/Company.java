@@ -20,7 +20,7 @@ public class Company {
 		}
 	}
 
-	public void setVisitor(Visitor hv) {
+	public void accept(Visitor hv) {
 		for(Employee employee : employees)
 			employee.accept(hv);
 	}

@@ -8,7 +8,7 @@ public class Test {
 		
 		HealthVisitor hv = new HealthVisitor();
 		
-		company.setVisitor(hv);
+		company.accept(hv);
 		
 		Boss boss = new Boss("Memet Emmi", 52);
 		boss.accept(hv);

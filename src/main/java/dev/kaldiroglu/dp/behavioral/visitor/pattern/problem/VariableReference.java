@@ -8,7 +8,7 @@ public class VariableReference implements Node {
 	}
 
 	@Override
-	public void generatoCode() {
+	public void generateCode() {
 
 	}
 

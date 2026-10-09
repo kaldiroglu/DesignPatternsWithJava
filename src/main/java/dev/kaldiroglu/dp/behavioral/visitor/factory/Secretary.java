@@ -6,10 +6,11 @@ public class Secretary extends Employee {
 	
 	public Secretary(int no, String name, int year, String department, Manager managerServed) {
 		super(no, name, year, department);
+		this.managerServed = managerServed;
 	}
 	
 	public void serve(){
-		System.out.println("Secretary " + name + " serves her manager: " + managerServed);
+		System.out.println("Secretary " + name + " serves her manager: " + managerServed.getName());
 	}
 
 }

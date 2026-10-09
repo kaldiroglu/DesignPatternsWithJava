@@ -4,7 +4,7 @@ public interface Node {
 	
 	void typeCheck();
 	
-	void generatoCode();
+	void generateCode();
 	
 	void prettyPrint();
 
