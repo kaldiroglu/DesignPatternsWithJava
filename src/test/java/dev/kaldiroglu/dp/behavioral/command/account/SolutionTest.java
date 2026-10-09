@@ -178,6 +178,7 @@ class SolutionTest {
             classes = files.map(p -> p.getFileName().toString())
                     .filter(n -> n.endsWith(".java"))
                     .map(n -> n.replace(".java", ""))
+                    .filter(n -> !n.equals("Main"))
                     .sorted()
                     .toList();
         }
