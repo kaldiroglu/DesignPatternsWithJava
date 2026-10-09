@@ -1,0 +1,26 @@
+@startuml "Memento - Constraint Solver (GoF) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title GoF's sample code — Design Patterns, pp. 283-291
+class ConstraintSolver <<Originator>> {
+  - bendX : int
+  + solve()
+  + createMemento() : Memento
+  + setMemento(Memento)
+}
+class "ConstraintSolver.Memento" as M <<Memento>> {
+  - bendX : int
+}
+class MoveCommand <<Caretaker>> {
+  - state : Memento
+  + execute()
+  + unexecute()
+}
+class Graphic {
+  + move(dx)
+}
+ConstraintSolver ..> M : creates
+MoveCommand --> ConstraintSolver
+MoveCommand --> Graphic
+MoveCommand o--> M
+@enduml

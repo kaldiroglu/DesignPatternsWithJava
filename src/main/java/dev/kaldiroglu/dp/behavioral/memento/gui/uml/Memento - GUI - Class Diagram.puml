@@ -1,0 +1,20 @@
+@startuml "Memento - GUI - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A GUI component that saves its state in a memento
+class GuiComponent <<Originator>> {
+  - x, y, length, width
+  + saveState()
+  + undo()
+}
+class GuiComponentMemento <<Memento>> {
+  + setState(GuiComponentState)
+  + getState() : GuiComponentState
+}
+class GuiComponentState {
+  - x, y, length, width
+}
+GuiComponent --> GuiComponentMemento
+GuiComponent --> GuiComponentState
+GuiComponentMemento --> GuiComponentState
+@enduml

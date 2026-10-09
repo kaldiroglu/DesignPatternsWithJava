@@ -1,0 +1,29 @@
+@startuml "Memento - Game (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title The player makes its checkpoint; the game keeps it
+class Player <<Originator>> {
+  - health : int
+  - position : String
+  - inventory : List<String>
+  + save() : Checkpoint
+  + load(Checkpoint)
+}
+class "Player.Checkpoint" as C <<Memento>> {
+  - health : int
+  - position : String
+  - inventory : List<String>
+}
+class Game <<Caretaker>> {
+  - checkpoints : Deque<Checkpoint>
+  + checkpoint(Player)
+  + loadLatest(Player)
+}
+Player ..> C : creates, reads
+Game o--> "*" C : keeps
+Game --> Player
+note bottom of C
+  <b>Private fields, no getters.</b>
+  The game keeps it, but cannot read it.
+end note
+@enduml

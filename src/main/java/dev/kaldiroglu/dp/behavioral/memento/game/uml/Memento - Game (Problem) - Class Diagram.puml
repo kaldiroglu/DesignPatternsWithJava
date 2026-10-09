@@ -1,0 +1,38 @@
+@startuml "Memento - Game (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Saving a player at a checkpoint: three attempts
+package "stage one" {
+  class "setters.Player" as P1 {
+    + setHealth(int)
+    + setPosition(String)
+    + setInventory(List)
+  }
+  note bottom of P1
+    <b>Public setters for everything.</b>
+    Anyone may set health to 999.
+  end note
+}
+package "stage two" {
+  class "history.Player" as P2 {
+    - checkpoints : Deque
+    + saveCheckpoint()
+    + loadCheckpoint()
+  }
+  note bottom of P2
+    <b>The player keeps its own saves.</b>
+  end note
+}
+package "stage three" {
+  class "copy.Player" as P3 {
+    + Player(Player other)
+    + restoreFrom(Player)
+  }
+  note bottom of P3
+    <b>The copy shares the inventory list.</b>
+    The checkpoint changes with the player.
+  end note
+}
+P1 -[hidden]right- P2
+P2 -[hidden]right- P3
+@enduml
