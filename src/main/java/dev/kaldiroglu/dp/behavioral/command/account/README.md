@@ -39,10 +39,32 @@ whole, because the request was never a thing it could hold.
 | `Teller` | Invoker | Performs, keeps, undoes and redoes; names no operation |
 | `StandingOrders` | — | Requests made in the morning and run at night: the "queue requests" half of the intent |
 
+## The lambda version — `lambda`
+
+`Transaction` has three methods — `execute`, `undo`, `description` — so one lambda cannot
+implement it. `LambdaTransaction` is a record that holds one function for each, and
+`Transactions` builds the four transactions from lambdas. The `Teller` and the
+`StandingOrders` are the ones from `solution`; they cannot tell the difference, and
+`lambda.Main` prints the same lines as `solution.Main`.
+
+- A deposit, a withdrawal and a transfer are easy: each undo is the opposite operation.
+- A close-out is not. It must remember how much it took, to give it back on undo, and a
+  lambda cannot have a field. Its lambdas share a one-element array, `Money[] taken` — a
+  small class written by hand. That is why `solution.CloseOut` is a class: a request that
+  must be undone needs to remember something.
+- The description is a `Supplier<String>`, because a close-out knows what it paid only
+  after it has run.
+
+`LambdaTransactionTest` checks that the output and every journal line are the same as with
+the classes, that the close-out gives back 750.00, and that a failed transfer changes
+nothing.
+
 ## Run it with
 
 ```bash
 cd "~/Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-mvn -o test -Dtest='dev.kaldiroglu.dp.behavioral.command.account.*Test'
+java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.solution.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.lambda.Main
+mvn -o test -Dtest='dev.kaldiroglu.dp.behavioral.command.account.**.*Test'
 ```
