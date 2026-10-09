@@ -1,0 +1,28 @@
+@startuml "Mediator - Traffic - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A traffic police officer at a junction
+interface TrafficMediator <<Mediator>> {
+  + receive(Vehicle)
+  + askPermitToPass(Vehicle)
+  + done(Vehicle)
+}
+class TrafficPolice <<ConcreteMediator>>
+interface Vehicle <<Colleague>> {
+  + approach()
+  + proceed()
+  + stopp()
+  + waitForAWhile()
+}
+class Car
+class Thread
+class Junction {
+  - busy : boolean
+}
+TrafficMediator <|.. TrafficPolice
+Vehicle <|.. Car
+Thread <|-- Car
+TrafficPolice --> Junction
+TrafficPolice o--> "*" Vehicle
+Car --> TrafficMediator
+@enduml

@@ -18,14 +18,14 @@ Package root `dev.kaldiroglu.dp.<family>.<pattern>`:
 | Family | Ported |
 |---|---|
 | `structural` | adapter, bridge, composite, decorator, facade, flyweight, proxy |
-| `behavioral` | strategy, command, iterator, templateMethod, state, observer, visitor, chainOfResponsibility |
+| `behavioral` | strategy, command, iterator, templateMethod, state, observer, visitor, chainOfResponsibility, mediator |
 | `creational` | the package exists and is empty |
 
 Inside a pattern, one folder per worked example, and inside that the shape the decks quote:
 `domain` for the shared types, `problem` (or a named naive stage) for the designs that fail,
 `solution` or `pattern` for the answer, and `hw` at the pattern root for homework solutions.
 `gof` holds the book's own example. Every worked example carries a `README.md` and a `uml/`
-folder — 97 `uml/` folders on 2026-10-09 (`find src -type d -name uml`).
+folder — 100 `uml/` folders on 2026-10-09 (`find src -type d -name uml`).
 
 `tools/` is local only and never pushed.
 

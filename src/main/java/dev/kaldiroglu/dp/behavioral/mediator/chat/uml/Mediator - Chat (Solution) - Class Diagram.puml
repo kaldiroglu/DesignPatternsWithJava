@@ -1,0 +1,25 @@
+@startuml "Mediator - Chat (Solution) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A chat room decides who receives each message
+class ChatRoom <<Mediator>> {
+  + join(Participant)
+  + say(from, text)
+  + whisper(from, to, text)
+  + block(blocker, blocked)
+}
+interface Participant <<Colleague>> {
+  + name() : String
+  + receive(from, text)
+}
+class Member <<ConcreteColleague>>
+class Guest <<ConcreteColleague>>
+ChatRoom o-right-> "*" Participant
+Participant <|.. Member
+Participant <|.. Guest
+Member --> ChatRoom : says, whispers
+note bottom of ChatRoom
+  <b>Every rule is here.</b>
+  A private message goes to one participant.
+end note
+@enduml

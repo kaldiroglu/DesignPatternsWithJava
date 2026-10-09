@@ -1,0 +1,46 @@
+@startuml "Mediator - Chat (Problem) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A private message: three attempts
+package "stage one" {
+  class "direct.Member" as M1 {
+    - others : List<Member>
+    + say(text)
+    + whisper(Member, text)
+  }
+  note bottom of M1
+    <b>Everyone holds everyone.</b>
+    4 members, 12 references.
+  end note
+}
+package "stage two" {
+  class Directory
+  class "directory.Member" as M2 {
+    + say(text)
+    + whisper(name, text)
+  }
+  M2 --> Directory
+  note bottom of M2
+    <b>The sender applies the rules.</b>
+  end note
+}
+package "stage three" {
+  class MessageBus {
+    + publish(Message)
+  }
+  interface Client {
+    + onMessage(Message)
+  }
+  class ChatClient
+  class GuestClient
+  MessageBus o--> "*" Client
+  Client <|.. ChatClient
+  Client <|.. GuestClient
+  note bottom of GuestClient
+    <b>Shows everything.</b>
+    A private message leaks.
+  end note
+}
+M1 -[hidden]right- Directory
+Directory -[hidden]right- MessageBus
+@enduml

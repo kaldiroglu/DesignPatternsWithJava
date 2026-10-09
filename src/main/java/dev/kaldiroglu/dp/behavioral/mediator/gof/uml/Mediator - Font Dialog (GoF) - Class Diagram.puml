@@ -1,0 +1,23 @@
+@startuml "Mediator - Font Dialog (GoF) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title GoF's motivation — Design Patterns, pp. 273-282
+abstract class DialogDirector <<Mediator>> {
+  + widgetChanged(Widget)
+}
+abstract class Widget <<Colleague>> {
+  # changed()
+}
+class FontDialogDirector <<ConcreteMediator>>
+class ListBox
+class EntryField
+class Button
+DialogDirector <|-- FontDialogDirector
+Widget <|-- ListBox
+Widget <|-- EntryField
+Widget <|-- Button
+Widget -left-> DialogDirector : director
+FontDialogDirector --> ListBox
+FontDialogDirector --> EntryField
+FontDialogDirector --> Button
+@enduml
