@@ -18,17 +18,21 @@ public final class Transactions {
     private Transactions() {
     }
 
+    // Each factory passes three lambdas to LambdaTransaction, in this order: what execute()
+    // does, what undo() does, and the description for the journal. The undo of a deposit is
+    // a withdrawal, so a deposit's second lambda withdraws.
+
     public static Transaction deposit(Account account, Money amount) {
         return new LambdaTransaction(
-                () -> account.deposit(amount),
-                () -> account.withdraw(amount),
+                () -> account.deposit(amount),          // execute
+                () -> account.withdraw(amount),         // undo: take the deposit back out
                 () -> "deposit " + amount + " " + account.owner());
     }
 
     public static Transaction withdraw(Account account, Money amount) {
         return new LambdaTransaction(
-                () -> account.withdraw(amount),
-                () -> account.deposit(amount),
+                () -> account.withdraw(amount),         // execute
+                () -> account.deposit(amount),          // undo: put the money back
                 () -> "withdraw " + amount + " " + account.owner());
     }
 
@@ -38,11 +42,11 @@ public final class Transactions {
      */
     public static Transaction transfer(Account from, Account to, Money amount) {
         return new LambdaTransaction(
-                () -> {
+                () -> {                                 // execute
                     from.withdraw(amount);
                     to.deposit(amount);
                 },
-                () -> {
+                () -> {                                 // undo: the same steps reversed
                     to.withdraw(amount);
                     from.deposit(amount);
                 },
@@ -52,11 +56,11 @@ public final class Transactions {
     public static Transaction closeOut(Account account) {
         Money[] taken = {Money.ZERO};           // shared by the three lambdas: the state
         return new LambdaTransaction(
-                () -> {
+                () -> {                                 // execute
                     taken[0] = account.balance();
                     account.withdraw(taken[0]);
                 },
-                () -> account.deposit(taken[0]),
+                () -> account.deposit(taken[0]),        // undo: give back what it took
                 () -> "close out " + account.owner() + ", paid " + taken[0]);
     }
 }
