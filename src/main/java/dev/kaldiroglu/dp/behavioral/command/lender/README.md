@@ -22,6 +22,14 @@ somewhere else. It has one abstract method, so a lambda can stand in for it:
 `lender.lend(money -> ..., 2000)`. Compare `account.solution.Transaction`, whose `execute()`
 takes nothing.
 
+## Tests
+
+`src/test/java/dev/kaldiroglu/dp/behavioral/command/lender` holds one test class per step:
+`Problem1Test`, `Problem2Test` and `PatternTest`, 12 tests in all. They check what the
+lender's `lend` method takes (a class, an interface, a `Command`), that a lambda can be a
+borrower or a command, that `TaxOffice` does not use the amount, and the output of each
+`Main`. `Printed` captures standard output for them.
+
 ## Run it with
 
 ```bash
@@ -30,4 +38,7 @@ mvn -o -q compile
 java -cp target/classes dev.kaldiroglu.dp.behavioral.command.lender.problem1.Main
 java -cp target/classes dev.kaldiroglu.dp.behavioral.command.lender.problem2.Main
 java -cp target/classes dev.kaldiroglu.dp.behavioral.command.lender.pattern.Main
+
+# the tests
+mvn -o -q test -Dtest='Problem1Test,Problem2Test,PatternTest'
 ```
