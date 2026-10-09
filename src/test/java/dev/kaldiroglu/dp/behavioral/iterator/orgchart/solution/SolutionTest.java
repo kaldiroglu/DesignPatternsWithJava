@@ -51,7 +51,11 @@ class SolutionTest {
                 "  Mert (head of operations)",
                 "  Can (export)",
                 "  Elif (support)",
-                "First change: Deniz (head of sales) -> Zeynep (head of sales)"), lines);
+                "First change: Deniz (head of sales) -> Zeynep (head of sales)",
+                "All changes:",
+                "  Deniz (head of sales) -> Zeynep (head of sales)",
+                "  Can (export) -> Burak (export)",
+                "  Elif (support) -> Ece (support)"), lines);
     }
 
     @Test
@@ -79,6 +83,31 @@ class SolutionTest {
                 Main.company("Zeynep"));
 
         assertEquals(Optional.of("Deniz (head of sales) -> Zeynep (head of sales)"), change);
+    }
+
+    @Test
+    @DisplayName("with three people new, the first difference is still only the head of sales")
+    void theFirstDifferenceStopsAtTheFirstOfThree() {
+        assertEquals(Optional.of("Deniz (head of sales) -> Zeynep (head of sales)"),
+                new ChangeReport().firstDifference(Main.company("Deniz"),
+                        Main.company("Zeynep", "Burak", "Ece")));
+    }
+
+    @Test
+    @DisplayName("all differences walks both charts to the end and finds the three new people")
+    void allDifferencesFindsAllThree() {
+        ChangeReport report = new ChangeReport();
+
+        assertEquals(List.of(
+                "Deniz (head of sales) -> Zeynep (head of sales)",
+                "Can (export) -> Burak (export)",
+                "Elif (support) -> Ece (support)"),
+                report.allDifferences(Main.company("Deniz"), Main.company("Zeynep", "Burak", "Ece")));
+        assertEquals(List.of(),
+                report.allDifferences(Main.company("Deniz"), Main.company("Deniz")));
+        assertEquals(List.of("the charts have different sizes"),
+                report.allDifferences(Main.company("Deniz"),
+                        new Department("Head office").add(new Employee("Ayse", "CEO"))));
     }
 
     @Test

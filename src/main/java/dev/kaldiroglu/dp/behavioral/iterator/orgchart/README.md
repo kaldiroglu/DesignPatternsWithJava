@@ -30,8 +30,8 @@ internal one.
 | `Department` | Aggregate | Implements `Iterable<Employee>`; `iterator()` and `byLevel()` create iterators. No getter for its lists. |
 | `DepthFirstIterator` | ConcreteIterator | Department by department, with a stack |
 | `LevelOrderIterator` | ConcreteIterator | Level by level, with a queue |
-| `ChangeReport` | Client | Moves two iterators forward together and stops at the first difference |
-| `Main` | — | Builds a small company and runs both orders and the report |
+| `ChangeReport` | Client | Moves two iterators forward together. `firstDifference` stops at the first difference; `allDifferences` walks both charts to the end |
+| `Main` | — | Builds a small company and runs both orders. Then it compares it with a reorganized copy in which three people are new: the first difference is the head of sales, and all differences lists the three |
 
 ## Run it with
 

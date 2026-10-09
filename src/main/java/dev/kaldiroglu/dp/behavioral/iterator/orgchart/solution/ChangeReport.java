@@ -2,7 +2,9 @@ package dev.kaldiroglu.dp.behavioral.iterator.orgchart.solution;
 
 import dev.kaldiroglu.dp.behavioral.iterator.orgchart.domain.Employee;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,5 +31,27 @@ public final class ChangeReport {
             return Optional.of("the charts have different sizes");
         }
         return Optional.empty();
+    }
+
+    /**
+     * Every difference, in walk order. The same two iterators, moved forward together, but
+     * this time to the end of both charts.
+     */
+    public List<String> allDifferences(Department before, Department after) {
+        List<String> changes = new ArrayList<>();
+        Iterator<Employee> old = before.iterator();
+        Iterator<Employee> current = after.iterator();
+
+        while (old.hasNext() && current.hasNext()) {
+            Employee was = old.next();
+            Employee is = current.next();
+            if (!was.equals(is)) {
+                changes.add(was + " -> " + is);
+            }
+        }
+        if (old.hasNext() || current.hasNext()) {
+            changes.add("the charts have different sizes");
+        }
+        return changes;
     }
 }
