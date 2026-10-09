@@ -10,7 +10,7 @@ import dev.kaldiroglu.dp.behavioral.command.account.solution.Transaction;
  * A deposit, a withdrawal and a transfer are easy: each undo is the opposite operation, and
  * everything it needs is known when the transaction is made. A close-out is not: it must
  * remember how much it took, to give it back on undo. A lambda cannot have a field, so the
- * two lambdas share a one-element array. That array is a small class written by hand —
+ * three lambdas share a one-element array. That array is a small class written by hand —
  * the reason {@code solution.CloseOut} is a class.
  */
 public final class Transactions {
