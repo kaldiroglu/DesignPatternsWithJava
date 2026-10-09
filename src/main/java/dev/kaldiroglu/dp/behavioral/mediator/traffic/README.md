@@ -18,6 +18,11 @@ police officer for permission to pass, and the officer lets one car through at a
 
 Each car runs on its own thread, so the order of the output changes from run to run.
 
+Because every car calls the officer from its own thread, `askPermitToPass` checks whether
+the junction is busy and makes it busy inside one `synchronized` block. The car then
+proceeds, or waits, outside the lock. A car that has to wait asks again from the loop in
+`run()`.
+
 ## Run it with
 
 ```bash

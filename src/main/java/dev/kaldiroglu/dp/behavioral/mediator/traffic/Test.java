@@ -13,7 +13,7 @@ public class Test {
 		Thread[] cars = new Thread[numberOfCars];
 
 		for (int i = 0; i < numberOfCars; i++) {
-			Thread car = new Car("Car" + i, junction, police, true);
+			Thread car = new Car("Car" + i, junction, police);
 			cars[i] = car;
 		}
 

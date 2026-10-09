@@ -1,23 +1,21 @@
-
 package dev.kaldiroglu.dp.behavioral.mediator.traffic;
 
 public class Car extends Thread implements Vehicle {
-	private boolean moving;
 	private Junction junction;
 	private TrafficMediator mediator;
+	private boolean waiting;
 
-	public Car(String name, Junction junction, TrafficMediator mediator, boolean moving) {
+	public Car(String name, Junction junction, TrafficMediator mediator) {
 		super(name);
 		this.junction = junction;
 		this.mediator = mediator;
-		this.moving = moving;
 		approach();
 		mediator.receive(this);
 	}
 	
 	@Override
 	public void approach() {
-		System.out.println("Car " + getName() + " is approaching to junction " + junction.getName());
+		System.out.println("Car " + getName() + " is approaching junction " + junction.getName());
 	}
 
 	@Override
@@ -28,24 +26,27 @@ public class Car extends Thread implements Vehicle {
 
 	@Override
 	public void stopp() {
-		moving = false;
 		System.out.println("Car " + getName() + " has stopped.");
 	}
 
+	/** Waits, then lets run() ask again. It does not call the mediator itself. */
 	@Override
 	public void waitForAWhile() {
 		System.out.println("Car " + getName() + " is waiting.");
+		waiting = true;
 		try {
-			Thread.currentThread().sleep(1000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
-		mediator.askPermitToPass(this);
 	}
 	
 	@Override
 	public void run() {
 		System.out.println("Car " + getName() + " is asking permit to pass junction " + junction.getName());
-		mediator.askPermitToPass(this);
+		do {
+			waiting = false;
+			mediator.askPermitToPass(this);
+		} while (waiting);
 	}
 }
