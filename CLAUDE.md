@@ -25,7 +25,7 @@ Inside a pattern, one folder per worked example, and inside that the shape the d
 `domain` for the shared types, `problem` (or a named naive stage) for the designs that fail,
 `solution` or `pattern` for the answer, and `hw` at the pattern root for homework solutions.
 `gof` holds the book's own example. Every worked example carries a `README.md` and a `uml/`
-folder — 96 `uml/` folders on 2026-10-09 (`find src -type d -name uml`).
+folder — 97 `uml/` folders on 2026-10-09 (`find src -type d -name uml`).
 
 `tools/` is local only and never pushed.
 

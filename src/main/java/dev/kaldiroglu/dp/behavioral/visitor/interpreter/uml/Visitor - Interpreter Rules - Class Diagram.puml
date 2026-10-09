@@ -1,0 +1,24 @@
+@startuml "Visitor - Interpreter Rules - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Interpreter: one class per grammar rule
+interface Rule <<AbstractExpression>> {
+  + interpret(Product) : boolean
+  + describe() : String
+}
+class CategoryIs <<TerminalExpression>>
+class PriceBelow <<TerminalExpression>>
+class And <<NonterminalExpression>>
+class Or <<NonterminalExpression>>
+class Not <<NonterminalExpression>>
+class Product <<Context>>
+Rule <|.. CategoryIs
+Rule <|.. PriceBelow
+Rule <|.. And
+Rule <|.. Or
+Rule <|.. Not
+And o--> "2" Rule
+Or o--> "2" Rule
+Not o--> "1" Rule
+Rule ..> Product : interprets against
+@enduml
