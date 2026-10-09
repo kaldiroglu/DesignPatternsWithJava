@@ -132,7 +132,7 @@ class SolutionTest {
 
             public void execute() { charge.execute(); }
             public void undo() { charge.undo(); }
-            public String description() { return "monthly fee Deniz"; }
+            public String description() { return "monthly fee"; }
         };
 
         teller.perform(monthlyFee);
@@ -140,7 +140,7 @@ class SolutionTest {
 
         teller.undo();
         assertEquals(lira("1000.00"), deniz.balance());
-        assertEquals("undo monthly fee Deniz", teller.journal().getLast());
+        assertEquals("undo monthly fee", teller.journal().getLast());
     }
 
     @Test
