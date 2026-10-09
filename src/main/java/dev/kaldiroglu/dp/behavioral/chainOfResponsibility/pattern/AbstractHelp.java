@@ -9,10 +9,13 @@ public abstract class AbstractHelp implements Help {
 	}
 
 	@Override
-	public void setOtherHelp(Help otherHelp) {
-		this.otherHelp = otherHelp;
+	public void addHelp(Help help) {
+		if (otherHelp == null)
+			otherHelp = help;
+		else
+			otherHelp.addHelp(help);
 	}
-	
+
 	@Override
 	public Help getOtherHelp() {
 		return otherHelp;
@@ -21,11 +24,7 @@ public abstract class AbstractHelp implements Help {
 	@Override
 	public void show() {
 		System.out.println(description);
-		if(otherHelp != null) {
+		if (otherHelp != null)
 			otherHelp.show();
-			Help otherOtherHelp = otherHelp.getOtherHelp();
-			if(otherOtherHelp != null)
-				otherOtherHelp.show();
-		}
 	}
 }

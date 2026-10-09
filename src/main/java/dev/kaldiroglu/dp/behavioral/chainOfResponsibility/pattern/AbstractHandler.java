@@ -2,11 +2,11 @@ package dev.kaldiroglu.dp.behavioral.chainOfResponsibility.pattern;
 
 public abstract class AbstractHandler implements Handler {
 	protected Handler successor;
-	protected Handler predecessor;
-	protected Help help;
-	
-	public AbstractHandler(Handler successor, Handler predecessor) {
+
+	public AbstractHandler(Handler successor) {
 		this.successor = successor;
-		this.predecessor = predecessor;
 	}
+
+	/** Each request gets new help objects, so one request cannot change the help of another. */
+	protected abstract Help newHelp();
 }

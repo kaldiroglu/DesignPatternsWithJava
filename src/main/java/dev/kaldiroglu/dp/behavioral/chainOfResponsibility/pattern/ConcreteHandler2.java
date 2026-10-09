@@ -1,19 +1,23 @@
 package dev.kaldiroglu.dp.behavioral.chainOfResponsibility.pattern;
 
-public class ConcreteHandler2 extends AbstractHandler  {
+public class ConcreteHandler2 extends AbstractHandler {
 
-	public ConcreteHandler2(Handler successor, Handler predecessor) {
-		super(successor, predecessor);
-		help = new Help2();
+	public ConcreteHandler2(Handler successor) {
+		super(successor);
+	}
+
+	@Override
+	protected Help newHelp() {
+		return new Help2();
 	}
 
 	@Override
 	public Help handleRequest(Context context) {
 		if(context == Context.SPECIFIC)
-			return help;
+			return newHelp();
 		else {
 			Help successorHelp = successor.handleRequest(context);
-			successorHelp.setOtherHelp(help);
+			successorHelp.addHelp(newHelp());
 			return successorHelp;
 		}
 	}

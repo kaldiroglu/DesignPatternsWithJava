@@ -7,15 +7,14 @@ interface Handler {
 }
 abstract class AbstractHandler {
   # successor : Handler
-  # predecessor : Handler
-  # help : Help
+  # newHelp() : Help
 }
 class ConcreteHandler1
 class ConcreteHandler2
 class ConcreteHandler3
 interface Help {
   + show()
-  + setOtherHelp(Help)
+  + addHelp(Help)
 }
 enum Context {
   GENERIC

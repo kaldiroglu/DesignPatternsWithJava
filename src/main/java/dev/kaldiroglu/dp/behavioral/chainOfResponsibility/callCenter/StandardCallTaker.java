@@ -9,12 +9,12 @@ public class StandardCallTaker extends AbstractCallTaker {
 	@Override
 	public void answer(Customer customer) {
 		System.out.println("StandardCallTaker received a customer.");
-		if (customer instanceof GoldCustomer)
-			next.answer(customer);
-		else {
+		if (customer instanceof StandardCustomer) {
 			customer.askAQuestion();
 			customer.receiveAnswer("Here is your answer!");
 		}
+		else
+			next.answer(customer);
 		System.out.println();
 	}
 }
