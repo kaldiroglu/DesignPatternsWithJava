@@ -4,8 +4,8 @@ import dev.kaldiroglu.dp.behavioral.iterator.orgchart.domain.Employee;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
+import java.util.Queue;
 import java.util.function.Consumer;
 
 /**
@@ -59,7 +59,7 @@ public final class CallbackDepartment {
 
     /** The top level first, then the level below it, and so on. */
     public void forEachMemberByLevel(Consumer<Employee> action) {
-        Deque<CallbackDepartment> waiting = new ArrayDeque<>();
+        Queue<CallbackDepartment> waiting = new ArrayDeque<>();   // add at the end, poll from the front
         waiting.add(this);
         while (!waiting.isEmpty()) {
             CallbackDepartment department = waiting.poll();

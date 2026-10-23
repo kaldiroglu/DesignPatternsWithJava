@@ -4,9 +4,9 @@ import dev.kaldiroglu.dp.behavioral.iterator.orgchart.domain.Employee;
 
 import java.util.ArrayDeque;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Queue;
 
 /**
  * A second <b>ConcreteIterator</b> over the same department: level by level.
@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
  */
 final class LevelOrderIterator implements Iterator<Employee> {
 
-    private final Deque<Department> waiting = new ArrayDeque<>();
+    private final Queue<Department> waiting = new ArrayDeque<>();   // add at the end, poll from the front
     private Iterator<Employee> members = Collections.emptyIterator();
 
     LevelOrderIterator(Department root) {
