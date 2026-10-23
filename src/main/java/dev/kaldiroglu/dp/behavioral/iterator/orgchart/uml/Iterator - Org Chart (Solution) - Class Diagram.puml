@@ -20,7 +20,7 @@ class DepthFirstIterator <<ConcreteIterator>> {
   - departments : Deque<Department>
 }
 class LevelOrderIterator <<ConcreteIterator>> {
-  - waiting : Deque<Department>
+  - waiting : Queue<Department>
 }
 class ChangeReport {
   + firstDifference(before, after) : Optional<String>
