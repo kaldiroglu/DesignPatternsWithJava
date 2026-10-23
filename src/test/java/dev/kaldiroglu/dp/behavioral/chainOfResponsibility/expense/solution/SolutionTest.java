@@ -22,7 +22,7 @@ class SolutionTest {
             new Expense("Cem", 30_000, "a training course"),
             new Expense("Emre", 500_000, "a new office"));
 
-    /** The chain of expense.solution.Main: the audit log first, then the four approvers. */
+    /** The chain of the runnable classes: the audit log first, then the four approvers. */
     private static AuditLog chain() {
         AuditLog audit = new AuditLog();
         audit.then(new Approver("Elif", 1_000))
@@ -116,9 +116,9 @@ class SolutionTest {
     }
 
     @Test
-    @DisplayName("Main prints each design's answer for the six expenses, then that the audit log saw 6")
-    void mainOutput() {
-        List<String> lines = by(() -> Main.main(new String[0]));
+    @DisplayName("SixExpensesMain prints each design's answer for the six expenses")
+    void sixExpensesMainOutput() {
+        List<String> lines = by(() -> SixExpensesMain.main(new String[0]));
         assertEquals(List.of(
                 "Emre, 800, books",
                 "  stage one:   approved by Elif",
@@ -149,7 +149,13 @@ class SolutionTest {
                 "  stage one:   no one may approve it",
                 "  stage two:   no one may approve it",
                 "  stage three: no one may approve it",
-                "  chain:       no one may approve it",
-                "The audit log saw 6 expenses."), lines);
+                "  chain:       no one may approve it"), lines);
+    }
+
+    @Test
+    @DisplayName("AuditLogMain prints that the audit log saw all 6 expenses")
+    void auditLogMainOutput() {
+        assertEquals(List.of("The audit log saw 6 expenses."),
+                by(() -> AuditLogMain.main(new String[0])));
     }
 }

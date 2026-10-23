@@ -21,6 +21,10 @@ and Deniz is the CFO (200,000).
 Burak, who approves his own expense. Cem's 30,000 goes to Cem. Stages one and two send them
 to Cem and Deniz.
 
+Each stage has its own runnable class, so a run prints only what its slide shows:
+`StageOneMain`, `StageTwoMain` and `StageThreeMain`. `StageThreeMain` marks the two
+expenses approved by the person who spent them. `SampleExpenses` holds the six expenses.
+
 ## The pattern — `solution`
 
 | Class | Role | What it does |
@@ -28,7 +32,9 @@ to Cem and Deniz.
 | `ExpenseHandler` | Handler | Knows the next link; asks itself first, then passes the expense on |
 | `Approver` | ConcreteHandler | Approves if the amount is within its limit and the expense is not its own |
 | `AuditLog` | ConcreteHandler | Records every expense and always passes it on |
-| `Main` | Client | Runs six expenses through every design |
+| `SixExpensesMain` | Client | Runs six expenses through every design and through the chain |
+| `AuditLogMain` | Client | Sends the six expenses into the chain and prints how many the audit log saw: 6 |
+| `SampleChain` | — | The six claims, and the chain: the audit log, then the four approvers |
 
 An expense of 500,000 reaches the end of the chain, and the answer is "no one may approve
 it".
@@ -38,5 +44,16 @@ it".
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.solution.Main
+
+# the three attempts, one stage at a time
+java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.problem.StageOneMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.problem.StageTwoMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.problem.StageThreeMain
+
+# the pattern
+java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.solution.SixExpensesMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.solution.AuditLogMain
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.**'
 ```

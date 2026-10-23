@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static dev.kaldiroglu.dp.behavioral.chainOfResponsibility.Printed.by;
 import static dev.kaldiroglu.dp.behavioral.chainOfResponsibility.Printed.codeOf;
 import static dev.kaldiroglu.dp.behavioral.chainOfResponsibility.Printed.countOf;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +18,7 @@ class ProblemTest {
 
     private static final String SOURCE = "chainOfResponsibility/expense/problem/";
 
-    /** The six expenses of expense.solution.Main, in its order. */
+    /** The six expenses of the runnable classes, in their order. */
     static final List<Expense> SIX = List.of(
             new Expense("Emre", 800, "books"),
             new Expense("Emre", 5_000, "a laptop"),
@@ -112,5 +113,44 @@ class ProblemTest {
                 .filter(e -> table.approve(e).equals("approved by " + e.submitter()))
                 .count();
         assertEquals(2, own);
+    }
+
+    @Test
+    @DisplayName("StageOneMain prints stage one's answer for each of the six expenses")
+    void stageOneMainOutput() {
+        assertEquals(List.of(
+                "Emre, 800, books", "  stage one:   approved by Elif",
+                "Emre, 5000, a laptop", "  stage one:   approved by Burak",
+                "Burak, 5000, a conference", "  stage one:   approved by Cem",
+                "Emre, 30000, a server", "  stage one:   approved by Cem",
+                "Cem, 30000, a training course", "  stage one:   approved by Deniz",
+                "Emre, 500000, a new office", "  stage one:   no one may approve it"),
+                by(() -> StageOneMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("StageTwoMain prints stage two's answer for each of the six expenses")
+    void stageTwoMainOutput() {
+        assertEquals(List.of(
+                "Emre, 800, books", "  stage two:   approved by Elif",
+                "Emre, 5000, a laptop", "  stage two:   approved by Burak",
+                "Burak, 5000, a conference", "  stage two:   approved by Cem",
+                "Emre, 30000, a server", "  stage two:   approved by Cem",
+                "Cem, 30000, a training course", "  stage two:   approved by Deniz",
+                "Emre, 500000, a new office", "  stage two:   no one may approve it"),
+                by(() -> StageTwoMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("StageThreeMain marks the two expenses approved by the person who spent them")
+    void stageThreeMainOutput() {
+        assertEquals(List.of(
+                "Emre, 800, books", "  stage three: approved by Elif",
+                "Emre, 5000, a laptop", "  stage three: approved by Burak",
+                "Burak, 5000, a conference", "  stage three: approved by Burak  <- his own expense",
+                "Emre, 30000, a server", "  stage three: approved by Cem",
+                "Cem, 30000, a training course", "  stage three: approved by Cem  <- his own expense",
+                "Emre, 500000, a new office", "  stage three: no one may approve it"),
+                by(() -> StageThreeMain.main(new String[0])));
     }
 }

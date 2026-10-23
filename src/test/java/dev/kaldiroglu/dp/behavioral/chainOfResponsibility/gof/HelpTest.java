@@ -65,18 +65,30 @@ class HelpTest {
     }
 
     @Test
-    @DisplayName("Main asks three controls in both designs and prints the same lines")
-    void mainOutput() {
-        List<String> lines = by(() -> Main.main(new String[0]));
+    @DisplayName("problem.Main asks the help desk about four controls")
+    void problemMainOutput() {
         assertEquals(List.of(
-                "Before the pattern",
-                "  print button: Help: print the document.",
-                "  ok button:    Help: " + PRINT_DIALOG,
-                "  font button:  Help: " + EDITOR,
-                "With the chain",
-                "  print button: Help: print the document.",
-                "  ok button:    Help: " + PRINT_DIALOG,
-                "  font button:  Help: " + EDITOR), lines);
-        assertEquals(lines.subList(1, 4), lines.subList(5, 8).stream().toList());
+                "print button: Help: print the document.",
+                "ok button: Help: " + PRINT_DIALOG,
+                "printer list: Help: " + PRINT_DIALOG,
+                "font button: Help: " + EDITOR,
+                "A new button is one more case in HelpDesk.helpFor."),
+                by(() -> dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.problem.Main.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("solution.Main asks four controls in the chain; the first three get the help desk's answers")
+    void solutionMainOutput() {
+        List<String> lines = by(() -> dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.solution.Main.main(new String[0]));
+        assertEquals(List.of(
+                "print button (has help):        Help: print the document.",
+                "ok button (asks its dialog):    Help: " + PRINT_DIALOG,
+                "font button (asks the editor):  Help: " + EDITOR,
+                "no help anywhere in the chain:  No help is available."), lines);
+        HelpDesk desk = new HelpDesk();
+        List<String> controls = List.of("print button", "ok button", "font button");
+        for (int i = 0; i < controls.size(); i++) {
+            assertTrue(lines.get(i).endsWith(desk.helpFor(controls.get(i))), controls.get(i));
+        }
     }
 }

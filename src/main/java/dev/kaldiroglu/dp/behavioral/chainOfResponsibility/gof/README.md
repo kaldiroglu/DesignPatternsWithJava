@@ -22,10 +22,21 @@ One class knows every control by name and which dialog it sits in.
 
 The chain is not a separate list of links: it is the window's own containment.
 
+Each package has one runnable class, `Main`. The first three controls get the same help in
+both, and the tests check that.
+
 ## Run it with
 
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.Main
+
+# before the pattern: the help desk answers four controls
+java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.problem.Main
+
+# with the chain: four controls, the last with no help anywhere
+java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.solution.Main
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.**'
 ```
