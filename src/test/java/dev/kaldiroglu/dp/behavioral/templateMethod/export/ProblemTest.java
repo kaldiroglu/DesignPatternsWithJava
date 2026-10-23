@@ -155,23 +155,29 @@ class ProblemTest {
     }
 
     @Test
-    @DisplayName("StageOneMain prints an audit log with both exports")
+    @DisplayName("StageOneMain refuses Mert in both copies and prints an audit log with Deniz's two exports")
     void stageOneMainPrintsTwoAuditLines() {
-        assertEquals(List.of("Stage one, a copy per format, audit log: [Deniz exported sales-october.csv "
+        assertEquals(List.of(
+                        "Stage one, Mert asks for a CSV file: Mert may not export reports",
+                        "Stage one, Mert asks for an HTML file: Mert may not export reports",
+                        "Stage one, a copy per format, audit log: [Deniz exported sales-october.csv "
                         + "(2 rows), Deniz exported sales-october.html (2 rows)]"),
                 Printed.by(() -> StageOneMain.main(new String[0])));
     }
 
     @Test
-    @DisplayName("StageTwoMain prints an audit log with both exports")
+    @DisplayName("StageTwoMain refuses Mert and prints an audit log with Deniz's two exports")
     void stageTwoMainPrintsTwoAuditLines() {
-        assertEquals(List.of("Stage two, one class with a switch, audit log: [Deniz exported "
+        assertEquals(List.of(
+                        "Stage two, Mert asks for a CSV file: Mert may not export reports",
+                        "Stage two, Mert asks for an HTML file: Mert may not export reports",
+                        "Stage two, one class with a switch, audit log: [Deniz exported "
                         + "sales-october.csv (2 rows), Deniz exported sales-october.html (2 rows)]"),
                 Printed.by(() -> StageTwoMain.main(new String[0])));
     }
 
     @Test
-    @DisplayName("MissingAuditMain prints the Markdown file and an audit log with the CSV export only")
+    @DisplayName("MissingAuditMain prints the Markdown file, refuses Mert, and prints an audit log with the CSV export only")
     void missingAuditMainPrintsOneAuditLine() {
         assertEquals(List.of(
                         "Stage three, the Markdown file:",
@@ -179,6 +185,7 @@ class ProblemTest {
                         "|---|---|",
                         "| Ayse | 1200 |",
                         "| Deniz | 800 |",
+                        "Stage three, Mert asks for a Markdown file: Mert may not export reports",
                         "Stage three, a CSV and a Markdown export, audit log: [Deniz exported "
                                 + "sales-october.csv (2 rows)]",
                         "The Markdown export is missing: MarkdownExport never calls recordAudit."),

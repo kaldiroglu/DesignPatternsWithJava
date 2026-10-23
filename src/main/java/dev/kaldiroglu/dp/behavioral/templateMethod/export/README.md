@@ -22,11 +22,13 @@ audit log. The steps were shared; the algorithm was not.
 
 | Run this | Slide | What it prints |
 |---|---|---|
-| `StageOneMain` | stage one | The audit log after a CSV and an HTML export: two lines |
-| `StageTwoMain` | stage two | The same two lines, from the switching exporter |
-| `MissingAuditMain` | the problem with stage three | The Markdown file, then an audit log with the CSV export only |
+| `StageOneMain` | stage one | Mert, who may not export, is refused by both copies; then the audit log after Deniz's CSV and HTML exports: two lines |
+| `StageTwoMain` | stage two | Mert is refused for CSV and HTML; then the same two audit lines, from the switching exporter |
+| `MissingAuditMain` | the problem with stage three | The Markdown file; Mert refused by `MarkdownExport`, which checks permission but never audits; then an audit log with the CSV export only |
 
-`SampleReport` holds the report and the user that every run exports with.
+`SampleReport` holds the report and two users: Deniz may export it, Mert may not. Every stage
+checks permission correctly, so Mert is always refused and never audited; only the audit step
+is forgotten, in stage three.
 
 ## The pattern — `solution`
 
