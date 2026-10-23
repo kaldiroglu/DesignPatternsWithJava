@@ -1,5 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.iterator.orgchart.problem;
 
+import dev.kaldiroglu.dp.behavioral.command.lender.Printed;
 import dev.kaldiroglu.dp.behavioral.iterator.orgchart.domain.Employee;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -124,5 +125,20 @@ class ProblemTest {
                 new ChangeReport().firstDifference(callbackCompany(DENIZ), callbackCompany(DENIZ)));
         assertEquals(Optional.of("the charts have different sizes"),
                 new ChangeReport().firstDifference(callbackCompany(DENIZ), shorter));
+    }
+
+    @Test
+    @DisplayName("ChangeReportMain prints the first change, then all three, as the solution does")
+    void changeReportMainPrintsTheChanges() {
+        List<String> lines = Printed.by(() -> ChangeReportMain.main(new String[0]));
+
+        assertEquals(List.of(
+                "First change: Deniz (head of sales) -> Zeynep (head of sales)",
+                "All changes:",
+                "  Deniz (head of sales) -> Zeynep (head of sales)",
+                "  Can (export) -> Burak (export)",
+                "  Elif (support) -> Ece (support)",
+                "A callback walks one chart at a time, so the report first copied both charts whole."),
+                lines);
     }
 }
