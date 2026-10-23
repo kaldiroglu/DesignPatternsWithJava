@@ -7,6 +7,9 @@ import dev.kaldiroglu.dp.behavioral.command.gof.solution.MenuItem;
 import dev.kaldiroglu.dp.behavioral.command.gof.solution.OpenCommand;
 import dev.kaldiroglu.dp.behavioral.command.gof.solution.PasteCommand;
 import dev.kaldiroglu.dp.behavioral.command.gof.solution.SimpleCommand;
+import dev.kaldiroglu.dp.behavioral.command.gof.solution.PasteCommandMain;
+import dev.kaldiroglu.dp.behavioral.command.gof.solution.SimpleCommandMain;
+import dev.kaldiroglu.dp.behavioral.command.gof.solution.ThreeCommandsMain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +18,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dev.kaldiroglu.dp.behavioral.command.lender.Printed.by;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -224,5 +228,30 @@ class MenuTest {
         assertEquals(List.of("paste"), ran);
         assertEquals(List.of("Open", "Paste"), menu.labels());
         assertThrows(IllegalArgumentException.class, () -> menu.click("paste"));
+    }
+
+    // ------------------------------------------------------------ the classes the slides run
+
+    @Test
+    @DisplayName("PasteCommandMain, run on p26: the menu item pastes through its command")
+    void pasteCommandMainPrints() {
+        assertEquals(List.of("Paste clicked. The report reads: HelloHello"),
+                by(() -> PasteCommandMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("ThreeCommandsMain, named on p27: an open command and a macro of two pastes")
+    void threeCommandsMainPrints() {
+        assertEquals(List.of("Open clicked. Opened 'report': true",
+                        "A macro of 2 commands clicked. The report reads: HelloHelloHello"),
+                by(() -> ThreeCommandsMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("SimpleCommandMain, run on p28: a method reference pastes, and a wrong label is refused")
+    void simpleCommandMainPrints() {
+        assertEquals(List.of("Menu [Paste, Paste again] clicked. The report reads: HelloHelloHello",
+                        "A label the menu does not have is refused: no item labeled paste"),
+                by(() -> SimpleCommandMain.main(new String[0])));
     }
 }

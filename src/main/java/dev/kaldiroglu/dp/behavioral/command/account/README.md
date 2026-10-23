@@ -28,6 +28,12 @@ entries. The teller presses Undo once and gets back the deposit only: 300 lira l
 Deniz's account and arrive nowhere. The design recorded the parts of a request and lost the
 whole, because the request was never a thing it could hold.
 
+| Run | What it prints | Slide |
+|---|---|---|
+| `problem.StageOneMain` | Two undos leave 1500.00: the second undo did nothing | stage one |
+| `problem.StageTwoMain` | Both steps undone, and the journal | stage two |
+| `problem.TransferUndoMain` | One undo after a transfer: Deniz 700.00, Emre 0.00 | the problem with stage three |
+
 ## The pattern — `solution`
 
 | Class | Role | What it does |
@@ -39,13 +45,20 @@ whole, because the request was never a thing it could hold.
 | `Teller` | Invoker | Performs, keeps, undoes and redoes; names no operation |
 | `StandingOrders` | — | Requests made in the morning and run at night: the "queue requests" half of the intent |
 
+| Run | What it prints | Slide |
+|---|---|---|
+| `solution.TransferMain` | One undo takes back the whole transfer: Deniz 1000.00, Emre 0.00 | the change in one slide; several steps as one |
+| `solution.CloseOutMain` | Close out 750.00, undo, and 750.00 come back | a command remembers what it did |
+| `solution.StandingOrdersMain` | Three orders wait until the night run; the last one is undone next morning | queue requests |
+
 ## The lambda version — `lambda`
 
 `Transaction` has three methods — `execute`, `undo`, `description` — so one lambda cannot
 implement it. `LambdaTransaction` is a record that holds one function for each, and
 `Transactions` builds the four transactions from lambdas. The `Teller` and the
-`StandingOrders` are the ones from `solution`; they cannot tell the difference, and
-`lambda.Main` prints the same lines as `solution.Main`.
+`StandingOrders` are the ones from `solution`; they cannot tell the difference.
+`lambda.TransferMain`, `lambda.CloseOutMain` and `lambda.StandingOrdersMain` print the same
+lines as the classes of the same name in `solution`.
 
 - A deposit, a withdrawal and a transfer are easy: each undo is the opposite operation.
 - A close-out is not. It must remember how much it took, to give it back on undo, and a
@@ -64,7 +77,22 @@ nothing.
 ```bash
 cd "~/Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.solution.Main
-java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.lambda.Main
+
+# the three attempts
+java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.problem.StageOneMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.problem.StageTwoMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.problem.TransferUndoMain
+
+# the pattern
+java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.solution.TransferMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.solution.CloseOutMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.solution.StandingOrdersMain
+
+# the same with lambdas
+java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.lambda.TransferMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.lambda.CloseOutMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.command.account.lambda.StandingOrdersMain
+
+# the tests of this example
 mvn -o test -Dtest='dev.kaldiroglu.dp.behavioral.command.account.**.*Test'
 ```

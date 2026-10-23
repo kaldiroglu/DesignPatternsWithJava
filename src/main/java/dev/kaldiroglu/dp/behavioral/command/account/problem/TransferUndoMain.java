@@ -3,26 +3,10 @@ package dev.kaldiroglu.dp.behavioral.command.account.problem;
 import dev.kaldiroglu.dp.behavioral.command.account.domain.Account;
 import dev.kaldiroglu.dp.behavioral.command.account.domain.Money;
 
-/** Runs the three stages, and shows the stage-three teller undoing only half of a transfer. */
-public class Main {
+/** Stage three: the teller transfers 300, and one undo takes back only half of it. */
+public final class TransferUndoMain {
 
     public static void main(String[] args) {
-        OneStepAccount one = new OneStepAccount("Deniz", Money.of("1000.00"));
-        one.deposit(Money.of("500.00"));
-        one.withdraw(Money.of("200.00"));
-        one.undo();
-        one.undo();
-        System.out.println("Stage one: deposit 500, withdraw 200, undo twice. Balance: "
-                + one.balance() + " (the second undo did nothing)");
-
-        HistoryAccount two = new HistoryAccount("Deniz", Money.of("1000.00"));
-        two.deposit(Money.of("500.00"));
-        two.withdraw(Money.of("200.00"));
-        two.undo();
-        two.undo();
-        System.out.println("Stage two: the same steps. Balance: " + two.balance());
-        System.out.println("Stage two journal: " + two.journal());
-
         Account deniz = new Account("Deniz", Money.of("1000.00"));
         Account emre = new Account("Emre", Money.of("0.00"));
         Teller teller = new Teller();

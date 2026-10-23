@@ -25,10 +25,24 @@ class LambdaTransactionTest {
     }
 
     @Test
-    @DisplayName("Main prints the same lines as the version with transaction classes")
-    void sameOutputAsTheClasses() {
-        assertEquals(by(() -> dev.kaldiroglu.dp.behavioral.command.account.solution.Main.main(new String[0])),
-                by(() -> Main.main(new String[0])));
+    @DisplayName("TransferMain prints the same lines as the version with transaction classes")
+    void transferPrintsTheSameAsTheClasses() {
+        assertEquals(by(() -> dev.kaldiroglu.dp.behavioral.command.account.solution.TransferMain.main(new String[0])),
+                by(() -> TransferMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("CloseOutMain, run on p39, prints the same lines as the version with transaction classes")
+    void closeOutPrintsTheSameAsTheClasses() {
+        assertEquals(by(() -> dev.kaldiroglu.dp.behavioral.command.account.solution.CloseOutMain.main(new String[0])),
+                by(() -> CloseOutMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("StandingOrdersMain prints the same lines as the version with transaction classes")
+    void standingOrdersPrintTheSameAsTheClasses() {
+        assertEquals(by(() -> dev.kaldiroglu.dp.behavioral.command.account.solution.StandingOrdersMain.main(new String[0])),
+                by(() -> StandingOrdersMain.main(new String[0])));
     }
 
     @Test

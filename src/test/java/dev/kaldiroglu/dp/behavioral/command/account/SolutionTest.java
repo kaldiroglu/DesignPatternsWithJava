@@ -11,6 +11,7 @@ import java.util.List;
 
 import static dev.kaldiroglu.dp.behavioral.command.account.ProblemTest.codeOf;
 import static dev.kaldiroglu.dp.behavioral.command.account.ProblemTest.countOf;
+import static dev.kaldiroglu.dp.behavioral.command.lender.Printed.by;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -172,5 +173,42 @@ class SolutionTest {
         assertEquals(0, Transaction.class.getMethod("execute").getParameterCount());
         assertEquals(0, Transaction.class.getMethod("undo").getParameterCount());
         assertEquals(3, Transaction.class.getDeclaredMethods().length);
+    }
+
+    // ------------------------------------------------------------ the classes the slides run
+
+    static final List<String> TRANSFER_LINES = List.of(
+            "Transfer 300 from Deniz to Emre. Deniz 700.00, Emre 300.00",
+            "Undo pressed once. Deniz 1000.00, Emre 0.00",
+            "Undo took back the whole transfer.");
+
+    static final List<String> CLOSE_OUT_LINES = List.of(
+            "Close out Deniz: balance 0.00",
+            "Undo: balance 750.00 (the command remembered what it took)");
+
+    static final List<String> STANDING_ORDERS_LINES = List.of(
+            "Standing orders",
+            "Morning: 3 orders waiting. Deniz still has 1000.00",
+            "Night: Deniz 500.00, Landlord 400.00, Savings 105.00. Orders waiting: 0",
+            "Night journal: [transfer 400.00 Deniz -> Landlord, transfer 100.00 Deniz -> Savings,"
+                    + " deposit 5.00 Savings]",
+            "Next morning, undo the last order: Savings 100.00");
+
+    @Test
+    @DisplayName("TransferMain, run on p35 and p41: one undo takes back the whole transfer")
+    void transferMainPrints() {
+        assertEquals(TRANSFER_LINES, by(() -> TransferMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("CloseOutMain, run on p38: close out 750, undo, and 750 come back")
+    void closeOutMainPrints() {
+        assertEquals(CLOSE_OUT_LINES, by(() -> CloseOutMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("StandingOrdersMain, run on p42: three orders wait until the night run")
+    void standingOrdersMainPrints() {
+        assertEquals(STANDING_ORDERS_LINES, by(() -> StandingOrdersMain.main(new String[0])));
     }
 }

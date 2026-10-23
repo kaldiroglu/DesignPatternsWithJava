@@ -18,7 +18,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import dev.kaldiroglu.dp.behavioral.command.account.problem.StageOneMain;
+import dev.kaldiroglu.dp.behavioral.command.account.problem.StageTwoMain;
+import dev.kaldiroglu.dp.behavioral.command.account.problem.TransferUndoMain;
 
+import static dev.kaldiroglu.dp.behavioral.command.lender.Printed.by;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -203,5 +207,34 @@ class ProblemTest {
         assertEquals(1, countOf(transfer, "withdraw("));
         assertEquals(1, countOf(transfer, "deposit("));
         assertEquals(0, countOf(transfer, "record("), "it records nothing of its own");
+    }
+
+    // ------------------------------------------------------------ the classes the slides run
+
+    @Test
+    @DisplayName("StageOneMain, run on p12: the second undo does nothing")
+    void stageOneMainPrints() {
+        assertEquals(List.of("Stage one: deposit 500, withdraw 200, undo twice. Balance: 1500.00"
+                        + " (the second undo did nothing)"),
+                by(() -> StageOneMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("StageTwoMain, run on p13: both steps undone, and the journal")
+    void stageTwoMainPrints() {
+        assertEquals(List.of("Stage two: the same steps. Balance: 1000.00",
+                        "Stage two journal: [deposit 500.00, withdraw 200.00, undo withdraw 200.00,"
+                                + " undo deposit 500.00]"),
+                by(() -> StageTwoMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("TransferUndoMain, run on p17: one undo takes back only the deposit")
+    void transferUndoMainPrints() {
+        assertEquals(List.of("Stage three: transfer 300 from Deniz to Emre. Deniz 700.00, Emre 300.00",
+                        "Undo pressed once. Deniz 700.00, Emre 0.00",
+                        "Undo took back only the deposit. 300.00 lira left Deniz and arrived nowhere.",
+                        "Journal: [withdraw 300.00 Deniz, deposit 300.00 Emre, undo deposit 300.00 Emre]"),
+                by(() -> TransferUndoMain.main(new String[0])));
     }
 }
