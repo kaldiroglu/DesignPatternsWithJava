@@ -1,5 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.observer.price;
 
+import dev.kaldiroglu.dp.behavioral.observer.Printed;
 import dev.kaldiroglu.dp.behavioral.observer.price.problem.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -97,5 +98,26 @@ class ProblemTest {
 
         assertEquals(1, feed.reads() - readsBefore);
         assertEquals(List.of(), chart.points());
+    }
+
+    @Test
+    @DisplayName("StageOneMain prints every price on the chart, and the alert fired")
+    void stageOneMainOutput() {
+        assertEquals(List.of("Stage one, the feed calls every screen: chart [102, 106, 100, 103], "
+                + "alert fired: true"), Printed.by(() -> StageOneMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("StageTwoMain prints the same price twice, then the change")
+    void stageTwoMainOutput() {
+        assertEquals(List.of("Stage two, the screens poll every second: chart [100, 100, 102]"),
+                Printed.by(() -> StageTwoMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("FastSpikeMain prints three changes seen, no alert, and 100 reads")
+    void fastSpikeMainOutput() {
+        assertEquals(List.of("Stage three, ten polls a second for ten seconds: chart [102, 100, 103], "
+                + "alert fired: false, reads 100"), Printed.by(() -> FastSpikeMain.main(new String[0])));
     }
 }

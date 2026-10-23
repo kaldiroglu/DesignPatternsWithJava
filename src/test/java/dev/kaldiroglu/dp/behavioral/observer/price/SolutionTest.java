@@ -128,13 +128,22 @@ class SolutionTest {
     }
 
     @Test
-    @DisplayName("Main prints 100 reads and no alert for polling, and every change and the alert for listeners")
-    void mainOutput() {
-        List<String> lines = Printed.by(() -> Main.main(new String[0]));
+    @DisplayName("TwoWaysMain prints 100 reads and no alert for polling, and every change and the alert for listeners")
+    void twoWaysMainOutput() {
+        List<String> lines = Printed.by(() -> TwoWaysMain.main(new String[0]));
 
         assertEquals(List.of(
                 "Polling:   chart [102, 100, 103], alert fired: false, reads 100",
                 "Listeners: chart [102, 106, 100, 103], alert fired: true, ticker ACME 103 up, "
                         + "lambda [100->102, 102->106, 106->100, 100->103]"), lines);
+    }
+
+    @Test
+    @DisplayName("ListenersMain prints every change, the alert, the ticker and the lambda's log")
+    void listenersMainOutput() {
+        assertEquals(List.of(
+                "Listeners: chart [102, 106, 100, 103], alert fired: true, ticker ACME 103 up, "
+                        + "lambda [100->102, 102->106, 106->100, 100->103]"),
+                Printed.by(() -> ListenersMain.main(new String[0])));
     }
 }

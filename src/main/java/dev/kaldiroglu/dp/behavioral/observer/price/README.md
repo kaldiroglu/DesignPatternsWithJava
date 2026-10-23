@@ -19,6 +19,14 @@ ticker and an alert that must fire whenever the price reaches 105.
 100 reads. The price goes 100 → 102 → 106 → 100 → 103, and the step to 106 and back happens
 between two polls. The chart shows 102, 100, 103, and the alert at 105 never fires.
 
+Each slide has its own runnable class, so a run prints only what that slide shows:
+
+| Class | Slide | What it prints |
+|---|---|---|
+| `StageOneMain` | stage one | Every price on the chart, and the alert fired |
+| `StageTwoMain` | stage two | The chart after three polls: the same price twice, then the change |
+| `FastSpikeMain` | the problem with stage three | Three changes seen, no alert, 100 reads |
+
 ## The pattern — `solution`
 
 | Class | Role | What it does |
@@ -27,7 +35,9 @@ between two polls. The chart shows 102, 100, 103, and the alert at 105 never fir
 | `PriceListener` | Observer | One method, so a lambda can be a listener |
 | `PriceChange` | the event | Symbol, old price, new price |
 | `Chart`, `Ticker`, `PriceAlert` | ConcreteObserver | Each reacts in its own way |
-| `Main` | — | Runs the same prices through stage three and through listeners |
+| `ListenersMain` | — | Runs the prices through the listeners, one of them a lambda |
+| `TwoWaysMain` | — | Runs the same prices through stage three and through listeners |
+| `TenSeconds` | — | The ten seconds of prices both runnable classes use |
 
 With listeners the chart shows 102, 106, 100, 103, and the alert fires.
 
@@ -36,5 +46,16 @@ With listeners the chart shows 102, 106, 100, 103, and the alert fires.
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.price.solution.Main
+
+# the three attempts, one slide at a time
+java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.price.problem.StageOneMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.price.problem.StageTwoMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.price.problem.FastSpikeMain
+
+# the pattern
+java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.price.solution.ListenersMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.price.solution.TwoWaysMain
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.observer.price.**'
 ```

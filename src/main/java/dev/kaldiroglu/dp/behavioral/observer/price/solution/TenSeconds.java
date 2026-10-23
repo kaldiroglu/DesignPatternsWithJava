@@ -6,13 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The same ten seconds of prices, read by stage three's polling readers and by listeners.
- * The price spikes from 100 to 106 and back to 100 between two polls.
+ * The same ten seconds of prices, read two ways. The price spikes from 100 to 106 and back to
+ * 100 between two polls.
  */
-public final class Main {
+final class TenSeconds {
 
-    public static void main(String[] args) {
-        // Stage three: readers poll ten times a second (100 polls in ten seconds).
+    private TenSeconds() {
+    }
+
+    /** Stage three's readers poll ten times a second: 100 polls in ten seconds. */
+    static String polling() {
         var feed = new dev.kaldiroglu.dp.behavioral.observer.price.problem.PriceFeed(100);
         var chart = new dev.kaldiroglu.dp.behavioral.observer.price.problem.Chart();
         var ticker = new dev.kaldiroglu.dp.behavioral.observer.price.problem.Ticker();
@@ -25,10 +28,12 @@ public final class Main {
             if (tenth == 80) feed.setPrice(103);
             readers.poll();
         }
-        System.out.println("Polling:   chart " + chart.points() + ", alert fired: " + alert.fired()
-                + ", reads " + (feed.reads() - readsBefore));
+        return "Polling:   chart " + chart.points() + ", alert fired: " + alert.fired()
+                + ", reads " + (feed.reads() - readsBefore);
+    }
 
-        // The Observer pattern: the feed tells its listeners.
+    /** The Observer pattern: the feed tells its listeners, one of them a lambda. */
+    static String listeners() {
         PriceFeed observed = new PriceFeed("ACME", 100);
         Chart observedChart = new Chart();
         Ticker observedTicker = new Ticker();
@@ -43,7 +48,7 @@ public final class Main {
         observed.setPrice(106);
         observed.setPrice(100);
         observed.setPrice(103);
-        System.out.println("Listeners: chart " + observedChart.points() + ", alert fired: "
-                + observedAlert.fired() + ", ticker " + observedTicker.shown() + ", lambda " + log);
+        return "Listeners: chart " + observedChart.points() + ", alert fired: "
+                + observedAlert.fired() + ", ticker " + observedTicker.shown() + ", lambda " + log;
     }
 }

@@ -89,15 +89,21 @@ class ClockTimerTest {
     }
 
     @Test
-    @DisplayName("Main prints both screens and one observer left")
-    void mainOutput() {
-        List<String> lines = Printed.by(() -> Main.main(new String[0]));
+    @DisplayName("problem.Main prints two ticks of both clocks, drawn by the timer")
+    void problemMainOutput() {
+        assertEquals(List.of("digital 00:00:01", "analog second hand at 6 degrees",
+                        "digital 00:00:02", "analog second hand at 12 degrees"),
+                Printed.by(() -> dev.kaldiroglu.dp.behavioral.observer.gof.problem.Main.main(new String[0])));
+    }
 
-        assertEquals(List.of(
-                "Timer draws its clocks: [digital 00:00:01, analog second hand at 6 degrees, "
-                        + "digital 00:00:02, analog second hand at 12 degrees]",
-                "Clocks observe the timer: [digital 00:00:01, analog second hand at 6 degrees, "
-                        + "digital 00:00:02, analog second hand at 12 degrees, digital 00:00:03]",
-                "Observers left: 1"), lines);
+    @Test
+    @DisplayName("solution.Main prints two observers, three ticks with the analog clock closed after two, and one observer left")
+    void solutionMainOutput() {
+        assertEquals(List.of("Observers: 2",
+                        "digital 00:00:01", "analog second hand at 6 degrees",
+                        "digital 00:00:02", "analog second hand at 12 degrees",
+                        "digital 00:00:03",
+                        "Observers after the analog clock is closed: 1"),
+                Printed.by(() -> Main.main(new String[0])));
     }
 }
