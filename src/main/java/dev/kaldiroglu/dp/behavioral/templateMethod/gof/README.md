@@ -26,10 +26,18 @@ spreadsheet adds a step ("remember the last file") in its own copy, in a place i
 
 The `pattern` package holds a shorter version of the same example.
 
+Each package has a `Main` that opens a drawing, a spreadsheet, and a spreadsheet file in the
+drawing program, which ignores it. `problem.Main` also says the steps are written twice;
+`solution.Main` also prints how many documents the spreadsheet opened.
+
 ## Run it with
 
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.templateMethod.gof.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.templateMethod.gof.problem.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.templateMethod.gof.solution.Main
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.templateMethod.gof.**'
 ```

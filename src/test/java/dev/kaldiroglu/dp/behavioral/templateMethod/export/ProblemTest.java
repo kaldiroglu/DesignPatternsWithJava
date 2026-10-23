@@ -1,5 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.templateMethod.export;
 
+import dev.kaldiroglu.dp.behavioral.command.lender.Printed;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.domain.AuditLog;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.domain.Export;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.domain.ExportNotAllowedException;
@@ -9,7 +10,10 @@ import dev.kaldiroglu.dp.behavioral.templateMethod.export.domain.User;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.problem.CsvExport;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.problem.Format;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.problem.MarkdownExport;
+import dev.kaldiroglu.dp.behavioral.templateMethod.export.problem.MissingAuditMain;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.problem.StandaloneCsvExport;
+import dev.kaldiroglu.dp.behavioral.templateMethod.export.problem.StageOneMain;
+import dev.kaldiroglu.dp.behavioral.templateMethod.export.problem.StageTwoMain;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.problem.StandaloneHtmlExport;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.problem.SwitchingExporter;
 import org.junit.jupiter.api.DisplayName;
@@ -148,5 +152,36 @@ class ProblemTest {
                 () -> new CsvExport(audit).export(GUEST, REPORT));
 
         assertEquals(List.of(), audit.lines());
+    }
+
+    @Test
+    @DisplayName("StageOneMain prints an audit log with both exports")
+    void stageOneMainPrintsTwoAuditLines() {
+        assertEquals(List.of("Stage one, a copy per format, audit log: [Deniz exported sales-october.csv "
+                        + "(2 rows), Deniz exported sales-october.html (2 rows)]"),
+                Printed.by(() -> StageOneMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("StageTwoMain prints an audit log with both exports")
+    void stageTwoMainPrintsTwoAuditLines() {
+        assertEquals(List.of("Stage two, one class with a switch, audit log: [Deniz exported "
+                        + "sales-october.csv (2 rows), Deniz exported sales-october.html (2 rows)]"),
+                Printed.by(() -> StageTwoMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("MissingAuditMain prints the Markdown file and an audit log with the CSV export only")
+    void missingAuditMainPrintsOneAuditLine() {
+        assertEquals(List.of(
+                        "Stage three, the Markdown file:",
+                        "| customer | amount |",
+                        "|---|---|",
+                        "| Ayse | 1200 |",
+                        "| Deniz | 800 |",
+                        "Stage three, a CSV and a Markdown export, audit log: [Deniz exported "
+                                + "sales-october.csv (2 rows)]",
+                        "The Markdown export is missing: MarkdownExport never calls recordAudit."),
+                Printed.by(() -> MissingAuditMain.main(new String[0])));
     }
 }

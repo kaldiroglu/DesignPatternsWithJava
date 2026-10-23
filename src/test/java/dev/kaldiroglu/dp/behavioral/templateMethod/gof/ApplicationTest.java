@@ -23,13 +23,27 @@ class ApplicationTest {
             "remember budget.sheet as the last file", "open budget.sheet", "read cells from budget.sheet");
 
     @Test
-    @DisplayName("gof.Main opens one file of each kind, and ignores the file the drawing program cannot open")
-    void mainPrintsBothApplications() {
-        List<String> lines = Printed.by(() -> Main.main(new String[0]));
+    @DisplayName("gof.problem.Main opens one file of each kind, and ignores the file the drawing program cannot open")
+    void problemMainPrintsBothApplications() {
+        List<String> lines = Printed.by(() ->
+                dev.kaldiroglu.dp.behavioral.templateMethod.gof.problem.Main.main(new String[0]));
 
         assertEquals(List.of(
                 "Draw:        " + DRAW_EVENTS,
-                "Spreadsheet: " + SPREADSHEET_EVENTS), lines);
+                "Spreadsheet: " + SPREADSHEET_EVENTS,
+                "The same steps are written twice, once in each class."), lines);
+    }
+
+    @Test
+    @DisplayName("gof.solution.Main prints the same steps, and the spreadsheet opened 1 document")
+    void solutionMainPrintsBothApplications() {
+        List<String> lines = Printed.by(() ->
+                dev.kaldiroglu.dp.behavioral.templateMethod.gof.solution.Main.main(new String[0]));
+
+        assertEquals(List.of(
+                "Draw:        " + DRAW_EVENTS,
+                "Spreadsheet: " + SPREADSHEET_EVENTS,
+                "Documents the spreadsheet opened: 1"), lines);
     }
 
     @Test

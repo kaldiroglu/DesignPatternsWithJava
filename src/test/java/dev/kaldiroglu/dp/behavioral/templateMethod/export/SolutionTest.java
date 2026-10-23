@@ -6,9 +6,10 @@ import dev.kaldiroglu.dp.behavioral.templateMethod.export.domain.Export;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.domain.ExportNotAllowedException;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.solution.CsvExporter;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.solution.HtmlExporter;
-import dev.kaldiroglu.dp.behavioral.templateMethod.export.solution.Main;
+import dev.kaldiroglu.dp.behavioral.templateMethod.export.solution.AuditLogsMain;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.solution.MarkdownExporter;
 import dev.kaldiroglu.dp.behavioral.templateMethod.export.solution.ReportExporter;
+import dev.kaldiroglu.dp.behavioral.templateMethod.export.solution.ThreeExportsMain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -54,12 +55,11 @@ class SolutionTest {
     }
 
     @Test
-    @DisplayName("Main prints stage three's audit log with 1 line and the template method's with 3")
-    void mainPrintsBothAuditLogs() {
-        List<String> lines = Printed.by(() -> Main.main(new String[0]));
+    @DisplayName("ThreeExportsMain prints the CSV, HTML and Markdown files")
+    void threeExportsMainPrintsTheThreeFiles() {
+        List<String> lines = Printed.by(() -> ThreeExportsMain.main(new String[0]));
 
         assertEquals(List.of(
-                "Stage three, two exports, audit log: [Deniz exported sales-october.csv (2 rows)]",
                 "--- sales-october.csv",
                 "customer,amount",
                 "Ayse,1200",
@@ -74,7 +74,17 @@ class SolutionTest {
                 "| customer | amount |",
                 "|---|---|",
                 "| Ayse | 1200 |",
-                "| Deniz | 800 |",
+                "| Deniz | 800 |"),
+                lines);
+    }
+
+    @Test
+    @DisplayName("AuditLogsMain prints stage three's audit log with 1 line and the template method's with 3")
+    void auditLogsMainPrintsBothAuditLogs() {
+        List<String> lines = Printed.by(() -> AuditLogsMain.main(new String[0]));
+
+        assertEquals(List.of(
+                "Stage three, two exports, audit log: [Deniz exported sales-october.csv (2 rows)]",
                 "Template method, three exports, audit log: [Deniz exported sales-october.csv (2 rows), "
                         + "Deniz exported sales-october.html (2 rows), Deniz exported sales-october.md (2 rows)]"),
                 lines);
