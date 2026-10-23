@@ -8,6 +8,8 @@ import java.util.List;
 /**
  * Stage one: <b>the department gives out its own lists.</b>
  * <p>
+ * Open, because its internal lists are open to every caller.
+ * <p>
  * A department has members and sub-departments. Payroll, the phone book and every other
  * program need "everyone in this department", so the department returns its two internal
  * lists and each caller walks them.
