@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static dev.kaldiroglu.dp.behavioral.memento.Methods.publicSettersOf;
+import static dev.kaldiroglu.dp.behavioral.memento.Printed.by;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** Stage one: the game reads every field out and writes every field back. */
@@ -42,5 +43,16 @@ class SettersTest {
         player.setHealth(999);
         assertEquals(999, player.getHealth());
         assertEquals(List.of("setHealth", "setInventory", "setPosition"), publicSettersOf(Player.class));
+    }
+
+    @Test
+    @DisplayName("Main prints the play, then setHealth(999) from outside the player")
+    void mainOutput() {
+        assertEquals(List.of(
+                "At the checkpoint: health 100, at bridge, carrying [sword, shield]",
+                "In the cave:       health 0, at cave, carrying [shield, potion]",
+                "After loading:     health 100, at bridge, carrying [sword, shield]",
+                "Any code may call setHealth(999): health 999, at bridge, carrying [sword, shield]"),
+                by(() -> Main.main(new String[0])));
     }
 }

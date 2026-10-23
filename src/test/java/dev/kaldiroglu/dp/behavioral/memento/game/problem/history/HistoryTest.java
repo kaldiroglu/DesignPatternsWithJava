@@ -8,8 +8,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.List;
 
 import static dev.kaldiroglu.dp.behavioral.memento.Methods.publicSettersOf;
+import static dev.kaldiroglu.dp.behavioral.memento.Printed.by;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** Stage two: the player keeps its own checkpoints. */
@@ -43,5 +45,16 @@ class HistoryTest {
         assertTrue(Arrays.stream(Player.class.getDeclaredFields())
                 .map(Field::getType)
                 .anyMatch(Deque.class::equals));
+    }
+
+    @Test
+    @DisplayName("Main prints the play: loading is correct, and the player keeps the saves")
+    void mainOutput() {
+        assertEquals(List.of(
+                "At the checkpoint: health 100, at bridge, carrying [sword, shield]",
+                "In the cave:       health 0, at cave, carrying [shield, potion]",
+                "After loading:     health 100, at bridge, carrying [sword, shield]",
+                "The save slots are a field of Player, not of the game."),
+                by(() -> Main.main(new String[0])));
     }
 }

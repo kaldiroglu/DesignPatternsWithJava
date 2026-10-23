@@ -31,10 +31,27 @@ but carries `[shield, potion]` — what it had when it died, not `[sword, shield
 | `Game` | Caretaker | Keeps the checkpoints and decides which one to load |
 | `Main` | — | Runs the same play through stage one, stage three and the memento |
 
+## What to run
+
+Each stage package has its own `Main`, so a run prints only what its slide shows.
+
+| Class | Slide | What it prints |
+|---|---|---|
+| `problem.setters.Main` | stage one | The play, then `setHealth(999)` from outside the player |
+| `problem.history.Main` | stage two | The play; loading is correct, and the player keeps the saves |
+| `problem.copy.Main` | the problem with stage three | The play; after loading the player carries `[shield, potion]` |
+| `solution.Main` | the promise, measured | The same play through stage one, stage three and the memento |
+
 ## Run it with
 
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
+java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.game.problem.setters.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.game.problem.history.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.game.problem.copy.Main
 java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.game.solution.Main
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.memento.game.**'
 ```

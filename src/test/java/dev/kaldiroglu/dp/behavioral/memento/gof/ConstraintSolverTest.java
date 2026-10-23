@@ -87,16 +87,22 @@ class ConstraintSolverTest {
     }
 
     @Test
-    @DisplayName("Main prints the bend at each step in both designs")
-    void mainOutput() {
+    @DisplayName("problem.Main prints the bend at each step: after undo it is still at 20")
+    void problemMainOutput() {
         assertEquals(List.of(
-                "Before the pattern",
-                "  at the start: A 0 -> bend 50 -> B 100",
-                "  after move:   A 0 -> bend 20 -> B 40",
-                "  after undo:   A 0 -> bend 20 -> B 100",
-                "With a memento",
-                "  at the start: A 0 -> bend 50 -> B 100",
-                "  after move:   A 0 -> bend 20 -> B 40",
-                "  after undo:   A 0 -> bend 50 -> B 100"), by(() -> Main.main(new String[0])));
+                "At the start: A 0 -> bend 50 -> B 100",
+                "After move:   A 0 -> bend 20 -> B 40",
+                "After undo:   A 0 -> bend 20 -> B 100"),
+                by(() -> dev.kaldiroglu.dp.behavioral.memento.gof.problem.Main.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("solution.Main prints the bend at each step: after undo it is at 50 again")
+    void solutionMainOutput() {
+        assertEquals(List.of(
+                "At the start: A 0 -> bend 50 -> B 100",
+                "After move:   A 0 -> bend 20 -> B 40",
+                "After undo:   A 0 -> bend 50 -> B 100"),
+                by(() -> dev.kaldiroglu.dp.behavioral.memento.gof.solution.Main.main(new String[0])));
     }
 }

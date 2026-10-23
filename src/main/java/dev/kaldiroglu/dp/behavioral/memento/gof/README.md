@@ -28,10 +28,21 @@ need the solver's private state.
 
 After undo the bend is at 50 again.
 
+## What to run
+
+| Class | Slide | What it prints |
+|---|---|---|
+| `problem.Main` | the example, without the pattern | The bend at the start, after the move and after undo: 50, 20, 20 |
+| `solution.Main` | the example, with it | The same three steps: 50, 20, 50 |
+
 ## Run it with
 
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.gof.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.gof.problem.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.gof.solution.Main
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.memento.gof.**'
 ```

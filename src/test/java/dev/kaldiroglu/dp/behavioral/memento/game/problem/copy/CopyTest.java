@@ -3,7 +3,10 @@ package dev.kaldiroglu.dp.behavioral.memento.game.problem.copy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static dev.kaldiroglu.dp.behavioral.memento.Methods.publicSettersOf;
+import static dev.kaldiroglu.dp.behavioral.memento.Printed.by;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** Stage three: the game keeps a copy of the player, and the copy shares the inventory list. */
@@ -40,5 +43,16 @@ class CopyTest {
     @DisplayName("stage three keeps the rules: the player has no public setters")
     void noPublicSetters() {
         assertEquals(0, publicSettersOf(Player.class).size());
+    }
+
+    @Test
+    @DisplayName("Main prints the play: after loading the player carries [shield, potion]")
+    void mainOutput() {
+        assertEquals(List.of(
+                "At the checkpoint: health 100, at bridge, carrying [sword, shield]",
+                "In the cave:       health 0, at cave, carrying [shield, potion]",
+                "After loading:     health 100, at bridge, carrying [shield, potion]",
+                "Health and place are back, but the inventory is the one from the cave."),
+                by(() -> Main.main(new String[0])));
     }
 }
