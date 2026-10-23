@@ -56,6 +56,23 @@ strategy is in force, and it should be neither the strategies nor the context.
 Four classes cover five campaigns, because `PercentageOff` is one class used twice — a rule
 with parameters is one class, not one class per parameter.
 
+## One runnable class per slide
+
+Each class prints only what its slide shows, and the slide's source label names it.
+
+| Package | Class | What it prints |
+|---|---|---|
+| `problem` | `StageOneMain` | Four campaigns priced by the string switch, then the typo `BLACK_FRIDAY` failing at run time |
+| `problem` | `StageTwoMain` | The student price from the enum switch |
+| `problem` | `StageThreeMain` | The student price from `StudentCheckout` |
+| `problem` | `BestCampaignMain` | The best campaign for Ceyda, and the three checkout classes the till names to find it |
+| `solution` | `QuoteAllMain` | One receipt for each of the five rules |
+| `solution` | `BestRuleMain` | The receipt of the rule `CampaignBook` chooses |
+| `solution` | `ChangeRuleMain` | The receipt after the same till is given another rule |
+
+`SampleBasket` builds Ceyda's basket in both packages, and `SampleCampaignBook` builds the
+five rules in `solution`.
+
 ## Numbers on the slides
 
 Every figure the deck quotes is asserted in
@@ -75,4 +92,16 @@ Every figure the deck quotes is asserted in
 ```bash
 cd "~/Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q test -Dtest='ProblemTest,SolutionTest'
+
+# the three attempts and the request, one slide at a time
+mvn -o -q compile
+java -cp target/classes dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.StageOneMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.StageTwoMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.StageThreeMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.strategy.pricing.problem.BestCampaignMain
+
+# the pattern
+java -cp target/classes dev.kaldiroglu.dp.behavioral.strategy.pricing.solution.QuoteAllMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.strategy.pricing.solution.BestRuleMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.strategy.pricing.solution.ChangeRuleMain
 ```
