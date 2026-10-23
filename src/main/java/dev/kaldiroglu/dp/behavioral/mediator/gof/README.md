@@ -22,10 +22,17 @@ knows the dialog. The widgets work only in this dialog.
 | `Widget` | Colleague | Knows its director; `changed()` |
 | `ListBox`, `EntryField`, `Button` | ConcreteColleague | General widgets that know no other widget |
 
+Each design has its own runnable class: `problem.Main` and `solution.Main` run the same
+steps, and a test checks that both give the same field, OK button and result.
+
 ## Run it with
 
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.gof.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.gof.problem.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.gof.solution.Main
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.mediator.gof.**'
 ```

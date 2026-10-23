@@ -26,7 +26,8 @@ client, written later by another team, shows it: Can reads Elif's private messag
 | `ChatRoom` | Mediator | Decides who receives each message: everyone, one person, nobody who blocked the sender |
 | `Participant` | Colleague | `name()` and `receive(from, text)` |
 | `Member`, `Guest` | ConcreteColleague | Talk only to the room |
-| `Main` | — | Runs stage one, stage three and the room |
+| `ReferencesMain` | — | Counts the references of stage one: 4 members, 12 |
+| `TwoWaysMain` | — | Sends the same private message through the bus and through the room, then Mert blocks Burak |
 
 In the room, the same private message is delivered to Mert only. The guest checks nothing,
 and still shows nothing it should not, because it receives only what the room sends.
@@ -36,5 +37,16 @@ and still shows nothing it should not, because it receives only what the room se
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.chat.solution.Main
+
+# the three attempts, one stage at a time; each package has one Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.chat.problem.direct.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.chat.problem.directory.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.chat.problem.bus.Main
+
+# the pattern, one class per slide
+java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.chat.solution.ReferencesMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.chat.solution.TwoWaysMain
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.mediator.chat.**'
 ```

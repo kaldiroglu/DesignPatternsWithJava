@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static dev.kaldiroglu.dp.behavioral.mediator.Fields.holdsAny;
+import static dev.kaldiroglu.dp.behavioral.mediator.Printed.by;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** Stage three: a message bus, and clients that decide what to show. */
@@ -50,5 +51,16 @@ class BusTest {
         List<Class<?>> clients = List.of(Client.class, ChatClient.class, GuestClient.class);
         assertFalse(holdsAny(ChatClient.class, clients));
         assertFalse(holdsAny(GuestClient.class, clients));
+    }
+
+    @Test
+    @DisplayName("Main prints the table on the slide: delivered to three clients, and the guest shows the private message")
+    void mainOutput() {
+        assertEquals(List.of(
+                "Delivered to: [Burak, Mert, Can]",
+                "Mert shows:   [Elif (private): Your review is late.]",
+                "Burak shows:  []",
+                "Can shows:    [Elif: Your review is late.]  (a private message for Mert)"),
+                by(() -> Main.main(new String[0])));
     }
 }

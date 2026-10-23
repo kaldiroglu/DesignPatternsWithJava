@@ -60,10 +60,16 @@ class SolutionTest {
     }
 
     @Test
-    @DisplayName("Main runs stage one, stage three and the room, and prints the figures on the slides")
-    void mainOutput() {
+    @DisplayName("ReferencesMain prints the twelve references of stage one")
+    void referencesMainOutput() {
+        assertEquals(List.of("Stage one: 4 members hold 12 references to each other."),
+                by(() -> ReferencesMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("TwoWaysMain sends the same private message through the bus and the room, and prints the table on the slide")
+    void twoWaysMainOutput() {
         assertEquals(List.of(
-                "Stage one: 4 members hold 12 references to each other.",
                 "Stage three: Elif sends Mert a private message.",
                 "  delivered to: [Burak, Mert, Can]",
                 "  Mert shows:   [Elif (private): Your review is late.]",
@@ -76,6 +82,6 @@ class SolutionTest {
                 "Mert blocks Burak; Burak says something to everyone.",
                 "  Elif shows:   [Burak: Lunch at one?]",
                 "  Mert shows:   [Elif (private): Your review is late.]",
-                "  Can shows:    [Burak: Lunch at one?]"), by(() -> Main.main(new String[0])));
+                "  Can shows:    [Burak: Lunch at one?]"), by(() -> TwoWaysMain.main(new String[0])));
     }
 }

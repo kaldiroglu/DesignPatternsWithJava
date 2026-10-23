@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static dev.kaldiroglu.dp.behavioral.mediator.Printed.by;
 import static dev.kaldiroglu.dp.behavioral.mediator.Printed.codeOf;
 import static dev.kaldiroglu.dp.behavioral.mediator.Printed.countOf;
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,5 +52,16 @@ class DirectoryTest {
         String member = codeOf("mediator/chat/problem/directory/Member.java");
         assertEquals(2, countOf(member, "blocked.contains(name)"));
         assertEquals(0, countOf(codeOf("mediator/chat/problem/directory/Directory.java"), "blocked"));
+    }
+
+    @Test
+    @DisplayName("Main prints one directory of three members, and the block applied by the sender")
+    void mainOutput() {
+        assertEquals(List.of(
+                "Members in the directory: 3",
+                "Elif's inbox: [Burak: Lunch at one?]",
+                "Mert's inbox: [Elif (private): Your review is late.]  (Burak is blocked)",
+                "The block is checked in Member.say and Member.whisper, by the sender."),
+                by(() -> Main.main(new String[0])));
     }
 }

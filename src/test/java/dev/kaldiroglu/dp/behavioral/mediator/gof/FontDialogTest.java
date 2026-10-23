@@ -70,17 +70,44 @@ class FontDialogTest {
     }
 
     @Test
-    @DisplayName("Main runs the same steps in both designs and prints the same lines")
-    void mainOutput() {
-        List<String> lines = by(() -> Main.main(new String[0]));
+    @DisplayName("both designs give the same field, the same OK button and the same result for the same steps")
+    void bothDesignsBehaveTheSame() {
+        FontDialog before = new FontDialog();
+        FontDialogDirector after = new FontDialogDirector();
+        before.fontList.select("Helvetica");
+        after.fontList.select("Helvetica");
+        assertEquals(before.fontName.text(), after.fontName.text());
+        assertEquals(before.ok.enabled(), after.ok.enabled());
+
+        before.fontName.setText("");
+        after.fontName.type("");
+        assertEquals(before.ok.enabled(), after.ok.enabled());
+
+        before.fontName.setText("Times");
+        before.ok.click(before.fontName.text());
+        after.fontName.type("Times");
+        after.ok.click();
+        assertEquals(before.log, after.log);
+    }
+
+    @Test
+    @DisplayName("gof.problem.Main prints the three steps without a director")
+    void problemMainOutput() {
         assertEquals(List.of(
-                "Before the pattern",
-                "  after selecting: field 'Helvetica', OK enabled true",
-                "  after clearing:  OK enabled false",
-                "  after OK:        [font set to Times]",
-                "With a director",
-                "  after selecting: field 'Helvetica', OK enabled true",
-                "  after clearing:  OK enabled false",
-                "  after OK:        [font set to Times]"), lines);
+                "After selecting: field 'Helvetica', OK enabled true",
+                "After clearing:  OK enabled false",
+                "After OK:        [font set to Times]",
+                "ListBox holds the EntryField, and EntryField holds the Button."),
+                by(() -> dev.kaldiroglu.dp.behavioral.mediator.gof.problem.Main.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("gof.solution.Main prints the same three steps with a director, then Cancel")
+    void solutionMainOutput() {
+        assertEquals(List.of(
+                "After selecting: field 'Helvetica', OK enabled true",
+                "After clearing:  OK enabled false",
+                "After OK and Cancel: [font set to Times, dialog closed]"),
+                by(() -> dev.kaldiroglu.dp.behavioral.mediator.gof.solution.Main.main(new String[0])));
     }
 }

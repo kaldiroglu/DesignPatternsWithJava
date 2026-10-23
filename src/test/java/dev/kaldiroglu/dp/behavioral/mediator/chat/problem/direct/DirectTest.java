@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static dev.kaldiroglu.dp.behavioral.mediator.Printed.by;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** Stage one: every member holds every other member. */
@@ -57,5 +58,16 @@ class DirectTest {
         assertEquals(List.of("Elif: Hello"), can.inbox());
         assertEquals(14, team.stream().mapToInt(Member::references).sum() + can.references(),
                 "one new line, held from both ends; three more lines are still missing");
+    }
+
+    @Test
+    @DisplayName("Main prints the twelve references, the private message, and the message Can missed")
+    void mainOutput() {
+        assertEquals(List.of(
+                "References held by four members: 12",
+                "Mert's inbox:  [Elif (private): Your review is late.]",
+                "Burak's inbox: []",
+                "Can's inbox:   [Elif: Hello]  (Burak's lunch message is missing)"),
+                by(() -> Main.main(new String[0])));
     }
 }
