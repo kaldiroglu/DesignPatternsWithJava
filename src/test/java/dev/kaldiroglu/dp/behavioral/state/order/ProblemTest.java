@@ -9,6 +9,8 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 
+import dev.kaldiroglu.dp.behavioral.state.Printed;
+
 import static dev.kaldiroglu.dp.behavioral.state.Printed.codeOf;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -137,5 +139,38 @@ class ProblemTest {
         assertEquals(5, OrderStatus.values().length);
         assertTrue(Arrays.stream(OrderStatus.class.getDeclaredFields())
                 .allMatch(f -> Modifier.isStatic(f.getModifiers())), "the enum has no instance fields of its own");
+    }
+
+    @Test
+    @DisplayName("StageOneMain prints the flags order paid, shipped and delivered")
+    void stageOneMainOutput() {
+        assertEquals(List.of("Stage one, four flags:   [paid, shipped TR-1, delivered]"),
+                Printed.by(() -> StageOneMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("StageTwoMain prints that the switch refuses to cancel a shipped order")
+    void stageTwoMainOutput() {
+        assertEquals(List.of("Stage two, one switch:   cannot cancel a shipped order"),
+                Printed.by(() -> StageTwoMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("StageThreeMain prints three failures and the parcel back at the warehouse")
+    void stageThreeMainOutput() {
+        List<String> lines = Printed.by(() -> StageThreeMain.main(new String[0]));
+
+        assertEquals(1, lines.size());
+        assertTrue(lines.get(0).endsWith("delivery attempt 3 failed, back to the warehouse] -> PAID"));
+    }
+
+    @Test
+    @DisplayName("SecondShipmentMain prints the second shipment's failures as attempts 4, 5 and 6")
+    void secondShipmentMainOutput() {
+        assertEquals(List.of(
+                "Stage three, second shipment: [shipped TR-2, delivery attempt 4 failed, "
+                        + "delivery attempt 5 failed, delivery attempt 6 failed] -> SHIPPED",
+                "The count was not reset, so it never equals 3 again: the courier has no limit."),
+                Printed.by(() -> SecondShipmentMain.main(new String[0])));
     }
 }

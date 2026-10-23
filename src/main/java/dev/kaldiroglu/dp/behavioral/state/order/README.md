@@ -20,6 +20,17 @@ three failures the parcel goes back to the warehouse and can be shipped again.
 again does not reset it, so the second shipment's first failure is attempt 4. The check is
 `== 3`, so the parcel never goes back again: the courier has no limit.
 
+Each slide has its own runnable class, so a run prints only what that slide shows:
+
+| Class | Slide | What it prints |
+|---|---|---|
+| `StageOneMain` | stage one | A flags order paid, shipped and delivered |
+| `StageTwoMain` | stage two | The switch refuses to cancel a shipped order |
+| `StageThreeMain` | stage three | Three failures, and the parcel back at the warehouse |
+| `SecondShipmentMain` | the problem with stage three | The second shipment's failures counted as 4, 5 and 6 |
+
+`SampleOrder` builds the order after its first shipment, which the last two classes share.
+
 ## The pattern — `solution`
 
 | Class | Role | What it does |
@@ -27,12 +38,25 @@ again does not reset it, so the second shipment's first failure is attempt 4. Th
 | `Order` | Context | Forwards each request to its state and keeps the state it gets back |
 | `OrderState` | State | A `sealed` interface; every operation is refused by default |
 | `Placed`, `Paid`, `Shipped`, `Delivered`, `Cancelled` | ConcreteState | Records. `Shipped` holds its tracking number and attempts. |
-| `Main` | — | Runs the same story with stage three and with State objects |
+| `SecondShipmentMain` | — | Runs the same story with stage three and with State objects: the second shipment's first failure is attempt 4, then attempt 1 |
+| `RefusedRequestMain` | — | Asks a shipped order to cancel, and the state refuses |
 
 ## Run it with
 
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.state.order.solution.Main
+
+# the three attempts, one slide at a time
+java -cp target/classes dev.kaldiroglu.dp.behavioral.state.order.problem.StageOneMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.state.order.problem.StageTwoMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.state.order.problem.StageThreeMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.state.order.problem.SecondShipmentMain
+
+# the pattern
+java -cp target/classes dev.kaldiroglu.dp.behavioral.state.order.solution.RefusedRequestMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.state.order.solution.SecondShipmentMain
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.state.order.**'
 ```

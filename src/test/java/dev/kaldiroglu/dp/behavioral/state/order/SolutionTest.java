@@ -147,16 +147,22 @@ class SolutionTest {
     }
 
     @Test
-    @DisplayName("Main prints attempt 4 for the enum and attempt 1 for State objects")
-    void mainOutput() {
-        List<String> lines = Printed.by(() -> Main.main(new String[0]));
+    @DisplayName("SecondShipmentMain prints attempt 4 for the enum and attempt 1 for State objects")
+    void secondShipmentMainOutput() {
+        List<String> lines = Printed.by(() -> SecondShipmentMain.main(new String[0]));
 
-        assertEquals(5, lines.size());
+        assertEquals(4, lines.size());
         assertTrue(lines.get(0).startsWith("Enum constants: "));
         assertTrue(lines.get(0).endsWith("shipped TR-2, delivery attempt 4 failed]"));
         assertEquals("  status now: SHIPPED", lines.get(1));
         assertTrue(lines.get(2).endsWith("shipped TR-2, delivery attempt 1 failed]"));
         assertEquals("  state now: Shipped[trackingNumber=TR-2, failedAttempts=1]", lines.get(3));
-        assertEquals("Cancel a shipped order: cannot cancel a shipped order", lines.get(4));
+    }
+
+    @Test
+    @DisplayName("RefusedRequestMain prints that a shipped order cannot be cancelled")
+    void refusedRequestMainOutput() {
+        assertEquals(List.of("Cancel a shipped order: cannot cancel a shipped order"),
+                Printed.by(() -> RefusedRequestMain.main(new String[0])));
     }
 }
