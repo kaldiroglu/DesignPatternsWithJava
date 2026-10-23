@@ -101,11 +101,11 @@ class ProblemTest {
     }
 
     @Test
-    @DisplayName("stage three: Main's reorganized chart has three new people, and all three are reported")
+    @DisplayName("stage three: the reorganized chart has three new people, and all three are reported")
     void theProblemReportFindsAllThreeChanges() {
         ChangeReport report = new ChangeReport();
-        CallbackDepartment before = Main.company("Deniz");
-        CallbackDepartment after = Main.company("Zeynep", "Burak", "Ece");
+        CallbackDepartment before = SampleCompany.build("Deniz");
+        CallbackDepartment after = SampleCompany.build("Zeynep", "Burak", "Ece");
 
         assertEquals(Optional.of("Deniz (head of sales) -> Zeynep (head of sales)"),
                 report.firstDifference(before, after));

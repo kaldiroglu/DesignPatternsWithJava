@@ -23,6 +23,10 @@ GoF implementation issue 1 (who controls the iteration?) makes the same point: c
 two collections is easy with an external iterator and "practically impossible" with an
 internal one.
 
+Each stage has its own runnable class, so a run prints only what its slide shows:
+`StageOneMain`, `StageTwoMain`, `StageThreeMain` and `ChangeReportMain`. `SampleCompany`
+builds the company that the last two run on.
+
 ## The pattern — `solution`
 
 | Class | Role | What it does |
@@ -38,5 +42,16 @@ internal one.
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
+
+# the three attempts, one stage at a time
+java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.orgchart.problem.StageOneMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.orgchart.problem.StageTwoMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.orgchart.problem.StageThreeMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.orgchart.problem.ChangeReportMain
+
+# the pattern
 java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.orgchart.solution.Main
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.iterator.orgchart.**'
 ```
