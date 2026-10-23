@@ -4,12 +4,15 @@ import dev.kaldiroglu.dp.behavioral.command.lender.Printed;
 import dev.kaldiroglu.dp.behavioral.iterator.gof.problem.CursorList;
 import dev.kaldiroglu.dp.behavioral.iterator.gof.solution.AbstractList;
 import dev.kaldiroglu.dp.behavioral.iterator.gof.solution.ChainList;
+import dev.kaldiroglu.dp.behavioral.iterator.gof.solution.InternalIteratorMain;
 import dev.kaldiroglu.dp.behavioral.iterator.gof.solution.Iterator;
 import dev.kaldiroglu.dp.behavioral.iterator.gof.solution.List;
+import dev.kaldiroglu.dp.behavioral.iterator.gof.solution.PolymorphicIterationMain;
 import dev.kaldiroglu.dp.behavioral.iterator.gof.solution.ListTraverser;
 import dev.kaldiroglu.dp.behavioral.iterator.gof.solution.PrintEmployees;
 import dev.kaldiroglu.dp.behavioral.iterator.gof.solution.PrintNEmployees;
 import dev.kaldiroglu.dp.behavioral.iterator.gof.solution.ReverseListIterator;
+import dev.kaldiroglu.dp.behavioral.iterator.gof.solution.TwoIteratorsMain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,12 +22,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * GoF's list example. The 3 pairs and the 9 pairs on the Part 2 slides are asserted here,
- * from the lists themselves and from gof.Main's output.
+ * from the lists themselves and from the output of the runnable classes: problem.Main,
+ * solution.TwoIteratorsMain, solution.PolymorphicIterationMain and
+ * solution.InternalIteratorMain.
  */
 class ListIteratorTest {
 
+    private static final String[] NAMES = {"Ayse", "Deniz", "Elif"};
+
     private static <L extends AbstractList<Employee>> L filled(L list) {
-        for (String name : Main.NAMES) {
+        for (String name : NAMES) {
             list.append(new Employee(name));
         }
         return list;
@@ -34,7 +41,7 @@ class ListIteratorTest {
     @DisplayName("a list that walks itself: a loop inside a loop gives 3 pairs, not 9")
     void oneCursorGivesThreePairs() {
         CursorList<Employee> list = new CursorList<>();
-        for (String name : Main.NAMES) {
+        for (String name : NAMES) {
             list.append(new Employee(name));
         }
 
@@ -46,7 +53,7 @@ class ListIteratorTest {
             }
         }
 
-        assertEquals(3, Main.NAMES.length);
+        assertEquals(3, NAMES.length);
         assertEquals(3, pairs.size());
         assertEquals(java.util.List.of("Ayse-Ayse", "Ayse-Deniz", "Ayse-Elif"), pairs);
     }
@@ -65,23 +72,43 @@ class ListIteratorTest {
             }
         }
 
-        assertEquals(Main.NAMES.length * Main.NAMES.length, pairs.size());
+        assertEquals(NAMES.length * NAMES.length, pairs.size());
         assertEquals(9, pairs.size());
     }
 
     @Test
-    @DisplayName("gof.Main prints the pairs from both loops and the other iterators")
-    void mainPrintsBothResults() {
-        java.util.List<String> lines = Printed.by(() -> Main.main(new String[0]));
-
+    @DisplayName("problem.Main prints 3 pairs, because the inner loop moved the only cursor")
+    void problemMainPrintsThreePairs() {
         assertEquals(java.util.List.of(
-                "One cursor:      [Ayse-Ayse, Ayse-Deniz, Ayse-Elif]",
-                "Two iterators:   [Ayse-Ayse, Ayse-Deniz, Ayse-Elif, Deniz-Ayse, Deniz-Deniz, "
-                        + "Deniz-Elif, Elif-Ayse, Elif-Deniz, Elif-Elif]",
-                "Forward:         [Ayse, Deniz, Elif]",
-                "Backward:        [Elif, Deniz, Ayse]",
-                "Chain list:      [Ayse, Deniz, Elif]",
-                "First two:       [Ayse, Deniz], walked to the end: false"), lines);
+                "Expected 9 pairs, got 3: [Ayse-Ayse, Ayse-Deniz, Ayse-Elif]",
+                "The inner loop moved the only cursor, so the outer loop ended after Ayse."),
+                Printed.by(() -> dev.kaldiroglu.dp.behavioral.iterator.gof.problem.Main
+                        .main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("TwoIteratorsMain prints all 9 pairs")
+    void twoIteratorsMainPrintsNinePairs() {
+        assertEquals(java.util.List.of(
+                "Two iterators, 9 pairs: [Ayse-Ayse, Ayse-Deniz, Ayse-Elif, Deniz-Ayse, "
+                        + "Deniz-Deniz, Deniz-Elif, Elif-Ayse, Elif-Deniz, Elif-Elif]"),
+                Printed.by(() -> TwoIteratorsMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("PolymorphicIterationMain walks a list backwards and walks a chain list")
+    void polymorphicIterationMainPrintsBothWalks() {
+        assertEquals(java.util.List.of(
+                "Backward: [Elif, Deniz, Ayse]",
+                "Chain list: [Ayse, Deniz, Elif]"),
+                Printed.by(() -> PolymorphicIterationMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("InternalIteratorMain stops after two employees")
+    void internalIteratorMainStopsAfterTwo() {
+        assertEquals(java.util.List.of("First two: [Ayse, Deniz], walked to the end: false"),
+                Printed.by(() -> InternalIteratorMain.main(new String[0])));
     }
 
     @Test

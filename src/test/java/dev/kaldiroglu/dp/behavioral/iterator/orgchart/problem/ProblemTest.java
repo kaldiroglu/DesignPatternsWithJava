@@ -23,7 +23,7 @@ class ProblemTest {
     private static final Employee MERT = new Employee("Mert", "head of operations");
     private static final Employee ELIF = new Employee("Elif", "support");
 
-    /** The same company as orgchart.solution.Main, built as stage three. */
+    /** The same company as orgchart.solution.SampleCompany, built as stage three. */
     private static CallbackDepartment callbackCompany(Employee salesHead) {
         CallbackDepartment export = new CallbackDepartment("Export").add(CAN);
         CallbackDepartment sales = new CallbackDepartment("Sales").add(salesHead).add(ALI).add(export);

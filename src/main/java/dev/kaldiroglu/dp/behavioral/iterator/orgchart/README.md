@@ -35,7 +35,9 @@ builds the company that the last two run on.
 | `DepthFirstIterator` | ConcreteIterator | Department by department, with a stack |
 | `LevelOrderIterator` | ConcreteIterator | Level by level, with a queue |
 | `ChangeReport` | Client | Moves two iterators forward together. `firstDifference` stops at the first difference; `allDifferences` walks both charts to the end |
-| `Main` | — | Builds a small company and runs both orders. Then it compares it with a reorganized copy in which three people are new: the first difference is the head of sales, and all differences lists the three |
+| `TwoOrdersMain` | — | Walks a small company in both orders: department by department, then level by level |
+| `ChangeReportMain` | — | Compares the company with a reorganized copy in which three people are new: the first difference is the head of sales, and all differences lists the three |
+| `SampleCompany` | — | Builds the company that the two runnable classes use |
 
 ## Run it with
 
@@ -50,7 +52,8 @@ java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.orgchart.problem.S
 java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.orgchart.problem.ChangeReportMain
 
 # the pattern
-java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.orgchart.solution.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.orgchart.solution.TwoOrdersMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.orgchart.solution.ChangeReportMain
 
 # the tests of this example
 mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.iterator.orgchart.**'

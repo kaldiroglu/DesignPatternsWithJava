@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The department that gives out iterators. Every output the Part 3 slides quote from
- * orgchart.solution.Main is asserted here.
+ * orgchart.solution.TwoOrdersMain and ChangeReportMain is asserted here.
  */
 class SolutionTest {
 
@@ -32,9 +32,9 @@ class SolutionTest {
     }
 
     @Test
-    @DisplayName("Main prints the two orders and the first change, as the Part 3 slides quote them")
-    void mainPrintsWhatTheSlidesQuote() {
-        List<String> lines = Printed.by(() -> Main.main(new String[0]));
+    @DisplayName("TwoOrdersMain prints the two orders that the two-orders slide quotes")
+    void twoOrdersMainPrintsWhatTheSlideQuotes() {
+        List<String> lines = Printed.by(() -> TwoOrdersMain.main(new String[0]));
 
         assertEquals(List.of(
                 "Department by department:",
@@ -50,7 +50,15 @@ class SolutionTest {
                 "  Ali (sales)",
                 "  Mert (head of operations)",
                 "  Can (export)",
-                "  Elif (support)",
+                "  Elif (support)"), lines);
+    }
+
+    @Test
+    @DisplayName("ChangeReportMain prints the first change, then all three")
+    void changeReportMainPrintsTheChanges() {
+        List<String> lines = Printed.by(() -> ChangeReportMain.main(new String[0]));
+
+        assertEquals(List.of(
                 "First change: Deniz (head of sales) -> Zeynep (head of sales)",
                 "All changes:",
                 "  Deniz (head of sales) -> Zeynep (head of sales)",
@@ -61,7 +69,7 @@ class SolutionTest {
     @Test
     @DisplayName("the two orders differ only in rows 4 and 5: Can is one level lower than Mert")
     void theTwoOrdersDifferInRowsFourAndFive() {
-        Department company = Main.company("Deniz");
+        Department company = SampleCompany.build("Deniz");
 
         List<String> byDepartment = walk(company);
         List<String> byLevel = walk(company.byLevel());
@@ -79,8 +87,8 @@ class SolutionTest {
     @Test
     @DisplayName("the change report moves two iterators together and stops at the first difference")
     void theReportFindsTheNewHeadOfSales() {
-        Optional<String> change = new ChangeReport().firstDifference(Main.company("Deniz"),
-                Main.company("Zeynep"));
+        Optional<String> change = new ChangeReport().firstDifference(SampleCompany.build("Deniz"),
+                SampleCompany.build("Zeynep"));
 
         assertEquals(Optional.of("Deniz (head of sales) -> Zeynep (head of sales)"), change);
     }
@@ -89,8 +97,8 @@ class SolutionTest {
     @DisplayName("with three people new, the first difference is still only the head of sales")
     void theFirstDifferenceStopsAtTheFirstOfThree() {
         assertEquals(Optional.of("Deniz (head of sales) -> Zeynep (head of sales)"),
-                new ChangeReport().firstDifference(Main.company("Deniz"),
-                        Main.company("Zeynep", "Burak", "Ece")));
+                new ChangeReport().firstDifference(SampleCompany.build("Deniz"),
+                        SampleCompany.build("Zeynep", "Burak", "Ece")));
     }
 
     @Test
@@ -102,11 +110,11 @@ class SolutionTest {
                 "Deniz (head of sales) -> Zeynep (head of sales)",
                 "Can (export) -> Burak (export)",
                 "Elif (support) -> Ece (support)"),
-                report.allDifferences(Main.company("Deniz"), Main.company("Zeynep", "Burak", "Ece")));
+                report.allDifferences(SampleCompany.build("Deniz"), SampleCompany.build("Zeynep", "Burak", "Ece")));
         assertEquals(List.of(),
-                report.allDifferences(Main.company("Deniz"), Main.company("Deniz")));
+                report.allDifferences(SampleCompany.build("Deniz"), SampleCompany.build("Deniz")));
         assertEquals(List.of("the charts have different sizes"),
-                report.allDifferences(Main.company("Deniz"),
+                report.allDifferences(SampleCompany.build("Deniz"),
                         new Department("Head office").add(new Employee("Ayse", "CEO"))));
     }
 
@@ -116,17 +124,17 @@ class SolutionTest {
         Department shorter = new Department("Head office").add(new Employee("Ayse", "CEO"));
 
         assertEquals(Optional.empty(),
-                new ChangeReport().firstDifference(Main.company("Deniz"), Main.company("Deniz")));
+                new ChangeReport().firstDifference(SampleCompany.build("Deniz"), SampleCompany.build("Deniz")));
         assertEquals(Optional.of("the charts have different sizes"),
-                new ChangeReport().firstDifference(Main.company("Deniz"), shorter));
+                new ChangeReport().firstDifference(SampleCompany.build("Deniz"), shorter));
         assertEquals(Optional.of("the charts have different sizes"),
-                new ChangeReport().firstDifference(shorter, Main.company("Deniz")));
+                new ChangeReport().firstDifference(shorter, SampleCompany.build("Deniz")));
     }
 
     @Test
     @DisplayName("two iterators over the same department keep their own positions")
     void twoIteratorsDoNotDisturbEachOther() {
-        Department company = Main.company("Deniz");
+        Department company = SampleCompany.build("Deniz");
         Iterator<Employee> first = company.iterator();
         Iterator<Employee> second = company.iterator();
 

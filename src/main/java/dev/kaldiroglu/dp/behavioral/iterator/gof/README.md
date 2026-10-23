@@ -10,8 +10,8 @@ how it stores them, and more than one walk may be needed at the same time.
 ## Before the pattern — `problem.CursorList`
 
 The list walks itself: `first`, `next`, `isDone` and `currentItem` are on the list, and so
-is the cursor they move. A loop inside a loop moves the same cursor. `Main` pairs three
-employees with each other: with one cursor it makes 3 pairs instead of 9.
+is the cursor they move. A loop inside a loop moves the same cursor. `problem.Main` pairs
+three employees with each other: with one cursor it makes 3 pairs instead of 9.
 
 ## After it — `solution`
 
@@ -26,6 +26,17 @@ employees with each other: with one cursor it makes 3 pairs instead of 9.
 | `PrintEmployees` | Client | Works with any `Iterator<Employee>` |
 | `ListTraverser`, `PrintNEmployees` | Internal iterator | The traverser runs the loop; `processItem` returns `false` to stop |
 
+Each slide has its own runnable class, so a run prints only what that slide shows:
+
+| Class | What it prints |
+|---|---|
+| `problem.Main` | 3 pairs instead of 9: the inner loop moved the only cursor |
+| `solution.TwoIteratorsMain` | All 9 pairs, with two iterators |
+| `solution.PolymorphicIterationMain` | One client walks a list backwards and walks a chain list |
+| `solution.InternalIteratorMain` | `PrintNEmployees` stops after two employees |
+
+`solution.SampleLists` builds the three employees that the last three use.
+
 `java.util.Iterator` does the same job with two operations: `hasNext()` is `!isDone()`, and
 `next()` is `currentItem()` followed by `next()`.
 
@@ -34,5 +45,11 @@ employees with each other: with one cursor it makes 3 pairs instead of 9.
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.gof.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.gof.problem.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.gof.solution.TwoIteratorsMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.gof.solution.PolymorphicIterationMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.gof.solution.InternalIteratorMain
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.iterator.gof.**'
 ```
