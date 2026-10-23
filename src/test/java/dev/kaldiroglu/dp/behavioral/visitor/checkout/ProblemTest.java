@@ -109,4 +109,39 @@ class ProblemTest {
         assertEquals(3, code.split("instanceof", -1).length - 1);
         assertTrue(code.contains("else {"));
     }
+
+    @Test
+    @DisplayName("StageTwoMain prints the correct tax, 103, and the overloads' tax, 128")
+    void stageTwoMainOutput() {
+        assertEquals(List.of(
+                "A book for 40, food for 100, electronics for 500: the correct tax is 2 + 1 + 100 = 103",
+                "Stage two, overloads:   tax 128 (each item is held as an Item, so taxOf(Item) is called)"),
+                dev.kaldiroglu.dp.behavioral.visitor.Printed.by(() -> StageTwoMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("StageThreeMain prints tax 103 and shipping 50 for three items")
+    void stageThreeMainOutput() {
+        assertEquals(List.of("Stage three, type tests: tax 103, shipping 50"),
+                dev.kaldiroglu.dp.behavioral.visitor.Printed.by(() -> StageThreeMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("GiftCardMain prints tax 123 and shipping 60 once a gift card is added")
+    void giftCardMainOutput() {
+        assertEquals(List.of(
+                "A gift card for 100 is added. It has no tax and is not shipped.",
+                "Stage three, type tests: tax 123, shipping 60 (the else branch charges the standard rates)"),
+                dev.kaldiroglu.dp.behavioral.visitor.Printed.by(() -> GiftCardMain.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("stage one's Main prints each item's line, then tax 103 and shipping 50")
+    void stageOneMainOutput() {
+        assertEquals(List.of("Novel 40 (tax 2)", "Coffee 100 (tax 1)", "Headphones 500 (tax 100)",
+                        "Tax 103, shipping 50",
+                        "Three operations, written in each of the three item classes."),
+                dev.kaldiroglu.dp.behavioral.visitor.Printed.by(() ->
+                        dev.kaldiroglu.dp.behavioral.visitor.checkout.problem.methods.Main.main(new String[0])));
+    }
 }

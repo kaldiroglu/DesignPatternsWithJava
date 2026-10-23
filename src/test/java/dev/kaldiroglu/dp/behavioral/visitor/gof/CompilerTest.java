@@ -119,18 +119,27 @@ class CompilerTest {
     }
 
     @Test
-    @DisplayName("Main prints the same lines for both designs")
-    void mainOutput() {
-        List<String> lines = Printed.by(() -> Main.main(new String[0]));
+    @DisplayName("gof.problem.Main prints the program, the error and the code, then the cost")
+    void problemMainOutput() {
+        List<String> lines = Printed.by(() ->
+                dev.kaldiroglu.dp.behavioral.visitor.gof.problem.Main.main(new String[0]));
 
-        List<String> body = List.of("  y = 2", "  x = y + 1", "  z = w + x",
-                "  errors: [w is used before it is assigned]",
-                "  code:   [PUSH 2, STORE y, LOAD y, PUSH 1, ADD, STORE x, LOAD w, LOAD x, ADD, STORE z]");
-        List<String> expected = new ArrayList<>();
-        expected.add("Before the pattern");
-        expected.addAll(body);
-        expected.add("With visitors");
-        expected.addAll(body);
+        List<String> expected = new ArrayList<>(BODY);
+        expected.add("Each of the three jobs is written in all four node classes.");
         assertEquals(expected, lines);
     }
+
+    @Test
+    @DisplayName("gof.solution.Main prints the same program, error and code with visitors")
+    void solutionMainOutput() {
+        List<String> lines = Printed.by(() ->
+                dev.kaldiroglu.dp.behavioral.visitor.gof.solution.Main.main(new String[0]));
+
+        assertEquals(BODY, lines);
+    }
+
+    /** What both designs print for y = 2, x = y + 1, z = w + x. */
+    private static final List<String> BODY = List.of("y = 2", "x = y + 1", "z = w + x",
+            "Errors: [w is used before it is assigned]",
+            "Code:   [PUSH 2, STORE y, LOAD y, PUSH 1, ADD, STORE x, LOAD w, LOAD x, ADD, STORE z]");
 }

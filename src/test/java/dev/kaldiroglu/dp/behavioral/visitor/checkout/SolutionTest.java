@@ -162,4 +162,13 @@ class SolutionTest {
                 "  Electronics Headphones 500",
                 "  Gift card   Gift card 100 (sent by e-mail)"), lines);
     }
+
+    @Test
+    @DisplayName("the sealed switch's Main prints each item's tax and a total of 103")
+    void modernMainOutput() {
+        assertEquals(List.of("Novel 40: tax 2", "Coffee 100: tax 1", "Headphones 500: tax 100",
+                        "Gift card 100: tax 0", "Total tax: 103"),
+                Printed.by(() ->
+                        dev.kaldiroglu.dp.behavioral.visitor.checkout.modern.Main.main(new String[0])));
+    }
 }

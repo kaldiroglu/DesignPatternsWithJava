@@ -32,6 +32,9 @@ Every node class (`AssignmentNode`, `VariableRefNode`, `ConstantNode`, `AddNode`
 
 The visitors walk the tree themselves, by calling `accept` on the children.
 
+Each design has its own runnable class. `problem.Main` and `solution.Main` print the same
+program, the same error and the same code; `problem.Main` adds one line on what it costs.
+
 The older package `visitor.pattern.problem` holds the first sketch of the same nodes.
 
 ## Run it with
@@ -39,5 +42,13 @@ The older package `visitor.pattern.problem` holds the first sketch of the same n
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.gof.Main
+
+# before the pattern
+java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.gof.problem.Main
+
+# with visitors
+java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.gof.solution.Main
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.visitor.gof.**'
 ```

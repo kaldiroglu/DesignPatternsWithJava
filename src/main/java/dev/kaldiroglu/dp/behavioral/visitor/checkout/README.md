@@ -20,6 +20,17 @@ every item on the receipt must be taxed at its own rate: books 5%, food 1%, elec
 has tax 103. Stage two charges 128. Stage three charges 103, until a gift card for 100 is
 added: then it charges tax 123 and shipping 60, where the correct figures are 103 and 50.
 
+Each stage has its own runnable class, so a run prints only what its slide shows:
+
+| Class | Slide | What it prints |
+|---|---|---|
+| `problem.methods.Main` | stage one | Each item's receipt line, then tax 103 and shipping 50 |
+| `StageTwoMain` | stage two | The correct tax, 103, and the overloads' tax, 128 |
+| `StageThreeMain` | stage three | Tax 103 and shipping 50 for three items |
+| `GiftCardMain` | the problem with stage three | Tax 123 and shipping 60 once a gift card is added |
+
+`SampleCart` builds the three-item cart that the last three run on.
+
 ## The pattern — `solution`
 
 | Class | Role | What it does |
@@ -29,7 +40,7 @@ added: then it charges tax 123 and shipping 60, where the correct figures are 10
 | `ItemVisitor<R>` | Visitor | One `visit` per kind of item |
 | `TaxVisitor`, `ShippingVisitor`, `ReceiptLineVisitor` | ConcreteVisitor | One operation each |
 | `Checkout` | ObjectStructure | Walks the cart and sends each item the visitor |
-| `Main` | — | Runs the same carts through every design |
+| `Main` | — | Runs the same carts through every design, then prints the receipt |
 
 When `GiftCard` is added, `ItemVisitor` gets `visit(GiftCard)`, and every visitor that does
 not handle it stops compiling.
@@ -45,5 +56,19 @@ check as the visitor's interface, without `accept` and `visit`.
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
+
+# the three attempts, one stage at a time
+java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.checkout.problem.methods.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.checkout.problem.StageTwoMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.checkout.problem.StageThreeMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.checkout.problem.GiftCardMain
+
+# the pattern: the same carts through every design
 java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.checkout.solution.Main
+
+# the same check with a sealed interface and a switch
+java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.checkout.modern.Main
+
+# the tests of this example
+mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.visitor.checkout.**'
 ```
