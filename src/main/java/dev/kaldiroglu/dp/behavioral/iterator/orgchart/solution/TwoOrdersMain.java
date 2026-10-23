@@ -4,6 +4,9 @@ import dev.kaldiroglu.dp.behavioral.iterator.orgchart.domain.Employee;
 
 /**
  * Walks one department in two orders: department by department, then level by level.
+ * <p>
+ * Neither loop names an iterator class. {@code Department.iterator()} creates a
+ * {@link DepthFirstIterator}, and {@code byLevel()} creates a {@link LevelOrderIterator}.
  */
 public final class TwoOrdersMain {
 
@@ -11,12 +14,12 @@ public final class TwoOrdersMain {
         Department company = SampleCompany.build("Deniz");
 
         System.out.println("Department by department:");
-        for (Employee employee : company) {
+        for (Employee employee : company) {                 // a DepthFirstIterator
             System.out.println("  " + employee);
         }
 
         System.out.println("Level by level:");
-        for (Employee employee : company.byLevel()) {
+        for (Employee employee : company.byLevel()) {       // a LevelOrderIterator
             System.out.println("  " + employee);
         }
     }
