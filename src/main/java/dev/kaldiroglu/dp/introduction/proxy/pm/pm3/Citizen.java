@@ -3,8 +3,9 @@ package dev.kaldiroglu.dp.introduction.proxy.pm.pm3;
 /**
  * A citizen who holds a {@link PM}.
  * <p>
- * Compare the field with {@code pm2.Citizen}: it is back to being a {@code PM}, exactly as it
- * was in {@code pm1}. The screening now happens, and this class does not know it does.
+ * Compare the field with {@code pm1.Citizen} and {@code pm2.Citizen}. In {@code pm1} it was
+ * {@code PM}, a class; in {@code pm2} it was {@code Proxy}. Here it is {@link PM}, an
+ * interface. The screening now happens, and this class does not know it does.
  */
 public class Citizen {
 

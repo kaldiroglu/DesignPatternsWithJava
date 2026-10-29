@@ -55,9 +55,9 @@ note bottom of Citizen2
 end note
 
 note bottom of Citizen3
-  The field is a <b>PM</b> again, exactly as
-  in stage 1. Screening happens and this
-  class does not know it does.
+  The field is <b>PM</b>, an interface now.
+  In stage 1 PM was a class. Screening
+  happens and this class does not know it does.
 end note
 
 @enduml

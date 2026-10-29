@@ -27,8 +27,9 @@ Stage 2 looks like a proxy and is not one. Read `pm2.Citizen`:
 private final Proxy proxy;      // <-- was PM in pm1
 ```
 
-**A stand-in the client can see is not a proxy.** In `pm3` the field is a `PM` again,
-exactly as it was in stage 1 — the screening happens and the citizen does not know it does.
+**A stand-in the client can see is not a proxy.** In `pm3` the field is `PM`, an interface.
+In stage 1 `PM` was a class with the same name. The screening happens, and the citizen does
+not know it does.
 
 ## Two proxy kinds in one object
 

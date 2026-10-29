@@ -60,7 +60,7 @@ class PrimeMinisterTest {
     }
 
     @Test
-    @DisplayName("stage 3 — one interface, and the client is back to holding a PM")
+    @DisplayName("stage 3 — one interface, and the client holds the interface")
     void stageThree() throws Exception {
         var secretary = new dev.kaldiroglu.dp.introduction.proxy.pm.pm3.PMSecretary();
         var citizen = new dev.kaldiroglu.dp.introduction.proxy.pm.pm3.Citizen("Ayse", secretary);
@@ -74,7 +74,7 @@ class PrimeMinisterTest {
         assertEquals(1, proxy.callsPassedOn());
         assertEquals(1, proxy.callsRefused());
 
-        // The fix, in the type system: the client's field is the Subject type again.
+        // The fix, in the type system: the client's field is the Subject interface.
         Field field = Arrays.stream(
                         dev.kaldiroglu.dp.introduction.proxy.pm.pm3.Citizen.class.getDeclaredFields())
                 .filter(f -> f.getName().equals("pm")).findFirst().orElseThrow();

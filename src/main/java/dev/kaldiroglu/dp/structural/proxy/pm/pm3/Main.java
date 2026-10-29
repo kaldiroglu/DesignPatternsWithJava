@@ -1,8 +1,8 @@
 package dev.kaldiroglu.dp.structural.proxy.pm.pm3;
 
 /**
- * Stage 3 — the solution. The citizen's code is the same shape it was in stage 1, and every
- * call is screened.
+ * Stage 3 — the solution. The citizen holds PM, which is now an interface, and every call is
+ * screened.
  */
 public class Main {
 
@@ -29,9 +29,9 @@ public class Main {
         System.out.printf("refused        : %d%n", proxy.callsRefused());
         System.out.println("""
 
-                Citizen holds a PM, exactly as it did in stage 1 — the field type
-                went back. Nothing in it changed to accommodate the screening, and
-                nothing in RealPM changed either.
+                Citizen holds PM, which is now an interface. In stage 1 PM was a
+                class; the name is the same, the type is not. Citizen does not
+                know that its calls are screened, and RealPM screens nothing.
 
                 Two proxy kinds are at work in this one object:
                   protection — one call was refused, and findJob never reached her
