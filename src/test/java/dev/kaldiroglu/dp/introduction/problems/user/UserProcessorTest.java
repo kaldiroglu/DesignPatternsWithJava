@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.introduction.problems.complexIfs;
+package dev.kaldiroglu.dp.introduction.problems.user;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class UserProcessorTest {
 
     private static final Path SOURCE = Path.of(
-            "src/main/java/dev/kaldiroglu/dp/introduction/problems/complexIfs/UserProcessor.java");
+            "src/main/java/dev/kaldiroglu/dp/introduction/problems/user/UserProcessor.java");
 
     private static String code() throws IOException {
         String source = Files.readString(SOURCE);

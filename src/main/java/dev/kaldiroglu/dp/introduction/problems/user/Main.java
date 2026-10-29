@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.introduction.problems.complexIfs;
+package dev.kaldiroglu.dp.introduction.problems.user;
 
 /**
  * Three users through {@link UserProcessor#processUser}: each answer needs all seven
