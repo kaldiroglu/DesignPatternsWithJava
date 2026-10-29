@@ -1,8 +1,15 @@
 package dev.kaldiroglu.dp.introduction.proxy.pm.pm3;
 
+/**
+ * The Subject: what a citizen is entitled to ask of the Prime Minister's office.
+ * <p>
+ * This one interface is the whole difference between {@code pm2} and the solution. Because
+ * {@link RealPM} and {@link ProxyPM} both implement it, a citizen holding a {@code PM} cannot
+ * tell which she has — and does not need to be rewritten when the answer changes.
+ */
 public interface PM {
 
-    public void listen(String problem);
+    void listen(String problem);
 
-    public void findJob(String name);
+    void findJob(String name);
 }
