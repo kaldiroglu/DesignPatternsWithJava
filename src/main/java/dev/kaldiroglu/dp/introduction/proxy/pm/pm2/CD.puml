@@ -1,0 +1,24 @@
+@startuml
+skinparam dpi 300
+
+!theme blueprint
+class Citizen{
+   + void askForJob()
+   + void tellProblem()
+}
+
+class Proxy{
+  + void listen(String problem)
+  + void findJob(String name)
+  - boolean sortOut(String problem)
+  - void delegate(String problem)
+}
+
+class PM{
+  + void listen(String problem)
+  + void findJob(String name)
+  - void resolve(String problem)
+}
+Citizen -> Proxy
+Proxy -> PM
+@enduml
