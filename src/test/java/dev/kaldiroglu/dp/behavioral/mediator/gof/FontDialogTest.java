@@ -21,6 +21,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class FontDialogTest {
 
     @Test
+    @DisplayName("the director holds each widget by its class, so a new widget is an edit to the director")
+    void theDirectorKnowsItsWidgets() throws NoSuchFieldException {
+        assertEquals(ListBox.class, FontDialogDirector.class.getField("fontList").getType());
+        assertEquals(EntryField.class, FontDialogDirector.class.getField("fontName").getType());
+        assertEquals(Button.class, FontDialogDirector.class.getField("ok").getType());
+        assertEquals(Button.class, FontDialogDirector.class.getField("cancel").getType());
+    }
+
+    @Test
     @DisplayName("with a director: selecting a font fills the field and enables OK")
     void selectingAFont() {
         FontDialogDirector dialog = new FontDialogDirector();
