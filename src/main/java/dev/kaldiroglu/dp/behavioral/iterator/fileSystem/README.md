@@ -13,7 +13,7 @@ directories, and gives out a `DirectoryIterator` to list them.
 | `File`, `ShortCut`, `Alias` | elements |
 | `Directory` | Aggregate — `iterator()` creates the iterator |
 | `DirectoryIterator` | ConcreteIterator — implements `java.util.Iterator` |
-| `Test` | Client, with a `main` method |
+| `Main` | Client, with a `main` method |
 
 Only the iterator can reach the directory's list. `Directory.elements()` is
 package-private and returns an unmodifiable list, and `DirectoryIterator` is in the same
@@ -28,10 +28,13 @@ Two things worth knowing, both used in the deck's exercises:
 - In `DirectoryIterator<Storage>`, `Storage` is a type parameter, not the `Storage`
   interface. The name hides the interface inside the class.
 
+`copy()` returns a copy that is in no directory, and a directory's copy has its own copies of
+the elements. `move(target)` takes the element out of its directory and sets its parent.
+
 ## Run it with
 
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.fileSystem.Test
+java -cp target/classes dev.kaldiroglu.dp.behavioral.iterator.fileSystem.Main
 ```

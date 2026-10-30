@@ -1,16 +1,16 @@
 
 package dev.kaldiroglu.dp.behavioral.iterator.fileSystem;
 
-public abstract class StorageElement implements Storage {
+public abstract class StorageElement implements Storage, Cloneable {
 	protected String name;
-	protected Storage parent;
+	protected Directory parent;
 	protected boolean directory;
 
-	public StorageElement(String name, Storage parent) {
+	public StorageElement(String name, Directory parent) {
 		this.name = name;
 		this.parent = parent;
 		if(parent != null)
-			((Directory)parent).add(this);
+			parent.add(this);
 	}
 
 	@Override
@@ -25,24 +25,26 @@ public abstract class StorageElement implements Storage {
 
 	@Override
 	public void delete() {
-		((Directory) parent).delete(this);
+		if (parent != null)
+			parent.delete(this);
+		parent = null;
 	}
 
 	@Override
 	public Storage copy() {
-		StorageElement copiedElement = null;
 		try {
-			copiedElement = (StorageElement) clone();
+			StorageElement copiedElement = (StorageElement) clone();
+			copiedElement.parent = null;
+			return copiedElement;
 		} catch (CloneNotSupportedException e) {
-			System.out.println("Problem with copying: " + e.getMessage());
+			throw new AssertionError(e);	// StorageElement is Cloneable
 		}
-		return copiedElement;
 	}
 
 	@Override
 	public void move(Directory target) {
-//		System.out.println("Moving the element to " + target);
-		((Directory) parent).delete(this);
+		delete();
+		parent = target;
 		target.add(this);
 	}
 	
@@ -58,11 +60,11 @@ public abstract class StorageElement implements Storage {
 		this.name = name;
 	}
 
-	public Storage getParent() {
+	public Directory getParent() {
 		return parent;
 	}
 
-	public void setParent(Storage parent) {
+	public void setParent(Directory parent) {
 		this.parent = parent;
 	}
 

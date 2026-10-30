@@ -13,26 +13,22 @@ public class Directory extends StorageElement {
 		directory = true;
 	}
 
-	public Directory(String name, StorageElement parent) {
+	public Directory(String name, Directory parent) {
 		super(name, parent);
 		directory = true;
 	}
 
+	/** A copy with its own copies of the elements, in no directory until it is added to one. */
 	@Override
 	public Storage copy() {
-		Storage copiedElement = null;
-		try {
-			copiedElement = (Storage) clone();
-		} catch (CloneNotSupportedException e) {
-			System.out.println("Problem with copying: " + e.getMessage());
+		Directory copiedDirectory = (Directory) super.copy();
+		copiedDirectory.elements = new ArrayList<>();
+		for (Storage element : elements) {
+			StorageElement copiedElement = (StorageElement) element.copy();
+			copiedElement.parent = copiedDirectory;
+			copiedDirectory.add(copiedElement);
 		}
-		return copiedElement;
-	}
-
-	@Override
-	public void move(Directory target) {
-		parent = target;
-		target.add(this);
+		return copiedDirectory;
 	}
 
 	public void add(Storage element) {
