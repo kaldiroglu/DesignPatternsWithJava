@@ -3,18 +3,19 @@ Model: Claude Opus 5 (claude-opus-5)
 Created: 2026-07-28
 -->
 
-# `proxy.pm` — the Prime Minister, in three stages
+# `proxy.pm` — the Prime Minister, in four stages
 
 *For further enquiry please contact Akin Kaldiroglu at akin@kaldiroglu.dev*
 
-A citizen wants to tell the Prime Minister about a problem. Three packages, and only the
-third is the pattern — which is the point of having all three.
+A citizen wants to tell the Prime Minister about a problem. Four packages. `pm1` and `pm2` are
+not the pattern, `pm3` is, and `pm4` removes what `pm3` still gets wrong.
 
 | | What it does | What is wrong with it |
 |---|---|---|
 | `pm1` | The citizen holds the PM directly; the PM screens her own calls | The screening rule lives **inside the class it exists to protect**, and every citizen holds the Prime Minister's own number |
 | `pm2` | A `Proxy` class screens, and the PM does one job | `Proxy` and `PM` **share no type**, so `Citizen`'s field had to change — every client was edited to accept the stand-in |
-| `pm3` | A `PM` interface, `RealPM`, `ProxyPM`, and a `PMSecretary` that hands out the proxy | Nothing. This is the pattern |
+| `pm3` | A `PM` interface, `RealPM`, `ProxyPM`, and a `PMSecretary` that hands out the proxy | `Citizen` takes a `PMSecretary`, so the client changed. `ProxyPM` receives a `RealPM` that is already built, so the proxy delays nothing. `RealPM` is public |
+| `pm4` | `ProxyPM` creates a package-private `RealPM` on the first forwarded call, and `Citizen` takes a `PM` | Nothing. A refused call and `findJob` never create the Prime Minister |
 
 ## The move that matters
 
@@ -34,15 +35,18 @@ not know it does.
 called at all, and `findJob` is answered without ever forwarding. No decorator would do
 that — a decorator adds to what the subject does; this one may replace it entirely.
 
-`PMSecretary` makes it a **virtual proxy** as well: the Prime Minister is not created until
-somebody actually asks for her.
+In `pm3`, `PMSecretary` only delays creating the pair of objects, and it does that when a
+citizen is constructed. That is a lazy factory and not a virtual proxy. In `pm4`, `ProxyPM` is
+a **virtual proxy** too: it starts with no `RealPM` and creates one on the first call it
+forwards.
 
 ## Run it with
 
 ```bash
-mvn -o test -Dtest=PrimeMinisterTest      # 7 tests
+mvn -o test -Dtest=PrimeMinisterTest      # 10 tests
 
 java -cp target/classes dev.kaldiroglu.dp.structural.proxy.pm.pm1.Main
 java -cp target/classes dev.kaldiroglu.dp.structural.proxy.pm.pm2.Main
 java -cp target/classes dev.kaldiroglu.dp.structural.proxy.pm.pm3.Main
+java -cp target/classes dev.kaldiroglu.dp.structural.proxy.pm.pm4.Main
 ```

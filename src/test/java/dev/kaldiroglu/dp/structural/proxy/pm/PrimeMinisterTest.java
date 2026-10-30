@@ -125,4 +125,39 @@ class PrimeMinisterTest {
         assertThrows(NullPointerException.class,
                 () -> new dev.kaldiroglu.dp.structural.proxy.pm.pm3.ProxyPM(null));
     }
+
+    @Test
+    @DisplayName("pm4: a refused call and findJob do not create the Prime Minister, and the first forwarded call does")
+    void createdOnTheFirstForwardedCall() {
+        var proxy = new dev.kaldiroglu.dp.structural.proxy.pm.pm4.ProxyPM();
+        var citizen = new dev.kaldiroglu.dp.structural.proxy.pm.pm4.Citizen("Bora", proxy);
+        assertFalse(proxy.realPMCreated());
+
+        citizen.tellProblem("my cousin needs a job at the ministry");
+        citizen.askForJob();
+        assertFalse(proxy.realPMCreated());
+
+        citizen.tellProblem("the bridge on the coast road is closed");
+        assertTrue(proxy.realPMCreated());
+        assertEquals(2, proxy.callsScreened());
+        assertEquals(1, proxy.callsPassedOn());
+        assertEquals(1, proxy.callsRefused());
+    }
+
+    @Test
+    @DisplayName("pm4: Citizen depends only on PM, the same as a client of the interface in any stage")
+    void theClientKnowsOnlyTheInterface() throws Exception {
+        var pm = dev.kaldiroglu.dp.structural.proxy.pm.pm4.PM.class;
+        var citizen = dev.kaldiroglu.dp.structural.proxy.pm.pm4.Citizen.class;
+        assertNotNull(citizen.getConstructor(String.class, pm));
+        assertEquals(1, citizen.getConstructors().length);
+        assertSame(pm, citizen.getDeclaredField("pm").getType());
+    }
+
+    @Test
+    @DisplayName("pm4: the real subject is package-private, so code outside the package cannot reach it")
+    void theRealSubjectIsNotPublic() throws Exception {
+        Class<?> real = Class.forName("dev.kaldiroglu.dp.structural.proxy.pm.pm4.RealPM");
+        assertFalse(java.lang.reflect.Modifier.isPublic(real.getModifiers()));
+    }
 }
