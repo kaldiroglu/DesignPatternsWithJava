@@ -13,7 +13,7 @@ public class Invoice extends Observable {
 	}
 	
 	public void payBalance(double amount){
-		System.out.println("Some payment made.");
+		System.out.println("Some payment is made.");
 		balance = balance - amount;
 		setChanged();
 		notifyObservers();

@@ -19,9 +19,9 @@ public class Main {
 		invoice1.payBalance(2000);
 		
 		
-//		Invoice invoice2 = new Invoice(500);
-//		invoice2.addObserver(accountant);
-//		invoice2.payBalance(500);
+		Invoice invoice2 = new Invoice(500);
+		invoice2.addObserver(accountant);
+		invoice2.payBalance(500);
 		
 	}
 }

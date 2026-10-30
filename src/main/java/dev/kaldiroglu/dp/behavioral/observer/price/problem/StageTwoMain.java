@@ -18,9 +18,12 @@ public final class StageTwoMain {
         print(chart, ticker, alert);
         Thread.sleep(1_000);
         print(chart, ticker, alert);
-        feed.setPrice(102);
-        Thread.sleep(1_000);
-        print(chart, ticker, alert);
+//        feed.setPrice(120);
+//        Thread.sleep(1);
+//        print(chart, ticker, alert);
+//        feed.setPrice(110);
+//        Thread.sleep(1_00);
+//        print(chart, ticker, alert);
         polling.interrupt();
         polling.join();
     }

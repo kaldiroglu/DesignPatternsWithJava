@@ -19,10 +19,10 @@ public class Test {
 		newsweek.addSubscriber(bank1);
 
 		publisher.publishNewsweek();
-//		publisher.publishFourFourTwo();
-//		publisher.publishNewsweek();
-//		publisher.publishNewsweek();
-//		publisher.publishFourFourTwo();
+		publisher.publishFourFourTwo();
+		publisher.publishNewsweek();
+		publisher.publishNewsweek();
+		publisher.publishFourFourTwo();
 
 	}
 }
