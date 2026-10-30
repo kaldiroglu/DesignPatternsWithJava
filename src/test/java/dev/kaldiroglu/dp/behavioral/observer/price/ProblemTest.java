@@ -76,10 +76,16 @@ class ProblemTest {
         assertEquals(List.of(100, 100, 102), chart.points(), "the chart draws the same price again");
         assertTrue(Arrays.stream(PriceFeed.class.getDeclaredFields())
                 .allMatch(f -> f.getType() == int.class), "the feed holds only numbers");
-        List<Class<?>> fieldTypes = Arrays.stream(PollingReaders.class.getDeclaredFields())
-                .<Class<?>>map(Field::getType).toList();
-        assertTrue(fieldTypes.containsAll(List.of(Chart.class, Ticker.class, PriceAlert.class)),
-                "a new reader is an edit to PollingReaders");
+    }
+
+    @Test
+    @DisplayName("stages two and three: the reader classes hold every screen, so a new screen is an edit to them")
+    void aNewScreenIsAnEditToTheReaders() {
+        for (Class<?> readers : List.of(PollingReaders.class, ChangeOnlyReaders.class)) {
+            List<Class<?>> fieldTypes = Arrays.stream(readers.getDeclaredFields())
+                    .<Class<?>>map(Field::getType).toList();
+            assertTrue(fieldTypes.containsAll(List.of(Chart.class, Ticker.class, PriceAlert.class)));
+        }
     }
 
     @Test
