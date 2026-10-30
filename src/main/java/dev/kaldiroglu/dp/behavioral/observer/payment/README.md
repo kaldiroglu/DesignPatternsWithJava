@@ -22,5 +22,5 @@ The order is visible here: the boss is added first, but the accountant is told f
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.payment.Test
+java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.payment.Main
 ```

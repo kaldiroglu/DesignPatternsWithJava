@@ -2,7 +2,7 @@ package dev.kaldiroglu.dp.behavioral.observer.payment;
 
 import java.util.Observer;
 
-public class Test {
+public class Main {
 
 	public static void main(String[] args) {
 		Invoice invoice1 = new Invoice(10_000);

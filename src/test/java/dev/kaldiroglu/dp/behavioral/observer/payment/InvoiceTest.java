@@ -33,7 +33,7 @@ class InvoiceTest {
     @Test
     @DisplayName("Test prints the accountant's update before the boss's, and only the accountant's after the boss is removed")
     void testOutput() {
-        List<String> lines = Printed.by(() -> dev.kaldiroglu.dp.behavioral.observer.payment.Test.main(new String[0]));
+        List<String> lines = Printed.by(() -> dev.kaldiroglu.dp.behavioral.observer.payment.Main.main(new String[0]));
 
         List<String> updates = lines.stream().filter(line -> line.endsWith("received an update.")).toList();
         assertEquals(List.of("Accountant has received an update.", "Boss has received an update.",
