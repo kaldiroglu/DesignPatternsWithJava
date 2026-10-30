@@ -38,12 +38,11 @@ class DesignComparisonTest {
 
     private Outcome runSubclassed() {
         ManualClock clock = Clock.manual();
-        SimulatedRemotePriceFeed supplier = SimulatedRemotePriceFeed.withDefaults(clock);
-        PriceFeed feed = new CachingRetryingLoggingPriceFeed(supplier, 3, new CallLog(), clock, TTL);
-        supplier.failNext(1);
+        CachingRetryingLoggingPriceFeed feed = new CachingRetryingLoggingPriceFeed(clock, 3, new CallLog(), TTL);
+        feed.failNext(1);
         String amount = feed.quoteFor(SKU).amount().toString();
         feed.quoteFor(SKU);
-        return new Outcome(amount, supplier.callCount());
+        return new Outcome(amount, feed.callCount());
     }
 
     private Outcome runDecorated() {

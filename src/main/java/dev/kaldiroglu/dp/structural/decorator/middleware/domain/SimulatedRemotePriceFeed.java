@@ -17,7 +17,7 @@ import java.util.Map;
  * that the next calls will hit. Nothing is random, so every test and every demo produces
  * the same output every time.
  */
-public final class SimulatedRemotePriceFeed implements PriceFeed {
+public class SimulatedRemotePriceFeed implements PriceFeed {
 
     private final Map<String, String> catalog = new HashMap<>();
     private final ManualClock clock;

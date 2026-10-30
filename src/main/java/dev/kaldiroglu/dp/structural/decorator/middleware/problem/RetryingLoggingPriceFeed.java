@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.decorator.middleware.problem;
 
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.CallLog;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.PriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.domain.ManualClock;
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Quote;
 
 /**
@@ -19,8 +19,8 @@ public class RetryingLoggingPriceFeed extends RetryingPriceFeed {
 
     private final CallLog log;
 
-    public RetryingLoggingPriceFeed(PriceFeed supplier, int maxAttempts, CallLog log) {
-        super(supplier, maxAttempts);
+    public RetryingLoggingPriceFeed(ManualClock clock, int maxAttempts, CallLog log) {
+        super(clock, maxAttempts);
         this.log = log;
     }
 

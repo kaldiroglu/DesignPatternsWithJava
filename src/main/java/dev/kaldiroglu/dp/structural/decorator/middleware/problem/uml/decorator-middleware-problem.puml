@@ -39,12 +39,14 @@ package "2. one class, five flags" {
 }
 
 package "3. a subclass per combination" {
+  class SimulatedRemotePriceFeed
   class BasicPriceFeed
   class LoggingPriceFeed
   class RetryingPriceFeed
   class RetryingLoggingPriceFeed
   class CachingRetryingLoggingPriceFeed
 
+  SimulatedRemotePriceFeed <|-- BasicPriceFeed
   BasicPriceFeed <|-- LoggingPriceFeed
   BasicPriceFeed <|-- RetryingPriceFeed
   RetryingPriceFeed <|-- RetryingLoggingPriceFeed
@@ -63,15 +65,16 @@ package "3. a subclass per combination" {
 }
 
 PriceFeed <|.. FlaggedPriceFeed
-PriceFeed <|.. BasicPriceFeed
+PriceFeed <|.. SimulatedRemotePriceFeed
 CopyPasteOrderService ..> PriceFeed
 
 class VendorPriceFeed <<final / sealed>>
 PriceFeed <|.. VendorPriceFeed
 note right of VendorPriceFeed
-  And all three designs stop dead here.
-  A final class cannot be subclassed,
-  and the compiler is not negotiating.
+  Design 3 cannot use this class: its supplier
+  is the top of the hierarchy, and a final class
+  cannot be subclassed. Designs 1 and 2 hold a
+  field, so they can.
 end note
 
 @enduml

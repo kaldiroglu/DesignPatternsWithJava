@@ -9,7 +9,7 @@ package dev.kaldiroglu.dp.structural.decorator.middleware.domain;
  * decorator in the solution package works with this feed unchanged.
  * <p>
  * Vendors really do this, and so does the standard library: {@code java.lang.String},
- * {@code java.time.Instant} and most records are final for good reasons of their own.
+ * {@code java.time.Instant} and every record are final for good reasons of their own.
  */
 public final class VendorPriceFeed implements PriceFeed {
 

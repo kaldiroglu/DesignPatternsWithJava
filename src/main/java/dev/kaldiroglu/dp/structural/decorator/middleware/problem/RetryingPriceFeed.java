@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.decorator.middleware.problem;
 
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.FeedUnavailableException;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.PriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.domain.ManualClock;
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Quote;
 
 /** Retrying, as a subclass. */
@@ -9,8 +9,8 @@ public class RetryingPriceFeed extends BasicPriceFeed {
 
     private final int maxAttempts;
 
-    public RetryingPriceFeed(PriceFeed supplier, int maxAttempts) {
-        super(supplier);
+    public RetryingPriceFeed(ManualClock clock, int maxAttempts) {
+        super(clock);
         this.maxAttempts = maxAttempts;
     }
 

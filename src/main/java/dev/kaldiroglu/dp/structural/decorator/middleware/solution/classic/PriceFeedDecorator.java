@@ -9,8 +9,8 @@ import java.util.Objects;
  * The Decorator role: a price feed that <em>is</em> a {@link PriceFeed} and <em>has</em> a
  * {@link PriceFeed}, and by default does nothing but forward.
  * <p>
- * Compare it with {@code problem.BasicPriceFeed}, which looks almost the same. The
- * difference is one word — {@code extends} versus a field — and it is the difference
+ * Compare it with {@code problem.BasicPriceFeed}, which has no field: it extends the
+ * supplier. A field in place of {@code extends} is the difference
  * between a hierarchy that has to anticipate every combination and a chain that is built
  * when the program runs.
  * <p>

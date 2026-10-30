@@ -1,13 +1,18 @@
 package dev.kaldiroglu.dp.structural.decorator.middleware;
 
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.*;
+import dev.kaldiroglu.dp.structural.decorator.middleware.problem.BasicPriceFeed;
 import dev.kaldiroglu.dp.structural.decorator.middleware.problem.CachingRetryingLoggingPriceFeed;
 import dev.kaldiroglu.dp.structural.decorator.middleware.problem.CopyPasteOrderService;
 import dev.kaldiroglu.dp.structural.decorator.middleware.problem.FlaggedPriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.problem.LoggingPriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.problem.RetryingLoggingPriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.problem.RetryingPriceFeed;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -176,14 +181,13 @@ class ProblemTest {
     @DisplayName("subclasses: the combination class works")
     void subclassCombinationWorks() {
         ManualClock clock = Clock.manual();
-        SimulatedRemotePriceFeed supplier = SimulatedRemotePriceFeed.withDefaults(clock);
-        PriceFeed feed = new CachingRetryingLoggingPriceFeed(supplier, 3, new CallLog(), clock, TTL);
+        CachingRetryingLoggingPriceFeed feed = new CachingRetryingLoggingPriceFeed(clock, 3, new CallLog(), TTL);
 
-        supplier.failNext(1);
+        feed.failNext(1);
         feed.quoteFor(SKU);
         feed.quoteFor(SKU);
 
-        assertEquals(2, supplier.callCount());
+        assertEquals(2, feed.callCount());
     }
 
     @Test
@@ -209,18 +213,31 @@ class ProblemTest {
     }
 
     @Test
-    @DisplayName("subclasses: a final vendor class cannot be extended at all")
+    @DisplayName("subclasses: the supplier is the top of the hierarchy, so a final vendor class cannot take its place")
     void subclassingCannotReachAFinalClass() {
-        // The line below does not compile, and no amount of design discipline changes that:
+        // The line below does not compile:
         //
         //     class LoggingVendorFeed extends VendorPriceFeed { }
         //     //                              ^^^^^^^^^^^^^^^ cannot inherit from final class
-        //
-        // Every design in the problem package is built on subclassing, so every one of them
-        // stops here. See ClassicDecoratorTest#decoratesAFinalClass for what decoration does
-        // with the same class.
-        assertTrue(java.lang.reflect.Modifier.isFinal(
-                dev.kaldiroglu.dp.structural.decorator.middleware.domain.VendorPriceFeed.class.getModifiers()));
+        assertTrue(java.lang.reflect.Modifier.isFinal(VendorPriceFeed.class.getModifiers()));
+        assertEquals(SimulatedRemotePriceFeed.class, BasicPriceFeed.class.getSuperclass());
+        for (Class<?> type : List.of(BasicPriceFeed.class, LoggingPriceFeed.class, RetryingPriceFeed.class,
+                RetryingLoggingPriceFeed.class, CachingRetryingLoggingPriceFeed.class)) {
+            assertTrue(java.util.Arrays.stream(type.getDeclaredFields())
+                    .noneMatch(field -> field.getType() == PriceFeed.class), type.getSimpleName());
+        }
+    }
+
+    @Test
+    @DisplayName("copy-paste and flags hold a field, so both work on the final vendor class")
+    void theFirstTwoAttemptsWorkOnAFinalClass() {
+        ManualClock clock = Clock.manual();
+        VendorPriceFeed vendor = new VendorPriceFeed();
+
+        new CopyPasteOrderService(vendor, clock, new CallLog()).priceForOrder(SKU);
+        FlaggedPriceFeed.fullyEnabled(vendor, clock, new CallLog(), new Metrics()).quoteFor(SKU);
+
+        assertEquals(2, vendor.callCount());
     }
 
     private static int permutationsUpTo(int n) {

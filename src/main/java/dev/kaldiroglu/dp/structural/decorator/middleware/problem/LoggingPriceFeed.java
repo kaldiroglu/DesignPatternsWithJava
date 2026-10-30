@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.decorator.middleware.problem;
 
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.CallLog;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.PriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.domain.ManualClock;
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Quote;
 
 /** Logging, as a subclass. */
@@ -9,8 +9,8 @@ public class LoggingPriceFeed extends BasicPriceFeed {
 
     private final CallLog log;
 
-    public LoggingPriceFeed(PriceFeed supplier, CallLog log) {
-        super(supplier);
+    public LoggingPriceFeed(ManualClock clock, CallLog log) {
+        super(clock);
         this.log = log;
     }
 

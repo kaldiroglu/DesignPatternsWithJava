@@ -50,7 +50,7 @@ Nothing here is asserted where it can be measured:
 |---|---|
 | `CopyPasteOrderService` | Two call sites that were one method. Four defects have already drifted in: 3 retries against 2, a missing failure-log line, a cache timestamp that is never written (so **the cache on that path never works at all** — every entry it writes is unreadable), and `<` become `<=`. |
 | `FlaggedPriceFeed` | Five booleans, **thirteen constructor parameters**, 32 configurations in one method. Every new concern edits it. The cache/retry order is welded in. No concern can be tested alone, and switching caching on silently redefines what the timing metric measures. |
-| `CachingRetryingLoggingPriceFeed` | Concerns get their own classes — joined by inheritance. Logging must be copied; the class name has to state both its contents and their order; five concerns in every order would take **325 classes**; and it cannot touch `VendorPriceFeed`, which is `final`. |
+| `CachingRetryingLoggingPriceFeed` | Concerns get their own classes — joined by inheritance. Logging must be copied; the class name has to state both its contents and their order; five concerns in every order would take **325 classes**; and the supplier is the top of the hierarchy, so `VendorPriceFeed`, which is `final`, cannot take its place. (Copy-paste and flags hold a field, so they do work on it.) |
 
 ## The Decorator designs (`solution`)
 

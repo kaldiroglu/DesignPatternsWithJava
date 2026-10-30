@@ -2,7 +2,7 @@ package dev.kaldiroglu.dp.structural.decorator.middleware.problem;
 
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.CallLog;
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Clock;
-import dev.kaldiroglu.dp.structural.decorator.middleware.domain.PriceFeed;
+import dev.kaldiroglu.dp.structural.decorator.middleware.domain.ManualClock;
 import dev.kaldiroglu.dp.structural.decorator.middleware.domain.Quote;
 
 import java.time.Duration;
@@ -36,9 +36,8 @@ public class CachingRetryingLoggingPriceFeed extends RetryingLoggingPriceFeed {
     private final Map<String, Quote> cache = new HashMap<>();
     private final Map<String, Instant> cachedAt = new HashMap<>();
 
-    public CachingRetryingLoggingPriceFeed(PriceFeed supplier, int maxAttempts, CallLog log,
-                                           Clock clock, Duration ttl) {
-        super(supplier, maxAttempts, log);
+    public CachingRetryingLoggingPriceFeed(ManualClock clock, int maxAttempts, CallLog log, Duration ttl) {
+        super(clock, maxAttempts, log);
         this.clock = clock;
         this.ttl = ttl;
     }

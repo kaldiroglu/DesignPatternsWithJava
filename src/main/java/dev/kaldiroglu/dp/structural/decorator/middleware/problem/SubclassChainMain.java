@@ -17,15 +17,14 @@ public final class SubclassChainMain {
     public static void main(String[] args) {
         Console.section("3. a subclass per combination");
         ManualClock clock = Clock.manual();
-        SimulatedRemotePriceFeed supplier = SimulatedRemotePriceFeed.withDefaults(clock);
         CallLog log = new CallLog();
-        PriceFeed feed = new CachingRetryingLoggingPriceFeed(supplier, 3, log, clock, TTL);
+        CachingRetryingLoggingPriceFeed feed = new CachingRetryingLoggingPriceFeed(clock, 3, log, TTL);
 
-        supplier.failNext(1);
+        feed.failNext(1);
         feed.quoteFor(SKU);
         feed.quoteFor(SKU);
 
-        System.out.println("  works: " + supplier.callCount() + " supplier calls (1 failure retried, then cached)");
+        System.out.println("  works: " + feed.callCount() + " supplier calls (1 failure retried, then cached)");
         System.out.println("  but: the class name has to list its contents AND their order,");
         System.out.println("  and covering 5 concerns in every order would take 325 classes");
     }
