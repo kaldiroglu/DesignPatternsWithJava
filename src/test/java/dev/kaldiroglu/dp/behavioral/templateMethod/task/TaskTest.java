@@ -25,7 +25,7 @@ class TaskTest {
     void theClientPrintsTenTimesWithNineWaits() {
         long start = System.nanoTime();
         List<String> lines = Printed.by(
-                () -> dev.kaldiroglu.dp.behavioral.templateMethod.task.Test.main(new String[0]));
+                () -> dev.kaldiroglu.dp.behavioral.templateMethod.task.Main.main(new String[0]));
         long millis = (System.nanoTime() - start) / 1_000_000;
 
         assertEquals(10, count(lines, "Printing task."));
@@ -40,7 +40,7 @@ class TaskTest {
     @Test
     @DisplayName("the steps run in the order the template method fixes: prepare, then before, task, after, then clean")
     void theOrderOfTheSteps() {
-        List<String> lines = Printed.by(() -> new Scan("Scanning", 0, 2).run()).stream()
+        List<String> lines = Printed.by(() -> new Scan(0, 2).run()).stream()
                 .filter(line -> !line.isBlank())
                 .toList();
 
@@ -58,7 +58,7 @@ class TaskTest {
         List<String> lines;
         boolean stillInterrupted;
         try {
-            lines = Printed.by(() -> new Fax("Faxing", 1, 3).run());
+            lines = Printed.by(() -> new Fax(1, 3).run());
         } finally {
             stillInterrupted = Thread.interrupted();   // also clears the flag for later tests
         }
@@ -71,7 +71,7 @@ class TaskTest {
     @Test
     @DisplayName("as the exercise says: if doTask throws an exception, clean is never called")
     void aFailingTaskSkipsClean() {
-        Task failing = new Task("Failing", 0, 3) {
+        Task failing = new Task(0, 3) {
             @Override
             public void doTask() {
                 throw new IllegalStateException("the device is off");
@@ -86,7 +86,7 @@ class TaskTest {
     }
 
     @Test
-    @DisplayName("run is final, doTask is the only abstract step, and the four hooks are public")
+    @DisplayName("run is final, doTask is the only abstract step, and the four hooks are protected")
     void theKindsOfMethod() throws Exception {
         assertTrue(Modifier.isFinal(Task.class.getDeclaredMethod("run").getModifiers()));
 
@@ -98,7 +98,7 @@ class TaskTest {
 
         for (String hook : List.of("prepare", "before", "after", "clean")) {
             Method method = Task.class.getDeclaredMethod(hook);
-            assertTrue(Modifier.isPublic(method.getModifiers()), hook);
+            assertTrue(Modifier.isProtected(method.getModifiers()), hook);
             assertFalse(Modifier.isAbstract(method.getModifiers()), hook);
         }
     }

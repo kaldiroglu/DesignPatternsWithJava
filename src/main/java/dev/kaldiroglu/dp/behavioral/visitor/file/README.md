@@ -12,7 +12,7 @@ is read.
 | `domain` | `File`, `TextFile`, `XMLFile`: open, read, close |
 | `problem1` | `checkFormat()` on `TextFile`, `validate()` on `XMLFile`; the client tests types |
 | `problem2` | `FileOperator` does the type tests and the casts |
-| `pattern1` | `File.accept(Visitor)`; `FileVisitor` has `visit(TextFile)` and `visit(XMLFile)` |
+| `pattern1` | `File.accept(Visitor)`; `FileVisitor` has `visit(TextFile)` and `visit(XMLFile)`; `AccessVisitor` is a second operation on the same files |
 
 The checks pass four times in five, chosen with `Math.random()`, so the output changes
 from run to run.
@@ -22,5 +22,6 @@ from run to run.
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.file.pattern1.Test
+java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.file.pattern1.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.file.pattern1.AccessMain
 ```

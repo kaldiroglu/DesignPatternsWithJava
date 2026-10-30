@@ -4,26 +4,25 @@ hide empty members
 title A repeated task
 
 abstract class Task {
-  # name : String
   # interval : int
   # repetition : int
   + {final} run()
-  + prepare()
-  + before()
-  + {abstract} doTask()
-  + after()
-  + clean()
+  # prepare()
+  # before()
+  # {abstract} doTask()
+  # after()
+  # clean()
 }
 class Fax {
-  + doTask()
+  # doTask()
 }
 class Print {
-  + prepare()
-  + doTask()
-  + clean()
+  # prepare()
+  # doTask()
+  # clean()
 }
 class Scan {
-  + doTask()
+  # doTask()
 }
 
 Task <|-- Fax

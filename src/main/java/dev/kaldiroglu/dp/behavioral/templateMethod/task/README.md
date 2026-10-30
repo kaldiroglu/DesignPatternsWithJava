@@ -12,13 +12,13 @@ many times as asked, waiting between repetitions, then clean up.
 | `Task` | AbstractClass. `run()` is the template method and is `final`. `doTask()` is abstract; `prepare`, `before`, `after` and `clean` are hooks with a default. |
 | `Fax`, `Scan` | ConcreteClass — write `doTask()` only |
 | `Print` | ConcreteClass — also overrides the `prepare` and `clean` hooks |
-| `Test` | Client, with a `main` method |
+| `Main` | Client, with a `main` method |
 
 `run()` waits only between repetitions, not after the last one. If the thread is
 interrupted while it waits, `run()` keeps the interrupt flag, stops repeating, and still
 calls `clean()`.
 
-`Test` runs a print task ten times with a one-second interval: nine waits, so it takes
+`Main` runs a print task ten times with a one-second interval: nine waits, so it takes
 about nine seconds.
 
 ## Run it with
@@ -26,5 +26,5 @@ about nine seconds.
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.templateMethod.task.Test
+java -cp target/classes dev.kaldiroglu.dp.behavioral.templateMethod.task.Main
 ```

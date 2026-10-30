@@ -76,6 +76,19 @@ class FileTest {
     }
 
     @Test
+    @DisplayName("a second visitor adds a second operation: a user reads the text file, and not the XML file")
+    void aSecondVisitor() {
+        assertEquals(List.of("", "Opening the file: Notes.txt",
+                        "Anyone may read the file: Notes.txt",
+                        "Reading the file: Notes.txt", "Closing the file: Notes.txt",
+                        "", "Pay.xml is opened.",
+                        "Only an admin may read the file: Pay.xml",
+                        "Pay.xml is closed."),
+                Printed.by(() -> AccessMain.main(new String[0])));
+        assertTrue(new XMLFile("Pay.xml").accept(new AccessVisitor(true)));
+    }
+
+    @Test
     @DisplayName("FileOperator tests the type and casts, and the visitor does not")
     void typeTestsAndCasts() {
         String operator = codeOf(SOURCE + "problem2/FileOperator.java");

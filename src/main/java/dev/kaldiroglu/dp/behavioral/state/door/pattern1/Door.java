@@ -10,7 +10,6 @@ public class Door {
 		openState.setClosedState(closedState);
 		closedState.setDoor(this);
 		closedState.setOpenState(openState);
-//		state = closedState;
 	}
 
 	public Door() {

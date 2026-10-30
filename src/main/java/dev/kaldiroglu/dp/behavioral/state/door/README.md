@@ -10,7 +10,7 @@ A door is open or closed. Opening an open door, or closing a closed one, does no
 |---|---|
 | `problem` | Nobody: a boolean and an `if` in each method |
 | `pattern1` | The states. Each state knows the other one and tells the door to change. |
-| `pattern2` | A central `DoorStateManager`. The states ask the manager; only it knows all the states. |
+| `pattern2` | A central `DoorStateManager`. Each state calls `next(this)`; only the manager knows which state follows which. |
 
 This is the main design decision of the State pattern: are the transitions spread over the
 states, or kept in one place?
@@ -20,6 +20,6 @@ states, or kept in one place?
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.state.door.pattern1.Test
-java -cp target/classes dev.kaldiroglu.dp.behavioral.state.door.pattern2.Test
+java -cp target/classes dev.kaldiroglu.dp.behavioral.state.door.pattern1.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.state.door.pattern2.Main
 ```

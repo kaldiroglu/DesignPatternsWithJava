@@ -29,8 +29,7 @@ package "pattern2 · a manager decides" {
     - state : DoorState
   }
   class DoorStateManager {
-    + openDoor()
-    + closeDoor()
+    + next(DoorState)
   }
   interface "DoorState" as S2
   class "OpenDoor" as O2

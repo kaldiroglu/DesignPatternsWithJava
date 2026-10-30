@@ -3,7 +3,7 @@ package dev.kaldiroglu.dp.behavioral.visitor.file.problem1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Test {
+public class Main {
 	private static List<File> files = new ArrayList<File>();
 
 	public static void main(String[] args) {

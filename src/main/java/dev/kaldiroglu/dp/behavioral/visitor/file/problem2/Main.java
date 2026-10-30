@@ -1,15 +1,14 @@
-package dev.kaldiroglu.dp.behavioral.visitor.file.pattern1;
+package dev.kaldiroglu.dp.behavioral.visitor.file.problem2;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Test {
-	private static List<File> files = new ArrayList<>();
+public class Main {
+	private static List<File> files = new ArrayList<File>();
 
 	public static void main(String[] args) {
 
 		File file  = null;
-		Visitor visitor = new FileVisitor();
 		
 		for(int i = 0; i<3; i++){
 			double random = Math.random();
@@ -20,12 +19,7 @@ public class Test {
 			files.add(file);
 		}
 		
-		for(File aFile : files){
-			aFile.open();
-			boolean condition = aFile.accept(visitor);
-			if(condition)
-				aFile.read();
-			aFile.close();
-		}
+		FileOperator fo = new FileOperator();
+		fo.operate(files);
 	}
 }

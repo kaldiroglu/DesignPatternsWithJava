@@ -19,7 +19,7 @@ public class Employee {
 		System.out.println("Employee is working!");
 	}
 
-	public double calculateSalary() {
+	public int calculateSalary() {
 		return year * BASE_SALARY;
 	}
 

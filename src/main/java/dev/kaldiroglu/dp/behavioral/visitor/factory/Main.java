@@ -1,6 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.visitor.factory;
 
-public class Test {
+public class Main {
 
 	public static void main(String[] args) {
 		Company company = new Company(5);

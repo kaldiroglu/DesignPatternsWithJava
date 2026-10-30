@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The call center: standard, then gold, then VIP. The chain is built here as
- * Test.createCallTakers builds it, without the random customers.
+ * Main.createCallTakers builds it, without the random customers.
  */
 class CallCenterTest {
 
@@ -52,6 +52,22 @@ class CallCenterTest {
                 "GoldCallTaker received a customer.",
                 "VipCallTaker received a customer.",
                 "Answer: Here is your VIP answer!"), desksAndAnswers(new VipCustomer()));
+    }
+
+    @Test
+    @DisplayName("the order of the desks does not matter: with the VIP desk first, a gold customer still reaches gold")
+    void theOrderDoesNotMatter() {
+        CallTaker first = new VipCallTaker(new StandardCallTaker(new GoldCallTaker(null)));
+        List<String> lines = by(() -> first.answer(new GoldCustomer()));
+        assertTrue(lines.contains("Answer: Here is your GOLD answer!"));
+    }
+
+    @Test
+    @DisplayName("a customer no desk serves reaches the end of the chain and is told so, with no exception")
+    void noDeskCanAnswer() {
+        CallTaker first = new StandardCallTaker(new GoldCallTaker(null));
+        List<String> lines = by(() -> first.answer(new VipCustomer()));
+        assertTrue(lines.contains("Answer: No desk can answer you."));
     }
 
     @Test

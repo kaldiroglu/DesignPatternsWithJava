@@ -2,9 +2,9 @@ package dev.kaldiroglu.dp.behavioral.visitor.factory;
 
 
 public class Director extends Manager {
-	protected double bonus;
+	protected int bonus;
 	
-	public Director(int no, String name, int year, String workingDepartment, String managingDepartment, double bonus) {
+	public Director(int no, String name, int year, String workingDepartment, String managingDepartment, int bonus) {
 		super(no, name, year, workingDepartment, managingDepartment);
 		this.bonus = bonus;
 	}
@@ -23,7 +23,7 @@ public class Director extends Manager {
 		System.out.println("Director makes a strategic plan for the company!");
 	}
 	
-	public double calculateSalary(){
+	public int calculateSalary(){
 		return super.calculateSalary() + MANAGEMENT_PAYMENT + bonus;
 	}
 	

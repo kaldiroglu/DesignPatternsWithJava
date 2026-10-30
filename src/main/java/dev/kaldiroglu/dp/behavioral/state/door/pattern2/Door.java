@@ -6,7 +6,6 @@ public class Door {
 
 	public Door() {
 		dsm = new DoorStateManager(this);
-		dsm.closeDoor();
 	}
 
 	public void open() {

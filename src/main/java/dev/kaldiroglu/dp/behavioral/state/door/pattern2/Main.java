@@ -1,6 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.state.door.pattern2;
 
-public class Test {
+public class Main {
 
 	public static void main(String[] args) {
 		Door door = new Door();

@@ -9,8 +9,12 @@ public class VipCallTaker extends AbstractCallTaker {
 	@Override
 	public void answer(Customer customer) {
 		System.out.println("VipCallTaker received a customer.");
-		customer.askAQuestion();
-		customer.receiveAnswer("Here is your VIP answer!");
+		if (customer instanceof VipCustomer) {
+			customer.askAQuestion();
+			customer.receiveAnswer("Here is your VIP answer!");
+		}
+		else
+			passOn(customer);
 		System.out.println();
 	}
 }

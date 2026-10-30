@@ -8,7 +8,7 @@ public class ClosedDoor extends AbstractDoor {
 
 	@Override
 	public void open() {
-		dsm.openDoor();
+		dsm.next(this);
 	}
 
 	@Override

@@ -40,6 +40,14 @@ class HealthVisitorTest {
     }
 
     @Test
+    @DisplayName("salaries are whole numbers: year times 500, plus 3000 for a manager; a director adds 3000 again and the bonus")
+    void salaries() {
+        assertEquals(3000, new Employee(1, "Ali", 6, "Sales").calculateSalary());
+        assertEquals(10000, new Manager(4, "Metin", 14, "Production", "Production").calculateSalary());
+        assertEquals(17500, new Director(5, "Zeynep", 14, "Management", "Management", 4500).calculateSalary());
+    }
+
+    @Test
     @DisplayName("the boss is checked when over fifty, and not at fifty")
     void theBoss() {
         HealthVisitor visitor = new HealthVisitor();

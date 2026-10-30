@@ -13,14 +13,14 @@ VIP.
 | `CallTaker`, `AbstractCallTaker` | Handler — `answer(Customer)`, and the next desk |
 | `StandardCallTaker`, `GoldCallTaker`, `VipCallTaker` | ConcreteHandler |
 | `StandardCustomer`, `GoldCustomer`, `VipCustomer` | The request |
-| `Test` | Client — builds the chain and creates random customers |
+| `Main` | Client — builds the chain and creates random customers |
 
-`Test` picks customers with `Math.random()`, so the output changes from run to run.
+`Main` picks customers with `Math.random()`, so the output changes from run to run.
 
 ## Run it with
 
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.callCenter.Test
+java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.callCenter.Main
 ```

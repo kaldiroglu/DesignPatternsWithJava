@@ -29,5 +29,5 @@ Two things to see:
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.factory.Test
+java -cp target/classes dev.kaldiroglu.dp.behavioral.visitor.factory.Main
 ```

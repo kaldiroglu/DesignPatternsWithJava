@@ -13,6 +13,6 @@ public class OpenDoor extends AbstractDoor {
 
 	@Override
 	public void close() {
-		dsm.closeDoor();
+		dsm.next(this);
 	}
 }

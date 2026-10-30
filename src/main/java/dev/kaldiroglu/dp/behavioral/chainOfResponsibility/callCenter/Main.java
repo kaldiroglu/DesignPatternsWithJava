@@ -3,12 +3,12 @@ package dev.kaldiroglu.dp.behavioral.chainOfResponsibility.callCenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Test {
+public class Main {
 	private CallTaker first;
 	private List<Customer> customers;
 
 	public static void main(String[] args) {
-		Test test = new Test();
+		Main test = new Main();
 		test.createCallTakers();
 		test.createCustomers(5);
 		test.startTakingCalls();

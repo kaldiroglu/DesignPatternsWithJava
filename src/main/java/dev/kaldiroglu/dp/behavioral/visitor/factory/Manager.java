@@ -20,7 +20,7 @@ public class Manager extends Employee {
 		System.out.println("Manager manages department: " + departmentManaged);
 	}
 	
-	public double calculateSalary(){
+	public int calculateSalary(){
 		return super.calculateSalary() + MANAGEMENT_PAYMENT;
 	}
 	

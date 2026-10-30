@@ -2,20 +2,20 @@ package dev.kaldiroglu.dp.behavioral.templateMethod.task;
 
 public class Print extends Task{
 
-	public Print(String name, int interval, int repetition) {
-		super(name, interval, repetition);
+	public Print(int interval, int repetition) {
+		super(interval, repetition);
 	}
 	
-	public void prepare() {
+	protected void prepare() {
 		System.out.println("*** Preparing printing! ***");
 	}
 	
-	public void clean() {
+	protected void clean() {
 		System.out.println("*** Cleaning printing environment. ***");
 	}
 
 	@Override
-	public void doTask() {
+	protected void doTask() {
 		System.out.println("Printing task.");		
 	}
 }

@@ -1,2 +1,2 @@
-Bu örnek, Employee-Manager-Director kalıtım hiyerarşisini en yetkin haliyle gösterir.
-Bu örnekte hem overriding vardır, hem de super ile parenttaki yapılara ulaşmak söz konusudur.
+This example shows the Employee-Manager-Director inheritance hierarchy in full.
+It has both overriding and the use of super to reach the members of the parent class.

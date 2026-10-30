@@ -2,7 +2,7 @@ package dev.kaldiroglu.dp.behavioral.command.lender.lambda;
 
 import java.util.function.IntConsumer;
 
-/** The same two loans as {@code lender.pattern.Main}, with lambdas instead of command classes. */
+/** The loans of {@code lender.pattern.Main}, with lambdas; here the tax office also prints the amount. */
 public class Main {
 
 	public static void main(String[] args) {

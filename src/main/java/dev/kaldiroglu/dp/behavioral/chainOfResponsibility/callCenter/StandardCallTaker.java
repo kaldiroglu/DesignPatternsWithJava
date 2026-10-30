@@ -14,7 +14,7 @@ public class StandardCallTaker extends AbstractCallTaker {
 			customer.receiveAnswer("Here is your answer!");
 		}
 		else
-			next.answer(customer);
+			passOn(customer);
 		System.out.println();
 	}
 }

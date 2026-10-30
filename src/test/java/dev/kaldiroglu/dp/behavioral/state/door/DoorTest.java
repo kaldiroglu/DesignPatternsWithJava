@@ -33,9 +33,9 @@ class DoorTest {
     @DisplayName("pattern1 and pattern2 print the same story, apart from the end of the messages")
     void bothVersionsBehaveTheSame() {
         List<String> first = Printed.by(() ->
-                dev.kaldiroglu.dp.behavioral.state.door.pattern1.Test.main(new String[0]));
+                dev.kaldiroglu.dp.behavioral.state.door.pattern1.Main.main(new String[0]));
         List<String> second = Printed.by(() ->
-                dev.kaldiroglu.dp.behavioral.state.door.pattern2.Test.main(new String[0]));
+                dev.kaldiroglu.dp.behavioral.state.door.pattern2.Main.main(new String[0]));
 
         assertEquals(TEST_OUTPUT, first);
         assertEquals(TEST_OUTPUT.stream().map(line -> line.replace('!', '.')).toList(), second);
@@ -69,6 +69,12 @@ class DoorTest {
                 .map(Field::getName).toList();
         assertTrue(managerFields.containsAll(List.of("openState", "closedState")));
 
+        List<String> managerMethods = Arrays.stream(
+                        dev.kaldiroglu.dp.behavioral.state.door.pattern2.DoorStateManager.class
+                                .getDeclaredMethods())
+                .filter(m -> !m.isSynthetic())
+                .map(java.lang.reflect.Method::getName).toList();
+        assertEquals(List.of("next"), managerMethods, "a state cannot ask for a state by name");
         List<Class<?>> stateFieldTypes = Arrays.stream(
                         dev.kaldiroglu.dp.behavioral.state.door.pattern2.AbstractDoor.class
                                 .getDeclaredFields())

@@ -11,7 +11,11 @@ public abstract class AbstractCallTaker implements CallTaker{
 		return next;
 	}
 
-	public void setNext(CallTaker next) {
-		this.next = next;
+	/** Gives the customer to the next desk. A desk with no next desk tells the customer so. */
+	protected void passOn(Customer customer) {
+		if (next != null)
+			next.answer(customer);
+		else
+			customer.receiveAnswer("No desk can answer you.");
 	}
 }

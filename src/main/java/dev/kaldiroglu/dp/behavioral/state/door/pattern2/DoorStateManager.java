@@ -10,17 +10,11 @@ public class DoorStateManager {
 		this.door = door;
 		openState = new OpenDoor(this);
 		closedState = new ClosedDoor(this);
+		door.changeState(closedState);
 	}
 
-	public void changeState(DoorState newState) {
-		door.changeState(newState);
-	}
-
-	public void closeDoor() {
-		changeState(closedState);
-	}
-
-	public void openDoor() {
-		changeState(openState);		
+	/** The one place that says which state follows which. */
+	public void next(DoorState current) {
+		door.changeState(current == openState ? closedState : openState);
 	}
 }

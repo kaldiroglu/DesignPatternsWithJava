@@ -14,7 +14,7 @@ public class GoldCallTaker extends AbstractCallTaker {
 			customer.receiveAnswer("Here is your GOLD answer!");
 		}
 		else
-			next.answer(customer);
+			passOn(customer);
 		System.out.println();
 	}
 }
