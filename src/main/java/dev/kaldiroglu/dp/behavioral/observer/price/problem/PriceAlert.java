@@ -8,7 +8,7 @@ package dev.kaldiroglu.dp.behavioral.observer.price.problem;
 public final class PriceAlert {
 
     private final int limit;
-    private boolean fired;
+    private volatile boolean fired;     // set by the polling thread, read by main
 
     public PriceAlert(int limit) {
         this.limit = limit;

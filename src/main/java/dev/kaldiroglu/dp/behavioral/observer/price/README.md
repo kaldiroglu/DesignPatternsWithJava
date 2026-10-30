@@ -24,9 +24,9 @@ Each slide has its own runnable class, so a run prints only what that slide show
 | Class | Slide | What it prints |
 |---|---|---|
 | `StageOneMain` | stage one | The screens after each of four prices; the alert fires on 106 |
-| `StageTwoMain` | stage two | The reader thread polls three times in 2.5 seconds: the same price twice, then the change |
-| `StageThreeMain` | stage three | The reader thread polls ten times a second: only the two changes reach the chart |
-| `FastSpikeMain` | the problem with stage three | Three changes seen, no alert, 100 reads |
+| `StageTwoMain` | stage two | The reader thread polls three times in 2.5 seconds: every screen after each poll, the same price twice, then the change |
+| `StageThreeMain` | stage three | The reader thread polls ten times a second: every screen after each of two changes, and only the changes reach the chart |
+| `FastSpikeMain` | the problem with stage three | Every screen after each change it saw: three changes, no alert, then 100 reads |
 
 ## The pattern — `solution`
 

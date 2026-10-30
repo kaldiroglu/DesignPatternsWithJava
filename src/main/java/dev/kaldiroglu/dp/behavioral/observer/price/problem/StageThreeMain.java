@@ -9,16 +9,24 @@ public final class StageThreeMain {
 
     public static void main(String[] args) throws InterruptedException {
         PriceFeed feed = new PriceFeed(100);
-        Chart changes = new Chart();
-        ChangeOnlyReaders readers = new ChangeOnlyReaders(feed, changes, new Ticker(), new PriceAlert(105));
+        Chart chart = new Chart();
+        Ticker ticker = new Ticker();
+        PriceAlert alert = new PriceAlert(105);
+        ChangeOnlyReaders readers = new ChangeOnlyReaders(feed, chart, ticker, alert);
         readers.start();
         Thread.sleep(250);
         feed.setPrice(102);
         Thread.sleep(300);
+        print(chart, ticker, alert);
         feed.setPrice(103);
-        Thread.sleep(250);
+        Thread.sleep(300);
+        print(chart, ticker, alert);
         readers.interrupt();
         readers.join();
-        System.out.println("Stage three, the screens poll ten times a second: chart " + changes.points());
+    }
+
+    private static void print(Chart chart, Ticker ticker, PriceAlert alert) {
+        System.out.println("Stage three, the screens poll ten times a second:\nchart " + chart.points() + "\nticker shows "
+                + ticker.shown() + "\nalert fired: " + alert.fired() + "\n");
     }
 }

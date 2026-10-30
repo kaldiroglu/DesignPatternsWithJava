@@ -10,17 +10,21 @@ public final class FastSpikeMain {
 
     public static void main(String[] args) {
         PriceFeed fast = new PriceFeed(100);
-        Chart changes = new Chart();
+        Chart chart = new Chart();
+        Ticker ticker = new Ticker();
         PriceAlert missed = new PriceAlert(105);
-        ChangeOnlyReaders readers = new ChangeOnlyReaders(fast, changes, new Ticker(), missed);
+        ChangeOnlyReaders readers = new ChangeOnlyReaders(fast, chart, ticker, missed);
         int readsBefore = fast.reads();
         for (int tenth = 1; tenth <= 100; tenth++) {
             if (tenth == 20) fast.setPrice(102);
             if (tenth == 55) { fast.setPrice(106); fast.setPrice(100); }   // a spike between polls
             if (tenth == 80) fast.setPrice(103);
             readers.poll();
+            if (tenth == 20 || tenth == 55 || tenth == 80) {
+                System.out.println("Stage three, ten polls a second, poll " + tenth + ":\nchart " + chart.points()
+                        + "\nticker shows " + ticker.shown() + "\nalert fired: " + missed.fired() + "\n");
+            }
         }
-        System.out.println("Stage three, ten polls a second for ten seconds: chart " + changes.points()
-                + ", alert fired: " + missed.fired() + ", reads " + (fast.reads() - readsBefore));
+        System.out.println("Reads in ten seconds: " + (fast.reads() - readsBefore));
     }
 }

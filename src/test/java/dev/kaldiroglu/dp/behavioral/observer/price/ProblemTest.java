@@ -129,16 +129,23 @@ class ProblemTest {
     }
 
     @Test
-    @DisplayName("StageTwoMain: the thread polls three times, so the same price twice, then the change")
+    @DisplayName("StageTwoMain: the thread polls three times, and each screen shows what it got")
     void stageTwoMainOutput() {
-        assertEquals(List.of("Stage two, the screens poll every second: chart [100, 100, 102]"),
+        String header = "Stage two, the screens poll every second:";
+        assertEquals(List.of(
+                header, "chart [100]", "ticker shows 100", "alert fired: false", "",
+                header, "chart [100, 100]", "ticker shows 100", "alert fired: false", "",
+                header, "chart [100, 100, 102]", "ticker shows 102", "alert fired: false", ""),
                 Printed.by(() -> interruptible(StageTwoMain::main)));
     }
 
     @Test
     @DisplayName("StageThreeMain: the thread polls ten times a second, and only the changes reach the chart")
     void stageThreeMainOutput() {
-        assertEquals(List.of("Stage three, the screens poll ten times a second: chart [102, 103]"),
+        String header = "Stage three, the screens poll ten times a second:";
+        assertEquals(List.of(
+                header, "chart [102]", "ticker shows 102", "alert fired: false", "",
+                header, "chart [102, 103]", "ticker shows 103", "alert fired: false", ""),
                 Printed.by(() -> interruptible(StageThreeMain::main)));
     }
 
@@ -150,9 +157,15 @@ class ProblemTest {
     }
 
     @Test
-    @DisplayName("FastSpikeMain prints three changes seen, no alert, and 100 reads")
+    @DisplayName("FastSpikeMain prints each screen after each change seen, no alert, and 100 reads")
     void fastSpikeMainOutput() {
-        assertEquals(List.of("Stage three, ten polls a second for ten seconds: chart [102, 100, 103], "
-                + "alert fired: false, reads 100"), Printed.by(() -> FastSpikeMain.main(new String[0])));
+        assertEquals(List.of(
+                "Stage three, ten polls a second, poll 20:", "chart [102]", "ticker shows 102",
+                "alert fired: false", "",
+                "Stage three, ten polls a second, poll 55:", "chart [102, 100]", "ticker shows 100",
+                "alert fired: false", "",
+                "Stage three, ten polls a second, poll 80:", "chart [102, 100, 103]", "ticker shows 103",
+                "alert fired: false", "",
+                "Reads in ten seconds: 100"), Printed.by(() -> FastSpikeMain.main(new String[0])));
     }
 }
