@@ -9,24 +9,27 @@ police officer for permission to pass, and the officer lets one car through at a
 
 | Class | Role |
 |---|---|
-| `TrafficMediator` | Mediator — `receive`, `askPermitToPass`, `done` |
-| `TrafficPolice` | ConcreteMediator — keeps the junction busy or free |
+| `TrafficMediator` | Mediator — `askPermitToPass`, `done` |
+| `TrafficPolice` | ConcreteMediator — keeps the junction busy or free, and the waiting cars in order |
 | `Vehicle` | Colleague |
-| `Car` | ConcreteColleague; each car is a `Thread` |
+| `Car` | ConcreteColleague; a `Runnable`, and each car runs on its own thread |
 | `Junction` | The shared resource |
-| `Test` | Client — five cars, each on its own thread |
+| `Main` | Client — five cars, each on its own thread |
 
 Each car runs on its own thread, so the order of the output changes from run to run.
 
-Because every car calls the officer from its own thread, `askPermitToPass` checks whether
-the junction is busy and makes it busy inside one `synchronized` block. The car then
-proceeds, or waits, outside the lock. A car that has to wait asks again from the loop in
-`run()`.
+A car asks once. If the junction is free, the officer tells it to proceed. If not, the
+officer tells it to stop and adds it to the `waiting` queue, and the car blocks. When a car
+is `done`, the officer tells the first waiting car to proceed. So no car polls, cars pass in
+the order they asked, and the junction stays busy while it passes from one car to the next.
+
+Because every car calls the officer from its own thread, the officer makes these decisions
+inside one `synchronized` block, and calls the cars outside it.
 
 ## Run it with
 
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.traffic.Test
+java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.traffic.Main
 ```

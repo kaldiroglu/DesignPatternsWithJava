@@ -1,4 +1,3 @@
-
 package dev.kaldiroglu.dp.behavioral.mediator.traffic;
 
 public interface Vehicle {
@@ -7,8 +6,5 @@ public interface Vehicle {
 	
 	public void proceed();
 	
-	public void stopp();
-	
-	public void waitForAWhile();
-
+	public void stop();
 }

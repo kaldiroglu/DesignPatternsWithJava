@@ -1,25 +1,24 @@
-
 package dev.kaldiroglu.dp.behavioral.mediator.traffic;
 
-public class Test {
+public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		Junction junction = new Junction("Flower");
 		TrafficMediator police = new TrafficPolice("Mehmet", junction);
 
 		System.out.println();
-		
+
 		int numberOfCars = 5;
 		Thread[] cars = new Thread[numberOfCars];
 
 		for (int i = 0; i < numberOfCars; i++) {
-			Thread car = new Car("Car" + i, junction, police);
-			cars[i] = car;
+			cars[i] = new Thread(new Car("Car" + i, police));
 		}
-
-		System.out.println();
 
 		for (Thread car : cars)
 			car.start();
+
+		for (Thread car : cars)
+			car.join();
 	}
 }
