@@ -8,7 +8,7 @@ package dev.kaldiroglu.dp.behavioral.observer.price.problem;
  */
 public final class PriceFeed {
 
-    private int price;
+    private volatile int price;     // set by one thread, read by the polling thread
     private int reads;
 
     public PriceFeed(int price) {

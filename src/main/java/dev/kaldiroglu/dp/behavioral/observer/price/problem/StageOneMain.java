@@ -11,11 +11,12 @@ public final class StageOneMain {
     public static void main(String[] args) {
         Chart chart = new Chart();
         PriceAlert alert = new PriceAlert(105);
-        DirectPriceFeed direct = new DirectPriceFeed(chart, new Ticker(), alert);
+        Ticker ticker = new Ticker();
+        DirectPriceFeed direct = new DirectPriceFeed(chart, ticker, alert);
         for (int price : List.of(102, 106, 100, 103)) {
             direct.setPrice(price);
+            System.out.println("Stage one, the feed calls every screen:\nchart " + chart.points() + "\nticker shows "
+                    + ticker.shown() + "\nalert fired: " + alert.fired() + "\n");
         }
-        System.out.println("Stage one, the feed calls every screen: chart " + chart.points()
-                + ", alert fired: " + alert.fired());
     }
 }

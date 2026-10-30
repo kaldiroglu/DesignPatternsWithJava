@@ -23,8 +23,9 @@ Each slide has its own runnable class, so a run prints only what that slide show
 
 | Class | Slide | What it prints |
 |---|---|---|
-| `StageOneMain` | stage one | Every price on the chart, and the alert fired |
-| `StageTwoMain` | stage two | The chart after three polls: the same price twice, then the change |
+| `StageOneMain` | stage one | The screens after each of four prices; the alert fires on 106 |
+| `StageTwoMain` | stage two | The reader thread polls three times in 2.5 seconds: the same price twice, then the change |
+| `StageThreeMain` | stage three | The reader thread polls ten times a second: only the two changes reach the chart |
 | `FastSpikeMain` | the problem with stage three | Three changes seen, no alert, 100 reads |
 
 ## The pattern — `solution`
@@ -50,6 +51,7 @@ mvn -o -q compile
 # the three attempts, one slide at a time
 java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.price.problem.StageOneMain
 java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.price.problem.StageTwoMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.price.problem.StageThreeMain
 java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.price.problem.FastSpikeMain
 
 # the pattern

@@ -28,6 +28,18 @@ class ProblemTest {
         }
     }
 
+    private interface MainMethod {
+        void run(String[] args) throws InterruptedException;
+    }
+
+    private static void interruptible(MainMethod main) {
+        try {
+            main.run(new String[0]);
+        } catch (InterruptedException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
     @Test
     @DisplayName("stage one sees every price, but the feed knows every screen by class")
     void theFeedCallsEveryScreen() {
@@ -64,6 +76,10 @@ class ProblemTest {
         assertEquals(List.of(100, 100, 102), chart.points(), "the chart draws the same price again");
         assertTrue(Arrays.stream(PriceFeed.class.getDeclaredFields())
                 .allMatch(f -> f.getType() == int.class), "the feed holds only numbers");
+        List<Class<?>> fieldTypes = Arrays.stream(PollingReaders.class.getDeclaredFields())
+                .<Class<?>>map(Field::getType).toList();
+        assertTrue(fieldTypes.containsAll(List.of(Chart.class, Ticker.class, PriceAlert.class)),
+                "a new reader is an edit to PollingReaders");
     }
 
     @Test
@@ -101,17 +117,36 @@ class ProblemTest {
     }
 
     @Test
-    @DisplayName("StageOneMain prints every price on the chart, and the alert fired")
+    @DisplayName("StageOneMain prints the screens after each price, and the alert fires on 106")
     void stageOneMainOutput() {
-        assertEquals(List.of("Stage one, the feed calls every screen: chart [102, 106, 100, 103], "
-                + "alert fired: true"), Printed.by(() -> StageOneMain.main(new String[0])));
+        List<String> lines = Printed.by(() -> StageOneMain.main(new String[0]));
+
+        assertEquals(20, lines.size(), "four prices, five lines each");
+        assertEquals("alert fired: false", lines.get(3), "102 is under the limit");
+        assertEquals("alert fired: true", lines.get(8), "106 is over the limit");
+        assertEquals(List.of("Stage one, the feed calls every screen:", "chart [102, 106, 100, 103]",
+                "ticker shows 103", "alert fired: true", ""), lines.subList(15, 20));
     }
 
     @Test
-    @DisplayName("StageTwoMain prints the same price twice, then the change")
+    @DisplayName("StageTwoMain: the thread polls three times, so the same price twice, then the change")
     void stageTwoMainOutput() {
         assertEquals(List.of("Stage two, the screens poll every second: chart [100, 100, 102]"),
-                Printed.by(() -> StageTwoMain.main(new String[0])));
+                Printed.by(() -> interruptible(StageTwoMain::main)));
+    }
+
+    @Test
+    @DisplayName("StageThreeMain: the thread polls ten times a second, and only the changes reach the chart")
+    void stageThreeMainOutput() {
+        assertEquals(List.of("Stage three, the screens poll ten times a second: chart [102, 103]"),
+                Printed.by(() -> interruptible(StageThreeMain::main)));
+    }
+
+    @Test
+    @DisplayName("the readers of stages two and three are threads")
+    void theReadersAreThreads() {
+        assertTrue(Thread.class.isAssignableFrom(PollingReaders.class));
+        assertTrue(Thread.class.isAssignableFrom(ChangeOnlyReaders.class));
     }
 
     @Test

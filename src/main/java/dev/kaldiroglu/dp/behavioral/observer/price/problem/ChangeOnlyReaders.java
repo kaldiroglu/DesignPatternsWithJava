@@ -3,7 +3,8 @@ package dev.kaldiroglu.dp.behavioral.observer.price.problem;
 /**
  * Stage three: <b>the readers poll more often, and act only when the price changed.</b>
  * <p>
- * The best of the three. The feed still knows nobody. The readers poll more often, so they
+ * The best of the three. The feed still knows nobody. This class is a thread that wakes up
+ * ten times a second. The readers poll more often, so they
  * are less late, and they remember the last price, so an unchanged price costs one read
  * and no work: the chart no longer draws the same point again and again.
  * <p>
@@ -12,7 +13,9 @@ package dev.kaldiroglu.dp.behavioral.observer.price.problem;
  * alert at 105 never fires. Polling more often makes this rarer and wastes more reads; it
  * never makes it impossible.
  */
-public final class ChangeOnlyReaders {
+public final class ChangeOnlyReaders extends Thread {
+
+    private static final long ONE_TENTH_OF_A_SECOND = 100;
 
     private final PriceFeed feed;
     private final Chart chart;
@@ -28,7 +31,19 @@ public final class ChangeOnlyReaders {
         this.lastSeen = feed.price();
     }
 
-    /** Called by a timer, ten times a second. */
+    /** Polls ten times a second, until the thread is interrupted. */
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                poll();
+                Thread.sleep(ONE_TENTH_OF_A_SECOND);
+            }
+        } catch (InterruptedException stopped) {
+            // the thread was asked to stop
+        }
+    }
+
     public void poll() {
         int price = feed.price();
         if (price == lastSeen) {

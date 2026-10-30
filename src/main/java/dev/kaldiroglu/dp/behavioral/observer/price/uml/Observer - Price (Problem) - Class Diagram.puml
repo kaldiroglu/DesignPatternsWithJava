@@ -12,7 +12,7 @@ package "stage one" {
   end note
 }
 package "stage two" {
-  class PollingReaders {
+  class PollingReaders extends Thread {
     + poll()
   }
   note bottom of PollingReaders
@@ -21,7 +21,7 @@ package "stage two" {
   end note
 }
 package "stage three" {
-  class ChangeOnlyReaders {
+  class ChangeOnlyReaders extends Thread {
     - lastSeen : int
     + poll()
   }
