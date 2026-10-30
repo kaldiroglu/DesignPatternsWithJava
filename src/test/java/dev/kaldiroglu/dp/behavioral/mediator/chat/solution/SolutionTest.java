@@ -60,6 +60,26 @@ class SolutionTest {
     }
 
     @Test
+    @DisplayName("ChatRoomMain prints what every participant has after the private message and after the block")
+    void chatRoomMainOutput() {
+        assertEquals(List.of(
+                "Elif sends Mert a private message:",
+                "delivered to [Mert]",
+                "Elif shows []",
+                "Burak shows []",
+                "Mert shows [Elif (private): Your review is late.]",
+                "Can shows []",
+                "",
+                "Mert blocks Burak; Burak says something to everyone:",
+                "delivered to [Mert, Elif, Can]",
+                "Elif shows [Burak: Lunch at one?]",
+                "Burak shows []",
+                "Mert shows [Elif (private): Your review is late.]",
+                "Can shows [Burak: Lunch at one?]",
+                ""), by(() -> ChatRoomMain.main(new String[0])));
+    }
+
+    @Test
     @DisplayName("ReferencesMain prints the twelve references of stage one")
     void referencesMainOutput() {
         assertEquals(List.of("Stage one: 4 members hold 12 references to each other."),

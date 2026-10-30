@@ -26,6 +26,7 @@ client, written later by another team, shows it: Can reads Elif's private messag
 | `ChatRoom` | Mediator | Decides who receives each message: everyone, one person, nobody who blocked the sender |
 | `Participant` | Colleague | `name()` and `receive(from, text)` |
 | `Member`, `Guest` | ConcreteColleague | Talk only to the room |
+| `ChatRoomMain` | — | The pattern on its own: a private message, then a block, with what every participant has after each step |
 | `ReferencesMain` | — | Counts the references of stage one: 4 members, 12 |
 | `TwoWaysMain` | — | Sends the same private message through the bus and through the room, then Mert blocks Burak |
 
@@ -44,6 +45,7 @@ java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.chat.problem.direc
 java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.chat.problem.bus.Main
 
 # the pattern, one class per slide
+java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.chat.solution.ChatRoomMain
 java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.chat.solution.ReferencesMain
 java -cp target/classes dev.kaldiroglu.dp.behavioral.mediator.chat.solution.TwoWaysMain
 
