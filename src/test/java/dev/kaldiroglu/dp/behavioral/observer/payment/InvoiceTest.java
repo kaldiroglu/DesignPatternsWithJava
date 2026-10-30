@@ -38,8 +38,8 @@ class InvoiceTest {
         List<String> updates = lines.stream().filter(line -> line.endsWith("received an update.")).toList();
         assertEquals(List.of("Accountant has received an update.", "Boss has received an update.",
                 "Accountant has received an update."), updates);
-        assertEquals(2, lines.stream().filter(line -> line.equals("Some payment made.")).count());
-        assertTrue(lines.getLast().startsWith("Invoice [balance=3000.0, no="));
+        assertEquals(2, lines.stream().filter(line -> line.equals("Some payment is made.")).count());
+        assertTrue(lines.getLast().startsWith("Invoice: Invoice [balance=3000.0, no="));
     }
 
     @Test
