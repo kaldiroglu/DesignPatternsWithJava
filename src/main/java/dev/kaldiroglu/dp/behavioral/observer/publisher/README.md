@@ -14,12 +14,12 @@ issue comes out, every subscriber receives it and reacts in its own way.
 | `Subscriber`, `AbstractSubscriber` | Observer — `receive(Publication)` |
 | `IndividualSubscriber` | ConcreteObserver — reads the issue |
 | `InstitutionalSubscriber` | ConcreteObserver — puts it on the shelf |
-| `Publisher`, `Test` | Client |
+| `Publisher`, `Main` | Client |
 
 ## Run it with
 
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.publisher.Test
+java -cp target/classes dev.kaldiroglu.dp.behavioral.observer.publisher.Main
 ```

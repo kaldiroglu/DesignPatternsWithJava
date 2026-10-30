@@ -44,13 +44,37 @@ class PublisherTest {
     }
 
     @Test
-    @DisplayName("Test prints that Akin and Sevgi are reading the issue, and that it is on the shelf of BankOne")
+    @DisplayName("a subscriber that unsubscribes while it receives an issue does not cost the next one that issue")
+    void unsubscribingInsideReceive() {
+        Publication newsweek = new Newsweek("Newsweek");
+        Subscriber leaver = new Subscriber() {
+            @Override
+            public String getName() {
+                return "Leaver";
+            }
+
+            @Override
+            public void receive(Publication publication) {
+                publication.removeSubscriber(this);
+            }
+        };
+        newsweek.addSubscriber(new IndividualSubscriber("Akin"));
+        newsweek.addSubscriber(leaver);
+        newsweek.addSubscriber(new IndividualSubscriber("Sevgi"));
+
+        assertEquals(List.of("Akin is reading Newsweek - May", "Sevgi is reading Newsweek - May"),
+                Printed.by(() -> newsweek.publish("May")));
+        assertEquals(List.of("Akin", "Sevgi"), Printed.by(newsweek::listSubscribers));
+    }
+
+    @Test
+    @DisplayName("Main prints that Akin and Sevgi are reading the issue, and that it is on the shelf of BankOne")
     void testOutput() {
-        List<String> lines = Printed.by(() -> dev.kaldiroglu.dp.behavioral.observer.publisher.Test.main(new String[0]));
+        List<String> lines = Printed.by(() -> Main.main(new String[0]));
 
         assertEquals(5, lines.size());
         assertEquals(" New Newsweek On The Way", lines.get(1));
-        assertTrue(lines.get(2).startsWith("Akin is reading Newsweek - "));
+        assertEquals("Akin is reading Newsweek - " + java.time.LocalDate.now(), lines.get(2));
         assertTrue(lines.get(3).startsWith("Sevgi is reading Newsweek - "));
         assertTrue(lines.get(4).endsWith(" is on the shelf of BankOne"));
     }

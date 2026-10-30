@@ -1,7 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.observer.publisher;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public abstract class AbstractPublication implements Publication{
@@ -37,8 +36,7 @@ public abstract class AbstractPublication implements Publication{
 	
 	@Override
 	public void listSubscribers() {
-		Iterator<Subscriber> iterator = subscribers.iterator();
-		while(iterator.hasNext())
-			System.out.println(iterator.next());
+		for (Subscriber subscriber : subscribers)
+			System.out.println(subscriber.getName());
 	}
 }

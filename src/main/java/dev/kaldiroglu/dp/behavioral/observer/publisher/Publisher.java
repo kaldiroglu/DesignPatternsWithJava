@@ -1,6 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.observer.publisher;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Publisher {
 	private Publication newsweek;
@@ -13,14 +13,12 @@ public class Publisher {
 	
 	public void publishNewsweek(){
 		System.out.println("\n New Newsweek On The Way");
-		Date date = new Date();
-		newsweek.publish(date.toString());
+		newsweek.publish(LocalDate.now().toString());
 	}
 	
 	public void publishFourFourTwo(){
 		System.out.println("\n New FourFourTwo On The Way");
-		Date date = new Date();
-		fourFourTwo.publish(date.toString());
+		fourFourTwo.publish(LocalDate.now().toString());
 	}
 
 	public Publication getNewsweek() {

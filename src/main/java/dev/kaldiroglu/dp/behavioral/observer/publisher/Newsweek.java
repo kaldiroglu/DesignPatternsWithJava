@@ -1,6 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.observer.publisher;
 
-import java.util.Iterator;
+import java.util.List;
 
 public class Newsweek extends AbstractPublication {
 	
@@ -10,10 +10,7 @@ public class Newsweek extends AbstractPublication {
 	
 	public void publish(String date) {
 		issueDate = date;
-		Iterator<Subscriber> iterator = subscribers.iterator();
-		while(iterator.hasNext()) {
-			Subscriber subscriber = iterator.next();
+		for (Subscriber subscriber : List.copyOf(subscribers))
 			subscriber.receive(this);
-		}
 	}
 }

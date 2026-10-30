@@ -1,6 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.observer.publisher;
 
-public class Test {
+public class Main {
 
 	public static void main(String[] args) {
 
@@ -19,10 +19,6 @@ public class Test {
 		newsweek.addSubscriber(bank1);
 
 		publisher.publishNewsweek();
-//		publisher.publishFourFourTwo();
-//		publisher.publishNewsweek();
-//		publisher.publishNewsweek();
-//		publisher.publishFourFourTwo();
 
 	}
 }

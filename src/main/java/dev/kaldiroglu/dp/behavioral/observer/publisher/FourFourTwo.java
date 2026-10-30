@@ -1,26 +1,17 @@
 package dev.kaldiroglu.dp.behavioral.observer.publisher;
 
-import java.util.Iterator;
+import java.util.List;
 
 public class FourFourTwo extends AbstractPublication {
 
 	
-	protected FourFourTwo(String name) {
+	public FourFourTwo(String name) {
 		super(name);
 	}
 
 	public void publish(String date) {
 		issueDate = date;
-		Iterator<Subscriber> iterator = subscribers.iterator();
-		while(iterator.hasNext()) {
-			Subscriber subscriber = iterator.next();
+		for (Subscriber subscriber : List.copyOf(subscribers))
 			subscriber.receive(this);
-		}
-	}
-
-	public void listSubscribers() {
-		Iterator iterator = subscribers.iterator();
-		while (iterator.hasNext())
-			System.out.println((Subscriber) iterator.next());
 	}
 }
