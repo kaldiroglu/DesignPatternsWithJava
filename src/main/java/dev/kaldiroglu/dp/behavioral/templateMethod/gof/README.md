@@ -24,8 +24,6 @@ spreadsheet adds a step ("remember the last file") in its own copy, in a place i
 | `DrawApplication`, `SpreadsheetApplication` | ConcreteClass | the spreadsheet uses the hook |
 | `Document`, `DrawDocument`, `SpreadsheetDocument` | | `doRead` is a primitive operation |
 
-The `pattern` package holds a shorter version of the same example.
-
 Each package has a `Main` that opens a drawing, a spreadsheet, and a spreadsheet file in the
 drawing program, which ignores it. `problem.Main` also says the steps are written twice;
 `solution.Main` also prints how many documents the spreadsheet opened.

@@ -19,8 +19,6 @@ Every operation is a switch over the three states.
 | `TCPState` | State | An abstract class: every request is ignored by default |
 | `TCPClosed`, `TCPListen`, `TCPEstablished` | ConcreteState | Each overrides what it answers and moves to the next state. Each is a single shared object. |
 
-The `pattern` package holds an earlier outline of the same example, with empty methods.
-
 ## Run it with
 
 ```bash
