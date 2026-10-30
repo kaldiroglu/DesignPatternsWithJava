@@ -23,6 +23,7 @@ public final class QuickSorter extends Sorter {
     }
 
     private int partition(double[] a, int left, int right) {
+        exchange(a, (left + right) >>> 1, right);   // the middle as pivot, so sorted input stays shallow
         int i = left;
         int j = right;
         while (true) {

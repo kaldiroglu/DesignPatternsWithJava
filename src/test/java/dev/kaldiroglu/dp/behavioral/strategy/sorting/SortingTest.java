@@ -40,6 +40,22 @@ class SortingTest {
     }
 
     @Test
+    @DisplayName("quicksort handles sorted input of 50,000 elements: the middle pivot keeps the recursion shallow")
+    void quicksortOnSortedInput() {
+        double[] sorted = new double[50_000];
+        Arrays.setAll(sorted, i -> i);
+        double[] expected = sorted.clone();
+
+        new dev.kaldiroglu.dp.behavioral.strategy.sorting.pattern.QuickSorter().sort(sorted);
+        assertArrayEquals(expected, sorted);
+
+        double[] reversed = new double[50_000];
+        Arrays.setAll(reversed, i -> reversed.length - 1 - i);
+        new dev.kaldiroglu.dp.behavioral.strategy.sorting.pattern.QuickSorter().sort(reversed);
+        assertArrayEquals(expected, reversed);
+    }
+
+    @Test
     @DisplayName("all three designs sort the same array into the same order")
     void theDesignsAgree() {
         double[] expected = sortedCopy(shuffled(50));

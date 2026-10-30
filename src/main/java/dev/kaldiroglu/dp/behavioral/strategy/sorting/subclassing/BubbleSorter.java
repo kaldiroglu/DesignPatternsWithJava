@@ -1,6 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.strategy.sorting.subclassing;
 
-/** Quickest on a short array, and hopeless on a long one. */
+/** The simplest of the three: enough for a short array, and hopeless on a long one. */
 public final class BubbleSorter extends Sorter {
 
     @Override

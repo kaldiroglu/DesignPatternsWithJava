@@ -22,7 +22,7 @@ public final class SortingContext {
     private final Sorter quickSorter = new QuickSorter();
     private final Sorter javaSorter = new JavaSorter();
 
-    /** Below this many elements, bubbling beats setting anything else up. */
+    /** Below this many elements, this example bubbles. The figure is illustrative. */
     public static final int BUBBLE_LIMIT = 100;
 
     /** Above this many, hand it to the library. */

@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Stage one: three sorting algorithms in one class, chosen by a branch on the array's size.
  * <p>
- * A small array is quickest to bubble; a large one is best left to the library. So the
+ * A small array can be bubbled; a large one is best left to the library. So the
  * choice is genuine engineering rather than indecision — which is what makes this design
  * worth taking seriously before it is taken apart.
  * <p>
@@ -55,6 +55,7 @@ public final class Sorter {
     }
 
     private int partition(double[] a, int left, int right) {
+        exchange(a, (left + right) >>> 1, right);   // the middle as pivot, so sorted input stays shallow
         int i = left;
         int j = right;
         while (true) {
