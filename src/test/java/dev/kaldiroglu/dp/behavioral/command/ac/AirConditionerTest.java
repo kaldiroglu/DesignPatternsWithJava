@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -99,17 +97,19 @@ class AirConditionerTest {
     }
 
     @Test
-    @DisplayName("the cooler only cools, and the heater only heats")
+    @DisplayName("the cooler only cools, the heater only heats, and each says so when it is not needed")
     void eachOnlyGoesOneWay() {
         ACSwitch acSwitch = new ACSwitch();
         acSwitch.turnOn(22);
         List<String> lines = printed(() -> {
-            acSwitch.turnOnCooler(25);   // warmer than the room: ignored
+            acSwitch.turnOnCooler(25);   // warmer than the room
             acSwitch.turnOnCooler(18);
-            acSwitch.turnOnHeater(15);   // colder than the room: ignored
+            acSwitch.turnOnHeater(15);   // colder than the room
             acSwitch.turnOnHeater(23);
         });
-        assertEquals(List.of("Cooler is turned on. Target temperature is: 18",
+        assertEquals(List.of("The cooler is not needed: the room is at 22.",
+                "Cooler is turned on. Target temperature is: 18",
+                "The heater is not needed: the room is at 18.",
                 "Heater is turned on. Target temperature is: 23"), lines);
     }
 
@@ -118,10 +118,10 @@ class AirConditionerTest {
     void commandsForward() {
         AirConditioner ac = new AirConditioner(new Temperature(22));
         List<String> lines = printed(() -> {
-            new TurnOnCommand(ac).execute(new Temperature(22));
-            new HeatCommand(ac).execute(new Temperature(24));
-            new CoolCommand(ac).execute(new Temperature(19));
-            new TurnOffCommand(ac).execute(null);
+            new TurnOnCommand(ac, new Temperature(22)).execute();
+            new HeatCommand(ac, new Temperature(24)).execute();
+            new CoolCommand(ac, new Temperature(19)).execute();
+            new TurnOffCommand(ac).execute();
         });
         assertEquals(List.of("", "Fan is turned on. Target temperature is: 22",
                 "Heater is turned on. Target temperature is: 24",
@@ -130,13 +130,9 @@ class AirConditionerTest {
     }
 
     @Test
-    @DisplayName("the switch holds its four requests as Command objects")
-    void theSwitchHoldsCommands() {
-        long commands = Arrays.stream(ACSwitch.class.getDeclaredFields())
-                .map(Field::getType)
-                .filter(Command.class::equals)
-                .count();
-        assertEquals(4, commands);
+    @DisplayName("execute takes no argument: a command holds what it needs")
+    void aCommandIsComplete() throws NoSuchMethodException {
+        assertEquals(0, Command.class.getMethod("execute").getParameterCount());
         assertTrue(printed(ACSwitch::new).isEmpty(), "creating the switch prints nothing");
     }
 
@@ -144,8 +140,8 @@ class AirConditionerTest {
     @DisplayName("undo and redo are declared, not yet written: they do nothing")
     void undoAndRedoDoNothingYet() {
         AirConditioner ac = new AirConditioner(new Temperature(22));
-        List<Command> all = List.of(new TurnOnCommand(ac), new TurnOffCommand(ac),
-                new HeatCommand(ac), new CoolCommand(ac));
+        List<Command> all = List.of(new TurnOnCommand(ac, new Temperature(22)), new TurnOffCommand(ac),
+                new HeatCommand(ac, new Temperature(24)), new CoolCommand(ac, new Temperature(19)));
         List<String> lines = printed(() -> all.forEach(c -> {
             c.undo();
             c.redo();

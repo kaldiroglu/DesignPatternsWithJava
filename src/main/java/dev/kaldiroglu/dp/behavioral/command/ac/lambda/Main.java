@@ -1,6 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.command.ac.lambda;
 
-/** The same steps as {@code ac.Person}, through the switch whose requests are functions. */
+/** The same steps as {@code ac.Main}, through the switch whose requests are functions. */
 public class Main {
 
 	public static void main(String[] args) {

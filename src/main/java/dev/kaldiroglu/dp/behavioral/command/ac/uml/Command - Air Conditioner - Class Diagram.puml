@@ -17,7 +17,7 @@ class ACSwitch <<Invoker>> {
   + turnOnCooler(int)
 }
 interface Command {
-  + execute(Temperature)
+  + execute()
   + undo()
   + redo()
 }
@@ -33,7 +33,7 @@ class AirConditioner <<Receiver>> {
 }
 
 Person --> ACSwitch
-ACSwitch o--> "4" Command
+ACSwitch ..> Command : creates and runs
 Command <|.. TurnOnCommand
 Command <|.. TurnOffCommand
 Command <|.. HeatCommand

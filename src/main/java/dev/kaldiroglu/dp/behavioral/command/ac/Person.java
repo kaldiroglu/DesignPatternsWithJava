@@ -8,12 +8,6 @@ public class Person {
 		this.acSwitch = acSwitch;
 	}
 	
-	public static void main(String[] args) {
-		ACSwitch acSwitch = new ACSwitch();
-		Person person = new Person(acSwitch);
-		person.action();
-	}
-	
 	public void action() {
 		int temperature = 20;
 		

@@ -33,22 +33,24 @@ public class AirConditioner {
 
 	public void turnOnHeater(Temperature targetTemperature) {
 		if (isOn) {
-			this.targetTemperature = targetTemperature.getTemperature();
-			if (this.targetTemperature > currentTemperature) {
+			if (targetTemperature.getTemperature() > currentTemperature) {
+				this.targetTemperature = targetTemperature.getTemperature();
 				currentTemperature = this.targetTemperature;
 				System.out.println("Heater is turned on. Target temperature is: " + targetTemperature.getTemperature());
-			}
+			} else
+				System.out.println("The heater is not needed: the room is at " + currentTemperature + ".");
 		} else
 			System.out.println("AirConditioner is off, please first turn it on!");
 	}
 
 	public void turnOnCooler(Temperature targetTemperature) {
 		if (isOn) {
-			this.targetTemperature = targetTemperature.getTemperature();
-			if (this.targetTemperature < currentTemperature) {
+			if (targetTemperature.getTemperature() < currentTemperature) {
+				this.targetTemperature = targetTemperature.getTemperature();
 				currentTemperature = this.targetTemperature;
 				System.out.println("Cooler is turned on. Target temperature is: " + targetTemperature.getTemperature());
-			}
+			} else
+				System.out.println("The cooler is not needed: the room is at " + currentTemperature + ".");
 		} else
 			System.out.println("AirConditioner is off, please first turn it on!");
 	}

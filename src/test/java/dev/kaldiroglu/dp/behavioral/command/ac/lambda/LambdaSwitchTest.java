@@ -25,9 +25,9 @@ class LambdaSwitchTest {
     }
 
     @Test
-    @DisplayName("the steps of Person print the same lines through either switch")
+    @DisplayName("the steps of Main print the same lines through either switch")
     void sameOutputAsTheCommandSwitch() {
-        assertEquals(by(() -> dev.kaldiroglu.dp.behavioral.command.ac.Person.main(new String[0])),
+        assertEquals(by(() -> dev.kaldiroglu.dp.behavioral.command.ac.Main.main(new String[0])),
                 by(() -> Main.main(new String[0])));
     }
 
