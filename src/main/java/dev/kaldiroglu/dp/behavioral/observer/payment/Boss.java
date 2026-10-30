@@ -5,9 +5,9 @@ import java.util.Observer;
 
 public class Boss implements Observer {
 
-	public void update(Observable observable, Object invoiceObject) {
+	public void update(Observable observable, Object arg) {
 		System.out.println("\nBoss has received an update.");
-		Invoice invoice = (Invoice) invoiceObject;
+		Invoice invoice = (Invoice) observable;
 		System.out.println(invoice);
 	}
 }
