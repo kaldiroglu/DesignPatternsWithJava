@@ -1,6 +1,7 @@
 @startuml "Observer - Clock Timer (GoF) - Class Diagram"
 skinparam classAttributeIconSize 0
 hide empty members
+skinparam nodesep 111
 title GoF's own example — Design Patterns, pp. 293-303
 package "before the pattern" {
   class "problem.ClockTimer" as P {
@@ -29,12 +30,17 @@ package "after it" {
   }
   class DigitalClock <<ConcreteObserver>>
   class AnalogClock <<ConcreteObserver>>
-  Subject o--> "*" Observer
-  Subject <|-- ClockTimer
+  Subject o-right-> "*" Observer
+  Subject <|--- ClockTimer
   Observer <|.. DigitalClock
   Observer <|.. AnalogClock
   DigitalClock --> ClockTimer : pulls the time
   AnalogClock --> ClockTimer : pulls the time
+  DigitalClock -[hidden]right- AnalogClock
+  Subject -[hidden]-- ClockTimer
+  Subject -[hidden]-- ClockTimer
+  Subject -[hidden]-- ClockTimer
+  Subject -[hidden]-- ClockTimer
 }
-P -[hidden]right- Subject
+P -[hidden]down- Subject
 @enduml
