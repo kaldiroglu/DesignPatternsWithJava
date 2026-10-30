@@ -4,17 +4,18 @@ hide empty members
 title A GUI component that saves its state in a memento
 class GuiComponent <<Originator>> {
   - x, y, length, width
-  + saveState()
-  + undo()
+  + createMemento() : GuiComponentMemento
+  + restore(GuiComponentMemento)
 }
 class GuiComponentMemento <<Memento>> {
-  + setState(GuiComponentState)
   + getState() : GuiComponentState
 }
-class GuiComponentState {
-  - x, y, length, width
+class GuiComponentState <<record>> {
+  x, y, length, width
 }
-GuiComponent --> GuiComponentMemento
-GuiComponent --> GuiComponentState
+class Main <<Caretaker>>
+Main --> GuiComponentMemento : keeps
+Main --> GuiComponent
+GuiComponent ..> GuiComponentMemento : creates
 GuiComponentMemento --> GuiComponentState
 @enduml

@@ -1,22 +1,19 @@
 package dev.kaldiroglu.dp.behavioral.memento.gui;
 
-public class Test {
+/** The caretaker: it keeps the memento and never looks inside it. */
+public class Main {
 
 	public static void main(String[] args) {
 		GuiComponent window = new GuiComponent("window", 0, 0, 20, 10);
-		
 		System.out.println(window);
-		
-		window.setMemento(new GuiComponentMemento());
-		window.saveState();
-		
+
+		GuiComponentMemento saved = window.createMemento();
+
 		window.setX(20);
 		window.setLength(40);
 		System.out.println(window);
-		
-		window.undo();
+
+		window.restore(saved);
 		System.out.println(window);
-
 	}
-
 }

@@ -9,15 +9,15 @@ and a memento keeps that object so the window can go back to it.
 
 | Class | Role |
 |---|---|
-| `GuiComponent` | Originator — `saveState()` and `undo()` |
-| `GuiComponentMemento` | Memento — holds a `GuiComponentState` |
-| `GuiComponentState` | The state, as one object |
-| `Test` | Client — saves, moves and resizes the window, then undoes |
+| `GuiComponent` | Originator — `createMemento()` and `restore(memento)` |
+| `GuiComponentMemento` | Memento — holds one `GuiComponentState` |
+| `GuiComponentState` | The state, as one record |
+| `Main` | Caretaker — keeps the memento while the window moves and resizes, then gives it back |
 
 ## Run it with
 
 ```bash
 cd ~/"Development/Java/Idea/Design Patterns/Design Patterns with Java"
 mvn -o -q compile
-java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.gui.Test
+java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.gui.Main
 ```
