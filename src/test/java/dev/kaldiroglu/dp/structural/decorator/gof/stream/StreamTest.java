@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StreamTest {
 
@@ -66,6 +67,23 @@ class StreamTest {
         stream.close();
 
         assertEquals("12 3a cafe", file.contents());
+    }
+
+    @Test
+    @DisplayName("SampleCodeMain prints the bytes on the slide")
+    void sampleCodeMainPrintsTheSlideFigure() {
+        var out = new java.io.ByteArrayOutputStream();
+        var original = System.out;
+        System.setOut(new java.io.PrintStream(out));
+        try {
+            dev.kaldiroglu.dp.structural.decorator.gof.stream.solution.SampleCodeMain.main(new String[0]);
+        } finally {
+            System.setOut(original);
+        }
+        String printed = out.toString();
+
+        assertTrue(printed.contains("file now holds   : 12 3a cafe"), printed);
+        assertTrue(printed.contains("socket now holds : 12 3a café"), printed);
     }
 
     @Test

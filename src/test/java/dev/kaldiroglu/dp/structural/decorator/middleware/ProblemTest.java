@@ -133,6 +133,24 @@ class ProblemTest {
     }
 
     @Test
+    @DisplayName("RateLimitMain prints the slide's figures: 3 counted and 9 supplier calls")
+    void rateLimitMainPrintsTheFigures() {
+        var out = new java.io.ByteArrayOutputStream();
+        var original = System.out;
+        System.setOut(new java.io.PrintStream(out));
+        try {
+            dev.kaldiroglu.dp.structural.decorator.middleware.problem.RateLimitMain.main(new String[0]);
+        } finally {
+            System.setOut(original);
+        }
+        String printed = out.toString();
+
+        assertTrue(printed.contains("fourth request  : refused"), printed);
+        assertTrue(printed.contains("limiter counted : 3"), printed);
+        assertTrue(printed.contains("supplier calls  : 9"), printed);
+    }
+
+    @Test
     @DisplayName("flags: the retry loop sits inside the rate limiter, so one slot buys three calls")
     void retriesAreInvisibleToTheRateLimiter() {
         ManualClock clock = Clock.manual();

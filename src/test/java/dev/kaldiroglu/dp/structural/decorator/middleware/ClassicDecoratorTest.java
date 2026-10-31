@@ -179,6 +179,42 @@ class ClassicDecoratorTest {
     }
 
     @Test
+    @DisplayName("logging inside the cache sees one call; logging outside it sees both requests")
+    void thePlaceOfLoggingDecidesWhatItSees() {
+        VendorPriceFeed vendor = new VendorPriceFeed();
+        CallLog inside = new CallLog();
+        PriceFeed cacheOutside = new CachingPriceFeed(
+                new LoggingPriceFeed(vendor, inside, "vendor"), clock, TTL);
+        cacheOutside.quoteFor("SKU-999");
+        cacheOutside.quoteFor("SKU-999");
+        assertEquals(2, inside.size(), "asking and got, for the one call that reached it");
+
+        CallLog outside = new CallLog();
+        PriceFeed logOutside = new LoggingPriceFeed(
+                new CachingPriceFeed(vendor, clock, TTL), outside, "vendor");
+        logOutside.quoteFor("SKU-999");
+        logOutside.quoteFor("SKU-999");
+        assertEquals(4, outside.size(), "two lines for each of the two requests");
+    }
+
+    @Test
+    @DisplayName("VendorFeedMain prints the slide's figures")
+    void vendorFeedMainPrintsTheFigures() {
+        var out = new java.io.ByteArrayOutputStream();
+        var original = System.out;
+        System.setOut(new java.io.PrintStream(out));
+        try {
+            dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.VendorFeedMain.main(new String[0]);
+        } finally {
+            System.setOut(original);
+        }
+        String printed = out.toString();
+
+        assertTrue(printed.contains("vendor calls: 1 for 2 requests"), printed);
+        assertTrue(printed.contains("log lines   : 2"), printed);
+    }
+
+    @Test
     @DisplayName("GoF Consequence 3: the decorated feed is not the same object as the feed")
     void identityIsNotPreserved() {
         PriceFeed decorated = new RetryingPriceFeed(supplier, 3);

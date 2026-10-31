@@ -24,6 +24,7 @@ public final class VendorFeedMain {
         decorated.quoteFor("SKU-999");
 
         System.out.println("  vendor calls: " + vendor.callCount() + " for 2 requests, with logging and caching added");
+        System.out.println("  log lines   : " + log.size() + " (logging is inside the cache, so it saw one call)");
         System.out.println("  subclassing was never an option here — decoration did not need one");
     }
 }

@@ -94,19 +94,21 @@ public interface PriceFeedMiddleware extends UnaryOperator<PriceFeed> {
     }
 
     static PriceFeedMiddleware caching(Clock clock, Duration ttl) {
-        // The state lives in the closure. One map per pipeline built, which is the same
-        // lifetime a CachingPriceFeed instance would have had.
-        Map<String, Quote> quotes = new HashMap<>();
-        Map<String, Instant> storedAt = new HashMap<>();
-        return next -> sku -> {
-            Instant at = storedAt.get(sku);
-            if (at != null && Duration.between(at, clock.now()).compareTo(ttl) < 0) {
-                return quotes.get(sku);
-            }
-            Quote quote = next.quoteFor(sku);
-            quotes.put(sku, quote);
-            storedAt.put(sku, clock.now());
-            return quote;
+        return next -> {
+            // The state lives in the closure, created once for each feed this wraps. That is
+            // the same lifetime a CachingPriceFeed instance would have had.
+            Map<String, Quote> quotes = new HashMap<>();
+            Map<String, Instant> storedAt = new HashMap<>();
+            return sku -> {
+                Instant at = storedAt.get(sku);
+                if (at != null && Duration.between(at, clock.now()).compareTo(ttl) < 0) {
+                    return quotes.get(sku);
+                }
+                Quote quote = next.quoteFor(sku);
+                quotes.put(sku, quote);
+                storedAt.put(sku, clock.now());
+                return quote;
+            };
         };
     }
 }

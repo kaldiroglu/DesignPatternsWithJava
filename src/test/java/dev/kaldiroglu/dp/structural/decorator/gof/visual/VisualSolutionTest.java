@@ -89,4 +89,25 @@ class VisualSolutionTest {
     void nullComponentIsRejected() {
         assertThrows(NullPointerException.class, () -> new BorderDecorator(null));
     }
+
+    @Test
+    @DisplayName("solution.Main prints the three pictures, from the same text")
+    void mainPrintsTheThreePictures() {
+        var out = new java.io.ByteArrayOutputStream();
+        var original = System.out;
+        System.setOut(new java.io.PrintStream(out));
+        try {
+            dev.kaldiroglu.dp.structural.decorator.gof.visual.solution.Main.main(new String[0]);
+        } finally {
+            System.setOut(original);
+        }
+        String printed = out.toString();
+
+        for (VisualComponent chain : java.util.List.of(
+                new BorderDecorator(new ScrollDecorator(text())),
+                new ScrollDecorator(new BorderDecorator(text())),
+                new BorderDecorator(new BorderDecorator(text())))) {
+            assertTrue(printed.contains(VisualComponent.render(chain)), printed);
+        }
+    }
 }

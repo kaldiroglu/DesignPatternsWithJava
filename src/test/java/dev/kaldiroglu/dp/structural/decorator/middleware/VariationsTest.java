@@ -138,4 +138,17 @@ class VariationsTest {
         built.quoteFor(SKU);
         assertEquals(2, log.size()); // logging outside the retry, as written
     }
+
+    @Test
+    @DisplayName("functional: one caching middleware keeps a separate cache for each feed it wraps")
+    void cachingKeepsOneCachePerWrappedFeed() {
+        ManualClock clock = Clock.manual();
+        PriceFeedMiddleware cache = PriceFeedMiddleware.caching(clock, Duration.ofSeconds(60));
+
+        PriceFeed first = cache.apply(sku -> Quote.of(sku, "1.00"));
+        PriceFeed second = cache.apply(sku -> Quote.of(sku, "2.00"));
+
+        assertEquals("1.00", first.quoteFor("SKU-1").amount().toString());
+        assertEquals("2.00", second.quoteFor("SKU-1").amount().toString());
+    }
 }
