@@ -76,10 +76,10 @@ Each worked example has a `uml/` folder holding `.puml`, `.png` and `.svg`, rend
 `plantuml -tpng` and `-tsvg`. These are written for reading and carry long notes; the deck
 repositories keep their own slimmer versions for the projector.
 
-- **After `plantuml -tsvg -tpng`, run `python3 tools/redraw-diagrams.py`.** PlantUML
+- **After `plantuml -tsvg -tpng`, run `python3 scripts/redraw-diagrams.py`.** PlantUML
   overwrites both images, and Graphviz bends some is-a lines. The script finds the bent
   lines itself, straightens them in the `.svg` and renders the `.png` again. `--check` only
-  reports them. Like everything in `tools/`, the script is local and not in git. `.puml`
+  reports them. `.puml`
   hints and `<<spacer>>` classes set the layout: parent above and
   centered over its children, children on one row, straight lines, no colored arrows.
 - **`tools/make_package_diagrams.py` predates that layout.** Its `DIAGRAMS` text has no
