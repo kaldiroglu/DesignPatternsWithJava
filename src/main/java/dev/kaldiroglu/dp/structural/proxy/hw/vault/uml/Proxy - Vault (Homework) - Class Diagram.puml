@@ -1,4 +1,5 @@
 @startuml "Proxy - Vault (Homework) - Class Diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title Proxy — homework 3, the smart reference
@@ -24,7 +25,6 @@ class DocumentHandle <<Proxy>> {
 
 Document <|.. StoredDocument
 Document <|.. DocumentHandle
-DocumentHandle o--> "0..1" StoredDocument
 
 note right of DocumentHandle
   GoF's three smart-reference duties,
@@ -50,4 +50,5 @@ note as N1
   handle or shut it under somebody's feet.
 end note
 
+DocumentHandle o-[norank]-> "0..1" StoredDocument
 @enduml

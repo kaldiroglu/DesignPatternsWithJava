@@ -1,4 +1,6 @@
 @startuml "Composite - Expression (Homework) - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 30
 skinparam classAttributeIconSize 0
 hide empty members
 title Composite — homework 2, where the tree is the data
@@ -27,8 +29,6 @@ class Divide
 
 Expression <|.. Number
 Expression <|.. BinaryOperation
-BinaryOperation o--> "1" Expression : left
-BinaryOperation o--> "1" Expression : right
 BinaryOperation <|-- Add
 BinaryOperation <|-- Subtract
 BinaryOperation <|-- Multiply
@@ -55,4 +55,10 @@ note as N1
   9 nodes against 3.
 end note
 
+BinaryOperation o-[norank]-> "1" Expression : left
+BinaryOperation o-[norank]-> "1" Expression : right
+Expression -[hidden]- Number
+Expression -[hidden]- BinaryOperation
+BinaryOperation -[hidden]- Add
+BinaryOperation -[hidden]- Divide
 @enduml

@@ -1,4 +1,5 @@
 @startuml Decorator-Middleware-Variations
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 title Three ways to write the same pattern — all three build the same chain
 
@@ -10,7 +11,6 @@ package "1. classic — a class per concern" {
   class "LoggingPriceFeed\nTimingPriceFeed\nRetryingPriceFeed\nCachingPriceFeed\nRateLimitingPriceFeed" as Concretes
 
   PriceFeed <|.. PriceFeedDecorator
-  PriceFeedDecorator o--> PriceFeed
   PriceFeedDecorator <|-- Concretes
 }
 note bottom of Concretes
@@ -62,7 +62,6 @@ package "3. fluent — the same classes, assembled in reading order" {
     + withRateLimit(clock, limit, window) : PriceFeedPipeline
     + build() : PriceFeed
   }
-  PriceFeedPipeline ..> Concretes : assembles
 }
 note bottom of PriceFeedPipeline
   PriceFeedPipeline.around(feed)
@@ -86,4 +85,6 @@ note as N1
   Choose by what reads best for the concern at hand.
 end note
 
+  PriceFeedDecorator o--> PriceFeed
+  PriceFeedPipeline ..> Concretes : assembles
 @enduml

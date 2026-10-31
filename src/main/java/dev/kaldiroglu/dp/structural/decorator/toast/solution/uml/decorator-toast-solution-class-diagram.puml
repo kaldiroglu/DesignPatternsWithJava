@@ -1,8 +1,9 @@
 @startuml
+skinparam linetype polyline
+skinparam nodesep 30
 title Decorator - Toast (Solution) - Class Diagram
 
 skinparam classAttributeIconSize 0
-skinparam nodesep 45
 skinparam ranksep 55
 
 interface Toastable <<Component>> {
@@ -41,8 +42,6 @@ class Promotion <<ConcreteDecorator>> {
 Toastable <|.. ToastBread
 Toastable <|.. Topping
 Toastable <|.. Promotion
-Topping o--> "1" Toastable : component
-Promotion o--> "1" Toastable : component
 
 Topping <|-- Cheese
 Topping <|-- Sausage
@@ -87,4 +86,6 @@ note as N1
   has changed their mind.
 end note
 
+Topping o-[norank]-> "1" Toastable : component
+Promotion o-[norank]-> "1" Toastable : component
 @enduml

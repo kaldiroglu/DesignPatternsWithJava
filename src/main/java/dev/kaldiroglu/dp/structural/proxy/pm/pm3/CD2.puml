@@ -15,12 +15,11 @@ interface PM{
 class ProxyPM implements PM{
   + void listen(String problem)
   + void findJob(String name)
-  - boolean sortOut(String problem)
-  - void delegate(String problem)
+  - boolean worthHisTime(String problem)
 }
 
 class PMSecretary{
-  + PM getMePM()
+  + PM getPM()
 }
 
 class RealPM implements PM{

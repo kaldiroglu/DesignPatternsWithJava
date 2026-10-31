@@ -1,4 +1,12 @@
 @startuml "decorator-hw-invoicepipeline-class-diagram"
+skinparam linetype polyline
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 hide empty members
 title Decorator — homework 1, the invoice pipeline
@@ -28,7 +36,6 @@ class Checksummed <<ConcreteDecorator>>
 
 Pipeline <|.. PlainInvoice
 Pipeline <|.. PipelineStage
-PipelineStage o--> "1" Pipeline : inner
 PipelineStage <|-- Compressed
 PipelineStage <|-- Encrypted
 PipelineStage <|-- WithHeader
@@ -56,4 +63,17 @@ note bottom of Encrypted
   encrypt-then-compress 2033 bytes
 end note
 
+class " " as Spacer1 <<spacer>>
+Pipeline -[hidden]- Spacer1
+Pipeline -[hidden]- Spacer1
+PipelineStage -[hidden]right- Spacer1
+Spacer1 -[hidden]right- PlainInvoice
+class " " as Spacer2 <<spacer>>
+PipelineStage -[hidden]- Spacer2
+PipelineStage -[hidden]- Spacer2
+Compressed -[hidden]right- Encrypted
+Encrypted -[hidden]right- Spacer2
+Spacer2 -[hidden]right- WithHeader
+WithHeader -[hidden]right- Checksummed
+PipelineStage o-[norank]-> "1" Pipeline : inner
 @enduml

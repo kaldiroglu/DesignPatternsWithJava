@@ -1,4 +1,13 @@
 @startuml Decorator-Middleware-Problem
+skinparam linetype polyline
+skinparam nodesep 30
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 title BEFORE — three naive ways to add five concerns to one call
 
@@ -48,6 +57,8 @@ package "3. a subclass per combination" {
 
   SimulatedRemotePriceFeed <|-- BasicPriceFeed
   BasicPriceFeed <|-- LoggingPriceFeed
+class " " as Spacer1 <<spacer>>
+BasicPriceFeed -[hidden]- Spacer1
   BasicPriceFeed <|-- RetryingPriceFeed
   RetryingPriceFeed <|-- RetryingLoggingPriceFeed
   RetryingLoggingPriceFeed <|-- CachingRetryingLoggingPriceFeed
@@ -66,7 +77,8 @@ package "3. a subclass per combination" {
 
 PriceFeed <|.. FlaggedPriceFeed
 PriceFeed <|.. SimulatedRemotePriceFeed
-CopyPasteOrderService ..> PriceFeed
+class " " as Spacer2 <<spacer>>
+PriceFeed -[hidden]- Spacer2
 
 class VendorPriceFeed <<final / sealed>>
 PriceFeed <|.. VendorPriceFeed
@@ -77,4 +89,5 @@ note right of VendorPriceFeed
   field, so they can.
 end note
 
+CopyPasteOrderService ..> PriceFeed
 @enduml

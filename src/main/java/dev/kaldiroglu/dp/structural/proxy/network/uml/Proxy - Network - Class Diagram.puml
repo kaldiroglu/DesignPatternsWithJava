@@ -1,4 +1,5 @@
 @startuml "Proxy - Network - Class Diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title Proxy — a protection proxy with no people in it
@@ -25,10 +26,6 @@ class ForbiddenAccessException
 
 Network <|.. Gateway
 Network <|.. ProxyServer
-ProxyServer o--> "1" Network : gateway
-ProxyServer ..> Logger : logs every request
-ProxyServer ..> ForbiddenAccessException : refuses with
-NetworkServer ..> ProxyServer : hands out
 
 note right of ProxyServer
   Logs, then checks, then forwards.
@@ -50,4 +47,8 @@ note bottom of ForbiddenAccessException
   and output in English.
 end note
 
+ProxyServer o-[norank]-> "1" Network : gateway
+ProxyServer .[norank].> Logger : logs every request
+ProxyServer .[norank].> ForbiddenAccessException : refuses with
+NetworkServer .[norank].> ProxyServer : hands out
 @enduml

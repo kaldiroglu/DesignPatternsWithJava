@@ -1,4 +1,6 @@
 @startuml Composite-BOM-Solution
+skinparam linetype polyline
+skinparam nodesep 70
 skinparam classAttributeIconSize 0
 title THE SOLUTION — bill of materials WITH Composite\n(package dev.kaldiroglu.composite.bom.solution)\nCost, weight and part counts answered identically for a part and a product
 
@@ -106,13 +108,17 @@ class Money <<record>> {
 class ShippingEstimate
 note top of ShippingEstimate : Client\n(one of costing, shipping, reporting)
 
-ShippingEstimate --> BomComponent
 BomComponent <|-- Part
 BomComponent <|-- Service
 BomComponent <|-- Assembly
+
+BomComponent -[hidden]- Service
+BomComponent -[hidden]- Service
+Part -[hidden]right- Service
+Service -[hidden]right- Assembly
+ShippingEstimate --> BomComponent
 Assembly *--> "lines\n*" BomLine
 BomLine --> "1" BomComponent
 Assembly ..> "parents\n*" Assembly : invalidates
 BomComponent ..> Money
-
 @enduml

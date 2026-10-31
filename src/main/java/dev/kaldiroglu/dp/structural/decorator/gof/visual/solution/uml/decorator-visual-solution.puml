@@ -1,4 +1,5 @@
 @startuml Decorator-Visual-Solution
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 title AFTER — embellishing a TextView by decorating (the solution)
 
@@ -40,7 +41,6 @@ class ScrollDecorator {
 
 VisualComponent <|.. TextView
 VisualComponent <|.. Decorator
-Decorator o--> "component" VisualComponent
 Decorator <|-- BorderDecorator
 Decorator <|-- ScrollDecorator
 
@@ -68,4 +68,5 @@ note as N1
   the object, at the moment they know what the user wants.
 end note
 
+Decorator o-[norank]-> "component" VisualComponent
 @enduml

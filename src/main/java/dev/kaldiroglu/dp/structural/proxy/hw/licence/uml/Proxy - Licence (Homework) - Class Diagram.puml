@@ -1,11 +1,9 @@
 @startuml "Proxy - Licence (Homework) - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 40
 skinparam classAttributeIconSize 0
 hide empty members
 title Proxy — homework 4: three kinds of proxy in one class
-
-
-left to right direction
-
 interface Application <<Subject>> {
   + launch()
   + open(document)
@@ -37,9 +35,6 @@ class Student
 
 Application <|.. LicenceProxy
 Application <|.. VlsiDesigner
-Student --> Application
-LicenceProxy --> "0..1" VlsiDesigner : "built only once a seat is granted"
-LicenceProxy --> LicenceServer : "asks"
 
 note bottom of LicenceProxy
   <b>Three kinds at once.</b>
@@ -60,4 +55,9 @@ note top of Student
   on that interface mentions a licence.
 end note
 
+Student -[norank]-> Application
+LicenceProxy -[norank]-> "0..1" VlsiDesigner : "built only once a seat is granted"
+LicenceProxy -[norank]-> LicenceServer : "asks"
+Application -[hidden]- LicenceProxy
+Application -[hidden]- VlsiDesigner
 @enduml

@@ -1,4 +1,5 @@
 @startuml Flyweight
+skinparam linetype polyline
 ' GoF Flyweight - "Lexi" document editor example (Design Patterns, pp. 195-206)
 ' Simplified font mapping (plain index->Font) replaces the book's BTree (p. 202).
 ' GoF's "Character" participant is named CharacteærGlyph here to avoid clashing
@@ -78,12 +79,14 @@ Glyph <|-- CharacterGlyph
 Glyph <|-- Row
 Glyph <|-- Column
 
-Glyph "1" o-- "0..*" Glyph : children >
-GlyphFactory "1" o-- "0..*" CharacterGlyph : pools >
-GlyphFactory ..> Row : creates >
-GlyphFactory ..> Column : creates >
-GlyphContext "1" o-- "0..*" Font
-CharacterGlyph ..> GlyphContext : reads font from >
-CharacterGlyph ..> Window : renders on >
 
+Glyph "1" o-[norank]- "0..*" Glyph : children >
+GlyphFactory "1" o-[norank]- "0..*" CharacterGlyph : pools >
+GlyphFactory .[norank].> Row : creates >
+GlyphFactory .[norank].> Column : creates >
+GlyphContext "1" o-[norank]- "0..*" Font
+CharacterGlyph .[norank].> GlyphContext : reads font from >
+CharacterGlyph .[norank].> Window : renders on >
+Glyph -[hidden]- CharacterGlyph
+Glyph -[hidden]- Column
 @enduml

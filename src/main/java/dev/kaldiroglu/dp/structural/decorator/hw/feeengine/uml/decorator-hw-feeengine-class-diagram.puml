@@ -1,4 +1,6 @@
 @startuml "decorator-hw-feeengine-class-diagram"
+skinparam linetype polyline
+skinparam nodesep 70
 skinparam classAttributeIconSize 0
 hide empty members
 title Decorator — homework 2, the fee engine
@@ -23,7 +25,6 @@ class Voucher <<ConcreteDecorator>>
 
 Charge <|.. BasketTotal
 Charge <|.. Adjustment
-Adjustment o--> "1" Charge : component
 Adjustment <|-- PlatformFee
 Adjustment <|-- TransactionFee
 Adjustment <|-- ValueAddedTax
@@ -51,4 +52,8 @@ note bottom of PromotionalDiscount
   order genuinely does not matter.
 end note
 
+Adjustment o-[norank]-> "1" Charge : component
+Charge -[hidden]- BasketTotal
+Charge -[hidden]- Adjustment
+Adjustment -[hidden]- ValueAddedTax
 @enduml

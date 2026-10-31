@@ -1,4 +1,12 @@
 @startuml "Bridge - Window (Solution) - Class Diagram"
+skinparam linetype polyline
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 title After — the platform is an object the window holds (the solution)
 
@@ -35,7 +43,6 @@ class PMWindowImp <<ConcreteImplementor>> {
   + deviceText(..) : void
 }
 
-Window o--> "imp" WindowImp
 Window <|-- IconWindow
 Window <|-- TransientWindow
 WindowImp <|.. XWindowImp
@@ -68,4 +75,15 @@ note as N1
   at any price.
 end note
 
+class " " as Spacer1 <<spacer>>
+Window -[hidden]- Spacer1
+Window -[hidden]- Spacer1
+IconWindow -[hidden]right- Spacer1
+Spacer1 -[hidden]right- TransientWindow
+class " " as Spacer2 <<spacer>>
+WindowImp -[hidden]- Spacer2
+WindowImp -[hidden]- Spacer2
+XWindowImp -[hidden]right- Spacer2
+Spacer2 -[hidden]right- PMWindowImp
+Window o-[norank]-> "imp" WindowImp
 @enduml

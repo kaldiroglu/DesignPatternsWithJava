@@ -1,8 +1,9 @@
 @startuml
+skinparam linetype polyline
+skinparam nodesep 40
 title Decorator - Toast (Problem) - Class Diagram
 
 skinparam classAttributeIconSize 0
-skinparam nodesep 60
 skinparam ranksep 55
 
 interface Toast {
@@ -81,4 +82,8 @@ note as N1
   at the counter.
 end note
 
+AbstractToast -[hidden]- SausageToast
+AbstractToast -[hidden]- SausageToast
+CheeseToast -[hidden]right- SausageToast
+SausageToast -[hidden]right- CheeseSausageToast
 @enduml

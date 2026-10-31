@@ -1,4 +1,6 @@
 @startuml Composite-Structure
+skinparam linetype polyline
+skinparam nodesep 140
 skinparam classAttributeIconSize 0
 title Composite — pattern structure (Design Patterns, p. 164)
 
@@ -42,9 +44,9 @@ note bottom of Composite
         c.operation();
 end note
 
-Client --> Component
 Component <|-- Leaf
 Component <|-- Composite
-Composite o--> "*" Component : children
 
+Client -[norank]-> Component
+Composite o-[norank]-> "*" Component : children
 @enduml

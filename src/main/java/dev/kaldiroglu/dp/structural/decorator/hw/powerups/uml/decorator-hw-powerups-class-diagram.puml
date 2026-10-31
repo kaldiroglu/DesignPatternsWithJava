@@ -1,4 +1,5 @@
 @startuml "decorator-hw-powerups-class-diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title Decorator — homework 3, the power-up
@@ -36,12 +37,9 @@ class Effect <<record>> {
 Combatant <|.. Fighter
 Combatant <|.. PowerUp
 Combatant <|.. EffectStack
-PowerUp o--> "1" Combatant : component
 PowerUp <|-- DoubleDamage
 PowerUp <|-- Poison
 PowerUp <|-- Berserk
-EffectStack o--> "*" Effect : active
-Effect ..> PowerUp : builds
 
 note right of EffectStack
   <b>You cannot remove a link from a chain.</b>
@@ -59,4 +57,15 @@ note bottom of Berserk
   and silently discards every effect below it.
 end note
 
+Combatant -[hidden]- PowerUp
+Combatant -[hidden]- PowerUp
+Fighter -[hidden]right- PowerUp
+PowerUp -[hidden]right- EffectStack
+PowerUp -[hidden]- Poison
+PowerUp -[hidden]- Poison
+DoubleDamage -[hidden]right- Poison
+Poison -[hidden]right- Berserk
+PowerUp o-[norank]-> "1" Combatant : component
+EffectStack o-[norank]-> "*" Effect : active
+Effect .[norank].> PowerUp : builds
 @enduml

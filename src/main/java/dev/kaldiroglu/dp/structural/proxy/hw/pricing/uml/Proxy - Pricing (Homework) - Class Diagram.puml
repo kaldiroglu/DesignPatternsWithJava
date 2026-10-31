@@ -1,4 +1,13 @@
 @startuml "Proxy - Pricing (Homework) - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 70
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 hide empty members
 title Proxy — homework 1, the caching proxy
@@ -25,8 +34,6 @@ class ManualClock
 
 PriceService <|.. SupplierPriceService
 PriceService <|.. CachingPriceProxy
-CachingPriceProxy o--> "1" PriceService : supplier
-CachingPriceProxy o--> "1" Clock
 Clock <|.. ManualClock
 
 note right of CachingPriceProxy
@@ -52,4 +59,11 @@ note as N1
   business can afford to be.
 end note
 
+class " " as Spacer1 <<spacer>>
+PriceService -[hidden]- Spacer1
+PriceService -[hidden]- Spacer1
+SupplierPriceService -[hidden]right- Spacer1
+Spacer1 -[hidden]right- CachingPriceProxy
+CachingPriceProxy o-[norank]-> "1" PriceService : supplier
+CachingPriceProxy o-[norank]-> "1" Clock
 @enduml

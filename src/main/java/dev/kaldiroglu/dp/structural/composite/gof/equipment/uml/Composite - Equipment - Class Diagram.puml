@@ -1,4 +1,6 @@
 @startuml "Composite - Equipment - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 30
 skinparam classAttributeIconSize 0
 hide empty members
 title Composite — GoF's equipment example, where the roll-up is money
@@ -23,7 +25,6 @@ class Bus
 Equipment <|-- FloppyDisk
 Equipment <|-- Card
 Equipment <|-- CompositeEquipment
-CompositeEquipment o--> "*" Equipment : parts
 CompositeEquipment <|-- Chassis
 CompositeEquipment <|-- Cabinet
 CompositeEquipment <|-- Bus
@@ -35,4 +36,5 @@ note right of CompositeEquipment
   client writes the loop.
 end note
 
+CompositeEquipment o-[norank]-> "*" Equipment : parts
 @enduml

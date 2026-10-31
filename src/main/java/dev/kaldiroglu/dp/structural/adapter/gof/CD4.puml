@@ -4,6 +4,8 @@
 ' Standalone PlantUML source; mirrors the diagram in adapter-class-diagram.md.
 
 @startuml adapter-class-diagram
+skinparam linetype polyline
+skinparam nodesep 30
 title Adapter (GoF p.139) — Shape / TextView / TextShape\nClass adapter (inheritance) and Object adapter (composition)
 
 skinparam classAttributeIconSize 0
@@ -72,20 +74,14 @@ class BoundingBox <<value>> {
 ' ===== Relationships =====
 Shape <|.. TextShape : implements
 Shape <|.. LineShape : implements
-TextShape o--> TextView : OBJECT adapter\nwraps (composition)
 
 Shape <|.. ClassTextShape : implements
 TextView <|-- ClassTextShape : CLASS adapter\nextends (inheritance)
 
-DrawingEditor ..> Shape : uses
 
 Manipulator <|-- TextManipulator
 Manipulator <|-- LineManipulator
-TextShape ..> TextManipulator : creates
-ClassTextShape ..> TextManipulator : creates
-LineShape ..> LineManipulator : creates
 
-BoundingBox *-- "2" Point
 
 note right of TextShape
   OBJECT ADAPTER (GoF p.147)
@@ -108,4 +104,10 @@ legend right
   Adaptee = existing, incompatible class (TextView)
   Adapter = makes Adaptee usable as a Target
 endlegend
+TextShape o-[norank]-> TextView : OBJECT adapter\nwraps (composition)
+DrawingEditor .[norank].> Shape : uses
+TextShape .[norank].> TextManipulator : creates
+ClassTextShape .[norank].> TextManipulator : creates
+LineShape .[norank].> LineManipulator : creates
+BoundingBox *-[norank]- "2" Point
 @enduml

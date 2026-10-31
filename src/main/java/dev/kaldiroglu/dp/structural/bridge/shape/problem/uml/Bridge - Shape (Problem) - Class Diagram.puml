@@ -1,4 +1,13 @@
 @startuml "Bridge - Shape (Problem) - Class Diagram"
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
+skinparam linetype polyline
+skinparam nodesep 30
 skinparam classAttributeIconSize 0
 hide empty members
 title Bridge — the device as a superclass
@@ -46,4 +55,14 @@ note as N1
   A third device: <b>+3</b>. A fourth shape: <b>+2</b>.
 end note
 
+class " " as Spacer51 <<spacer>>
+Circle -[hidden]- Spacer51
+Circle -[hidden]- Spacer51
+CircleMacOS -[hidden]right- Spacer51
+Spacer51 -[hidden]right- CircleXWindows
+class " " as Spacer52 <<spacer>>
+Triangle -[hidden]- Spacer52
+Triangle -[hidden]- Spacer52
+TriangleMacOS -[hidden]right- Spacer52
+Spacer52 -[hidden]right- TriangleXWindows
 @enduml

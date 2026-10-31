@@ -1,4 +1,6 @@
 @startuml "Facade - Logging - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 30
 skinparam classAttributeIconSize 0
 hide empty members
 title Facade — the one everybody has already used
@@ -18,10 +20,7 @@ class ConsoleLoggingEngine
 class JulLoggingEngine
 class RecordingLoggingEngine
 
-Application --> Logger
 Logger <|.. FacadeLogger
-LoggerFactory ..> FacadeLogger : creates
-FacadeLogger o--> "1" LoggingEngine
 LoggingEngine <|.. ConsoleLoggingEngine
 LoggingEngine <|.. JulLoggingEngine
 LoggingEngine <|.. RecordingLoggingEngine
@@ -43,4 +42,8 @@ note as N1
   subsystem would only throw away.
 end note
 
+Application --> Logger
+LoggerFactory ..> FacadeLogger : creates
+FacadeLogger o--> "1" LoggingEngine
+LoggingEngine -[hidden]- JulLoggingEngine
 @enduml

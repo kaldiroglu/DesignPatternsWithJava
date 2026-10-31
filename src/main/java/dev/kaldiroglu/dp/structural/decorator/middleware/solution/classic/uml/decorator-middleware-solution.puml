@@ -1,4 +1,6 @@
 @startuml Decorator-Middleware-Solution
+skinparam linetype polyline
+skinparam nodesep 30
 skinparam classAttributeIconSize 0
 title AFTER — five concerns, five decorators, every order available
 
@@ -54,7 +56,6 @@ class RateLimitingPriceFeed {
 PriceFeed <|.. SimulatedRemotePriceFeed
 PriceFeed <|.. VendorPriceFeed
 PriceFeed <|.. PriceFeedDecorator
-PriceFeedDecorator o--> "inner" PriceFeed
 PriceFeedDecorator <|-- LoggingPriceFeed
 PriceFeedDecorator <|-- TimingPriceFeed
 PriceFeedDecorator <|-- RetryingPriceFeed
@@ -89,4 +90,9 @@ note as N1
   possible to have exactly one of them.
 end note
 
+PriceFeedDecorator o-[norank]-> "inner" PriceFeed
+PriceFeed -[hidden]- SimulatedRemotePriceFeed
+PriceFeed -[hidden]- PriceFeedDecorator
+PriceFeedDecorator -[hidden]- LoggingPriceFeed
+PriceFeedDecorator -[hidden]- RateLimitingPriceFeed
 @enduml

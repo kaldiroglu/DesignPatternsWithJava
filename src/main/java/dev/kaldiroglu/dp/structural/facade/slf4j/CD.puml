@@ -1,4 +1,6 @@
 @startuml Facade-SLF4J
+skinparam linetype polyline
+skinparam nodesep 30
 skinparam classAttributeIconSize 0
 title Facade — SLF4J logging example\nLogger facade over a pluggable logging subsystem
 
@@ -59,19 +61,19 @@ package "logging subsystem" {
   LoggingEngine <|.. ConsoleLoggingEngine
   LoggingEngine <|.. RecordingLoggingEngine
   LoggingEngine <|.. JulLoggingEngine
-  LoggingEngine ..> LogEvent : consumes
-  LogEvent *--> LogLevel
-  JulLoggingEngine ..> "java.util.logging" : forwards to
+  LoggingEngine .[norank].> LogEvent : consumes
+  LogEvent *-[norank]-> LogLevel
+  JulLoggingEngine .[norank].> "java.util.logging" : forwards to
 }
 
-Demo --> Logger
-Demo --> LoggerFactory
+Demo -[norank]-> Logger
+Demo -[norank]-> LoggerFactory
 Logger <|.. FacadeLogger
-LoggerFactory ..> FacadeLogger : creates
-LoggerFactory o--> LoggingEngine : current binding
-FacadeLogger o--> LoggingEngine : delegates to
-FacadeLogger ..> MessageFormatter : formats {} only if enabled
-FacadeLogger ..> LogEvent : creates
+LoggerFactory .[norank].> FacadeLogger : creates
+LoggerFactory o-[norank]-> LoggingEngine : current binding
+FacadeLogger o-[norank]-> LoggingEngine : delegates to
+FacadeLogger .[norank].> MessageFormatter : formats {} only if enabled
+FacadeLogger .[norank].> LogEvent : creates
 
 note as N1
   The client depends only on the Logger facade.
@@ -79,6 +81,6 @@ note as N1
   stay independently usable and know nothing of
   the facade — a transparent facade.
 end note
-N1 .. LoggingEngine
+N1 .[norank]. LoggingEngine
 
 @enduml

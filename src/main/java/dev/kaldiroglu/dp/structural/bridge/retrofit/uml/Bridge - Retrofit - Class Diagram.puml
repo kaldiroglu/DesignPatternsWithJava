@@ -1,4 +1,13 @@
 @startuml "Bridge - Retrofit - Class Diagram"
+skinparam nodesep 40
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title A standard arrives over a system that already works
@@ -33,7 +42,6 @@ package "What we already have — nobody rewrites this" {
   VendorClient <|.. PurchasedEngine
 }
 
-RegulatoryReport o--> "engine" VendorClient
 
 note right of RegulatoryReport
   <b>submit</b> is the operation the regulation names.
@@ -67,4 +75,9 @@ note as N1
   At 2 x 2 a wrapper per pair costs the same four classes.
   That is the last size at which it does.
 end note
+RegulatoryReport o--> "engine" VendorClient
+class " " as Spacer51 <<spacer>>
+RegulatoryReport -[hidden]- Spacer51
+QuarterlyReport -[hidden]right- Spacer51
+Spacer51 -[hidden]right- AuditedReport
 @enduml

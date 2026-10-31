@@ -1,4 +1,13 @@
 @startuml "Proxy - Prime Minister - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 70
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 hide empty members
 title Proxy — four stages: pm3 is the pattern, and pm4 makes the proxy lazy
@@ -11,7 +20,6 @@ package "pm1 — no proxy" {
     - worthMyTime(problem) : boolean
   }
   class Citizen1 as "Citizen"
-  Citizen1 --> PM1
 }
 
 package "pm2 — a stand-in, but no shared type" {
@@ -21,8 +29,6 @@ package "pm2 — a stand-in, but no shared type" {
     - worthHisTime(problem)
   }
   class Citizen2 as "Citizen"
-  Citizen2 --> Proxy2
-  Proxy2 --> PM2
 }
 
 package "pm3 — the pattern" {
@@ -37,9 +43,6 @@ package "pm3 — the pattern" {
 
   PM3 <|.. RealPM
   PM3 <|.. ProxyPM
-  ProxyPM o--> "1" PM3
-  PMSecretary ..> ProxyPM : creates
-  Citizen3 --> PM3
 }
 
 note bottom of PM1
@@ -73,8 +76,24 @@ package "pm4 — protection and virtual proxy" {
 
   PM4 <|.. RealPM4
   PM4 <|.. ProxyPM4
-  ProxyPM4 ..> RealPM4 : creates on the first forwarded call
-  Citizen4 --> PM4
 }
 
+class " " as Spacer1 <<spacer>>
+PM3 -[hidden]- Spacer1
+PM3 -[hidden]- Spacer1
+RealPM -[hidden]right- Spacer1
+Spacer1 -[hidden]right- ProxyPM
+class " " as Spacer2 <<spacer>>
+PM4 -[hidden]- Spacer2
+PM4 -[hidden]- Spacer2
+RealPM4 -[hidden]right- Spacer2
+Spacer2 -[hidden]right- ProxyPM4
+  Citizen1 -[norank]-> PM1
+  Citizen2 -[norank]-> Proxy2
+  Proxy2 -[norank]-> PM2
+  ProxyPM o-[norank]-> "1" PM3
+  PMSecretary .[norank].> ProxyPM : creates
+  Citizen3 -[norank]-> PM3
+  ProxyPM4 .[norank].> RealPM4 : creates on the first forwarded call
+  Citizen4 -[norank]-> PM4
 @enduml

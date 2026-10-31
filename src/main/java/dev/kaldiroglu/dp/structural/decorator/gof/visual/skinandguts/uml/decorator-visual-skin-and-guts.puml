@@ -1,4 +1,12 @@
 @startuml Decorator-Visual-Skin-And-Guts
+skinparam linetype polyline
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 title GoF implementation issue 4 (skin versus guts) — both patterns, doing different jobs
 
@@ -20,7 +28,6 @@ abstract class Decorator {
 
 VisualComponent <|.. TextView
 VisualComponent <|.. Decorator
-Decorator o--> "1" VisualComponent : component
 
 class SwitchingBorderDecorator {
   - style : Style
@@ -56,8 +63,6 @@ class ThickBorder {
 
 Decorator <|-- SwitchingBorderDecorator
 Decorator <|-- StyledBorderDecorator
-SwitchingBorderDecorator --> Style : reads
-StyledBorderDecorator o--> "1" BorderStyle : style
 BorderStyle <|.. SolidBorder
 BorderStyle <|.. DashedBorder
 BorderStyle <|.. ThickBorder
@@ -92,4 +97,21 @@ note as N1
   Component interface and a strategy pays only for the hook.
 end note
 
+class " " as Spacer1 <<spacer>>
+VisualComponent -[hidden]- Spacer1
+VisualComponent -[hidden]- Spacer1
+Decorator -[hidden]right- Spacer1
+Spacer1 -[hidden]right- TextView
+class " " as Spacer2 <<spacer>>
+Decorator -[hidden]- Spacer2
+Decorator -[hidden]- Spacer2
+SwitchingBorderDecorator -[hidden]right- Spacer2
+Spacer2 -[hidden]right- StyledBorderDecorator
+BorderStyle -[hidden]- DashedBorder
+BorderStyle -[hidden]- DashedBorder
+SolidBorder -[hidden]right- DashedBorder
+DashedBorder -[hidden]right- ThickBorder
+Decorator o-[norank]-> "1" VisualComponent : component
+SwitchingBorderDecorator -[norank]-> Style : reads
+StyledBorderDecorator o-[norank]-> "1" BorderStyle : style
 @enduml

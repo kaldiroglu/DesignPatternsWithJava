@@ -1,6 +1,7 @@
 @startuml Composite-BOM
+skinparam linetype polyline
+skinparam nodesep 40
 skinparam classAttributeIconSize 0
-skinparam nodesep 50
 skinparam ranksep 40
 
 title Composite applied — bill-of-materials roll-up\nCost, weight and part counts answered identically for a part and a product
@@ -88,12 +89,12 @@ class Money <<record>> {
 class ShippingEstimate
 note left of ShippingEstimate : Client\n(one of costing, shipping, reporting)
 
-ShippingEstimate --> BomComponent
 BomComponent <|-- Part
 BomComponent <|-- Assembly
-Assembly *--> "lines\n*" BomLine
-BomLine --> "1" BomComponent
-Assembly ..> "parents\n*" Assembly : invalidates
-BomComponent .right.> Money
 
+ShippingEstimate -[norank]-> BomComponent
+Assembly *-[norank]-> "lines\n*" BomLine
+BomLine -[norank]-> "1" BomComponent
+Assembly .[norank].> "parents\n*" Assembly : invalidates
+BomComponent .[norank].> Money
 @enduml

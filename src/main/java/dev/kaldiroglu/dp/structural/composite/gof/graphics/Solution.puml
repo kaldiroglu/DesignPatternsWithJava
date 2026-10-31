@@ -2,7 +2,7 @@
 skinparam classAttributeIconSize 0
 skinparam nodesep 25
 skinparam ranksep 30
-skinparam linetype ortho
+skinparam linetype polyline
 
 title title GoF Graphics Example \nAfter Composite
 
@@ -66,12 +66,12 @@ class Point <<record>> {
   + y : int
 }
 
-Demo --> Graphic
 Graphic <|-- Line
 Graphic <|-- Rectangle
 Graphic <|-- Text
 Graphic <|-- Picture
-Picture o--> "*" Graphic : children
-Graphic ..> Point
 
+Demo -[norank]-> Graphic
+Picture o-[norank]-> "*" Graphic : children
+Graphic .[norank].> Point
 @enduml

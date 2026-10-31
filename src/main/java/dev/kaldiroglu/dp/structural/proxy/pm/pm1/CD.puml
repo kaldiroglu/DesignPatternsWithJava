@@ -9,7 +9,7 @@ class Citizen{
 class PM{
   + void listen(String problem)
   + void findJob(String name)
-  -  boolean sortOut(String problem)
+  -  boolean worthMyTime(String problem)
   - void resolve(String problem)
 }
 Citizen -> PM

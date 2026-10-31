@@ -1,4 +1,5 @@
 @startuml Decorator-Visual-Problem
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 title BEFORE — embellishing a TextView by subclassing (the problem)
 
@@ -70,4 +71,6 @@ note as N1
   is a different object of a different type.
 end note
 
+TextView -[hidden]- BorderedTextView
+TextView -[hidden]- ScrolledTextView
 @enduml

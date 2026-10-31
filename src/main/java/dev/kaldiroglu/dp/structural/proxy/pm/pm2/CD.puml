@@ -10,8 +10,7 @@ class Citizen{
 class Proxy{
   + void listen(String problem)
   + void findJob(String name)
-  - boolean sortOut(String problem)
-  - void delegate(String problem)
+  - boolean worthHisTime(String problem)
 }
 
 class PM{

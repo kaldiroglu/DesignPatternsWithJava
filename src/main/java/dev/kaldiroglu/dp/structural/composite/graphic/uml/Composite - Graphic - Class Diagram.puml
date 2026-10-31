@@ -1,4 +1,5 @@
 @startuml "Composite - Graphic - Class Diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title Composite — shapes on a canvas, the safe variant
@@ -37,7 +38,6 @@ GraphicObject <|-- Triangle
 GraphicObject <|-- Rectangle
 GraphicObject <|-- Canvas
 CompositeGraphic <|.. Canvas
-Canvas o--> "*" Graphic : elements
 
 note right of CompositeGraphic
   Child management is <b>not</b> on the
@@ -63,4 +63,11 @@ note as N1
   and the client asks one object.
 end note
 
+GraphicObject -[hidden]- Triangle
+GraphicObject -[hidden]- Triangle
+Circle -[hidden]right- Ellipse
+Ellipse -[hidden]right- Triangle
+Triangle -[hidden]right- Rectangle
+Rectangle -[hidden]right- Canvas
+Canvas o-[norank]-> "*" Graphic : elements
 @enduml

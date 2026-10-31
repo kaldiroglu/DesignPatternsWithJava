@@ -1,4 +1,13 @@
 @startuml Proxy-GoF
+skinparam nodesep 40
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 title Proxy — GoF example \nA virtual image proxy in a document editor
 
@@ -54,9 +63,15 @@ class Extent <<record>> {
 
 Graphic <|.. Image
 Graphic <|.. ImageProxy
-ImageProxy o--> "0..1" Image : realSubject (lazy)
-TextDocument o--> "*" Graphic : graphics
-Graphic ..> Point
-Graphic ..> Extent
 
+ImageProxy o-[norank]-> "0..1" Image : realSubject (lazy)
+TextDocument o-[norank]-> "*" Graphic : graphics
+Graphic .[norank].> Point
+Graphic .[norank].> Extent
+Graphic -[hidden]- Image
+Graphic -[hidden]- ImageProxy
+class " " as Spacer51 <<spacer>>
+Graphic -[hidden]- Spacer51
+Image -[hidden]right- Spacer51
+Spacer51 -[hidden]right- ImageProxy
 @enduml

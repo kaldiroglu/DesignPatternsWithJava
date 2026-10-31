@@ -1,4 +1,12 @@
 @startuml Decorator-Stream-Solution
+skinparam linetype polyline
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 title AFTER — extending a Stream by decorating (Design Patterns, pp. 182–184)
 
@@ -38,7 +46,6 @@ class ASCII7Stream {
 Stream <|-- FileStream
 Stream <|-- SocketStream
 Stream <|-- StreamDecorator
-StreamDecorator o--> "component" Stream
 StreamDecorator <|-- CompressingStream
 StreamDecorator <|-- ASCII7Stream
 
@@ -66,4 +73,14 @@ note as N1
   — GoF's own line, p. 184.
 end note
 
+Stream -[hidden]- StreamDecorator
+Stream -[hidden]- StreamDecorator
+FileStream -[hidden]right- StreamDecorator
+StreamDecorator -[hidden]right- SocketStream
+class " " as Spacer1 <<spacer>>
+StreamDecorator -[hidden]- Spacer1
+StreamDecorator -[hidden]- Spacer1
+CompressingStream -[hidden]right- Spacer1
+Spacer1 -[hidden]right- ASCII7Stream
+StreamDecorator o-[norank]-> "component" Stream
 @enduml

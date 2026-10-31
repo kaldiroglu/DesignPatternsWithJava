@@ -1,4 +1,12 @@
 @startuml "decorator-io-class-diagram"
+skinparam linetype polyline
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 hide empty members
 title Decorator — java.io, and where the roles sit
@@ -18,7 +26,6 @@ class ObjectOutputStream
 OutputStream <|-- FileOutputStream
 OutputStream <|-- FilterOutputStream
 OutputStream <|-- ObjectOutputStream
-FilterOutputStream o--> "1" OutputStream : out
 FilterOutputStream <|-- BufferedOutputStream
 FilterOutputStream <|-- DataOutputStream
 FilterOutputStream <|-- PrintStream
@@ -28,7 +35,6 @@ class DataInputOutputStreamDemo {
   + {static} writeInvoice(out : DataOutputStream)
   + {static} readInvoice(in : DataInputStream) : double
 }
-DataInputOutputStreamDemo ..> DataOutputStream : uses
 
 note right of ObjectOutputStream
   <b>Not a decorator.</b>
@@ -46,4 +52,17 @@ note bottom of DataInputOutputStreamDemo
   Same answer, different work.
 end note
 
+OutputStream -[hidden]- FilterOutputStream
+OutputStream -[hidden]- FilterOutputStream
+FileOutputStream -[hidden]right- FilterOutputStream
+FilterOutputStream -[hidden]right- ObjectOutputStream
+class " " as Spacer1 <<spacer>>
+FilterOutputStream -[hidden]- Spacer1
+FilterOutputStream -[hidden]- Spacer1
+BufferedOutputStream -[hidden]right- DataOutputStream
+DataOutputStream -[hidden]right- Spacer1
+Spacer1 -[hidden]right- PrintStream
+PrintStream -[hidden]right- GZIPOutputStream
+FilterOutputStream o-[norank]-> "1" OutputStream : out
+DataInputOutputStreamDemo .[norank].> DataOutputStream : uses
 @enduml

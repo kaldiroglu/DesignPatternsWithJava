@@ -1,4 +1,5 @@
 @startuml Composite-Equipment
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 title GoF Graphics Example \nAfter Composite
 
@@ -91,14 +92,22 @@ class Currency <<record>> {
 class Demo
 note top of Demo : Client
 
-Demo --> Equipment
 Equipment <|-- FloppyDisk
 Equipment <|-- Card
 Equipment <|-- CompositeEquipment
 CompositeEquipment <|-- Chassis
 CompositeEquipment <|-- Cabinet
 CompositeEquipment <|-- Bus
+
+Equipment -[hidden]- CompositeEquipment
+Equipment -[hidden]- CompositeEquipment
+FloppyDisk -[hidden]right- CompositeEquipment
+CompositeEquipment -[hidden]right- Card
+CompositeEquipment -[hidden]- Cabinet
+CompositeEquipment -[hidden]- Cabinet
+Chassis -[hidden]right- Cabinet
+Cabinet -[hidden]right- Bus
+Demo --> Equipment
 CompositeEquipment o--> "equipment\n*" Equipment
 Equipment ..> Currency
-
 @enduml

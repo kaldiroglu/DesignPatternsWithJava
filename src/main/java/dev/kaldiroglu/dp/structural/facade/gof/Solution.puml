@@ -4,7 +4,7 @@ skinparam backgroundColor #FEFEFE
 skinparam packageStyle rectangle
 skinparam nodesep 25
 skinparam ranksep 30
-skinparam linetype ortho
+skinparam linetype polyline
 skinparam stereotypeCBackgroundColor #E8F5E9
 
 skinparam class {
@@ -74,10 +74,6 @@ package "compiler subsystem" {
     + instructions() : List
   }
 
-  Scanner ..> Token
-  Parser ..> Scanner
-  Parser ..> ProgramNodeBuilder
-  ProgramNodeBuilder ..> ProgramNode
   ProgramNode <|-- BlockNode
   ProgramNode <|-- ConstantNode
   ProgramNode <|-- VariableRefNode
@@ -86,15 +82,23 @@ package "compiler subsystem" {
   ProgramNode <|-- ReturnNode
   CodeGenerator <|-- StackMachineCodeGenerator
   CodeGenerator <|-- RiscCodeGenerator
-  CodeGenerator o--> BytecodeStream
-  ProgramNode ..> CodeGenerator : traverse
 }
 
+
+  Scanner ..> Token
+  Parser ..> Scanner
+  Parser ..> ProgramNodeBuilder
+  ProgramNodeBuilder ..> ProgramNode
+  CodeGenerator o--> BytecodeStream
+  ProgramNode ..> CodeGenerator : traverse
 Client --> Compiler
 Compiler ..> Scanner
 Compiler ..> Parser
 Compiler ..> ProgramNodeBuilder
 Compiler ..> CodeGenerator
 Compiler ..> BytecodeStream
-
+ProgramNode -[hidden]- BlockNode
+ProgramNode -[hidden]- ReturnNode
+CodeGenerator -[hidden]- StackMachineCodeGenerator
+CodeGenerator -[hidden]- RiscCodeGenerator
 @enduml

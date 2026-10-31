@@ -22,13 +22,13 @@ abstract class PowerAdapter <<Adapter>> {
   #cut() {abstract}
 }
 
-class USPowerAdapter <<plug>> {
+class USTurkishPowerAdapter <<plug>> {
   -us : USPowerSource
   #deliver()
   #cut()
 }
 
-class UKPowerAdapter <<plug>> {
+class UKTurkishPowerAdapter <<plug>> {
   -uk : UKPowerSource
   #deliver()
   #cut()
@@ -43,10 +43,10 @@ class UKPowerSource <<Adaptee>> {
 }
 
 TurkishPowerSource <|.. PowerAdapter
-PowerAdapter <|-- USPowerAdapter
-PowerAdapter <|-- UKPowerAdapter
-USPowerAdapter --> USPowerSource : delegates hook to
-UKPowerAdapter --> UKPowerSource : delegates hook to
+PowerAdapter <|-- USTurkishPowerAdapter
+PowerAdapter <|-- UKTurkishPowerAdapter
+USTurkishPowerAdapter --> USPowerSource : delegates hook to
+UKTurkishPowerAdapter --> UKPowerSource : delegates hook to
 
 note right of PowerAdapter
   turnOn()/turnOff() are fixed template methods

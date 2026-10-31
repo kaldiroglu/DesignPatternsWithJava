@@ -1,13 +1,17 @@
 @startuml "Composite - File System - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 90
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 hide empty members
 title Composite — a file system, and six questions answered at any depth
-
-
-left to right direction
 skinparam ranksep 16
-skinparam nodesep 18
-
 interface Storage <<Component>> {
   .. roll-ups ..
   + size() : long
@@ -61,11 +65,10 @@ class DiskReport <<Client>> {
 Storage <|.. StorageElement
 StorageElement <|-- File
 StorageElement <|-- Link
+class " " as Spacer1 <<spacer>>
+StorageElement -[hidden]- Spacer1
 StorageElement <|-- Directory
 StorageContainer <|.. Directory
-Directory o--> "*" Storage
-Directory --> Directory : "parent"
-DiskReport --> Storage
 
 note bottom of Directory
   Every operation is the same two lines:
@@ -98,4 +101,7 @@ note bottom of File
   which is what the parent reference is for.
 end note
 
+Directory o-[norank]-> "*" Storage
+Directory -[norank]-> Directory : "parent"
+DiskReport -[norank]-> Storage
 @enduml

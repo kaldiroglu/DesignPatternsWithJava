@@ -1,4 +1,12 @@
 @startuml "Proxy - Remote (Homework) - Class Diagram"
+skinparam linetype polyline
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 hide empty members
 title Proxy — homework 2, the remote proxy and what it hides
@@ -25,9 +33,6 @@ class RemoteCallFailedException
 
 InventoryService <|.. WarehouseInventory
 InventoryService <|.. RemoteInventoryProxy
-RemoteInventoryProxy o--> "1" InventoryService : warehouse
-RemoteInventoryProxy o--> "1" Link
-RemoteInventoryProxy ..> RemoteCallFailedException
 
 note right of InventoryService
   Says nothing about latency, failure
@@ -49,4 +54,12 @@ note as N1
   mistake gets made.
 end note
 
+class " " as Spacer1 <<spacer>>
+InventoryService -[hidden]- Spacer1
+InventoryService -[hidden]- Spacer1
+WarehouseInventory -[hidden]right- Spacer1
+Spacer1 -[hidden]right- RemoteInventoryProxy
+RemoteInventoryProxy o--> "1" InventoryService : warehouse
+RemoteInventoryProxy o--> "1" Link
+RemoteInventoryProxy ..> RemoteCallFailedException
 @enduml

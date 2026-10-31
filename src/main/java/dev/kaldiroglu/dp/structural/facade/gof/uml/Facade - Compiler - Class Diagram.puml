@@ -1,4 +1,5 @@
 @startuml "Facade - Compiler - Class Diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title Facade — GoF's own compiler subsystem
@@ -21,11 +22,6 @@ package "compiler subsystem" {
   class BytecodeStream
 }
 
-Client --> Compiler
-Compiler ..> Scanner
-Compiler ..> Parser
-Compiler ..> ProgramNodeBuilder
-Compiler ..> CodeGenerator
 CodeGenerator <|-- StackMachineCodeGenerator
 CodeGenerator <|-- RiscCodeGenerator
 
@@ -49,4 +45,9 @@ note as N1
   A front door, <b>not a wall</b>.
 end note
 
+Client -[norank]-> Compiler
+Compiler .[norank].> Scanner
+Compiler .[norank].> Parser
+Compiler .[norank].> ProgramNodeBuilder
+Compiler .[norank].> CodeGenerator
 @enduml

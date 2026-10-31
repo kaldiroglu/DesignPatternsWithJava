@@ -1,4 +1,6 @@
 @startuml "Composite - Survey Form (Homework) - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 70
 skinparam classAttributeIconSize 0
 hide empty members
 title Composite — homework 3, the transparent variant
@@ -26,7 +28,6 @@ class Section <<Composite>> {
 
 FormElement <|.. Question
 FormElement <|.. Section
-Section o--> "*" FormElement : children
 
 note right of FormElement
   add() is declared <b>here</b> — the
@@ -54,4 +55,7 @@ note as N1
   than adding numbers up.
 end note
 
+Section o-[norank]-> "*" FormElement : children
+FormElement -[hidden]- Question
+FormElement -[hidden]- Section
 @enduml

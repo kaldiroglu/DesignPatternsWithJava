@@ -2,7 +2,7 @@
 skinparam classAttributeIconSize 0
 skinparam nodesep 10
 skinparam ranksep 20
-skinparam linetype ortho
+skinparam linetype polyline
 
 title GoF Compiler Example \n Before Facade
 
@@ -70,10 +70,6 @@ package "compiler subsystem" {
     + instructions() : List
   }
 
-  Scanner ..> Token
-  Parser ..> Scanner
-  Parser ..> ProgramNodeBuilder
-  ProgramNodeBuilder ..> ProgramNode
   ProgramNode <|-- BlockNode
   ProgramNode <|-- ConstantNode
   ProgramNode <|-- VariableRefNode
@@ -82,17 +78,25 @@ package "compiler subsystem" {
   ProgramNode <|-- ReturnNode
   CodeGenerator <|-- StackMachineCodeGenerator
   CodeGenerator <|-- RiscCodeGenerator
-  CodeGenerator o--> BytecodeStream
-  ProgramNode ..> CodeGenerator : traverse
 }
 
 ' The client is coupled DIRECTLY to many subsystem classes (contrast the "after"
 ' diagram, where it depends only on the Compiler facade).
+
+  Scanner ..> Token
+  Parser ..> Scanner
+  Parser ..> ProgramNodeBuilder
+  ProgramNodeBuilder ..> ProgramNode
+  CodeGenerator o--> BytecodeStream
+  ProgramNode ..> CodeGenerator : traverse
 Client --> Scanner
 Client --> Parser
 Client --> ProgramNodeBuilder
 Client --> CodeGenerator
 Client ..> BytecodeStream
 Client ..> ProgramNode
-
+ProgramNode -[hidden]- BlockNode
+ProgramNode -[hidden]- ReturnNode
+CodeGenerator -[hidden]- StackMachineCodeGenerator
+CodeGenerator -[hidden]- RiscCodeGenerator
 @enduml

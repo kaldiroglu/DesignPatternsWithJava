@@ -1,4 +1,12 @@
 @startuml Decorator-Stream-Problem
+skinparam linetype polyline
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 title BEFORE — extending a Stream by subclassing (the problem)
 
@@ -69,4 +77,14 @@ note as N1
   order is another class again.
 end note
 
+class " " as Spacer1 <<spacer>>
+Stream -[hidden]- Spacer1
+Stream -[hidden]- Spacer1
+FileStream -[hidden]right- Spacer1
+Spacer1 -[hidden]right- SocketStream
+class " " as Spacer2 <<spacer>>
+FileStream -[hidden]- Spacer2
+FileStream -[hidden]- Spacer2
+CompressingFileStream -[hidden]right- Spacer2
+Spacer2 -[hidden]right- ASCII7FileStream
 @enduml
