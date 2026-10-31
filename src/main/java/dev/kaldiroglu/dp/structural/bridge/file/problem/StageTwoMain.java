@@ -22,7 +22,7 @@ public class StageTwoMain {
                   Both rules are right this time, and each was written by hand. The two
                   classes differ by one number; the Evernote calls in them are identical.
                   Two departments and three stores is six such classes, and a fourth store
-                  is three more.
+                  is two more.
                 """);
     }
 }

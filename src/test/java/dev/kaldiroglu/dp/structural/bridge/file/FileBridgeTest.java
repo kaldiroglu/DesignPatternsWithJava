@@ -35,9 +35,23 @@ class FileBridgeTest {
             for (int i = 1; i <= 8; i++) {
                 finance.save("q3", "draft " + i);
             }
-            assertEquals(8, finance.versions("q3").size());
+            assertEquals(List.of(4, 5, 6, 7, 8), finance.versions("q3"), "deleted versions are gone");
             assertEquals("draft 8", finance.read("q3"));
             assertEquals(5, finance.retainedVersions());
+        }
+    }
+
+    @Test
+    @DisplayName("a deleted version is not listed, and later version numbers do not move")
+    void deletedVersionsAreNotListed() {
+        for (FileProvider store : stores()) {
+            FileManager insurance = new InsuranceFileManager(store);
+            for (int i = 1; i <= 8; i++) {
+                insurance.save("policy", "draft " + i);
+            }
+            assertEquals(List.of(7, 8), insurance.versions("policy"));
+            assertEquals(9, insurance.save("policy", "draft 9"));
+            assertEquals(List.of(8, 9), insurance.versions("policy"));
         }
     }
 
@@ -54,12 +68,12 @@ class FileBridgeTest {
     @DisplayName("the store can be changed on a manager that already exists")
     void theStoreCanChangeAtRunTime() {
         FileManager finance = new FinanceFileManager(new EvernoteProvider());
-        finance.save("memo", "on Evernote");
-        assertEquals("on Evernote", finance.read("memo"));
+        finance.save("memo", "written on Evernote");
+        assertEquals("written on Evernote", finance.read("memo"));
 
         finance.setProvider(new FileNetProvider());
-        finance.save("memo", "on FileNet");
-        assertEquals("on FileNet", finance.read("memo"));
+        finance.save("memo", "written on FileNet");
+        assertEquals("written on FileNet", finance.read("memo"));
     }
 
     @Test

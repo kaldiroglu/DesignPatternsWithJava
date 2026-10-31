@@ -28,7 +28,7 @@ public interface FileProvider {
     /** Stores content as a new version and returns that version's number. */
     int write(String handle, byte[] content);
 
-    /** Version numbers held for this document, oldest first. */
+    /** Version numbers still held for this document, oldest first. Deleted versions are not listed. */
     List<Integer> versions(String handle);
 
     void deleteVersion(String handle, int version);

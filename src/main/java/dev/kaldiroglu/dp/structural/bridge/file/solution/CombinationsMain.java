@@ -25,17 +25,13 @@ public class CombinationsMain {
 
             System.out.printf("%-12s finance keeps %d, live versions %s%n",
                     store.name(), finance.retainedVersions(),
-                    live(finance.versions("q3-report"), finance.retainedVersions()));
+                    finance.versions("q3-report"));
             System.out.printf("%-12s insurance keeps %d, live versions %s%n%n",
                     store.name(), insurance.retainedVersions(),
-                    live(insurance.versions("policy-4417"), insurance.retainedVersions()));
+                    insurance.versions("policy-4417"));
         }
 
         System.out.println("2 departments + 3 stores = 5 classes, 6 combinations.");
         System.out.println("A fourth store is one class, and no retention rule is touched.");
-    }
-
-    private static String live(List<Integer> versions, int keep) {
-        return versions.subList(Math.max(0, versions.size() - keep), versions.size()).toString();
     }
 }

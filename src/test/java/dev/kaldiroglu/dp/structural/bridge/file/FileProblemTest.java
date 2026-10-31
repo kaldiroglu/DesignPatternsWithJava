@@ -170,4 +170,34 @@ class FileProblemTest {
         assertEquals("draft 2", new String(sharepoint.read(sharepoint.open(PATH))));
         assertEquals(5, finance.retainedVersions());
     }
+
+    @Test
+    @DisplayName("a vendor never issues an id twice, even after old versions are deleted")
+    void idsAreNotReused() {
+        SwitchingFileManager manager = new SwitchingFileManager(stores);
+        java.util.List<String> issued = new java.util.ArrayList<>();
+        for (int i = 1; i <= 8; i++) {
+            issued.add(manager.save(Department.INSURANCE, Store.EVERNOTE, PATH, "draft " + i));
+        }
+
+        assertEquals(8, new java.util.HashSet<>(issued).size(), "eight drafts, eight ids");
+        assertEquals(java.util.List.of("note-7", "note-8"),
+                stores.evernoteNoteVersions("insurance", PATH));
+        assertEquals("draft 8", stores.latestContent("Evernote", "insurance/" + PATH));
+    }
+
+    @Test
+    @DisplayName("stage two: a fourth store adds one class per department, so two more")
+    void aFourthStoreIsTwoMoreClasses() {
+        var out = new java.io.ByteArrayOutputStream();
+        var original = System.out;
+        System.setOut(new java.io.PrintStream(out));
+        try {
+            StageTwoMain.main(new String[0]);
+        } finally {
+            System.setOut(original);
+        }
+        assertEquals(2, Department.values().length);
+        assertTrue(out.toString().contains("is two more"), out.toString());
+    }
 }

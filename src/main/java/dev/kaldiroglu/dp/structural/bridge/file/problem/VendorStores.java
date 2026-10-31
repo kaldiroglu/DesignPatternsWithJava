@@ -1,6 +1,7 @@
 package dev.kaldiroglu.dp.structural.bridge.file.problem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +33,15 @@ public final class VendorStores {
     /** content per "vendor|address|version". */
     private final Map<String, String> contents = new LinkedHashMap<>();
 
+    /** The last number issued per "vendor|address". A deleted version's id is never issued again. */
+    private final Map<String, Integer> lastIssued = new HashMap<>();
+
     // ------------------------------------------------------------ Evernote
 
     /** Evernote's API: a note in a notebook, addressed by title. Returns a note GUID. */
     public String evernoteCreateNote(String notebook, String title, String body) {
         String address = notebook + "/" + title;
-        String guid = "note-" + (count("Evernote", address) + 1);
+        String guid = "note-" + nextNumber("Evernote", address);
         store("Evernote", address, guid, body);
         return guid;
     }
@@ -54,7 +58,7 @@ public final class VendorStores {
 
     /** SharePoint's API: bytes to a site-relative URL. Versions are numbered from 1. */
     public int sharePointUpload(String siteRelativeUrl, byte[] content) {
-        int version = count("SharePoint", siteRelativeUrl) + 1;
+        int version = nextNumber("SharePoint", siteRelativeUrl);
         store("SharePoint", siteRelativeUrl, String.valueOf(version), new String(content));
         return version;
     }
@@ -72,7 +76,7 @@ public final class VendorStores {
     /** FileNet's API: check a document in to an object store. Returns a version series id. */
     public String fileNetCheckin(String objectStore, String documentId, byte[] content) {
         String address = objectStore + "!" + documentId;
-        String seriesId = "vs-" + (count("FileNet", address) + 1);
+        String seriesId = "vs-" + nextNumber("FileNet", address);
         store("FileNet", address, seriesId, new String(content));
         return seriesId;
     }
@@ -102,6 +106,10 @@ public final class VendorStores {
     }
 
     // ------------------------------------------------------------- private
+
+    private int nextNumber(String vendor, String address) {
+        return lastIssued.merge(vendor + "|" + address, 1, Integer::sum);
+    }
 
     private void store(String vendor, String address, String version, String content) {
         versionsOf(vendor, address).add(version);
