@@ -160,4 +160,18 @@ class PrimeMinisterTest {
         Class<?> real = Class.forName("dev.kaldiroglu.dp.structural.proxy.pm.pm4.RealPM");
         assertFalse(java.lang.reflect.Modifier.isPublic(real.getModifiers()));
     }
+
+    @Test
+    @DisplayName("pm3 still has three faults: Citizen names PMSecretary, RealPM is public, and the first citizen creates the PM")
+    void stageThreeLimits() throws Exception {
+        var citizen = dev.kaldiroglu.dp.structural.proxy.pm.pm3.Citizen.class;
+        var secretaryType = dev.kaldiroglu.dp.structural.proxy.pm.pm3.PMSecretary.class;
+        assertNotNull(citizen.getConstructor(String.class, secretaryType));
+        assertTrue(java.lang.reflect.Modifier.isPublic(
+                dev.kaldiroglu.dp.structural.proxy.pm.pm3.RealPM.class.getModifiers()));
+
+        var secretary = new dev.kaldiroglu.dp.structural.proxy.pm.pm3.PMSecretary();
+        new dev.kaldiroglu.dp.structural.proxy.pm.pm3.Citizen("Ayse", secretary);
+        assertTrue(secretary.hasBeenAskedForThePM());
+    }
 }

@@ -8,6 +8,6 @@ public class SausageToast extends AbstractToast {
 
     @Override
     public int calculatePrice() {
-        return 6;
+        return 8;
     }
 }

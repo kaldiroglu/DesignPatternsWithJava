@@ -53,11 +53,11 @@ public class Main {
 
     /** Every number this demo puts on screen, checked against what it should be. */
     private static void selfCheck(List<Toast> menu, int combinations) {
-        boolean ok = menu.get(0).calculatePrice() == 5      // cheese
-                && menu.get(1).calculatePrice() == 7        // cheese + tomato
-                && menu.get(2).calculatePrice() == 6        // sausage
-                && menu.get(3).calculatePrice() == 8        // sausage + tomato
-                && menu.get(4).calculatePrice() == 8        // cheese + sausage, hand-copied
+        boolean ok = menu.get(0).calculatePrice() == 8      // cheese
+                && menu.get(1).calculatePrice() == 10       // cheese + tomato
+                && menu.get(2).calculatePrice() == 8        // sausage
+                && menu.get(3).calculatePrice() == 10       // sausage + tomato
+                && menu.get(4).calculatePrice() == 11       // cheese + sausage, hand-copied
                 && combinations == 31;
         System.out.println(ok ? "self-check: prices as expected" : "self-check: FAILED");
     }

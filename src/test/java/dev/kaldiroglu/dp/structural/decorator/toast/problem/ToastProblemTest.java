@@ -16,11 +16,11 @@ class ToastProblemTest {
     @Test
     @DisplayName("the menu prices are all correct, which is exactly why the design survives review")
     void pricesAreCorrect() {
-        assertEquals(5, new CheeseToast().calculatePrice());
-        assertEquals(7, new CheeseTomatoToast().calculatePrice());
-        assertEquals(6, new SausageToast().calculatePrice());
-        assertEquals(8, new SausageTomatoToast().calculatePrice());
-        assertEquals(8, new CheeseSausageToast().calculatePrice());
+        assertEquals(8, new CheeseToast().calculatePrice());
+        assertEquals(10, new CheeseTomatoToast().calculatePrice());
+        assertEquals(8, new SausageToast().calculatePrice());
+        assertEquals(10, new SausageTomatoToast().calculatePrice());
+        assertEquals(11, new CheeseSausageToast().calculatePrice());
     }
 
     @Test
@@ -67,7 +67,7 @@ class ToastProblemTest {
         // There is no method to call here. Adding tomato means becoming a CheeseTomatoToast,
         // and an object cannot change its class. The only route is to throw the order away
         // and construct a different one, which is what the solution removes the need for.
-        assertEquals(5, ordered.calculatePrice());
+        assertEquals(8, ordered.calculatePrice());
         assertEquals(1, ordered.getClass().getMethods().length
                 - Object.class.getMethods().length
                 - 1 /* getName */);

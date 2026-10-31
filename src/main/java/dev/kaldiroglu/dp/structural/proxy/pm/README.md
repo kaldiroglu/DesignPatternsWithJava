@@ -43,7 +43,7 @@ forwards.
 ## Run it with
 
 ```bash
-mvn -o test -Dtest=PrimeMinisterTest      # 10 tests
+mvn -o test -Dtest=PrimeMinisterTest      # 11 tests
 
 java -cp target/classes dev.kaldiroglu.dp.structural.proxy.pm.pm1.Main
 java -cp target/classes dev.kaldiroglu.dp.structural.proxy.pm.pm2.Main
