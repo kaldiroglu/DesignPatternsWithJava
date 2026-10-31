@@ -1,4 +1,6 @@
 @startuml "Observer - Publisher - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 140
 skinparam classAttributeIconSize 0
 hide empty members
 title Magazines and their subscribers
@@ -29,12 +31,12 @@ AbstractPublication <|-- FourFourTwo
 Subscriber <|.. AbstractSubscriber
 AbstractSubscriber <|-- IndividualSubscriber
 AbstractSubscriber <|-- InstitutionalSubscriber
-AbstractPublication o--> "*" Subscriber
-Publisher --> Newsweek
-Publisher --> FourFourTwo
 note bottom of Subscriber
   Each kind of subscriber reacts
   in its own way: one reads,
   one puts it on the shelf.
 end note
+AbstractPublication o-[norank]-> "*" Subscriber
+Publisher -[norank]-> Newsweek
+Publisher -[norank]-> FourFourTwo
 @enduml

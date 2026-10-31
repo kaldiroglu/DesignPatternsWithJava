@@ -1,4 +1,5 @@
 @startuml "State - Door - Class Diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title A door: who changes its state?
@@ -18,11 +19,8 @@ package "pattern1 · the states decide" {
   interface "DoorState" as S1
   class "OpenDoor" as O1
   class "ClosedDoor" as C1
-  D1 o--> S1
   S1 <|.. O1
   S1 <|.. C1
-  O1 ..> C1 : knows
-  C1 ..> O1 : knows
 }
 package "pattern2 · a manager decides" {
   class "Door" as D2 {
@@ -34,13 +32,16 @@ package "pattern2 · a manager decides" {
   interface "DoorState" as S2
   class "OpenDoor" as O2
   class "ClosedDoor" as C2
-  D2 o--> S2
-  D2 --> DoorStateManager
   S2 <|.. O2
   S2 <|.. C2
-  O2 --> DoorStateManager
-  C2 --> DoorStateManager
 }
 D0 -[hidden]right- D1
 D1 -[hidden]right- D2
+  D1 o-[norank]-> S1
+  O1 .[norank].> C1 : knows
+  C1 .[norank].> O1 : knows
+  D2 o-[norank]-> S2
+  D2 -[norank]-> DoorStateManager
+  O2 -[norank]-> DoorStateManager
+  C2 -[norank]-> DoorStateManager
 @enduml

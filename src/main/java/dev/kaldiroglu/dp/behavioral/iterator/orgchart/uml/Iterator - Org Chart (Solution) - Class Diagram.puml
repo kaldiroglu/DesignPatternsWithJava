@@ -1,4 +1,5 @@
 @startuml "Iterator - Org Chart (Solution) - Class Diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title A department that gives out iterators
@@ -29,9 +30,6 @@ class ChangeReport {
 Iterable <|.. Department
 Iterator <|.. DepthFirstIterator
 Iterator <|.. LevelOrderIterator
-Department ..> DepthFirstIterator : creates
-Department ..> LevelOrderIterator : creates
-ChangeReport ..> Iterator : two at once
 
 note right of Department
   <b>No getter for its lists.</b>
@@ -44,4 +42,7 @@ end note
 note bottom of LevelOrderIterator
   A queue: level by level.
 end note
+Department .[norank].> DepthFirstIterator : creates
+Department .[norank].> LevelOrderIterator : creates
+ChangeReport .[norank].> Iterator : two at once
 @enduml

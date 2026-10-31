@@ -1,4 +1,12 @@
 @startuml "Visitor - Checkout (Solution) - Class Diagram"
+skinparam linetype polyline
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 hide empty members
 title Items accept visitors; each operation is one visitor
@@ -28,10 +36,21 @@ Item <|.. GiftCard
 V <|.. TaxVisitor
 V <|.. ShippingVisitor
 V <|.. ReceiptLineVisitor
-Checkout o--> "*" Item
-Item ..> V : accept calls visit(this)
 note bottom of V
   <b>A new item kind is a new method here.</b>
   Every visitor that misses it stops compiling.
 end note
+class " " as Spacer1 <<spacer>>
+Item -[hidden]- Spacer1
+Item -[hidden]- Spacer1
+Book -[hidden]right- Food
+Food -[hidden]right- Spacer1
+Spacer1 -[hidden]right- Electronics
+Electronics -[hidden]right- GiftCard
+V -[hidden]- ShippingVisitor
+V -[hidden]- ShippingVisitor
+TaxVisitor -[hidden]right- ShippingVisitor
+ShippingVisitor -[hidden]right- ReceiptLineVisitor
+Checkout o-[norank]-> "*" Item
+Item .[norank].> V : accept calls visit(this)
 @enduml

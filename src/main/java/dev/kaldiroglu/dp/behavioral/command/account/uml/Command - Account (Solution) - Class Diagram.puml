@@ -1,4 +1,12 @@
 @startuml "Command - Account (Solution) - Class Diagram"
+skinparam linetype polyline
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 hide empty members
 title The teller, with each request an object
@@ -39,16 +47,10 @@ class StandingOrders {
   + runThrough(Teller)
 }
 
-Teller o--> "*" Transaction
-StandingOrders o--> "*" Transaction
 Transaction <|.. Deposit
 Transaction <|.. Withdraw
 Transaction <|.. CloseOut
 Transaction <|.. Transfer
-Transfer o--> "2" Transaction
-Deposit --> Account
-Withdraw --> Account
-CloseOut --> Account
 
 note right of Teller
   <b>No switch, no case, no operation named.</b>
@@ -67,4 +69,17 @@ note bottom of Transfer
   A withdrawal and a deposit,
   undone together, in reverse.
 end note
+class " " as Spacer1 <<spacer>>
+Transaction -[hidden]- Spacer1
+Transaction -[hidden]- Spacer1
+Deposit -[hidden]right- Withdraw
+Withdraw -[hidden]right- Spacer1
+Spacer1 -[hidden]right- CloseOut
+CloseOut -[hidden]right- Transfer
+Teller o--> "*" Transaction
+StandingOrders o--> "*" Transaction
+Transfer o--> "2" Transaction
+Deposit --> Account
+Withdraw --> Account
+CloseOut --> Account
 @enduml

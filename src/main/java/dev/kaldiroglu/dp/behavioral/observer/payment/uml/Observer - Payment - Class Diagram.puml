@@ -1,4 +1,5 @@
 @startuml "Observer - Payment - Class Diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title An invoice and two observers, with java.util.Observable
@@ -19,10 +20,10 @@ class Accountant
 Observable <|-- Invoice
 Observer <|.. Boss
 Observer <|.. Accountant
-Observable o--> "*" Observer
 note bottom of Invoice
   Must extend Observable, so it can
   extend nothing else. The order of
   notifications is not specified.
 end note
+Observable o-[norank]-> "*" Observer
 @enduml

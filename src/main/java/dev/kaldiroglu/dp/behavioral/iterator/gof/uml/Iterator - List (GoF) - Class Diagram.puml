@@ -1,4 +1,13 @@
 @startuml "Iterator - List (GoF) - Class Diagram"
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
+skinparam linetype polyline
+skinparam nodesep 30
 skinparam classAttributeIconSize 0
 hide empty members
 title GoF's own example — Design Patterns, pp. 257-271
@@ -43,10 +52,6 @@ package "after it" {
   Iterator <|.. LI
   Iterator <|.. RLI
   Iterator <|.. CLI
-  List ..> LI : creates
-  Chain ..> CLI : creates
-  RLI --> List
-  Traverser --> Iterator
   Traverser <|-- PrintNEmployees
 }
 
@@ -57,4 +62,12 @@ note right of Traverser
   It runs the loop; a subclass
   handles each item.
 end note
+  List .[norank].> LI : creates
+  Chain .[norank].> CLI : creates
+  RLI -[norank]-> List
+  Traverser -[norank]-> Iterator
+class " " as Spacer51 <<spacer>>
+Abstract -[hidden]- Spacer51
+List -[hidden]right- Spacer51
+Spacer51 -[hidden]right- Chain
 @enduml

@@ -1,4 +1,5 @@
 @startuml "Mediator - Font Dialog (GoF) - Class Diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title GoF's motivation — Design Patterns, pp. 273-282
@@ -16,8 +17,8 @@ DialogDirector <|-- FontDialogDirector
 Widget <|-- ListBox
 Widget <|-- EntryField
 Widget <|-- Button
-Widget -left-> DialogDirector : director
-FontDialogDirector --> ListBox
-FontDialogDirector --> EntryField
-FontDialogDirector --> Button
+Widget -[norank]-> DialogDirector : director
+FontDialogDirector -[norank]-> ListBox
+FontDialogDirector -[norank]-> EntryField
+FontDialogDirector -[norank]-> Button
 @enduml

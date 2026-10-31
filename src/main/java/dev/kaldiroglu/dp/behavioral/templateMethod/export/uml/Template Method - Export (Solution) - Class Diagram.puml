@@ -1,4 +1,5 @@
 @startuml "Template Method - Export (Solution) - Class Diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title The export algorithm, written once
@@ -20,7 +21,6 @@ class AuditLog
 ReportExporter <|-- CsvExporter
 ReportExporter <|-- HtmlExporter
 ReportExporter <|-- MarkdownExporter
-ReportExporter --> AuditLog
 
 note right of ReportExporter
   <b>export() is the template method, and final.</b>
@@ -28,4 +28,6 @@ note right of ReportExporter
   file name, audit — always in this order.
   footer() is a hook: empty by default.
 end note
+ReportExporter --> AuditLog
+ReportExporter -[hidden]- HtmlExporter
 @enduml

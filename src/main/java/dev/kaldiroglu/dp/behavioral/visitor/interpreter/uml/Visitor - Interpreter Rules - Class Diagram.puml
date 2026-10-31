@@ -1,4 +1,6 @@
 @startuml "Visitor - Interpreter Rules - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 30
 skinparam classAttributeIconSize 0
 hide empty members
 title Interpreter: one class per grammar rule
@@ -17,8 +19,8 @@ Rule <|.. PriceBelow
 Rule <|.. And
 Rule <|.. Or
 Rule <|.. Not
-And o--> "2" Rule
-Or o--> "2" Rule
-Not o--> "1" Rule
-Rule ..> Product : interprets against
+And o-[norank]-> "2" Rule
+Or o-[norank]-> "2" Rule
+Not o-[norank]-> "1" Rule
+Rule .[norank].> Product : interprets against
 @enduml

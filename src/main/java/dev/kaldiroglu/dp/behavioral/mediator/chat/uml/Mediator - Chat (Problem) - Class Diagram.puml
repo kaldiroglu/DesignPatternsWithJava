@@ -1,4 +1,13 @@
 @startuml "Mediator - Chat (Problem) - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 30
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 hide empty members
 title A private message: three attempts
@@ -19,7 +28,6 @@ package "stage two" {
     + say(text)
     + whisper(name, text)
   }
-  M2 --> Directory
   note bottom of M2
     <b>The sender applies the rules.</b>
   end note
@@ -33,8 +41,9 @@ package "stage three" {
   }
   class ChatClient
   class GuestClient
-  MessageBus o--> "*" Client
   Client <|.. ChatClient
+class " " as Spacer1 <<spacer>>
+Client -[hidden]- Spacer1
   Client <|.. GuestClient
   note bottom of GuestClient
     <b>Shows everything.</b>
@@ -43,4 +52,6 @@ package "stage three" {
 }
 M1 -[hidden]right- Directory
 Directory -[hidden]right- MessageBus
+  M2 --> Directory
+  MessageBus o--> "*" Client
 @enduml

@@ -1,4 +1,5 @@
 @startuml "Command - Air Conditioner - Class Diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title A switch with four buttons
@@ -32,16 +33,10 @@ class AirConditioner <<Receiver>> {
   + turnOnCooler(Temperature)
 }
 
-Person --> ACSwitch
-ACSwitch ..> Command : creates and runs
 Command <|.. TurnOnCommand
 Command <|.. TurnOffCommand
 Command <|.. HeatCommand
 Command <|.. CoolCommand
-TurnOnCommand --> AirConditioner
-TurnOffCommand --> AirConditioner
-HeatCommand --> AirConditioner
-CoolCommand --> AirConditioner
 
 note right of Command
   undo() and redo() are declared and
@@ -49,4 +44,10 @@ note right of Command
   holds only the air conditioner, not
   the temperature it replaced.
 end note
+Person --> ACSwitch
+ACSwitch ..> Command : creates and runs
+TurnOnCommand --> AirConditioner
+TurnOffCommand --> AirConditioner
+HeatCommand --> AirConditioner
+CoolCommand --> AirConditioner
 @enduml

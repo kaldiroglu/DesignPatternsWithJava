@@ -1,4 +1,13 @@
 @startuml "Iterator - File System - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 30
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 hide empty members
 title A file system, with a directory iterator
@@ -29,11 +38,11 @@ interface "java.util.Iterator<T>" as JI
 Storage <|.. StorageElement
 StorageElement <|-- File
 StorageElement <|-- ShortCut
+class " " as Spacer1 <<spacer>>
+StorageElement -[hidden]- Spacer1
 StorageElement <|-- Alias
 StorageElement <|-- Directory
-Directory o--> "*" Storage
 JI <|.. DI
-Directory ..> DI : creates
 
 note right of DI
   Walks the directory's own elements,
@@ -43,4 +52,6 @@ note bottom of Directory
   elements() is package-private and read-only:
   only the iterator, in the same package, calls it.
 end note
+Directory o-[norank]-> "*" Storage
+Directory .[norank].> DI : creates
 @enduml

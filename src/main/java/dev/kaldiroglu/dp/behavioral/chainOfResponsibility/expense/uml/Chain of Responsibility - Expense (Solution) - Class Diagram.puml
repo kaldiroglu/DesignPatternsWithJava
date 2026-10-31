@@ -1,4 +1,5 @@
 @startuml "Chain of Responsibility - Expense (Solution) - Class Diagram"
+skinparam linetype polyline
 skinparam classAttributeIconSize 0
 hide empty members
 title Each link decides, or passes the expense on
@@ -16,8 +17,6 @@ class AuditLog <<ConcreteHandler>>
 class Expense <<record>>
 ExpenseHandler <|-- Approver
 ExpenseHandler <|-- AuditLog
-ExpenseHandler --> "0..1" ExpenseHandler : next
-ExpenseHandler ..> Expense
 note bottom of Approver
   <b>Within my limit, and not my own.</b>
   Otherwise the next link decides.
@@ -26,4 +25,6 @@ note bottom of AuditLog
   Records every expense,
   and always passes it on.
 end note
+ExpenseHandler -[norank]-> "0..1" ExpenseHandler : next
+ExpenseHandler .[norank].> Expense
 @enduml

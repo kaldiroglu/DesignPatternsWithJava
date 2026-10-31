@@ -1,4 +1,13 @@
 @startuml "Strategy - Pricing (Problem) - Class Diagram"
+skinparam linetype polyline
+skinparam nodesep 70
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 title Before — three ways to weld a family of algorithms to a till
 
@@ -25,7 +34,6 @@ package "stage two - the compiler helps" {
   class EnumCheckout {
     + ring(basket, campaign : Campaign) : Receipt
   }
-  EnumCheckout ..> Campaign
   note bottom of EnumCheckout
     <b>A real improvement.</b> The switch is exhaustive,
     so adding a constant stops this file compiling
@@ -47,13 +55,14 @@ package "stage three - a class per campaign" {
   class BlackFridayCheckout
   Checkout <|-- PlainCheckout
   Checkout <|-- StudentCheckout
+class " " as Spacer1 <<spacer>>
+Checkout -[hidden]- Spacer1
   Checkout <|-- BlackFridayCheckout
 
   class Till {
     - everyCampaign : List<Checkout>
     + bestFor(basket) : Receipt
   }
-  Till o--> "3" Checkout
   note bottom of Till
     <b>The reversal.</b> Pricing one basket several ways
     needs several tills, so the caller names every
@@ -74,4 +83,6 @@ note as N1
   something chosen on the day, by somebody else, for one basket.
 end note
 
+  EnumCheckout ..> Campaign
+  Till o--> "3" Checkout
 @enduml
