@@ -37,7 +37,7 @@ Because a `CharacterGlyph`'s only stored state is its code, one `CharacterGlyph(
 | **ConcreteFlyweight** | `CharacterGlyph` — GoF's *Character* (intrinsic state = char code, shared) |
 | **UnsharedConcreteFlyweight** | `Row`, `Column` (own their children, not shared) |
 | **FlyweightFactory** | `GlyphFactory` (pools and shares `CharacterGlyph`s) |
-| **Client** | the demo (`Main` / `Program` / `demo.py`) + `GlyphContext` holding extrinsic state |
+| **Client** | the demo (`FontRangesMain` / `Program` / `demo.py`) + `GlyphContext` holding extrinsic state |
 
 > **Note on fidelity:** GoF stores the per-position font in a compact **BTree** (p. 202). As is common when teaching the pattern, we substitute a plain `index → Font` map inside `GlyphContext`. Everything else mirrors the book's structure.
 >

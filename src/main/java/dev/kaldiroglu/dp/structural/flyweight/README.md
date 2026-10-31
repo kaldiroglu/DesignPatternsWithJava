@@ -80,8 +80,9 @@ objects that already exist.
 ```bash
 mvn -q compile
 
-# GoF's own example
-mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.gof.Main
+# GoF's own example: the font of every character, then the object counts
+mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.gof.FontRangesMain
+mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.gof.SharingCountMain
 
 # the corrected book, and the forest and market data examples
 mvn -q exec:java -Dexec.mainClass=dev.kaldiroglu.dp.structural.flyweight.book.correct.Main

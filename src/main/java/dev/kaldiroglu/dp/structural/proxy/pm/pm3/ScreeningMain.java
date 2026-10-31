@@ -4,16 +4,11 @@ package dev.kaldiroglu.dp.structural.proxy.pm.pm3;
  * Stage 3 — the solution. The citizen holds PM, which is now an interface, and every call is
  * screened.
  */
-public class Main {
+public class ScreeningMain {
 
     public static void main(String[] args) {
         PMSecretary secretary = new PMSecretary();
-        System.out.println("Prime Minister created yet? " + secretary.hasBeenAskedForThePM());
-
         Citizen ayse = new Citizen("Ayse", secretary);
-        System.out.println("Prime Minister created yet? " + secretary.hasBeenAskedForThePM());
-        System.out.println();
-
         Citizen bora = new Citizen("Bora", secretary);
 
         ayse.tellProblem("the bridge on the coast road is closed");
