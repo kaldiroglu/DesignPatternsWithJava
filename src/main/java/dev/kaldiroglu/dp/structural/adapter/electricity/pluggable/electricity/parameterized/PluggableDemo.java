@@ -4,8 +4,8 @@ package dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.electricity.p
 import java.util.List;
 
 /**
- * Runnable demo for both pluggable-adapter domains. In each, ONE adapter class serves TWO
- * differently-shaped adaptees, with the adaptation injected as lambdas (GoF technique (c)).
+ * Runnable demo of the pluggable adapter: ONE adapter class serves THREE differently-shaped
+ * adaptees, with the adaptation injected as lambdas (GoF technique (c)).
  */
 public final class PluggableDemo {
 

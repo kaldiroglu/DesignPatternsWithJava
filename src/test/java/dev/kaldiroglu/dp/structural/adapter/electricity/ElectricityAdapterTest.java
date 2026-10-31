@@ -182,11 +182,31 @@ class ElectricityAdapterTest {
                 dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.electricity.parameterized.PluggablePowerAdapter.class;
 
         // Two Runnables stand in for the whole narrow interface, so US, UK, Kenya and
-        // anything else need no class of their own.
-        assertEquals(2, pluggable.getDeclaredFields().length);
+        // anything else need no class of their own. The third field is the on/off state.
+        assertEquals(3, pluggable.getDeclaredFields().length);
         for (Method m : pluggable.getDeclaredMethods()) {
             assertFalse(m.getName().toLowerCase().contains("us"),
                     "no source is named in the adapter: " + m.getName());
         }
+    }
+
+    @Test
+    @DisplayName("the pluggable adapter keeps two operations correct on one toggle")
+    void pluggableAdapterTracksTheToggle() {
+        int[] pushes = new int[1];
+        Runnable push = () -> pushes[0]++;
+        var adapter = new dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.electricity.parameterized
+                .PluggablePowerAdapter(push, push);
+
+        adapter.turnOn();
+        adapter.turnOn();
+        assertEquals(1, pushes[0], "a second turnOn must not switch the power off");
+
+        adapter.turnOff();
+        adapter.turnOff();
+        assertEquals(2, pushes[0], "a second turnOff must not switch the power on");
+
+        adapter.turnOff();
+        assertEquals(2, pushes[0]);
     }
 }
