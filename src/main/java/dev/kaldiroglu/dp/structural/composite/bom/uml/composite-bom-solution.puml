@@ -103,10 +103,10 @@ class Money <<record>> {
   + times(quantity : int) : Money
 }
 
-class Main
-note top of Main : Client\n(costing, shipping, reporting)
+class ShippingEstimate
+note top of ShippingEstimate : Client\n(one of costing, shipping, reporting)
 
-Main --> BomComponent
+ShippingEstimate --> BomComponent
 BomComponent <|-- Part
 BomComponent <|-- Service
 BomComponent <|-- Assembly

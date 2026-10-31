@@ -172,15 +172,31 @@ public class Directory extends StorageElement implements StorageContainer {
 
     @Override
     public void add(Storage element) {
-        if (element == this) {
-            throw new IllegalArgumentException("a directory cannot contain itself");
-        }
+        checkCanHold(element);
         if (!elements.contains(element)) {
             elements.add(element);
             if (element instanceof StorageElement child) {
+                Directory oldParent = child.getParent();
+                if (oldParent != null && oldParent != this) {
+                    oldParent.remove(element);        // an element lives in one directory
+                }
                 child.setParent(this);
             }
             invalidate();
+        }
+    }
+
+    /**
+     * Refuses an element that is this directory or one of its ancestors.
+     * <p>
+     * Moving a directory into its own subtree cuts that subtree off from the root, and the
+     * recursion in {@link #size()} and {@link #path()} would never end.
+     */
+    final void checkCanHold(Storage element) {
+        for (Directory d = this; d != null; d = d.getParent()) {
+            if (d == element) {
+                throw new IllegalArgumentException("a directory cannot contain itself");
+            }
         }
     }
 

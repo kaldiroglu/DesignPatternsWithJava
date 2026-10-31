@@ -21,7 +21,7 @@ public class NewItemMain {
         System.out.println("Bicycle cost " + costBeforeCoating + " -> " + bicycle.totalCost()
                 + ", weight unchanged at " + bicycle.totalWeightGrams()
                 + " g, part count unchanged at " + bicycle.partCount() + ".");
-        System.out.println("The tree printer and the shipping estimator below were never "
+        System.out.println("The tree printer and ShippingEstimate were never "
                 + "told this class exists:");
         System.out.println("Shipping estimate is still " + ShippingEstimate.of(bicycle) + ".");
     }

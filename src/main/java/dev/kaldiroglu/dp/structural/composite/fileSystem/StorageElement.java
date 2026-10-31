@@ -74,6 +74,7 @@ public abstract class StorageElement implements Storage {
         if (target == this) {
             throw new IllegalArgumentException("an element cannot be moved into itself");
         }
+        target.checkCanHold(this);        // before anything changes
         if (parent != null) {
             parent.remove(this);
         }

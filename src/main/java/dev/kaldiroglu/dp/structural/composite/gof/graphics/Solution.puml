@@ -6,8 +6,8 @@ skinparam linetype ortho
 
 title title GoF Graphics Example \nAfter Composite
 
-class Main
-note left of Main : Client (the graphics editor)
+class Demo
+note left of Demo : Client (the graphics editor)
 
 abstract class Graphic {
   + {abstract} draw(at : Point) : void
@@ -66,7 +66,7 @@ class Point <<record>> {
   + y : int
 }
 
-Main --> Graphic
+Demo --> Graphic
 Graphic <|-- Line
 Graphic <|-- Rectangle
 Graphic <|-- Text

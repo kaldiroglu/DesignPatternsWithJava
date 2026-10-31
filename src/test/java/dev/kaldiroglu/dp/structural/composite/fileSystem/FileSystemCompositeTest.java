@@ -305,4 +305,68 @@ class FileSystemCompositeTest {
         assertTrue(StorageContainer.class.isAssignableFrom(Directory.class));
         assertTrue(!StorageContainer.class.isAssignableFrom(File.class));
     }
+
+    @Test
+    @DisplayName("a directory cannot move into its own descendant, and nothing changes")
+    void aDirectoryCannotMoveBelowItself() {
+        tree();
+        assertThrows(IllegalArgumentException.class, () -> dev.move(reports));
+
+        assertSame(home, dev.getParent(), "the failed move left the tree as it was");
+        assertTrue(home.elements().contains(dev));
+        assertFalse(reports.elements().contains(dev));
+    }
+
+    @Test
+    @DisplayName("a directory cannot add its own ancestor")
+    void aDirectoryCannotAddItsAncestor() {
+        tree();
+        assertThrows(IllegalArgumentException.class, () -> reports.add(home));
+
+        assertFalse(reports.elements().contains(home));
+        assertNull(home.getParent());
+    }
+
+    @Test
+    @DisplayName("add moves the child: it leaves its old directory")
+    void addTakesTheChildFromItsOldParent() {
+        tree();
+        long totalBefore = home.size();
+
+        reports.add(report);
+
+        assertSame(reports, report.getParent());
+        assertFalse(dev.elements().contains(report), "not in two directories at once");
+        assertEquals(1, reports.elements().stream().filter(e -> e == report).count());
+        assertEquals(totalBefore, home.size(), "the file is counted once");
+    }
+
+    @Test
+    @DisplayName("a link still names a target that was deleted; nothing marks it as broken")
+    void aLinkKeepsItsDeletedTarget() {
+        tree();
+        Alias alias = new Alias("latest", reports, report);
+
+        report.delete();
+
+        assertSame(report, alias.getTarget());
+        assertTrue(alias.render("").contains("Report.docx"));
+    }
+
+    @Test
+    @DisplayName("DiskReportMain prints the two totals on the slide")
+    void diskReportMainPrintsTheSlideFigures() {
+        tree();
+        var out = new java.io.ByteArrayOutputStream();
+        var original = System.out;
+        System.setOut(new java.io.PrintStream(out));
+        try {
+            DiskReportMain.main(new String[0]);
+        } finally {
+            System.setOut(original);
+        }
+        assertEquals(167_816, new DiskReport(home).totalBytes());
+        assertTrue(out.toString().contains("167,816 bytes"), out.toString());
+        assertTrue(out.toString().contains("45,000 bytes"), out.toString());
+    }
 }
