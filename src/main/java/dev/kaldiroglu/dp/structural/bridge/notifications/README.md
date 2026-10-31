@@ -49,7 +49,7 @@ opinion. Failures are *scripted* (`failNext(n)`), never random.
 
 | Design | It works, but |
 |---|---|
-| `SwitchingNotifier` | 3 × 3 = **nine branches** in one class. No edit touches one axis alone. The 160-character SMS rule appears in four places — and `sendDigest` forgot it, so an SMS digest **throws**. |
+| `SwitchingNotifier` | 3 × 3 = **nine branches** in one class. No edit touches one axis alone. The 160-character SMS rule is in two of the three SMS branches — and `sendDigest` forgot it, so an SMS digest **throws**. |
 | Class per pair | Nine classes, whose names have to state both axes. The retry loop — the only thing "urgent" means — is written once per channel. |
 | `EmailBoundUrgentNotification extends EmailSender` | The notification **is** an email sender, so Bora's stored preference for SMS is silently ignored and the result still says "delivered". |
 
