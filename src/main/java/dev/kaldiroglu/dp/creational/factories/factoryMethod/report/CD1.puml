@@ -1,0 +1,37 @@
+@startuml
+skinparam linetype ortho
+
+interface ReportFactory {
+~ Report generateReport()
+}
+
+abstract class Report {
+- String name
++ {abstract}void open()
++ {abstract}void print()
++ {abstract}void save()
++ {abstract}void revert()
++ {abstract}void close()
+}
+
+
+
+class DailySalesReportFactory {
++ Report generateReport()
+}
+
+class DailySalesReport {
++ void open()
++ void print()
++ void save()
++ void revert()
++ void close()
+}
+
+
+ReportFactory <|.. DailySalesReportFactory
+
+DailySalesReport -up-|> Report
+ReportFactory --right> Report
+DailySalesReportFactory --right> DailySalesReport
+@enduml

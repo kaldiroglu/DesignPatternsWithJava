@@ -1,0 +1,65 @@
+@startuml
+abstract class Tool {
+# Graphic prototype
++ Tool(Graphic)
++ {abstract}void manipluate()
+}
+
+
+class WholeNote {
++ WholeNote(String,String,int,int)
+}
+
+class MusicalNote {
+- String note
+- int octave
+- int duration
++ MusicalNote(String,String,int,int)
++ void draw(Position)
++ Graphic clone()
+}
+
+
+class Staff {
+- String property
++ Staff(String,String)
++ void draw(Position)
++ Graphic clone()
+}
+
+
+class Position {
+}
+
+abstract class Graphic {
+# String name
++ Graphic(String)
++ {abstract}void draw(Position)
++ {abstract}Graphic clone()
+}
+
+
+class RotateTool {
++ RotateTool(Graphic)
++ void manipluate()
+}
+
+class HalfNote {
++ HalfNote(String,String,int,int)
+}
+
+class GraphicTool {
++ GraphicTool(Graphic)
++ void manipluate()
+}
+
+MusicalNote <|-- WholeNote
+Graphic <|-- MusicalNote
+Graphic <|-- Staff
+Tool <|-- RotateTool
+MusicalNote <|-- HalfNote
+Tool <|-- GraphicTool
+
+Tool --right> Graphic : has
+Graphic --right> Position : uses
+@enduml

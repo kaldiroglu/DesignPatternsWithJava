@@ -1,0 +1,26 @@
+@startuml
+class Employee {
+}
+
+class Manager {
+}
+
+class Director {
+}
+
+
+class EmployeeFactory {
++ Employee create()
+}
+
+Employee <|.. Manager
+Manager <|.. Director
+
+EmployeeFactory <|.. ManagerFactory
+EmployeeFactory <|.. DirectorFactory
+
+EmployeeFactory -right-> Employee
+ManagerFactory -right-> Manager
+DirectorFactory -right-> Director
+
+@enduml

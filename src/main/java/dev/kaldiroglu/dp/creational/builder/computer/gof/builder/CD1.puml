@@ -1,0 +1,25 @@
+@startuml
+class Product {
+}
+class ConcreteBuilder {
+~ Product product
++ void buildPart()
++ Product getResult()
+}
+
+
+interface Builder {
+~ void buildPart()
+~ Product getResult()
+}
+
+class Director {
+- Builder builder
++ void create()
+}
+
+Builder <|.. ConcreteBuilder
+
+Director -right-> Builder
+Builder -right-> Product
+@enduml

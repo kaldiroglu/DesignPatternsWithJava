@@ -1,0 +1,31 @@
+@startuml
+class Account {
+# String iban
+# double balance
+# double credit
+# Customer owner
+- boolean openToWithdraw
+- boolean openToPayment
+- boolean openToTransfer
++ <<Create>> Account(String,double,double,Customer,boolean,boolean,boolean)
++ String getIban()
++ void setIban(String)
++ double getBalance()
++ void setBalance(double)
++ Customer getOwner()
++ void setOwner(Customer)
++ boolean isOpenToWithdraw()
++ void setOpenToWithdraw(boolean)
++ boolean isOpenToPayment()
++ void setOpenToPayment(boolean)
++ boolean isOpenToTransfer()
++ void setOpenToTransfer(boolean)
++ Account clone()
++ String toString()
+}
+
+
+
+
+Cloneable <|.. Account
+@enduml

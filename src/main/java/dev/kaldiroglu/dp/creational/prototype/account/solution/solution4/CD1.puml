@@ -1,0 +1,33 @@
+@startuml
+class AccountFactory {
+~ {static} Account normalPrototype
++ Account createNormalAccount()
++ Account createNormalAccount(Customer,double)
++ Account createNegativeAccount(Customer,double)
++ Account createFrozenAccount(Customer,double)
+}
+
+
+class AccountFactory$AccountPrototypes {
+~ {static} Account normalPrototype
+~ {static} Account negativePrototype
+~ {static} Account frozenPrototype
+}
+
+class Account {
++ Account(String,double,double,Customer,boolean,boolean,boolean)
+}
+
+
+interface Factory {
+~ Account createNormalAccount()
+~ Account createNormalAccount(Customer,double)
+~ Account createNegativeAccount(Customer,double)
+~ Account createFrozenAccount(Customer,double)
+}
+
+Factory <|.. AccountFactory
+AccountFactory +.. AccountFactory$AccountPrototypes
+Cloneable <|.. Account
+Factory --> Account
+@enduml

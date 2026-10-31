@@ -1,0 +1,70 @@
+@startuml
+
+
+class Manager {
+# String departmentManaged
++ {static} int MANAGEMENT_PAYMENT
++ <<Create>> Manager(int,String,int,String,String)
++ void work()
++ void manage()
++ double calculateSalary()
++ String getDepartmentManaged()
++ String toString()
+}
+
+
+class Employee {
+# int no
+# String name
+# int year
+# String department
+# double salary
++ {static} int BASE_SALARY
++ <<Create>> Employee(int,String,int,String)
++ void work()
++ double calculateSalary()
++ void printInfo()
++ int getNo()
++ String getName()
++ int getYear()
++ String getDepartment()
++ double getSalary()
++ String toString()
+}
+
+
+class Director {
+# double bonus
++ <<Create>> Director(int,String,int,String,String,double)
++ void work()
++ void manage()
++ void makeAStrategicPlan()
++ double calculateSalary()
++ double getBonus()
++ void printInfo()
++ String toString()
+}
+
+
+class PayrollOffice {
++ void paySalary(Employee)
+}
+
+class HR {
+- List<Employee> employees
++ <<Create>> HR()
++ List<Employee> getEmployees()
++ int getNumberOfEmployees()
++ void addEmployee(int,String,int,String)
++ void addManager(int,String,int,String,String)
++ void addDirector(int,String,int,String,String,double)
+}
+
+
+
+
+Employee <|-down- Manager
+Manager <|-down- Director
+PayrollOffice --> Employee : uses
+HR "1" o-left- "0..*" Employee
+@enduml

@@ -1,0 +1,72 @@
+@startuml
+title Refactored Employee - Class Diagram
+
+class Employee {
+  - personal : PersonalInfo
+  - contact : ContactInfo
+  - job : JobInfo
+  - work : WorkInfo
+  - compensation : Compensation
+  + Employee()
+  + getPersonal() : PersonalInfo
+  + getContact() : ContactInfo
+  + getJob() : JobInfo
+  + getWork() : WorkInfo
+  + getCompensation() : Compensation
+}
+
+class PersonalInfo {
+  - firstName : String
+  - lastName : String
+  - birthDate : LocalDate
+  - education : String
+  - skills : String
+  - previousCompany : String
+  + getters/setters()
+}
+
+class ContactInfo {
+  - email : String
+  - phoneNumber : String
+  - emergencyContact : String
+  - emergencyPhone : String
+  + getters/setters()
+}
+
+class JobInfo {
+  - employeeId : String
+  - department : String
+  - position : String
+  - manager : String
+  - hireDate : LocalDate
+  - employmentType : String
+  - securityClearance : String
+  + getters/setters()
+}
+
+class WorkInfo {
+  - workLocation : String
+  - isRemoteWorker : boolean
+  - timeZone : String
+  + getters/setters()
+}
+
+class Compensation {
+  - salary : BigDecimal
+  + getters/setters()
+}
+
+Employee "1" *-- "1" PersonalInfo
+Employee "1" *-- "1" ContactInfo
+Employee "1" *-- "1" JobInfo
+Employee "1" *-- "1" WorkInfo
+Employee "1" *-- "1" Compensation
+
+'note right of Employee
+'  Defaults applied in Employee():
+'  - job.hireDate = LocalDate.now()
+'  - job.employmentType = "Full-time"
+'  - work.isRemoteWorker = false
+'  - work.timeZone = "EST"
+'end note
+@enduml

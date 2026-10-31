@@ -1,0 +1,57 @@
+@startuml
+  class Employee {
+    - firstName : String
+    - lastName : String
+    - email : String
+    - phoneNumber : String
+    - department : String
+    - position : String
+    - employeeId : String
+    - hireDate : java.time.LocalDate
+    - birthDate : java.time.LocalDate
+    - salary : java.math.BigDecimal
+    - manager : String
+    - workLocation : String
+    - employmentType : String
+    - securityClearance : String
+    - emergencyContact : String
+    - emergencyPhone : String
+    - isRemoteWorker : boolean
+    - timeZone : String
+    - skills : String
+    - education : String
+    - previousCompany : String
+
+    + Employee()
+
+    + Employee(firstName : String, lastName : String, email : String, department : String)
+
+    + Employee(firstName : String, lastName : String, email : String, department : String,
+               position : String, hireDate : java.time.LocalDate)
+
+    + Employee(firstName : String, lastName : String,  email : String, phoneNumber : String, department : String, position : String, employeeId : String, hireDate : java.time.LocalDate,
+               salary : java.math.BigDecimal, manager : String)
+
+    + setFirstName(firstName : String) : void
+    + setLastName(lastName : String) : void
+    + setEmail(email : String) : void
+    + setPhoneNumber(phoneNumber : String) : void
+    + setDepartment(department : String) : void
+    + setPosition(position : String) : void
+    + setEmployeeId(employeeId : String) : void
+    + setHireDate(hireDate : java.time.LocalDate) : void
+    + setBirthDate(birthDate : java.time.LocalDate) : void
+    + setSalary(salary : java.math.BigDecimal) : void
+    + setManager(manager : String) : void
+    + setWorkLocation(workLocation : String) : void
+    + setEmploymentType(employmentType : String) : void
+    + setSecurityClearance(securityClearance : String) : void
+    + setEmergencyContact(emergencyContact : String) : void
+    + setEmergencyPhone(emergencyPhone : String) : void
+    + setRemoteWorker(remoteWorker : boolean) : void
+    + setTimeZone(timeZone : String) : void
+    + setSkills(skills : String) : void
+    + setEducation(education : String) : void
+    + setPreviousCompany(previousCompany : String) : void
+  }
+@enduml

@@ -1,0 +1,65 @@
+@startuml
+interface TextConverter {
+~ void convertCharacter(char)
+~ void convertFontChange(String)
+~ void convertParagraph()
+~ Object getResult()
+}
+
+class ASCIIConverter {
+- StringBuilder result
++ void convertCharacter(char)
++ void convertFontChange(String)
++ void convertParagraph()
++ String getResult()
+}
+
+
+class TeXConverter {
+- StringBuilder result
++ void convertCharacter(char)
++ void convertFontChange(String)
++ void convertParagraph()
++ String getResult()
+}
+
+
+class Token {
+- TokenType type
+- String value
++ TokenType getType()
++ String getValue()
++ char getChar()
+}
+
+
+class RTFReader {
+- TextConverter builder
++ void parseRTF(List<Token>)
+}
+
+
+class TextWidgetConverter {
+- JTextPane textWidget
+- StyledDocument doc
+- MutableAttributeSet currentAttributes
++ void convertCharacter(char)
++ void convertFontChange(String)
++ void convertParagraph()
++ JTextPane getResult()
+}
+
+enum TokenType {
++  CHAR
++  FONT
++  PARAGRAPH
+}
+
+TextConverter <|.. ASCIIConverter
+TextConverter <|.. TeXConverter
+TextConverter <|.. TextWidgetConverter
+
+RTFReader -right-> TextConverter
+
+Token --> TokenType
+@enduml

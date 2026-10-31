@@ -1,0 +1,23 @@
+@startuml
+interface ComputerBuilderI {
++ RAM buildRAM()
++ CPU buildCPU()
++ HardDrive buildHardDrive()
++ GraphicCard buildGraphicCard()
++ Display buildDisplay()
++ Computer buildComputer()
+}
+
+class ComputerBuilder {
+- Computer computer
++ <<Create>> ComputerBuilder()
++ RAM buildRAM()
++ CPU buildCPU()
++ HardDrive buildHardDrive()
++ GraphicCard buildGraphicCard()
++ Display buildDisplay()
++ Computer buildComputer()
+}
+
+ComputerBuilderI <|.. ComputerBuilder
+@enduml

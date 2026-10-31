@@ -1,0 +1,35 @@
+@startuml
+enum EmployeeEnum {
++  EMPLOYEE
++  MANAGER
++  DIRECTOR
+}
+
+class Employee {
+}
+
+class Manager {
+}
+
+
+class Director {
+}
+
+interface EmployeeFactory{
++ Employee create1(String)
++ Employee create2(EmployeeEnum)
+}
+
+class EmployeeFactoryImpl implements EmployeeFactory{
++ Employee create1(String)
++ Employee create2(EmployeeEnum)
+}
+
+
+Employee <|--down Manager
+Manager <|-down- Director
+
+EmployeeFactory -left-> Employee
+EmployeeFactory -left-> Manager
+EmployeeFactory --> Director
+@enduml

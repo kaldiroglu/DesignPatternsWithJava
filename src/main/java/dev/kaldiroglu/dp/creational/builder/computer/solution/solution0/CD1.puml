@@ -1,0 +1,50 @@
+@startuml
+
+interface ComputerBuilderI {
++ Computer build()
+}
+
+class BareBoneComputerBuilder {
++ Computer buildComputer()
+}
+
+class ComputerWithDisplayBuilder {
++ Computer buildComputer()
+}
+
+class FullyLoadedComputerBuilder {
++ Computer buildComputer()
+}
+
+class Computer {
+
+}
+
+class BareBoneComputer {
+
+}
+
+class FullyLoadedComputer {
+
+}
+
+class ComputerTechnician {
++ Computer produce(String computerType)
+}
+
+ComputerBuilderI <|.. BareBoneComputerBuilder
+BareBoneComputerBuilder <|.. ComputerWithDisplayBuilder
+ComputerWithDisplayBuilder <|.. FullyLoadedComputerBuilder
+
+Computer <|.. BareBoneComputer
+BareBoneComputer <|.. ComputerWithDisplay
+ComputerWithDisplay <|.. FullyLoadedComputer
+
+ComputerTechnician -right-> ComputerBuilderI
+
+ComputerBuilderI -right-> Computer
+BareBoneComputerBuilder -right-> BareBoneComputer
+ComputerWithDisplayBuilder -right-> ComputerWithDisplay
+FullyLoadedComputerBuilder -right-> FullyLoadedComputer
+
+@enduml

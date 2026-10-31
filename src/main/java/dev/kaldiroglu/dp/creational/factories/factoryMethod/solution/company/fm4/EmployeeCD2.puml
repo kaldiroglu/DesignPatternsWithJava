@@ -1,0 +1,93 @@
+@startuml
+class Manager {
+# String departmentManaged
++ {static} int MANAGEMENT_PAYMENT
++ <<Create>> Manager(int,String,int,String,String)
++ void work()
++ void manage()
++ double calculateSalary()
++ String getDepartmentManaged()
++ void printInfo()
++ String toString()
+}
+
+
+interface EmployeeFactory {
++ Employee createEmployee(String)
++ Manager createManager(String,String)
++ Director createDirector(String,String,int)
+}
+
+class HR {
+- EmployeeFactory employeeFactory
+- List<Employee> employees
++ <<Create>> HR(EmployeeFactory)
++ List<Employee> getEmployees()
++ int getNumberOfEmployees()
++ void addEmployee()
++ void addManager()
++ void addDirector()
++ void listEmployees()
+}
+
+
+class PayrollOffice {
++ void paySalary(Employee)
+}
+
+class EmployeeFactoryImpl {
++ Employee createEmployee(String)
++ Manager createManager(String,String)
++ Director createDirector(String,String,int)
+}
+
+class Director {
+# double bonus
++ <<Create>> Director(int,String,int,String,String,double)
++ void work()
++ void manage()
++ void makeAStrategicPlan()
++ double calculateSalary()
++ double getBonus()
++ void printInfo()
++ String toString()
+}
+
+
+class Employee {
+# int no
+# String name
+# int year
+# String department
+# double salary
++ {static} int BASE_SALARY
++ <<Create>> Employee(int,String,int,String)
++ void work()
++ double calculateSalary()
++ void printInfo()
++ int getNo()
++ String getName()
++ int getYear()
++ String getDepartment()
++ double getSalary()
++ String toString()
+}
+
+
+class EmployeeRandomizer {
+- {static} Random random
+- {static} String[] firstNames
+- {static} String[] departments
++ {static} int createId()
++ {static} String createName()
++ {static} String createDepartment()
++ {static} int createYear()
+}
+
+
+
+
+Employee <|-- Manager
+EmployeeFactory <|.. EmployeeFactoryImpl
+Manager <|-- Director
+@enduml

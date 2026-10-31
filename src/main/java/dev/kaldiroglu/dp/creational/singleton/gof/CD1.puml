@@ -1,0 +1,13 @@
+@startuml
+class Singleton {
+- {static} Singleton singleton
+- {static} int count
+- String name
++ {static} Singleton getInstance()
++ void printName()
+}
+
+
+Singleton --> Singleton : static
+
+@enduml

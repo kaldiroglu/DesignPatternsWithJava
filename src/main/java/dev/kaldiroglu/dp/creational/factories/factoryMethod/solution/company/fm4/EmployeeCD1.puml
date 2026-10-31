@@ -1,0 +1,16 @@
+@startuml
+
+interface EmployeeFactory {
++ Employee createEmployee(String)
++ Manager createManager(String,String)
++ Director createDirector(String,String,int)
+}
+
+class EmployeeFactoryImpl {
++ Employee createEmployee(String)
++ Manager createManager(String,String)
++ Director createDirector(String,String,int)
+}
+
+EmployeeFactory <|.. EmployeeFactoryImpl
+@enduml

@@ -1,0 +1,52 @@
+@startuml
+
+class Employee {
++ Employee(int,String,int,String)
+}
+
+class Manager {
++ Manager(int,String,int,String,String)
+}
+
+class Director {
++ Director(int,String,int,String,String,double)
+}
+
+
+interface ManagerFactory {
++ Manager create(String,String)
+}
+
+
+interface EmployeeFactory {
++ Employee create(String)
+}
+
+interface DirectorFactory {
++ Director create(String,String,int)
+}
+
+class EmployeeFactoryImpl {
++ Employee create(String)
+}
+
+class ManagerFactoryImpl {
++ Manager create(String,String)
+}
+
+class DirectorFactoryImpl {
++ Director create(String,String,int)
+}
+
+
+
+Employee <|-- Manager
+ManagerFactory <|.. ManagerFactoryImpl
+Manager <|-- Director
+EmployeeFactory <|.. EmployeeFactoryImpl
+DirectorFactory <|.. DirectorFactoryImpl
+
+ManagerFactory --> Manager
+EmployeeFactory --> Employee
+DirectorFactory --> Director
+@enduml

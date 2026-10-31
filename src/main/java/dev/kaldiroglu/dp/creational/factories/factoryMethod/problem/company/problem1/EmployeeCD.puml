@@ -1,0 +1,49 @@
+@startuml
+class Employee {
+  - no : int
+  - name : String
+  - year : int
+  - department : String
+  - salary : double
+  - type : String
+  - departmentManaged : String
+  - bonus : double
+
+  {static} BASE_SALARY : int
+  {static} MANAGEMENT_PAYMENT : int
+
+  + Employee(no : int, name : String, year : int, department : String, type : String)
+  + Employee(no : int, name : String, year : int, department : String, type : String, departmentManaged : String)
+  + Employee(no : int, name : String, year : int, department : String, type : String, departmentManaged : String, bonus : double)
+
+  + work() : void
+  + calculateSalary() : double
+  + manage() : void
+  + makeAStrategicPlan() : void
+
+  + getNo() : int
+  + getName() : String
+  + getYear() : int
+  + getDepartment() : String
+  + getSalary() : double
+  + getType() : String
+  + getDepartmentManaged() : String
+  + getBonus() : double
+  + printInfo() : void
+}
+
+class HR {
+  - employees : List<Employee>
+  + HR()
+  + getEmployees() : List<Employee>
+  + getNumberOfEmployees() : int
+  + addNewEmployee(no : int, name : String, year : int, department : String, type : String, departmentManaged : String, bonus : double) : void
+}
+
+class PayrollOffice {
+  + paySalary(employee : Employee) : void
+}
+
+HR "1" o-- "0..*" Employee
+PayrollOffice ..> Employee : uses
+@enduml

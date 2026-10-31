@@ -1,0 +1,21 @@
+@startuml
+title Account State Diagram
+
+[*] -right-> Normal : Open
+Normal --> Closed : Withdraw [balance = 0] & Close
+Normal -> Normal : Deposit, Withdraw [balance >= 0]
+Normal: openToWithdraw
+Normal: openToPayment
+Normal: openToTransfer
+
+Normal --> Negative : Withdraw [limit < balance < 0]
+Negative --> Normal : Withdraw [balance >= 0]
+Negative --> Frozen : [duration >= 90 days]
+Negative -> Negative : Deposit, Withdraw [limit < balance < 0]
+Negative: openToWithdraw
+
+Frozen -left-> Closed : [transferred to account receivables]
+Frozen --> Normal : Deposit [balance >= 0]
+
+Closed --> [*]
+@enduml

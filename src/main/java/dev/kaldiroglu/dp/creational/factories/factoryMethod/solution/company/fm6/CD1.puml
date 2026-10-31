@@ -1,0 +1,16 @@
+@startuml
+
+
+class EmployeeFactory {
++ {static} Employee createEmployee(String)
++ {static} Manager createManager(String,String)
++ {static} Director createDirector(String,String,int)
+}
+
+enum EmployeeEnum {
++  EMPLOYEE
++  MANAGER
++  DIRECTOR
+}
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+interface Factory {
+~ Account create()
+~ Account create(Customer,double)
+}
+
+class Account {
+# String iban
+# double balance
+# double credit
+# Customer owner
+- boolean openToWithdraw
+- boolean openToPayment
+- boolean openToTransfer
++ <<Create>> Account(String,double,double,Customer,boolean,boolean,boolean)
+}
+
+class AccountFactory {
+- {static} Account prototype
++ Account create()
++ Account create(Customer,double)
+}
+
+
+Cloneable <|.. Account
+Factory <|.. AccountFactory
+Factory --> Account
+@enduml

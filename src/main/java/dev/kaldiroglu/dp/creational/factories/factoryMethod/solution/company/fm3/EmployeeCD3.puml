@@ -1,0 +1,97 @@
+@startuml
+interface DirectorFactory {
++ Director create(String,String,int)
+}
+
+class Employee {
+# int no
+# String name
+# int year
+# String department
+# double salary
++ {static} int BASE_SALARY
++ <<Create>> Employee(int,String,int,String)
++ void work()
++ double calculateSalary()
++ void printInfo()
++ int getNo()
++ String getName()
++ int getYear()
++ String getDepartment()
++ double getSalary()
++ String toString()
+}
+
+
+class Manager {
+# String departmentManaged
++ {static} int MANAGEMENT_PAYMENT
++ <<Create>> Manager(int,String,int,String,String)
++ void work()
++ void manage()
++ double calculateSalary()
++ String getDepartmentManaged()
++ void printInfo()
++ String toString()
+}
+
+
+class ManagerFactoryImpl {
++ Manager create(String,String)
+}
+
+class Director {
+# double bonus
++ <<Create>> Director(int,String,int,String,String,double)
++ void work()
++ void manage()
++ void makeAStrategicPlan()
++ double calculateSalary()
++ double getBonus()
++ void printInfo()
++ String toString()
+}
+
+
+interface ManagerFactory {
++ Manager create(String,String)
+}
+
+class PayrollOffice {
++ void paySalary(Employee)
+}
+
+interface EmployeeFactory {
++ Employee create(String)
+}
+
+class HR {
+- List<Employee> employees
++ <<Create>> HR()
++ List<Employee> getEmployees()
++ int getNumberOfEmployees()
++ void addNewEmployee(Employee)
++ void listEmployees()
+}
+
+
+class Test {
++ {static} void main(String[])
+}
+
+class EmployeeFactoryImpl {
++ Employee create(String)
+}
+
+class DirectorFactoryImpl {
++ Director create(String,String,int)
+}
+
+
+
+Employee <|-- Manager
+ManagerFactory <|.. ManagerFactoryImpl
+Manager <|-- Director
+EmployeeFactory <|.. EmployeeFactoryImpl
+DirectorFactory <|.. DirectorFactoryImpl
+@enduml

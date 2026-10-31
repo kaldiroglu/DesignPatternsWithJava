@@ -1,0 +1,96 @@
+@startuml
+class Keyboard {
++ void start()
+}
+
+class Mouse {
++ void start()
+}
+
+class ROM {
+- int size
++ byte[] getOSKernelImage()
+}
+
+
+class HardDrive {
++ void start()
+}
+
+class BareBoneComputer {
+# CPU cpu
+# RAM ram
+# HardDrive hd
++ void start()
++ CPU getCpu()
++ void setCpu(CPU)
++ RAM getRam()
++ void setRam(RAM)
++ HardDrive getHd()
++ void setHd(HardDrive)
+}
+
+
+class Display {
++ void start()
+}
+
+class ComputerWithDisplay {
+# GraphicCard graphicCard
+# Display display
++ void start()
++ GraphicCard getGraphicCard()
++ void setGraphicCard(GraphicCard)
++ Display getDisplay()
++ void setDisplay(Display)
+}
+
+
+class CPU {
++ void start()
+}
+
+class BIOS {
+- ROM rom
++ void start()
+}
+
+
+class FullyLoadedComputer {
+# Mouse mouse
+# Keyboard keyboard
++ void start()
++ Mouse getMouse()
++ void setMouse(Mouse)
++ Keyboard getKeyboard()
++ void setKeyboard(Keyboard)
+}
+
+
+class GraphicCard {
++ void start()
+}
+
+class RAM {
+- BIOS bios
++ void loadOSKernelImage()
++ void loadOS()
++ void loadDrivers()
++ void startServices()
+}
+
+
+abstract class Computer {
+# String name
++ {abstract}void start()
++ String getName()
++ void setName(String)
+}
+
+
+
+
+Computer <|-- BareBoneComputer
+BareBoneComputer <|-- ComputerWithDisplay
+ComputerWithDisplay <|-- FullyLoadedComputer
+@enduml

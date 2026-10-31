@@ -1,0 +1,24 @@
+@startuml
+interface Factory {
++ Employee create()
+}
+
+class EmployeeFactory {
++ Employee create()
+}
+
+class DirectorFactory {
++ Director create()
+}
+
+
+class ManagerFactory {
++ Manager create()
+}
+
+Factory <|.. EmployeeFactory
+Factory <|.. ManagerFactory
+Factory <|.. DirectorFactory
+
+
+@enduml

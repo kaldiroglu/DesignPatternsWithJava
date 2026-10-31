@@ -1,0 +1,54 @@
+@startuml
+class EmployeeFactory {
++ Employee create(String)
+}
+
+interface Factory {
++ Employee create(String)
+}
+
+class HR {
+- List<Employee> employees
++ <<Create>> HR()
++ List<Employee> getEmployees()
++ int getNumberOfEmployees()
++ void addNewEmployee(Employee)
++ void listEmployees()
+}
+
+
+class Employee {
++ Employee(int,String,int,String)
+}
+
+class Manager {
++ Manager(int,String,int,String,String)
+}
+
+class Director {
++ Director(int,String,int,String,String,double)
+}
+
+
+class PayrollOffice {
++ void paySalary(Employee)
+}
+
+
+class ManagerFactory {
++ Manager create(String)
+}
+
+
+class DirectorFactory {
++ Director create(String)
+}
+
+
+
+Factory <|.. EmployeeFactory
+Manager <|-- Director
+Factory <|.. ManagerFactory
+Employee <|-- Manager
+Factory <|.. DirectorFactory
+@enduml

@@ -1,0 +1,98 @@
+@startuml
+left to right direction
+'top to bottom direction
+
+class Computer {
+- String name
+- CPU cpu
+- RAM ram
+- HardDrive hd
+- GraphicCard graphicCard
+- Display display
+- Keyboard keyboard
+- Mouse mouse
++ Computer()
++ Computer(String,CPU,RAM,HardDrive)
++ Computer(String,CPU,RAM,HardDrive,GraphicCard,Display)
++ Computer(String,CPU,RAM,HardDrive,GraphicCard,Display,Keyboard)
++ Computer(String,CPU,RAM,HardDrive,GraphicCard,Display,Keyboard,Mouse)
++ void start()
++ String getName()
++ void setName(String)
++ CPU getCpu()
++ void setCpu(CPU)
++ RAM getRam()
++ void setRam(RAM)
++ HardDrive getHd()
++ void setHd(HardDrive)
++ GraphicCard getGraphicCard()
++ void setGraphicCard(GraphicCard)
++ Display getDisplay()
++ void setDisplay(Display)
++ Keyboard getKeyboard()
++ void setKeyboard(Keyboard)
++ Mouse getMouse()
++ void setMouse(Mouse)
+}
+
+class CPU {
++ CPU()
++ void start()
+}
+
+class GraphicCard {
++ GraphicCard()
++ void start()
+}
+
+class HardDrive {
++ HardDrive()
++ void start()
+}
+
+class Display {
++ Display()
++ void start()
+}
+
+class Keyboard {
+Keyboard
++ void start()
+}
+
+class Mouse {
++ Mouse()
++ void start()
+}
+
+class RAM {
+- BIOS bios
++ RAM()
++ void loadOSKernelImage()
++ void loadOS()
++ void loadDrivers()
++ void startServices()
+}
+
+class BIOS {
+- ROM rom
++ BIOS()
++ void start()
+}
+
+class ROM {
+- int size
++ ROM(int)
++ byte[] getOSKernelImage()
+}
+
+Computer --> CPU
+Computer --> HardDrive
+Computer --> GraphicCard
+Computer --> Display
+Computer --> Keyboard
+Computer --> Mouse
+Computer --> RAM
+RAM --> BIOS
+BIOS --> ROM
+@enduml
