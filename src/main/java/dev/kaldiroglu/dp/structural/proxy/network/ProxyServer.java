@@ -49,7 +49,7 @@ public class ProxyServer implements Network {
         if (protocol.equals("ftp") && targetIp.startsWith("192")) {
             throw new ForbiddenAccessException("ftp to " + targetIp + " is not permitted");
         }
-        if (protocol.equals("telnet") && ip.startsWith("10")) {
+        if (protocol.equals("telnet") && ip.startsWith("10.")) {
             throw new ForbiddenAccessException("telnet from " + ip + " is not permitted");
         }
     }

@@ -88,4 +88,13 @@ class NetworkProxyTest {
         // It was YasakKardesimException, and its messages were Turkish too.
         assertEquals("ForbiddenAccessException", ForbiddenAccessException.class.getSimpleName());
     }
+
+    @Test
+    @DisplayName("the telnet rule is about the 10 network: 100.* and 101.* are not in it")
+    void anAddressThatOnlyBeginsWithTheDigitsIsAllowed() throws Exception {
+        network.telnet("100.64.0.1", "88.168.2.200");
+        network.telnet("101.2.3.4", "88.168.2.200");
+
+        assertEquals(2, gateway.telnetCalls());
+    }
 }

@@ -28,8 +28,10 @@ public class ScreeningMain {
                 class; the name is the same, the type is not. Citizen does not
                 know that its calls are screened, and RealPM screens nothing.
 
-                Two proxy kinds are at work in this one object:
-                  protection — one call was refused, and findJob never reached her
-                  virtual    — the Prime Minister did not exist until asked for""");
+                This is a protection proxy: one call was refused, and findJob never
+                reached her.
+
+                It is not yet a virtual proxy. The Prime Minister was created when
+                the first citizen was built, before any call.""");
     }
 }

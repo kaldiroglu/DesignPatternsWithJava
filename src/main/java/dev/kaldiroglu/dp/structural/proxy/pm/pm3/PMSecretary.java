@@ -7,9 +7,10 @@ package dev.kaldiroglu.dp.structural.proxy.pm.pm3;
  * caller can reach past it to the {@link RealPM}, because no caller is ever given a reference
  * to it.
  * <p>
- * The Prime Minister is also created <strong>lazily</strong>: she is not brought into
- * existence until somebody actually needs her. That is a second kind of proxy — GoF's
- * <em>virtual</em> proxy — quietly present in the same object.
+ * The Prime Minister is created the first time {@link #getPM()} is called, and
+ * {@link Citizen}'s constructor calls it. So she exists from the first citizen, before any
+ * call is made. This is not yet GoF's <em>virtual</em> proxy; {@code pm4} creates her on the
+ * first forwarded call.
  */
 public class PMSecretary {
 

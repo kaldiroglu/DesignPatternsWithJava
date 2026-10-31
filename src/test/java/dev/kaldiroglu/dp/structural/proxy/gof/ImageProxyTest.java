@@ -65,4 +65,22 @@ class ImageProxyTest {
             assertFalse(image.isImageLoaded(), "twenty images, none of them read from disk");
         }
     }
+
+    @Test
+    @DisplayName("TwentyFiguresMain prints the figures: twenty images, none read from disk")
+    void twentyFiguresMainPrintsTheFigures() {
+        var out = new java.io.ByteArrayOutputStream();
+        var original = System.out;
+        System.setOut(new java.io.PrintStream(out));
+        try {
+            TwentyFiguresMain.main(new String[0]);
+        } finally {
+            System.setOut(original);
+        }
+        String printed = out.toString();
+
+        assertTrue(printed.contains("figures in the document : 20"), printed);
+        assertTrue(printed.contains("total page height       : " + 20 * 297), printed);
+        assertTrue(printed.contains("images read from disk   : 0"), printed);
+    }
 }

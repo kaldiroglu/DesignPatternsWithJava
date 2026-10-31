@@ -96,7 +96,7 @@ class PrimeMinisterTest {
     }
 
     @Test
-    @DisplayName("the Prime Minister is not created until somebody asks — a virtual proxy too")
+    @DisplayName("the secretary creates the Prime Minister on the first getPM, and only once")
     void createdLazily() {
         var secretary = new dev.kaldiroglu.dp.structural.proxy.pm.pm3.PMSecretary();
 
@@ -173,5 +173,25 @@ class PrimeMinisterTest {
         var secretary = new dev.kaldiroglu.dp.structural.proxy.pm.pm3.PMSecretary();
         new dev.kaldiroglu.dp.structural.proxy.pm.pm3.Citizen("Ayse", secretary);
         assertTrue(secretary.hasBeenAskedForThePM());
+    }
+
+    @Test
+    @DisplayName("pm3.ScreeningMain says the Prime Minister exists before any call")
+    void screeningMainStatesWhenThePMIsCreated() {
+        var out = new java.io.ByteArrayOutputStream();
+        var original = System.out;
+        System.setOut(new java.io.PrintStream(out));
+        try {
+            dev.kaldiroglu.dp.structural.proxy.pm.pm3.ScreeningMain.main(new String[0]);
+        } finally {
+            System.setOut(original);
+        }
+        String printed = out.toString();
+
+        assertTrue(printed.contains("calls screened : 2"), printed);
+        assertTrue(printed.contains("passed on      : 1"), printed);
+        assertTrue(printed.contains("refused        : 1"), printed);
+        assertTrue(printed.contains("created when"), printed);
+        assertFalse(printed.contains("did not exist"), printed);
     }
 }
