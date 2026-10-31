@@ -122,4 +122,22 @@ class StructureTest {
         }
         return count;
     }
+
+    @Test
+    @DisplayName("bom takes the safe side: add is on Assembly, and BomComponent has no add")
+    void childManagementIsOnTheCompositeOnly() {
+        assertTrue(java.util.Arrays.stream(BomComponent.class.getDeclaredMethods())
+                .noneMatch(m -> m.getName().equals("add")));
+        assertTrue(java.util.Arrays.stream(Assembly.class.getDeclaredMethods())
+                .anyMatch(m -> m.getName().equals("add")));
+    }
+
+    @Test
+    @DisplayName("only an assembly knows its parents, so a part cannot walk up")
+    void aPartHasNoParents() {
+        assertTrue(java.util.Arrays.stream(Assembly.class.getMethods())
+                .anyMatch(m -> m.getName().equals("parents")));
+        assertTrue(java.util.Arrays.stream(Part.class.getMethods())
+                .noneMatch(m -> m.getName().equals("parents")));
+    }
 }
