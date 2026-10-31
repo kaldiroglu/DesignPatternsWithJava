@@ -1,6 +1,6 @@
 @startuml "Flyweight - Glyphs - Class Diagram"
+skinparam nodesep 20
 skinparam linetype polyline
-skinparam nodesep 30
 skinparam classAttributeIconSize 0
 hide empty members
 title Flyweight — GoF's own example: a document editor
@@ -39,7 +39,7 @@ Glyph <|-- CharacterGlyph
 Glyph <|-- Row
 Glyph <|-- Column
 
-note right of CharacterGlyph
+note bottom of CharacterGlyph
   <b>One field.</b> The character code,
   and nothing about where it is
   or how it looks.
@@ -59,6 +59,10 @@ Row o-[norank]- Glyph
 Column o-[norank]- Glyph
 GlyphFactory .[norank].> CharacterGlyph : "pools"
 GlyphFactory .[norank].> Row : "creates fresh"
-CharacterGlyph .[norank].> GlyphContext : "asks for the font"
+CharacterGlyph ..> GlyphContext : "asks for the font"
 GlyphContext o-[norank]- Font
+Glyph -[hidden]- CharacterGlyph
+Glyph -[hidden]- CharacterGlyph
+Row -[hidden]right- CharacterGlyph
+CharacterGlyph -[hidden]right- Column
 @enduml

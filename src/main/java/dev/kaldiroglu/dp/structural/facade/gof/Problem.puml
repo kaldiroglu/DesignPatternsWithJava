@@ -1,4 +1,11 @@
 @startuml Facade-Compiler-Before
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
 skinparam classAttributeIconSize 0
 skinparam nodesep 10
 skinparam ranksep 20
@@ -88,15 +95,16 @@ package "compiler subsystem" {
   Parser ..> ProgramNodeBuilder
   ProgramNodeBuilder ..> ProgramNode
   CodeGenerator o--> BytecodeStream
-  ProgramNode ..> CodeGenerator : traverse
+  ProgramNode .[norank].> CodeGenerator : traverse
 Client --> Scanner
 Client --> Parser
-Client --> ProgramNodeBuilder
+Client -[norank]-> ProgramNodeBuilder
 Client --> CodeGenerator
 Client ..> BytecodeStream
 Client ..> ProgramNode
-ProgramNode -[hidden]- BlockNode
-ProgramNode -[hidden]- ReturnNode
-CodeGenerator -[hidden]- StackMachineCodeGenerator
-CodeGenerator -[hidden]- RiscCodeGenerator
+class " " as Spacer1 <<spacer>>
+CodeGenerator -[hidden]- Spacer1
+CodeGenerator -[hidden]- Spacer1
+StackMachineCodeGenerator -[hidden]right- Spacer1
+Spacer1 -[hidden]right- RiscCodeGenerator
 @enduml

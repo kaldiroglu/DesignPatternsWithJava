@@ -1,6 +1,6 @@
 @startuml "Proxy - Prime Minister - Class Diagram"
+skinparam nodesep 20
 skinparam linetype polyline
-skinparam nodesep 70
 skinparam class {
   BackgroundColor<<spacer>> transparent
   BorderColor<<spacer>> transparent
@@ -57,7 +57,7 @@ note bottom of Citizen2
   what a proxy should make unnecessary.
 end note
 
-note bottom of Citizen3
+note top of Citizen3
   The field is <b>PM</b>, an interface now.
   In stage 1 PM was a class. Screening
   happens and this class does not know it does.
@@ -77,23 +77,14 @@ package "pm4 — protection and virtual proxy" {
   PM4 <|.. RealPM4
   PM4 <|.. ProxyPM4
 }
-
-class " " as Spacer1 <<spacer>>
-PM3 -[hidden]- Spacer1
-PM3 -[hidden]- Spacer1
-RealPM -[hidden]right- Spacer1
-Spacer1 -[hidden]right- ProxyPM
-class " " as Spacer2 <<spacer>>
-PM4 -[hidden]- Spacer2
-PM4 -[hidden]- Spacer2
-RealPM4 -[hidden]right- Spacer2
-Spacer2 -[hidden]right- ProxyPM4
-  Citizen1 -[norank]-> PM1
+  Citizen1 --> PM1
   Citizen2 -[norank]-> Proxy2
   Proxy2 -[norank]-> PM2
   ProxyPM o-[norank]-> "1" PM3
   PMSecretary .[norank].> ProxyPM : creates
   Citizen3 -[norank]-> PM3
   ProxyPM4 .[norank].> RealPM4 : creates on the first forwarded call
-  Citizen4 -[norank]-> PM4
+  Citizen4 --> PM4
+Citizen1 -[hidden]right- Citizen2
+Citizen2 -[hidden]right- Citizen3
 @enduml

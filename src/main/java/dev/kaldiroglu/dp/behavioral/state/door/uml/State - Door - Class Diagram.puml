@@ -35,13 +35,13 @@ package "pattern2 · a manager decides" {
   S2 <|.. O2
   S2 <|.. C2
 }
-D0 -[hidden]right- D1
-D1 -[hidden]right- D2
-  D1 o-[norank]-> S1
+  D1 o--> S1
   O1 .[norank].> C1 : knows
   C1 .[norank].> O1 : knows
   D2 o-[norank]-> S2
-  D2 -[norank]-> DoorStateManager
+  D2 --> DoorStateManager
   O2 -[norank]-> DoorStateManager
-  C2 -[norank]-> DoorStateManager
+  C2 --> DoorStateManager
+D0 -[hidden]right- D1
+D1 -[hidden]right- D2
 @enduml

@@ -1,5 +1,5 @@
 @startuml "Bridge - Retrofit - Class Diagram"
-skinparam nodesep 40
+skinparam nodesep 60
 skinparam class {
   BackgroundColor<<spacer>> transparent
   BorderColor<<spacer>> transparent
@@ -43,7 +43,7 @@ package "What we already have — nobody rewrites this" {
 }
 
 
-note right of RegulatoryReport
+note left of RegulatoryReport
   <b>submit</b> is the operation the regulation names.
   It exists nowhere in the engine: it is composed
   from open, pull and release.
@@ -76,8 +76,5 @@ note as N1
   That is the last size at which it does.
 end note
 RegulatoryReport o--> "engine" VendorClient
-class " " as Spacer51 <<spacer>>
-RegulatoryReport -[hidden]- Spacer51
-QuarterlyReport -[hidden]right- Spacer51
-Spacer51 -[hidden]right- AuditedReport
+
 @enduml

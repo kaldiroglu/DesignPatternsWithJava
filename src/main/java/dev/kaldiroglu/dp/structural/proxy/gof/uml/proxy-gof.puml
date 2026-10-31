@@ -1,5 +1,5 @@
 @startuml Proxy-GoF
-skinparam nodesep 40
+skinparam nodesep 20
 skinparam class {
   BackgroundColor<<spacer>> transparent
   BorderColor<<spacer>> transparent
@@ -49,7 +49,7 @@ class TextDocument {
   + layoutExtent() : Extent
   + draw(at : Point) : void
 }
-note top of TextDocument : Client (document editor)
+note bottom of TextDocument : Client (document editor)
 
 class Point <<record>> {
   + x : int
@@ -65,13 +65,8 @@ Graphic <|.. Image
 Graphic <|.. ImageProxy
 
 ImageProxy o-[norank]-> "0..1" Image : realSubject (lazy)
-TextDocument o-[norank]-> "*" Graphic : graphics
+TextDocument o--> "*" Graphic : graphics
 Graphic .[norank].> Point
 Graphic .[norank].> Extent
-Graphic -[hidden]- Image
-Graphic -[hidden]- ImageProxy
-class " " as Spacer51 <<spacer>>
-Graphic -[hidden]- Spacer51
-Image -[hidden]right- Spacer51
-Spacer51 -[hidden]right- ImageProxy
+
 @enduml

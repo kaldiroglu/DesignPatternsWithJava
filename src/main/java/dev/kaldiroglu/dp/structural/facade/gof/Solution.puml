@@ -1,8 +1,15 @@
 @startuml Facade-Compiler
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
+skinparam nodesep 40
 skinparam classAttributeIconSize 0
 skinparam backgroundColor #FEFEFE
 skinparam packageStyle rectangle
-skinparam nodesep 25
 skinparam ranksep 30
 skinparam linetype polyline
 skinparam stereotypeCBackgroundColor #E8F5E9
@@ -17,7 +24,7 @@ title GoF Compiler Example \n After Facade
 class Client <<client>> {
   + main(args)
 }
-note top of Client : uses only Compiler
+note left of Client : uses only Compiler
 
 class Compiler <<facade>> {
   + compile(source) : BytecodeStream
@@ -90,15 +97,20 @@ package "compiler subsystem" {
   Parser ..> ProgramNodeBuilder
   ProgramNodeBuilder ..> ProgramNode
   CodeGenerator o--> BytecodeStream
-  ProgramNode ..> CodeGenerator : traverse
+  ProgramNode .[norank].> CodeGenerator : traverse
 Client --> Compiler
 Compiler ..> Scanner
 Compiler ..> Parser
-Compiler ..> ProgramNodeBuilder
+Compiler .[norank].> ProgramNodeBuilder
 Compiler ..> CodeGenerator
 Compiler ..> BytecodeStream
-ProgramNode -[hidden]- BlockNode
-ProgramNode -[hidden]- ReturnNode
-CodeGenerator -[hidden]- StackMachineCodeGenerator
-CodeGenerator -[hidden]- RiscCodeGenerator
+class " " as Spacer1 <<spacer>>
+class " " as Spacer2 <<spacer>>
+class " " as Spacer3 <<spacer>>
+CodeGenerator -[hidden]- Spacer1
+CodeGenerator -[hidden]- Spacer1
+StackMachineCodeGenerator -[hidden]right- Spacer2
+Spacer2 -[hidden]right- Spacer3
+Spacer3 -[hidden]right- Spacer1
+Spacer1 -[hidden]right- RiscCodeGenerator
 @enduml

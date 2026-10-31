@@ -4,8 +4,15 @@
 ' Standalone PlantUML source; mirrors the diagram in adapter-class-diagram.md.
 
 @startuml adapter-class-diagram
+skinparam class {
+  BackgroundColor<<spacer>> transparent
+  BorderColor<<spacer>> transparent
+  FontColor<<spacer>> transparent
+}
+hide <<spacer>> stereotype
+hide <<spacer>> circle
+skinparam nodesep 20
 skinparam linetype polyline
-skinparam nodesep 30
 title Adapter (GoF p.139) — Shape / TextView / TextShape\nClass adapter (inheritance) and Object adapter (composition)
 
 skinparam classAttributeIconSize 0
@@ -83,7 +90,7 @@ Manipulator <|-- TextManipulator
 Manipulator <|-- LineManipulator
 
 
-note right of TextShape
+note bottom of TextShape
   OBJECT ADAPTER (GoF p.147)
   boundingBox() calls
   textView.getOrigin() + getExtent()
@@ -109,5 +116,12 @@ DrawingEditor .[norank].> Shape : uses
 TextShape .[norank].> TextManipulator : creates
 ClassTextShape .[norank].> TextManipulator : creates
 LineShape .[norank].> LineManipulator : creates
-BoundingBox *-[norank]- "2" Point
+BoundingBox *-- "2" Point
+class " " as Spacer1 <<spacer>>
+class " " as Spacer2 <<spacer>>
+Manipulator -[hidden]- Spacer1
+Manipulator -[hidden]- Spacer1
+TextManipulator -[hidden]right- Spacer1
+Spacer1 -[hidden]right- Spacer2
+Spacer2 -[hidden]right- LineManipulator
 @enduml

@@ -1,6 +1,6 @@
 @startuml "Strategy - Pricing (Problem) - Class Diagram"
+skinparam nodesep 40
 skinparam linetype polyline
-skinparam nodesep 70
 skinparam class {
   BackgroundColor<<spacer>> transparent
   BorderColor<<spacer>> transparent
@@ -55,8 +55,6 @@ package "stage three - a class per campaign" {
   class BlackFridayCheckout
   Checkout <|-- PlainCheckout
   Checkout <|-- StudentCheckout
-class " " as Spacer1 <<spacer>>
-Checkout -[hidden]- Spacer1
   Checkout <|-- BlackFridayCheckout
 
   class Till {
@@ -74,8 +72,6 @@ Checkout -[hidden]- Spacer1
 }
 
 ' Teaching order, left to right; Graphviz would otherwise place these by size.
-SwitchingCheckout -[hidden]right- EnumCheckout
-EnumCheckout -[hidden]right- Checkout
 
 note as N1
   All three price correctly, and each is a real improvement on the one
@@ -84,5 +80,6 @@ note as N1
 end note
 
   EnumCheckout ..> Campaign
-  Till o--> "3" Checkout
+  Till o-[norank]-> "3" Checkout
+SwitchingCheckout -[hidden]right- EnumCheckout
 @enduml

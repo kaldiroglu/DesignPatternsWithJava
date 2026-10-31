@@ -1,6 +1,6 @@
 @startuml Decorator-Middleware-Problem
+skinparam nodesep 20
 skinparam linetype polyline
-skinparam nodesep 30
 skinparam class {
   BackgroundColor<<spacer>> transparent
   BorderColor<<spacer>> transparent
@@ -57,8 +57,6 @@ package "3. a subclass per combination" {
 
   SimulatedRemotePriceFeed <|-- BasicPriceFeed
   BasicPriceFeed <|-- LoggingPriceFeed
-class " " as Spacer1 <<spacer>>
-BasicPriceFeed -[hidden]- Spacer1
   BasicPriceFeed <|-- RetryingPriceFeed
   RetryingPriceFeed <|-- RetryingLoggingPriceFeed
   RetryingLoggingPriceFeed <|-- CachingRetryingLoggingPriceFeed
@@ -67,7 +65,7 @@ BasicPriceFeed -[hidden]- Spacer1
     Inherits the retry, copies the
     logging: no multiple inheritance.
   end note
-  note right of CachingRetryingLoggingPriceFeed
+  note bottom of CachingRetryingLoggingPriceFeed
     The class name has to list both
     the concerns AND their order,
     because both are frozen into the type.
@@ -77,8 +75,6 @@ BasicPriceFeed -[hidden]- Spacer1
 
 PriceFeed <|.. FlaggedPriceFeed
 PriceFeed <|.. SimulatedRemotePriceFeed
-class " " as Spacer2 <<spacer>>
-PriceFeed -[hidden]- Spacer2
 
 class VendorPriceFeed <<final / sealed>>
 PriceFeed <|.. VendorPriceFeed
@@ -90,4 +86,8 @@ note right of VendorPriceFeed
 end note
 
 CopyPasteOrderService ..> PriceFeed
+class " " as Spacer1 <<spacer>>
+BasicPriceFeed -[hidden]- Spacer1
+RetryingPriceFeed -[hidden]right- Spacer1
+Spacer1 -[hidden]right- LoggingPriceFeed
 @enduml

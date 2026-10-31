@@ -49,25 +49,16 @@ note as N1
 
   A third implementation costs <b>+2</b>.
 end note
-
-class " " as Spacer1 <<spacer>>
-AnAbstraction -[hidden]- Spacer1
-AnAbstraction -[hidden]- Spacer1
-AnotherSubAbstraction -[hidden]right- Spacer1
-Spacer1 -[hidden]right- ASubAbstraction
-class " " as Spacer2 <<spacer>>
-ASubAbstraction -[hidden]- Spacer2
-ASubAbstraction -[hidden]- Spacer2
-AConcreteImplementation1 -[hidden]right- Spacer2
-Spacer2 -[hidden]right- AConcreteImplementation2
-class " " as Spacer3 <<spacer>>
-AnotherSubAbstraction -[hidden]- Spacer3
-AnotherSubAbstraction -[hidden]- Spacer3
-AnotherConcreteImplementation1 -[hidden]right- Spacer3
-Spacer3 -[hidden]right- AnotherConcreteImplementation2
 Client o--> "1" AnAbstraction
-class " " as Spacer66 <<spacer>>
-ASubAbstraction -[hidden]- Spacer66
-AConcreteImplementation2 -[hidden]right- Spacer66
-Spacer66 -[hidden]right- AConcreteImplementation1
+class " " as Spacer1 <<spacer>>
+ASubAbstraction -[hidden]- Spacer1
+ASubAbstraction -[hidden]- Spacer1
+AConcreteImplementation1 -[hidden]right- Spacer1
+Spacer1 -[hidden]right- AConcreteImplementation2
+class " " as Spacer2 <<spacer>>
+AnotherSubAbstraction -[hidden]- Spacer2
+AnotherSubAbstraction -[hidden]- Spacer2
+AnotherConcreteImplementation1 -[hidden]right- Spacer2
+Spacer2 -[hidden]right- AnotherConcreteImplementation2
+AConcreteImplementation2 -[hidden]right- AnotherConcreteImplementation1
 @enduml

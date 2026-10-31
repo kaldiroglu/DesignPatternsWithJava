@@ -1,6 +1,6 @@
 @startuml "Composite - Equipment - Class Diagram"
+skinparam nodesep 20
 skinparam linetype polyline
-skinparam nodesep 30
 skinparam classAttributeIconSize 0
 hide empty members
 title Composite — GoF's equipment example, where the roll-up is money
@@ -29,7 +29,7 @@ CompositeEquipment <|-- Chassis
 CompositeEquipment <|-- Cabinet
 CompositeEquipment <|-- Bus
 
-note right of CompositeEquipment
+note bottom of CompositeEquipment
   netPrice() adds up the parts.
   A cabinet holding a chassis holding
   cards answers one number, and no
@@ -37,4 +37,7 @@ note right of CompositeEquipment
 end note
 
 CompositeEquipment o-[norank]-> "*" Equipment : parts
+CompositeEquipment -[hidden]- Cabinet
+Chassis -[hidden]right- Cabinet
+Cabinet -[hidden]right- Bus
 @enduml
