@@ -14,8 +14,10 @@ the Structural deck part files, 60 classes, by calling its `main` in this JVM. E
 return normally and print the lines the slide quotes. A slide that shows code and no figure
 gets the line that shows the slide's claim. Timestamps are not asserted.
 
-It is a table written by hand. A new `· run X` label needs a new row: nothing fails if the
-row is missing.
+It is a table written by hand, so a new `· run X` label needs a new row. Nothing here can
+see the labels, because the decks are in another repository. Each Structural deck's
+`build_deck.py` reads this table and fails if a label has no row; it skips the check when this
+repository is absent.
 
 ## Run it with
 
