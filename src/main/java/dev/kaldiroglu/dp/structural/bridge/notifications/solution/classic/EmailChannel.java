@@ -11,6 +11,7 @@ import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Transports;
 public final class EmailChannel implements NotificationChannel {
 
     private final Transports transports;
+    private boolean connected;
 
     public EmailChannel(Transports transports) {
         this.transports = transports;
@@ -38,6 +39,10 @@ public final class EmailChannel implements NotificationChannel {
 
     @Override
     public boolean deliver(String address, String subject, String body) {
+        if (!connected) {
+            transports.openConnection();
+            connected = true;
+        }
         return transports.smtpSend(address, subject, body);
     }
 }

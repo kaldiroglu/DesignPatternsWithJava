@@ -12,7 +12,7 @@ public final class StageOneMain {
     }
 
     public static void main(String[] args) {
-        Console.heading("Two axes, and three ways of welding them together");
+        Console.heading("Two axes, and three designs that tie them together");
         Console.section("1. one class, a switch on each axis");
         TransportLog log = new TransportLog();
         SwitchingNotifier notifier = new SwitchingNotifier(new Transports(log));

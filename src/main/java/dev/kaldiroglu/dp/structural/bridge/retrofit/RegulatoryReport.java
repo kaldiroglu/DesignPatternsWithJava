@@ -11,8 +11,9 @@ import java.util.Objects;
  * composed from the engine's primitives — open, pull, release — none of which the regulator
  * has ever heard of.
  * <p>
- * The engine is not rewritten and not recompiled. {@link LegacyEngine#reportDirectly} still
- * works, and its callers never learn that any of this happened.
+ * The engine is not rewritten. It gains one {@code implements VendorClient} clause, so it is
+ * compiled once more, and none of its methods change. {@link LegacyEngine#reportDirectly} still
+ * works, and its callers do not change.
  */
 public abstract class RegulatoryReport {
 

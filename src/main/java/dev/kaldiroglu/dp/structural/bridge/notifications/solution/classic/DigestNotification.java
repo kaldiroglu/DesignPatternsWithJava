@@ -43,8 +43,11 @@ public final class DigestNotification extends Notification {
     public DeliveryResult flush(Recipient to) {
         String body = String.join(" | ", pending.stream().map(Message::body).toList());
         Message combined = new Message("Your digest (" + pending.size() + ")", body);
-        pending.clear();
         // fit() is inherited: whatever the channel's limit is, the digest respects it.
-        return dispatch(to, combined, 1);
+        DeliveryResult result = dispatch(to, combined, 1);
+        if (result.delivered()) {
+            pending.clear();        // a failed send keeps the messages for the next flush
+        }
+        return result;
     }
 }

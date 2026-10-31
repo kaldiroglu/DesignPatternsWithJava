@@ -118,6 +118,23 @@ class ClassicBridgeTest {
     }
 
     @Test
+    @DisplayName("a digest that fails to send keeps its messages for the next flush")
+    void aFailedFlushKeepsTheMessages() {
+        DigestNotification digest = new DigestNotification(new EmailChannel(transports));
+        digest.add(new Message("A", "first")).add(new Message("B", "second"));
+        log.failNext(1);
+
+        assertFalse(digest.flush(akin).delivered());
+        assertEquals(2, digest.pendingCount(), "nothing was delivered, so nothing is lost");
+
+        DeliveryResult second = digest.flush(akin);
+        assertTrue(second.delivered());
+        assertTrue(second.bodySent().contains("first"));
+        assertTrue(second.bodySent().contains("second"));
+        assertEquals(0, digest.pendingCount());
+    }
+
+    @Test
     @DisplayName("a new channel costs one class and works with every kind at once")
     void addingAChannelCostsOneClass() {
         // A fax channel, invented here in a dozen lines. No notification kind is touched,

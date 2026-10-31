@@ -13,7 +13,7 @@ public final class ForgottenRuleMain {
         SwitchingNotifier notifier = new SwitchingNotifier(new Transports(new TransportLog()));
         Recipient akin = Recipient.of("Akin", ChannelKind.EMAIL);
 
-        System.out.println("\n  the 160-character rule is stated in four places, so:");
+        System.out.println("\n  the 160-character rule is stated in two of the three SMS branches, so:");
         try {
             notifier.send(SwitchingNotifier.Kind.DIGEST, ChannelKind.SMS, akin, Console.longMessage());
             System.out.println("  (no error)");

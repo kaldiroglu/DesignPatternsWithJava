@@ -7,6 +7,7 @@ import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Transports;
 public final class PushChannel implements NotificationChannel {
 
     private final Transports transports;
+    private boolean connected;
 
     public PushChannel(Transports transports) {
         this.transports = transports;
@@ -34,6 +35,10 @@ public final class PushChannel implements NotificationChannel {
 
     @Override
     public boolean deliver(String address, String subject, String body) {
+        if (!connected) {
+            transports.openConnection();
+            connected = true;
+        }
         return transports.pushNotify(address, body);
     }
 }

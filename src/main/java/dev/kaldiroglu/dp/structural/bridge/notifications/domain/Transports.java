@@ -28,9 +28,13 @@ public final class Transports {
         this.log = log;
     }
 
+    /** Opens one connection to a vendor. A channel does this once, before its first send. */
+    public void openConnection() {
+        log.openConnection();
+    }
+
     /** The mail vendor's API: a subject and a body, to an address. */
     public boolean smtpSend(String emailAddress, String subject, String body) {
-        log.openConnection();
         return log.record("email", emailAddress, body);
     }
 
@@ -39,7 +43,6 @@ public final class Transports {
         if (text.length() > SMS_LIMIT) {
             throw new IllegalArgumentException("SMS over " + SMS_LIMIT + " characters");
         }
-        log.openConnection();
         return log.record("sms", phoneNumber, text);
     }
 
@@ -48,7 +51,6 @@ public final class Transports {
         if (payload.length() > PUSH_LIMIT) {
             throw new IllegalArgumentException("push payload over " + PUSH_LIMIT);
         }
-        log.openConnection();
         return log.record("push", deviceToken, payload);
     }
 }

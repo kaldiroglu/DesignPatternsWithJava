@@ -8,12 +8,13 @@ import dev.kaldiroglu.dp.structural.bridge.notifications.domain.Transports;
  * and it throws if you exceed either.
  * <p>
  * Those opinions are answered here, once, and are then true for every kind of
- * notification that ever gets written. In the {@code problem} package the same rule had to
- * be remembered at four separate call sites — and was forgotten at one of them.
+ * notification that ever gets written. In the {@code problem} package three branches send
+ * an SMS; two of them state the rule, and one forgot it.
  */
 public final class SmsChannel implements NotificationChannel {
 
     private final Transports transports;
+    private boolean connected;
 
     public SmsChannel(Transports transports) {
         this.transports = transports;
@@ -41,6 +42,10 @@ public final class SmsChannel implements NotificationChannel {
 
     @Override
     public boolean deliver(String address, String subject, String body) {
+        if (!connected) {
+            transports.openConnection();
+            connected = true;
+        }
         return transports.smsSubmit(address, body);
     }
 }

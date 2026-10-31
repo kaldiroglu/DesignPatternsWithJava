@@ -98,6 +98,21 @@ class VariationsTest {
         assertEquals(3, pooled.users());          // three abstractions, one implementor
         assertEquals(3, pooled.messagesSent());
         assertEquals(3, log.sendCount("email"));
+        assertEquals(1, log.connectionsOpened(), "three notifications, one connection");
+    }
+
+    @Test
+    @DisplayName("not shared: three notifications with their own channels open three connections")
+    void ownChannelsOpenOwnConnections() {
+        List<Notification> notifications = List.of(
+                new SimpleNotification(new EmailChannel(transports)),
+                new UrgentNotification(new EmailChannel(transports)),
+                new DigestNotification(new EmailChannel(transports)));
+
+        Recipient akin = Recipient.of("Akin", ChannelKind.EMAIL);
+        notifications.forEach(n -> n.notify(akin, SHORT));
+
+        assertEquals(3, log.connectionsOpened());
     }
 
     @Test
