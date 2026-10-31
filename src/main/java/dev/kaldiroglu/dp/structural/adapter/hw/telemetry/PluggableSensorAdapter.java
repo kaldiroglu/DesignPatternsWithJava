@@ -5,7 +5,7 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 /**
- * A <strong>pluggable adapter</strong> — GoF implementation issue 3, technique (c), p. 143.
+ * A <strong>pluggable adapter</strong> — GoF implementation issue 2 (pluggable adapters), technique (c), p. 143.
  * <p>
  * The obvious design is one adapter class per instrument: {@code FahrenheitProbeAdapter},
  * {@code KelvinThermometerAdapter}, and another next quarter. That is the "one adapter per

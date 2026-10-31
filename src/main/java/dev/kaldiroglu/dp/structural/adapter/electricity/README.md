@@ -27,7 +27,7 @@ against one toggle** — and it is where most of the lessons in this package liv
 | `powerAdapter1` | **Object adapter**, stateful, and correct |
 | `powerAdapter2` | **Object adapter**, and one that does more than translate |
 | `classAdapter` | **Class adapter** — extends the adaptee, implements the target |
-| `twoWayAdapter` | GoF implementation issue 4: an adapter that is both interfaces |
+| `twoWayAdapter` | GoF issue 3 (using two-way adapters to provide transparency): an adapter that is both interfaces |
 | `pluggable/…/abstractOperations` | Pluggable adapter, GoF technique (a) |
 | `pluggable/…/delegateObject` | Pluggable adapter, GoF technique (b) |
 | `pluggable/…/parameterized` | Pluggable adapter, GoF technique (c) |
