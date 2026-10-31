@@ -1,14 +1,17 @@
 package dev.kaldiroglu.dp.structural.flyweight.pool;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // ── The flyweight object — expensive to create ───────────────────────
 class PooledConnection implements AutoCloseable {
     private static final AtomicInteger SEQUENCE = new AtomicInteger(1);
     private final int id;
-    private boolean inUse;
+    private final ConnectionPool pool;
+    private final AtomicBoolean inUse = new AtomicBoolean();
 
-    public PooledConnection() {
+    PooledConnection(ConnectionPool pool) {
+        this.pool = pool;
         this.id = SEQUENCE.getAndIncrement();
         // Real system: TCP connect + TLS handshake + PostgreSQL auth
         System.out.println("  [pool] Created connection #" + id + " (expensive!)");
@@ -19,15 +22,16 @@ class PooledConnection implements AutoCloseable {
     }
 
     public boolean inUse() {
-        return inUse;
+        return inUse.get();
     }
 
     public void markInUse() {
-        this.inUse = true;
+        inUse.set(true);
     }
 
-    public void markFree() {
-        this.inUse = false;
+    /** Returns true only for the call that actually freed it, so a second release does nothing. */
+    public boolean markFree() {
+        return inUse.compareAndSet(true, false);
     }
 
     public String query(String sql) {
@@ -35,8 +39,9 @@ class PooledConnection implements AutoCloseable {
         return "result of '" + sql + "' via conn #" + id;
     }
 
+    /** Gives this connection back to its pool, so try-with-resources cannot leak it. */
     @Override
     public void close() {
-        markFree();
+        pool.release(this);
     }
 }

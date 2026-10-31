@@ -89,6 +89,33 @@ class PoolIsNotFlyweightTest {
         assertFalse(flyweightIsMutable, "which is why concurrent sharing is safe");
     }
 
+    @Test
+    @DisplayName("closing a borrowed connection gives it back to the pool")
+    void closeReturnsTheConnection() throws Exception {
+        Object pool = pool(1);
+
+        AutoCloseable connection = (AutoCloseable) borrow(pool, 100);
+        assertEquals(0, available(pool));
+        connection.close();
+
+        assertEquals(1, available(pool));
+        assertNotNull(borrow(pool, 100), "the next caller gets it");
+    }
+
+    @Test
+    @DisplayName("closing or releasing twice gives the connection back once")
+    void aSecondReleaseDoesNothing() throws Exception {
+        Object pool = pool(2);
+
+        AutoCloseable connection = (AutoCloseable) borrow(pool, 100);
+        connection.close();
+        connection.close();
+        release(pool, connection);
+
+        assertEquals(2, available(pool), "two connections, so never three in the queue");
+        assertNotSame(borrow(pool, 100), borrow(pool, 100), "and never to two callers at once");
+    }
+
     // ------------------------------------------------------------------ reflection helpers
     // ConnectionPool and PooledConnection are package-private, so the test reaches them the
     // only way it can without moving the demo's classes into the public API for its sake.
@@ -115,6 +142,18 @@ class PoolIsNotFlyweightTest {
         Constructor<?> constructor = poolClass().getDeclaredConstructor(int.class);
         constructor.setAccessible(true);
         return constructor.newInstance(size);
+    }
+
+    private static int available(Object pool) throws Exception {
+        Method count = poolClass().getDeclaredMethod("availableCount");
+        count.setAccessible(true);
+        return (int) count.invoke(pool);
+    }
+
+    private static void release(Object pool, Object connection) throws Exception {
+        Method release = poolClass().getDeclaredMethod("release", pooledConnectionClass());
+        release.setAccessible(true);
+        release.invoke(pool, connection);
     }
 
     private static Object borrow(Object pool, long timeoutMs) throws Exception {

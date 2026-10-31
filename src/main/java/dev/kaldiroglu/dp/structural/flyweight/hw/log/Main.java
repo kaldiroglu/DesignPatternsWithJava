@@ -6,16 +6,16 @@ import java.time.ZoneOffset;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-/** A hundred thousand log lines from three call sites. */
+/** Thirty thousand log lines from three call sites. */
 public class Main {
 
-    private static final int LINES = 100_000;
+    private static final int ROUNDS = 10_000;
 
     public static void main(String[] args) {
         Clock clock = Clock.fixed(Instant.parse("2026-07-28T09:15:00Z"), ZoneOffset.UTC);
         Logger logger = new Logger(new LogSourceRegistry(), clock);
 
-        for (int i = 0; i < LINES; i++) {
+        for (int i = 0; i < ROUNDS; i++) {
             logger.log("INFO", "orders", "OrderService", "confirm", "OrderService.java",
                     "order " + i + " confirmed");
             logger.log("WARN", "orders", "OrderService", "retry", "OrderService.java",

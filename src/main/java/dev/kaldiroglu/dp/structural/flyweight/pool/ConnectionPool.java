@@ -11,7 +11,7 @@ class ConnectionPool {
     public ConnectionPool(int size) {
         this.available = new LinkedBlockingQueue<>(size);
         for (int i = 0; i < size; i++) {
-            available.add(new PooledConnection());
+            available.add(new PooledConnection(this));
         }
         System.out.println("  [pool] Initialized with " + size + " connections\n");
     }
@@ -23,8 +23,9 @@ class ConnectionPool {
     }
 
     public void release(PooledConnection conn) {
-        conn.markFree();
-        available.add(conn);
+        if (conn.markFree()) {
+            available.add(conn);
+        }
     }
 
     public int availableCount() {

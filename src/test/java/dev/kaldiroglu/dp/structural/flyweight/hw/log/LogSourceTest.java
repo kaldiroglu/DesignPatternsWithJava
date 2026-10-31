@@ -88,4 +88,21 @@ class LogSourceTest {
         assertEquals("OrderService.confirm(OrderService.java)",
                 logger.events().get(1).source().toString());
     }
+
+    @Test
+    @DisplayName("Main prints the slide's figures: 30,000 lines and 3 source objects")
+    void mainPrintsTheSlideFigures() {
+        var out = new java.io.ByteArrayOutputStream();
+        var original = System.out;
+        System.setOut(new java.io.PrintStream(out));
+        try {
+            Main.main(new String[0]);
+        } finally {
+            System.setOut(original);
+        }
+        String printed = out.toString();
+
+        assertTrue(printed.contains("Log lines emitted        : 30,000"), printed);
+        assertTrue(printed.contains("LogSource objects held   : 3"), printed);
+    }
 }
