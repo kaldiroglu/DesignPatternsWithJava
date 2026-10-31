@@ -37,6 +37,7 @@ class SlideRunsTest {
         return Stream.of(
                 // Adapter
                 run("adapter.electricity.problem1.Main",
+                        "TurkishHomeAppliance Shaver is starting!",
                         "USPowerProvider started to provide electricity."),
                 run("adapter.electricity.powerAdapter1.Main",
                         "USTurkishPowerAdapter: Converting from USPowerSource to TurkishPowerSource",

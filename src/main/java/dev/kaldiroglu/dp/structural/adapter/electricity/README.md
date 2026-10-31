@@ -39,7 +39,7 @@ method. It works. What it costs is on the first line of its demo:
 
 ```java
 // Can't have a reference of type Appliance anymore
-TurkishHomeAppliance turkishMixer = new TurkishHomeAppliance("Mixer");
+TurkishHomeAppliance turkishShaver = new TurkishHomeAppliance("Shaver");
 ```
 
 `setUSPowerSource` is not on the `Appliance` interface, so the client has to name the
