@@ -48,3 +48,22 @@ mvn -o test -Dtest='NaiveBomTest,RollUpTest,StructureTest,CacheInvalidationTest,
 
 python3 tools/make_package_diagrams.py     # re-render the class diagrams
 ```
+
+The bill of materials prints one slide's output per class:
+
+```bash
+B=dev.kaldiroglu.dp.structural.composite.bom
+java -cp target/classes $B.problem.RightAnswersMain       # the naive totals
+java -cp target/classes $B.problem.RepeatedWalksMain      # three copies of one walk
+java -cp target/classes $B.problem.ListEntriesMain        # 85 entries walked
+java -cp target/classes $B.problem.WheelDriftMain         # $397.60 instead of $399.20
+java -cp target/classes $B.problem.NewItemMain            # a new kind of item throws
+
+java -cp target/classes $B.solution.ProductStructureMain  # the tree
+java -cp target/classes $B.solution.RollUpsMain           # one call at any level
+java -cp target/classes $B.solution.SharingMain           # two wheels, one object
+java -cp target/classes $B.solution.EngineeringChangeMain # 36 spokes per wheel
+java -cp target/classes $B.solution.ShippingEstimateMain  # a client that names one type
+java -cp target/classes $B.solution.NewItemMain           # one new class, no client edited
+java -cp target/classes $B.solution.AcyclicMain           # a cycle is refused
+```

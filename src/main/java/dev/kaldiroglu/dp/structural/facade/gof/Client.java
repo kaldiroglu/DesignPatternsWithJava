@@ -8,25 +8,20 @@ package dev.kaldiroglu.dp.structural.facade.gof;
 public final class Client {
 
 
-    public static void main(String[] args) {
-        String source = """
-                x = 3
-                y = 4
-                z = x + y - 1
-                return z
-                """;
+    static final String SOURCE = """
+            x = 3
+            y = 4
+            z = x + y - 1
+            return z
+            """;
 
+    public static void main(String[] args) {
         System.out.println("== Source ==");
-        System.out.println(source);
+        System.out.println(SOURCE);
 
         Compiler compiler = new Compiler();
 
         System.out.println("== Bytecode (stack machine — the facade's default) ==");
-        System.out.println(compiler.compile(source));
-
-        System.out.println("\n== Same source, RISC target (subsystem still reachable directly) ==");
-        BytecodeStream risc = new BytecodeStream();
-        compiler.compile(source, new RiscCodeGenerator(risc));
-        System.out.println(risc);
+        System.out.println(compiler.compile(SOURCE));
     }
 }

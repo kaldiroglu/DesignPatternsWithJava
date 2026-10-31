@@ -106,7 +106,9 @@ java -cp target/classes $P.problem.FlagsMain                  # one class, five 
 java -cp target/classes $P.problem.SubclassChainMain          # a subclass per combination
 
 java -cp target/classes $P.solution.classic.ClassicChainMain  # five decorators
-java -cp target/classes $P.solution.classic.OrderingMain      # three orderings, measured
+java -cp target/classes $P.solution.classic.LoggingOrderMain  # logging and retry, both orders
+java -cp target/classes $P.solution.classic.TimingOrderMain   # timing and cache, both orders
+java -cp target/classes $P.solution.classic.CacheRetryOrderMain # cache and retry: no difference
 java -cp target/classes $P.solution.classic.RateLimitPlacementMain
 java -cp target/classes $P.solution.classic.VendorFeedMain    # decorating a final class
 
@@ -114,6 +116,6 @@ java -cp target/classes $P.solution.functional.FunctionalMain # decorators as la
 java -cp target/classes $P.solution.fluent.FluentMain         # assembled in reading order
 ```
 
-`Main` is the composition root and calls the nine above in order; it holds no example code
+`Main` is the composition root and calls the eleven above in order; it holds no example code
 of its own. `Console` carries the headings so a single example still prints like part of
 the same programme.

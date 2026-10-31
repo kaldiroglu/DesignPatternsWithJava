@@ -119,5 +119,11 @@ added file costs exactly three recomputations.
 
 ```bash
 mvn -o test -Dtest=FileSystemCompositeTest        # 20 tests
-java -cp target/classes dev.kaldiroglu.dp.structural.composite.fileSystem.Main
+F=dev.kaldiroglu.dp.structural.composite.fileSystem
+java -cp target/classes $F.SixQuestionsMain   # the tree, and the six roll-ups
+java -cp target/classes $F.DiskReportMain     # the same questions asked of one file
+java -cp target/classes $F.CacheMain          # the cache, and the upward walk
+java -cp target/classes $F.MoveMain           # move one file
+java -cp target/classes $F.CopyMain           # a deep copy
+java -cp target/classes $F.WalkMain           # the depth-first iterator
 ```

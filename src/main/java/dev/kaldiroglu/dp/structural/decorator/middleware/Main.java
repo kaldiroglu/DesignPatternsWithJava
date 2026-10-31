@@ -3,9 +3,11 @@ package dev.kaldiroglu.dp.structural.decorator.middleware;
 import dev.kaldiroglu.dp.structural.decorator.middleware.problem.CopyPasteMain;
 import dev.kaldiroglu.dp.structural.decorator.middleware.problem.FlagsMain;
 import dev.kaldiroglu.dp.structural.decorator.middleware.problem.SubclassChainMain;
+import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.CacheRetryOrderMain;
 import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.ClassicChainMain;
-import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.OrderingMain;
+import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.LoggingOrderMain;
 import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.RateLimitPlacementMain;
+import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.TimingOrderMain;
 import dev.kaldiroglu.dp.structural.decorator.middleware.solution.classic.VendorFeedMain;
 import dev.kaldiroglu.dp.structural.decorator.middleware.solution.fluent.FluentMain;
 import dev.kaldiroglu.dp.structural.decorator.middleware.solution.functional.FunctionalMain;
@@ -31,7 +33,9 @@ public final class Main {
 
         Console.heading("THE SOLUTION — classic decorators");
         ClassicChainMain.main(args);
-        OrderingMain.main(args);
+        LoggingOrderMain.main(args);
+        TimingOrderMain.main(args);
+        CacheRetryOrderMain.main(args);
         RateLimitPlacementMain.main(args);
         VendorFeedMain.main(args);
 

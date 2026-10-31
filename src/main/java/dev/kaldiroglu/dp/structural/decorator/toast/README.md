@@ -54,15 +54,19 @@ that escaped `this` from its constructor. Both were reported by `javac -Xlint`.
 
 ```bash
 mvn -o test -Dtest='ToastProblemTest,ToastSolutionTest'
-java -cp target/classes dev.kaldiroglu.dp.structural.decorator.toast.problem.Main
-java -cp target/classes dev.kaldiroglu.dp.structural.decorator.toast.solution.Main
+java -cp target/classes dev.kaldiroglu.dp.structural.decorator.toast.solution.Main   # all four demonstrations
 plantuml -tpng uml/*.puml
 ```
 
-The solution's four demonstrations each run on their own, so none of them needs a line
-commented out to be seen alone:
+Each demonstration runs on its own, so none of them needs a line commented out to be seen
+alone:
 
 ```bash
+T=dev.kaldiroglu.dp.structural.decorator.toast.problem
+java -cp target/classes $T.MenuMain               # the menu, one class per item
+java -cp target/classes $T.CannotSellMain         # what the menu cannot sell
+java -cp target/classes $T.CombinationsMain       # a class per combination: 31
+
 S=dev.kaldiroglu.dp.structural.decorator.toast.solution
 java -cp target/classes $S.StepByStepMain         # one topping at a time
 java -cp target/classes $S.OneExpressionMain      # the same toast, as one expression

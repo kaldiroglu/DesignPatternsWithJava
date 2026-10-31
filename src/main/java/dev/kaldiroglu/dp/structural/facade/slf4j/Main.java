@@ -24,13 +24,6 @@ public final class Main {
             log.debug("Full request dump: {}", expensiveDump());
         }
         System.out.println("isDebugEnabled() = " + log.isDebugEnabled());
-
-        // Same client code, different subsystem behind the facade: rebind to the
-        // JDK's java.util.logging, then obtain a new logger.
-        System.out.println("\n== Rebinding the facade to java.util.logging ==");
-        LoggerFactory.useEngine(new JulLoggingEngine());
-        Logger jul = LoggerFactory.getLogger(Main.class);
-        jul.info("Now routed through java.util.logging - the client never changed");
     }
 
     private static String expensiveDump() {

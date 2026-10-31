@@ -40,5 +40,8 @@ same recursion.
 
 ```bash
 mvn -o test -Dtest=GraphicCompositeTest        # 7 tests
-java -cp target/classes dev.kaldiroglu.dp.structural.composite.graphic.Main
+G=dev.kaldiroglu.dp.structural.composite.graphic
+java -cp target/classes $G.DrawMain         # list the tree, then draw it
+java -cp target/classes $G.ShapeCountMain   # the roll-up across two levels
+java -cp target/classes $G.SafetyMain       # what the client must know
 ```

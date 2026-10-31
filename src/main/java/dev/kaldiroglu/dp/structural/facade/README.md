@@ -49,9 +49,11 @@ which is exactly what `hw.reporting.LeakyReportFacade` exists to show.
 mvn -o test -Dtest='CompilerFacadeTest,NotificationFacadeTest,LoggingFacadeTest,CheckoutFacadeTest,ReportFacadeTest,VideoConverterTest'
 
 java -cp target/classes dev.kaldiroglu.dp.structural.facade.gof.Client
+java -cp target/classes dev.kaldiroglu.dp.structural.facade.gof.RiscClient
 java -cp target/classes dev.kaldiroglu.dp.structural.facade.notification.problem.Client
 java -cp target/classes dev.kaldiroglu.dp.structural.facade.notification.solution2.Client
 java -cp target/classes dev.kaldiroglu.dp.structural.facade.slf4j.Main
+java -cp target/classes dev.kaldiroglu.dp.structural.facade.slf4j.RebindMain
 ```
 
 > The demo classes here are named `Client` rather than `Main`, unlike the rest of the

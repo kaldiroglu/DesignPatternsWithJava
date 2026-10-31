@@ -14,7 +14,7 @@ facade in this example. `Facade-SLF4J.png` is the rendered image.
 | **Facade** | `Logger` «facade» (interface) + `FacadeLogger` (impl) | `org.slf4j.Logger` |
 | **Facade entry point / binding** | `LoggerFactory` «facade» | `org.slf4j.LoggerFactory` + the binding jar (`ServiceLoader`) |
 | **Subsystem** | `LoggingEngine` and its backends (`ConsoleLoggingEngine`, `RecordingLoggingEngine`, `JulLoggingEngine`), plus `MessageFormatter`, `LogEvent`, `LogLevel` | Logback / Log4j 2 / `java.util.logging` + `org.slf4j.helpers.MessageFormatter` |
-| **Client** | `Main` | your application |
+| **Client** | `Main`, `RebindMain` | your application |
 
 ## How to read the relationships
 

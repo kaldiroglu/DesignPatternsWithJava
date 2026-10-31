@@ -20,11 +20,11 @@ produce identical output, so every remaining difference is a difference of desig
 gof/
 ├── uml/                  6 diagrams, .puml + .png
 ├── visual/               Canvas, TextLayout, Main
-│   ├── problem/          TextView + 4 subclasses
-│   └── solution/         VisualComponent, TextView, Decorator, Border, Scroll
+│   ├── problem/          TextView + 4 subclasses, Main
+│   └── solution/         VisualComponent, TextView, Decorator, Border, Scroll, Main
 └── stream/               Stream, Codecs, Main
-    ├── problem/          FileStream, SocketStream + 4 subclasses
-    └── solution/         FileStream, SocketStream, StreamDecorator, Compressing, ASCII7
+    ├── problem/          FileStream, SocketStream + 4 subclasses, Main
+    └── solution/         FileStream, SocketStream, StreamDecorator, Compressing, ASCII7, Main
 ```
 
 ## Example 1 — VisualComponent (Motivation, p. 175)
@@ -83,8 +83,14 @@ folding:
 ```bash
 mvn -o test -Dtest='VisualProblemTest,VisualSolutionTest,DesignComparisonTest,StreamTest'
 
-java -cp target/classes dev.kaldiroglu.dp.structural.decorator.gof.visual.Main
-java -cp target/classes dev.kaldiroglu.dp.structural.decorator.gof.stream.Main
+G=dev.kaldiroglu.dp.structural.decorator.gof
+java -cp target/classes $G.visual.problem.Main    # one subclass per combination
+java -cp target/classes $G.visual.solution.Main   # the same pictures, from two decorators
+java -cp target/classes $G.stream.problem.Main    # one subclass per pair
+java -cp target/classes $G.stream.solution.Main   # two decorators over any destination
+
+java -cp target/classes $G.visual.Main            # both designs, in order
+java -cp target/classes $G.stream.Main            # both designs, in order
 
 plantuml -tpng uml/**/*.puml
 ```

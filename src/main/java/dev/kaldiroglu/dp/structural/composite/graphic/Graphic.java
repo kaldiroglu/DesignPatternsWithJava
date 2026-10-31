@@ -8,7 +8,7 @@ package dev.kaldiroglu.dp.structural.composite.graphic;
  * you cannot call {@code addGraphic} on something that has no children, because the compiler
  * will not let you name the method. The price is that a client wanting to build a tree must
  * hold a {@code CompositeGraphic}, not a {@code Graphic} — so the cast in
- * {@link Main} is not sloppiness, it is the bill for the safety.
+ * {@link SafetyMain} is not sloppiness, it is the bill for the safety.
  */
 public interface Graphic {
 
