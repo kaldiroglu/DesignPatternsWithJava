@@ -37,7 +37,7 @@ public class NotificationFacade {
      *
      * @param user  the recipient — channels are chosen based on user profile
      * @param title subject line for email & push; SMS/Slack use body-only
-     * @param body  message content; SMS capped at 160, push truncated to 120
+     * @param body  message content; a body over 160 characters fails on SMS, push truncated to 120
      * @return which channels succeeded or failed
      */
     public NotificationResult notify(User user, String title, String body) {
@@ -53,9 +53,10 @@ public class NotificationFacade {
             }
         }
 
-        if (user.getPhone() != null && body.length() <= 160) {
+        if (user.getPhone() != null) {
             try {
-                boolean ok = sms.send(user.getPhone(), body);
+                // A body the SMS gateway cannot carry is not sent, and the result says so.
+                boolean ok = body.length() <= 160 && sms.send(user.getPhone(), body);
                 result.record("sms", ok);
                 log.record(user.getId(), "sms", ok);
             } catch (Exception e) {

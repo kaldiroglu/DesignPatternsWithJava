@@ -82,10 +82,24 @@ class NotificationFacadeTest {
                 .email("a@example.com").slack("#ops").dnd(true);
         assertFalse(facade.notify(quiet, "t", "b").getResults().containsKey("slack"));
 
-        // ... and a body over 160 characters is not sent as an SMS.
+        // ... and a body over 160 characters is not sent as an SMS, and the result says so.
         var texter = new dev.kaldiroglu.dp.structural.facade.notification.solution1.User("u-3").phone("+905550000");
-        assertFalse(facade.notify(texter, "t", "x".repeat(161)).getResults().containsKey("sms"));
-        assertTrue(facade.notify(texter, "t", "short").getResults().containsKey("sms"));
+        var tooLong = facade.notify(texter, "t", "x".repeat(161));
+        assertEquals(false, tooLong.getResults().get("sms"));
+        assertFalse(tooLong.allSucceeded(), "a message that was not sent is not a success");
+        assertEquals(true, facade.notify(texter, "t", "x".repeat(160)).getResults().get("sms"));
+    }
+
+    @Test
+    @DisplayName("solution 2 also reports an SMS it could not send as a failure")
+    void solutionTwoReportsATooLongSms() {
+        var facade = new dev.kaldiroglu.dp.structural.facade.notification.solution2.NotificationFacade(config2());
+        var texter = new dev.kaldiroglu.dp.structural.facade.notification.solution2.User("u-3").phone("+905550000");
+
+        var tooLong = facade.notify(texter, "t", "x".repeat(161));
+
+        assertEquals(false, tooLong.getResults().get("sms"));
+        assertFalse(tooLong.allSucceeded());
     }
 
     @Test

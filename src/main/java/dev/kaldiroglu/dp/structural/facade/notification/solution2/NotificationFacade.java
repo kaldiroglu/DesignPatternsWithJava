@@ -54,10 +54,10 @@ public class NotificationFacade {
             }
         }
 
-        if (channels.contains(Channel.SMS)
-                && user.getPhone() != null && body.length() <= 160) {
+        if (channels.contains(Channel.SMS) && user.getPhone() != null) {
             try {
-                boolean ok = sms.send(user.getPhone(), body);
+                // A body the SMS gateway cannot carry is not sent, and the result says so.
+                boolean ok = body.length() <= 160 && sms.send(user.getPhone(), body);
                 result.record("sms", ok);
                 log.record(user.getId(), "sms", ok);
             } catch (Exception e) {
