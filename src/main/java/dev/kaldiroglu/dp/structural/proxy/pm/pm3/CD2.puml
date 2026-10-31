@@ -15,7 +15,7 @@ interface PM{
 class ProxyPM implements PM{
   + void listen(String problem)
   + void findJob(String name)
-  - boolean worthHisTime(String problem)
+  - boolean worthHerTime(String problem)
 }
 
 class PMSecretary{

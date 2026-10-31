@@ -29,7 +29,7 @@ public class ProxyPM implements PM {
     public void listen(String problem) {
         callsScreened++;
         System.out.println("ProxyPM: let me hear it first.");
-        if (worthHisTime(problem)) {
+        if (worthHerTime(problem)) {
             callsPassedOn++;
             pm.listen(problem);
         } else {
@@ -44,7 +44,7 @@ public class ProxyPM implements PM {
         System.out.println("ProxyPM: I will see what can be done, " + name + ".");
     }
 
-    private boolean worthHisTime(String problem) {
+    private boolean worthHerTime(String problem) {
         return !problem.toLowerCase().contains("job")
                 && !problem.toLowerCase().contains("cousin");
     }
