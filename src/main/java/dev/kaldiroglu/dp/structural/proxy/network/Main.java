@@ -14,12 +14,16 @@ public class Main {
     public static void main(String[] args) {
         Network network = NetworkServer.getInstance().getNetwork();
         String myIp = "10.0.0.2";
+        Gateway gateway = Gateway.getInstance();
+
+        // The log and the counts are shared by the whole JVM, so a run starts them at zero.
+        Logger.clear();
+        gateway.resetCounts();
 
         attempt(() -> network.telnet(myIp, "88.168.2.200"));   // refused: from 10.*
         attempt(() -> network.ftp(myIp, "192.168.2.200"));     // refused: to 192.*
         attempt(() -> network.ftp(myIp, "202.168.2.200"));     // allowed
 
-        Gateway gateway = Gateway.getInstance();
         System.out.println();
         System.out.printf("requests logged by the proxy : %d%n", Logger.entries().size());
         System.out.printf("requests that reached the gateway : %d%n",

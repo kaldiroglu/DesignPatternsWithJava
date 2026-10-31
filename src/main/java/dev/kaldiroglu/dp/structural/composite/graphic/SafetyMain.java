@@ -12,6 +12,7 @@ public class SafetyMain {
 
         Graphic asComponent = display;   // a Canvas is a Graphic, so this needs no cast
         asComponent.draw();
+        System.out.println(display.shapeCount());   // 5, across two levels, no loop
 
         System.out.println();
         System.out.println("A leaf cannot be given children, and the compiler says so:");
