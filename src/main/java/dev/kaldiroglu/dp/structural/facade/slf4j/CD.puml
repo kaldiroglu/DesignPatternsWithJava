@@ -66,8 +66,8 @@ package "logging subsystem" {
   JulLoggingEngine .[norank].> "java.util.logging" : forwards to
 }
 
-Demo -[norank]-> Logger
-Demo --> LoggerFactory
+Main -[norank]-> Logger
+Main --> LoggerFactory
 Logger <|.. FacadeLogger
 LoggerFactory .[norank].> FacadeLogger : creates
 LoggerFactory o-[norank]-> LoggingEngine : current binding

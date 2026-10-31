@@ -4,8 +4,8 @@
 
 For further enquiry please contact Akin Kaldiroglu at akin@kaldiroglu.dev
 
-`facade-slf4j.puml` is a PlantUML **class diagram** of the SLF4J-style logging
-facade in this example. `Facade-SLF4J.png` is the rendered image.
+`CD.puml` is a PlantUML **class diagram** of the SLF4J-style logging
+facade in this example. The rendered image is not kept in this folder.
 
 ## What the diagram shows
 
@@ -34,5 +34,5 @@ nothing about the facade and remain usable on their own — a **transparent faca
 ## Re-render
 
 ```bash
-plantuml facade-slf4j.puml     # produces Facade-SLF4J.png
+plantuml CD.puml     # produces Facade-SLF4J.png
 ```

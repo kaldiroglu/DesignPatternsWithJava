@@ -83,7 +83,9 @@ repositories keep their own slimmer versions for the projector.
   hints and `<<spacer>>` classes set the layout: parent above and
   centered over its children, children on one row, straight lines, no colored arrows.
 - **`tools/make_package_diagrams.py` predates that layout.** Its `DIAGRAMS` text has no
-  spacer classes, so running it overwrites the layout hints in the `.puml` files it writes.
+  spacer classes, so it compares before it writes: if any `.puml` it would write differs from
+  its text, it lists those files, writes nothing and exits with 2. It refused 29 of its 45
+  files on 2026-10-31. Edit the `.puml` files directly.
 - **A `<b>` span does not survive a line break.** PlantUML closes it at end of line and the
   stray `</b>` prints literally on the image. Keep each `<b>…</b>` on one line.
 - **Graphviz places packages by content, not by declaration order.** A diagram of three
