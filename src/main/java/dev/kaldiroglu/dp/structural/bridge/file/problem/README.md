@@ -72,5 +72,7 @@ than doing arithmetic on literals.
 
 ```bash
 mvn -o test -Dtest=FileProblemTest
-java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.problem.Main
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.problem.StageOneMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.problem.StageTwoMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.problem.StageThreeMain
 ```

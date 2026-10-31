@@ -25,12 +25,16 @@ notifications/
 ├── domain/                    Recipient, Message, DeliveryResult, TransportLog,
 │                              Transports — the three vendor SDKs, as given
 ├── problem/                   SwitchingNotifier, the class-per-pair set,
-│                              EmailSender + EmailBoundUrgentNotification, and Main
+│                              EmailSender + EmailBoundUrgentNotification, and one
+│                              run per slide (StageOneMain, ForgottenRuleMain,
+│                              StageTwoMain, StageThreeMain)
 └── solution/
     ├── classic/               Notification (+3 refinements),
-    │                          NotificationChannel (+3 implementations), and Main
+    │                          NotificationChannel (+3 implementations), and
+    │                          CombinationsMain, ChannelRulesMain, SwapMain
     ├── factory/               ChannelFactory, PreferenceChannelFactory,
-    │                          NotificationService, and Main
+    │                          NotificationService, and PreferenceMain,
+    │                          KindAndChannelMain, ReRouteMain
     └── shared/                PooledChannel, and Main
 ```
 
@@ -83,9 +87,16 @@ email, 160 over SMS, 120 over push.**
 ```bash
 mvn -o test -Dtest='ProblemTest,ClassicBridgeTest,VariationsTest,DesignComparisonTest'
 
-java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.Main
-java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.problem.Main
-java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.solution.factory.Main
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.CombinationsMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.ChannelRulesMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.solution.classic.SwapMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.problem.StageOneMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.problem.ForgottenRuleMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.problem.StageTwoMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.problem.StageThreeMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.solution.factory.PreferenceMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.solution.factory.KindAndChannelMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.solution.factory.ReRouteMain
 java -cp target/classes dev.kaldiroglu.dp.structural.bridge.notifications.solution.shared.Main
 
 find uml -name "*.puml" -exec plantuml -tpng {} \;

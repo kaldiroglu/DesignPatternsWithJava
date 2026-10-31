@@ -8,7 +8,7 @@ import java.util.List;
  * Six combinations from five classes. The rules never learn which store they are writing to,
  * and the stores have never heard of retention.
  */
-public class Main {
+public class CombinationsMain {
 
     public static void main(String[] args) {
         List<FileProvider> stores = List.of(
@@ -31,15 +31,6 @@ public class Main {
                     live(insurance.versions("policy-4417"), insurance.retainedVersions()));
         }
 
-        // The move that makes it a Bridge rather than a choice made once.
-        FileManager finance = new FinanceFileManager(new EvernoteProvider());
-        finance.save("memo", "written on Evernote");
-        finance.setProvider(new FileNetProvider());
-        finance.save("memo", "written on FileNet");
-        System.out.println("The same manager object, moved between stores at run time:");
-        System.out.println("  " + finance.read("memo"));
-
-        System.out.println();
         System.out.println("2 departments + 3 stores = 5 classes, 6 combinations.");
         System.out.println("A fourth store is one class, and no retention rule is touched.");
     }

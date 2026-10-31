@@ -63,6 +63,9 @@ and future.
 ```bash
 mvn -o test -Dtest=FileBridgeTest
 mvn -o test -Dtest=FileProblemTest
-java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.Main
-java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.problem.Main
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.solution.CombinationsMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.solution.SwapMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.problem.StageOneMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.problem.StageTwoMain
+java -cp target/classes dev.kaldiroglu.dp.structural.bridge.file.problem.StageThreeMain
 ```
