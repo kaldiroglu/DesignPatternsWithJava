@@ -1,0 +1,20 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide empty members
+title Four loans, one invariant
+class LoanWithSetters {
+  + setTotalRepayment(double)
+}
+class BankLoan {
+  + BankLoan(principal, rate, months, totalRepayment)
+}
+class SecureLoan {
+  + {static} create(principal, rate, months) : SecureLoan
+}
+class LoanRecord <<record>> {
+  + totalRepayment() : double
+}
+class Term
+class ShortTerm
+Term <|-- ShortTerm
+@enduml

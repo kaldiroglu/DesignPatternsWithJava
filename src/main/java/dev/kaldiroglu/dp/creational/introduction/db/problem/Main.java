@@ -6,6 +6,7 @@ public class Main {
         // Scenario 1: Basic local development connection
         DatabaseConnection devConn = new DatabaseConnection();
         devConn.setHost("localhost");
+        devConn.setPort(3306);
         devConn.setDatabase("myapp_dev");
         devConn.setUsername("dev_user");
         devConn.setPassword("dev_pass");
@@ -47,6 +48,7 @@ public class Main {
         // Scenario 5: a setter call is forgotten, and nothing says so
         DatabaseConnection forgotten = new DatabaseConnection();
         forgotten.setHost("localhost");
+        forgotten.setPort(3306);
         forgotten.setUsername("dev_user");
         forgotten.setPassword("dev_pass");
 
