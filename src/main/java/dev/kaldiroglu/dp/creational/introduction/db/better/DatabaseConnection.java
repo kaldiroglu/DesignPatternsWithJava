@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.creational.ch01.db.better;
+package dev.kaldiroglu.dp.creational.introduction.db.better;
 
 public class DatabaseConnection {
     private final String host;
@@ -16,8 +16,6 @@ public class DatabaseConnection {
     private final boolean enableLogging;
     private final String logLevel;
     private final String timezone;
-
-    // ... existing code ...
 
     private DatabaseConnection(Builder b) {
         this.host = b.host;
@@ -158,4 +156,9 @@ public class DatabaseConnection {
     public boolean isEnableLogging() { return enableLogging; }
     public String getLogLevel() { return logLevel; }
     public String getTimezone() { return timezone; }
+
+    @Override
+    public String toString() {
+        return host + ":" + port + "/" + database + " user=" + username + " ssl=" + useSSL;
+    }
 }

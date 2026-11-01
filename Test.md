@@ -19,9 +19,16 @@ see the labels, because the decks are in another repository. Each Structural dec
 `build_deck.py` reads this table and fails if a label has no row; it skips the check when this
 repository is absent.
 
+## Creational
+
+`dev.kaldiroglu.dp.creational.SlideRunsTest` works the same way for the Creational decks.
+`creational.introduction.ChapterFiguresTest` checks the figures and behaviors that deck states:
+the field counts, the loan rules, and that the easy creation calls compile and return objects.
+
 ## Run it with
 
 ```bash
 mvn -o test -Dtest=SlideRunsTest   # the runs named on the Structural slides
+mvn -o test -Dtest='dev.kaldiroglu.dp.creational.**'   # the Creational tests
 mvn -o test                        # everything
 ```

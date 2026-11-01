@@ -1,9 +1,9 @@
-package dev.kaldiroglu.dp.creational.ch01.employee.problem;
+package dev.kaldiroglu.dp.creational.introduction.employee.problem;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Test1 {
+public class SettersMain {
     public static void main(String[] args) {
         // Example usage scenarios showing different meaningful states:
 
@@ -90,5 +90,15 @@ public class Test1 {
         rehire.setPreviousCompany("Meta"); // Where they worked between
         rehire.setSkills("Product Strategy, A/B Testing, SQL, Python");
         rehire.setManager("VP Product");
+
+        Employee forgotten = new Employee();
+
+        System.out.println(newGrad);
+        System.out.println(executive);
+        System.out.println(contractor);
+        System.out.println(intern);
+        System.out.println(international);
+        System.out.println(rehire);
+        System.out.println(forgotten);
     }
 }

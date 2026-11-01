@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.creational.ch01.employee.problem;
+package dev.kaldiroglu.dp.creational.introduction.employee.problem;
 
 import java.time.LocalDate;
 import java.math.BigDecimal;
@@ -150,6 +150,20 @@ public class Employee {
 
     public void setPreviousCompany(String previousCompany) {
         this.previousCompany = previousCompany;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " | " + employmentType + " | id=" + employeeId
+                + " | salary=" + salary;
     }
 }
 

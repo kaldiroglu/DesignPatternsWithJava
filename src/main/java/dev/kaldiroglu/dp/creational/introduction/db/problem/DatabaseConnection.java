@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.creational.ch01.db.problem;
+package dev.kaldiroglu.dp.creational.introduction.db.problem;
 
 public class DatabaseConnection {
     private String host;
@@ -79,4 +79,8 @@ public class DatabaseConnection {
     public void setLogLevel(String logLevel) { this.logLevel = logLevel; }
     public void setTimezone(String timezone) { this.timezone = timezone; }
 
+    @Override
+    public String toString() {
+        return host + ":" + port + "/" + database + " user=" + username + " ssl=" + useSSL;
+    }
 }

@@ -1,9 +1,9 @@
-package dev.kaldiroglu.dp.creational.ch01.employee.better;
+package dev.kaldiroglu.dp.creational.introduction.employee.better;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Test1 {
+public class Main {
     public static void main(String[] args) {
         // 1) Office full-time employee
         Employee officeFullTime = new Employee(

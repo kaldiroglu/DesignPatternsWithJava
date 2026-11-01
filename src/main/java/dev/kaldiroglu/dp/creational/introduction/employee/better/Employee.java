@@ -1,5 +1,6 @@
-package dev.kaldiroglu.dp.creational.ch01.employee.better;
+package dev.kaldiroglu.dp.creational.introduction.employee.better;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Employee {
@@ -35,7 +36,7 @@ public class Employee {
         }
         // remoteWorker is a primitive boolean; default is false when using no-arg WorkInfo.
 
-//        this.compensation = (compensation == null) ? new Compensation() : compensation;
+        this.compensation = (compensation == null) ? new Compensation(BigDecimal.ZERO) : compensation;
     }
 
     public PersonalInfo getPersonal() {

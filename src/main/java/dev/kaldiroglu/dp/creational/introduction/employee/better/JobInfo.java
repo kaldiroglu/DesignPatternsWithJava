@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.creational.ch01.employee.better;
+package dev.kaldiroglu.dp.creational.introduction.employee.better;
 
 import java.time.LocalDate;
 

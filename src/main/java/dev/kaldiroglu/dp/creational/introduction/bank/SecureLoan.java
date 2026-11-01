@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.creational.ch01.bank;
+package dev.kaldiroglu.dp.creational.introduction.bank;
 
 public class SecureLoan {
     private final double principal;

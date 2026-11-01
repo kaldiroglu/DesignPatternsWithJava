@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.creational.ch01.db.problem;
+package dev.kaldiroglu.dp.creational.introduction.db.problem;
 
 public class Main {
     public static void main(String[] args) {
@@ -43,5 +43,17 @@ public class Main {
         analyticsConn.setEnableLogging(true);
         analyticsConn.setLogLevel("DEBUG");
         analyticsConn.setReadTimeout(300000); // 5 minutes for long queries
+
+        // Scenario 5: a setter call is forgotten, and nothing says so
+        DatabaseConnection forgotten = new DatabaseConnection();
+        forgotten.setHost("localhost");
+        forgotten.setUsername("dev_user");
+        forgotten.setPassword("dev_pass");
+
+        System.out.println(devConn);
+        System.out.println(prodConn);
+        System.out.println(testConn);
+        System.out.println(analyticsConn);
+        System.out.println(forgotten);
     }
 }

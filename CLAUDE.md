@@ -19,7 +19,7 @@ Package root `dev.kaldiroglu.dp.<family>.<pattern>`:
 |---|---|
 | `structural` | adapter, bridge, composite, decorator, facade, flyweight, proxy |
 | `behavioral` | strategy, command, iterator, templateMethod, state, observer, visitor, chainOfResponsibility, mediator, memento |
-| `creational` | the package exists and is empty |
+| `creational` | introduction; factories, prototype, builder and singleton are not yet reviewed and tested |
 
 Inside a pattern, one folder per worked example, and inside that the shape the decks quote:
 `domain` for the shared types, `problem` (or a named naive stage) for the designs that fail,

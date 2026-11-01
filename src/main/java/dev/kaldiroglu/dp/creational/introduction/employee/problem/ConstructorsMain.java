@@ -1,9 +1,9 @@
-package dev.kaldiroglu.dp.creational.ch01.employee.problem;
+package dev.kaldiroglu.dp.creational.introduction.employee.problem;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Test2 {
+public class ConstructorsMain {
     public static void main(String[] args) {
 
         // 1) Default constructor (uses defaults: hireDate=now, employmentType="Full-time", etc.)
@@ -54,5 +54,11 @@ public class Test2 {
                 new BigDecimal("95000"),
                 "Creative Director"
         );
+
+        System.out.println(e0);
+        System.out.println(e1);
+        System.out.println(e2);
+        System.out.println(e3);
+        System.out.println(e4);
     }
 }

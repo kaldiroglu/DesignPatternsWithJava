@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.creational.ch01.db.better;
+package dev.kaldiroglu.dp.creational.introduction.db.better;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,5 +30,17 @@ public class Main {
                         .logLevel("DEBUG")
                         .readTimeout(300000) // 5 minutes for long queries
                         .build();
+
+        System.out.println(devConn);
+        System.out.println(prodConn);
+        System.out.println(testConn);
+        System.out.println(analyticsConn);
+
+        // A required value is missing, so no object is created.
+        try {
+            DatabaseConnection.builder("localhost", "", "dev_user", "dev_pass").build();
+        } catch (IllegalArgumentException e) {
+            System.out.println("Rejected: " + e.getMessage());
+        }
     }
 }
