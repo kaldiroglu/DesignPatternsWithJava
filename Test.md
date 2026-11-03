@@ -25,6 +25,14 @@ repository is absent.
 `creational.introduction.ChapterFiguresTest` checks the figures and behaviors that deck states:
 the field counts, the loan rules, and that the easy creation calls compile and return objects.
 
+`creational.factoryMethod.ChapterFiguresTest` counts the facts the Factory Method deck states from
+the code: the `new` calls in `HR`, the fields and `addX` methods per type, the factories per
+product, the `switch` cases and the `create` signatures. It also asks the compiler to reject a
+sealed `switch` that misses a kind. `creational.factoryMethod.FixedBugsTest` has one test per code
+bug fixed for that deck, and `SourceFacts` is their helper: it strips comments before a source check
+and lists a package's classes. `SlideRunsTest` has one row per `Main` in `factoryMethod`, except
+`variety1` and `variety2`, which no slide uses and which still print random values.
+
 ## Run it with
 
 ```bash

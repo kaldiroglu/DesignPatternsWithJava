@@ -1,0 +1,93 @@
+@startuml
+' begin shared style: tools/creational-uml-style.iuml
+skinparam backgroundColor transparent
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 18
+skinparam dpi 200
+skinparam roundCorner 6
+skinparam ArrowColor #334155
+skinparam ArrowFontColor #475569
+skinparam ArrowFontSize 16
+skinparam rectangle {
+  BackgroundColor #F8FAFC
+  BorderColor #6366F1
+  FontColor #0F172A
+}
+skinparam class {
+  BackgroundColor #F8FAFC
+  BorderColor #6366F1
+  BorderThickness 1.6
+  FontColor #0F172A
+  FontStyle plain
+  AttributeFontColor #475569
+  AttributeFontSize 16
+  AttributeFontStyle plain
+  StereotypeFontColor #6366F1
+  StereotypeFontSize 14
+}
+skinparam object {
+  BackgroundColor #EEF2FF
+  BorderColor #6366F1
+  BorderThickness 1.6
+  FontColor #0F172A
+}
+skinparam note {
+  BackgroundColor #FEF9C3
+  BorderColor #F59E0B
+  FontColor #0F172A
+  FontSize 16
+}
+skinparam package {
+  BackgroundColor #FFFFFF
+  BorderColor #94A3B8
+  FontColor #475569
+  FontSize 16
+}
+skinparam sequence {
+  ArrowColor #334155
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #E2E8F0
+  ParticipantBackgroundColor #F8FAFC
+  ParticipantBorderColor #6366F1
+  ParticipantFontColor #0F172A
+  ParticipantFontSize 17
+  ActorBackgroundColor #F8FAFC
+  ActorBorderColor #6366F1
+  DividerBackgroundColor #EEF2FF
+  DividerBorderColor #6366F1
+  DividerFontColor #0F172A
+  GroupBackgroundColor #EEF2FF
+}
+hide empty members
+hide circle
+' end shared style
+skinparam nodesep 40
+skinparam linetype polyline
+title stageTwo: HR calls a constructor on each class
+class Employee {
+  + work()
+  + calculateSalary() : double
+}
+class Manager {
+  + manage()
+}
+class Director {
+  + makeAStrategicPlan()
+}
+class HR {
+  + addEmployee(no, name, year, department)
+  + addManager(no, name, year, department, teamSize)
+  + addDirector(no, name, year, department, teamSize, bonus)
+}
+Employee <|-- Manager
+Manager <|-- Director
+HR .[norank].> Employee : new
+HR .[norank].> Manager : new
+HR .[norank].> Director : new
+note bottom of HR
+  HR calls new on each concrete class.
+  A new type means a new method here.
+end note
+@enduml

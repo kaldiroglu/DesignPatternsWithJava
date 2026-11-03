@@ -1,0 +1,83 @@
+@startuml
+' begin shared style: tools/creational-uml-style.iuml
+skinparam backgroundColor transparent
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 18
+skinparam dpi 200
+skinparam roundCorner 6
+skinparam ArrowColor #334155
+skinparam ArrowFontColor #475569
+skinparam ArrowFontSize 16
+skinparam rectangle {
+  BackgroundColor #F8FAFC
+  BorderColor #6366F1
+  FontColor #0F172A
+}
+skinparam class {
+  BackgroundColor #F8FAFC
+  BorderColor #6366F1
+  BorderThickness 1.6
+  FontColor #0F172A
+  FontStyle plain
+  AttributeFontColor #475569
+  AttributeFontSize 16
+  AttributeFontStyle plain
+  StereotypeFontColor #6366F1
+  StereotypeFontSize 14
+}
+skinparam object {
+  BackgroundColor #EEF2FF
+  BorderColor #6366F1
+  BorderThickness 1.6
+  FontColor #0F172A
+}
+skinparam note {
+  BackgroundColor #FEF9C3
+  BorderColor #F59E0B
+  FontColor #0F172A
+  FontSize 16
+}
+skinparam package {
+  BackgroundColor #FFFFFF
+  BorderColor #94A3B8
+  FontColor #475569
+  FontSize 16
+}
+skinparam sequence {
+  ArrowColor #334155
+  LifeLineBorderColor #94A3B8
+  LifeLineBackgroundColor #E2E8F0
+  ParticipantBackgroundColor #F8FAFC
+  ParticipantBorderColor #6366F1
+  ParticipantFontColor #0F172A
+  ParticipantFontSize 17
+  ActorBackgroundColor #F8FAFC
+  ActorBorderColor #6366F1
+  DividerBackgroundColor #EEF2FF
+  DividerBorderColor #6366F1
+  DividerFontColor #0F172A
+  GroupBackgroundColor #EEF2FF
+}
+hide empty members
+hide circle
+' end shared style
+skinparam nodesep 50
+title variety1: a concrete factory with a default, and subclasses that override it
+class HR {
+  + addEmployee()
+}
+class EmployeeFactory {
+  + create() : Employee
+}
+class ManagerFactory {
+  + create() : Manager
+}
+class DirectorFactory {
+  + create() : Director
+}
+EmployeeFactory <|-- ManagerFactory
+EmployeeFactory <|-- DirectorFactory
+HR --> EmployeeFactory
+@enduml

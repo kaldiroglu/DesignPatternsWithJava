@@ -19,7 +19,7 @@ Package root `dev.kaldiroglu.dp.<family>.<pattern>`:
 |---|---|
 | `structural` | adapter, bridge, composite, decorator, facade, flyweight, proxy |
 | `behavioral` | strategy, command, iterator, templateMethod, state, observer, visitor, chainOfResponsibility, mediator, memento |
-| `creational` | introduction; factories, prototype, builder and singleton are not yet reviewed and tested |
+| `creational` | introduction, factoryMethod; `factories/abstractFactory` holds two empty folders; prototype, builder and singleton are not yet reviewed and tested |
 
 Inside a pattern, one folder per worked example, and inside that the shape the decks quote:
 `domain` for the shared types, `problem` (or a named naive stage) for the designs that fail,
@@ -103,3 +103,7 @@ repositories keep their own slimmer versions for the projector.
 - When two packages hold the same concept, they may share a class name — `problem.Window`
   and `solution.Window`. Java resolves a partially-qualified name from the root, not
   relative to the current package, so tests referring to both need fully-qualified names.
+
+## Creational diagrams
+
+Every Creational diagram is `uml/*.puml` in its own package. Change one, or a class it shows, and run `python3 tools/make_creational_diagrams.py`: all of them are regenerated from `tools/creational-uml-style.iuml`, the same style the deck diagrams read. Old diagrams are deleted, never kept beside the new ones.
