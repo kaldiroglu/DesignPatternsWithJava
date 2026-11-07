@@ -3,7 +3,7 @@ package dev.kaldiroglu.dp.behavioral.state.elevator;
 public class GoingDownState implements ElevatorState {
 
 	public void goDown() {
-		System.out.println(":)");
+		System.out.println("Already going down.");
 	}
 
 	public void goUp() {

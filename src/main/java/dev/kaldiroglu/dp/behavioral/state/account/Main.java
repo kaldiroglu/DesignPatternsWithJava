@@ -1,9 +1,9 @@
 package dev.kaldiroglu.dp.behavioral.state.account;
 
-public class Test {
+public class Main {
 	public static void main(String[] args) {
 
-		Account account = new Account(1000, false);
+		Account account = new Account(1000);
 		account.deposit(1000);
 		account.transfer(200);
 		account.withdraw(2500);

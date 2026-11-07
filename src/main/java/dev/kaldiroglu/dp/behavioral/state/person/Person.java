@@ -1,8 +1,12 @@
 package dev.kaldiroglu.dp.behavioral.state.person;
 
-public class Person implements EmotionalState {
+/**
+ * The person forwards each greeting to the current emotional state. The caller changes the
+ * state with {@link #setEmotionalState}; the states never do.
+ */
+public class Person {
 
-	EmotionalState emotionalState;
+	private EmotionalState emotionalState;
 
 	public Person(EmotionalState emotionalState) {
 		this.emotionalState = emotionalState;

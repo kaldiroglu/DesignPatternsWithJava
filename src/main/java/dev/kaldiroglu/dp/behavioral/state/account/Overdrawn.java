@@ -45,6 +45,6 @@ public class Overdrawn implements AccountStatus {
 
 	@Override
 	public void close() {
-		System.out.println("In overdrawn state the  account can't be closed!");		
+		System.out.println("In overdrawn state the account can't be closed!");		
 	}
 }

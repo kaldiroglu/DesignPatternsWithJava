@@ -25,6 +25,10 @@ public class Active implements AccountStatus {
 				account.setStatus(new Overdrawn(account));
 			}
 		}
+		else {
+			System.out.println("Status: Active and balance: " + account.getBalance());
+			System.out.println("You can not withdraw money!");
+		}
 	}
 
 	@Override

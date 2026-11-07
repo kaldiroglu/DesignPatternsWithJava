@@ -4,10 +4,10 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * The caretaker: a thread that keeps the mementos and decides when to save and when to
- * undo. It cannot read the state inside a memento, so it reports only how many it keeps.
+ * The caretaker: it keeps the mementos and decides when to save and when to undo. It cannot
+ * read the state inside a memento, so it prints the originator instead.
  */
-public class Caretaker extends Thread{
+public class Caretaker {
 	private final Originator originator;
 	private final Deque<Originator.Memento> history = new ArrayDeque<>();
 
@@ -20,28 +20,13 @@ public class Caretaker extends Thread{
 		System.out.println("Caretaker: Saved memento " + history.size() + ": " + originator);
 	}
 
-	/** Goes back to the state saved before the last one. */
+	/** Goes back to the last saved state, and forgets that save. */
 	public void undo() {
-		if (history.size() < 2) {
-			System.err.println("Caretaker: Nothing to undo.");
+		if (history.isEmpty()) {
+			System.out.println("Caretaker: Nothing to undo.");
 			return;
 		}
-		history.pop();
-		originator.restore(history.peek());
-		System.err.println("Caretaker: Undid to memento " + history.size() + ": " + originator);
-	}
-
-	public void run() {
-		for(int i = 0; i < 10; i++) {
-			if(i != 0 && i % 5 == 0)
-				undo();
-			else
-				save();
-			try {
-				sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		originator.restore(history.pop());
+		System.out.println("Caretaker: Undid to: " + originator);
 	}
 }

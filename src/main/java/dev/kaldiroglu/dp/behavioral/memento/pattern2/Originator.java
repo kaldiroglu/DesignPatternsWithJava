@@ -8,23 +8,23 @@ package dev.kaldiroglu.dp.behavioral.memento.pattern2;
  * public {@code getState()}.
  */
 public class Originator {
-	private volatile String state;
+	private String state;
 
 	public Originator(String state) {
 		this.state = state;
 	}
 
-	public synchronized void setState(String state) {
-		System.out.println("\nNew state: " + state);
+	public void setState(String state) {
+		System.out.println("New state: " + state);
 		this.state = state;
 	}
 
-	public synchronized Memento createMemento() {
+	public Memento createMemento() {
 		return new Memento(state);
 	}
 
 	public void restore(Memento memento) {
-		setState(memento.state);
+		this.state = memento.state;
 	}
 
 	@Override

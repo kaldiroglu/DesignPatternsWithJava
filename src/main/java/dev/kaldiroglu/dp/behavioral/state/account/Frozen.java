@@ -33,7 +33,7 @@ public class Frozen implements AccountStatus {
 
 	@Override
 	public void close() {
-		System.out.println("In frozen state the  account can't be closed!");		
+		System.out.println("In frozen state the account can't be closed!");		
 	}
 
 }

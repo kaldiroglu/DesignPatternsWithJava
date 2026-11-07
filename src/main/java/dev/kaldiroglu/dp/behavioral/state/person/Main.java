@@ -1,6 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.state.person;
 
-public class Test {
+public class Main {
 	public static void main(String[] args) {
 
 		Person person = new Person(new HappyState());

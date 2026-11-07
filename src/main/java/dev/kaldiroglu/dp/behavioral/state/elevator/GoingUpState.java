@@ -7,7 +7,7 @@ public class GoingUpState implements ElevatorState {
 	}
 
 	public void goUp() {
-		System.out.println(":)");
+		System.out.println("Already going up.");
 	}
 
 	public void openDoor() {

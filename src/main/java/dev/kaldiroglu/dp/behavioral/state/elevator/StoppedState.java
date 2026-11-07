@@ -1,13 +1,14 @@
 package dev.kaldiroglu.dp.behavioral.state.elevator;
 
+/** A stopped elevator can open its door. The caller decides when it starts to move. */
 public class StoppedState implements ElevatorState {
 
 	public void goDown() {
-		System.out.println("Going down.");
+		System.out.println("Starting to go down.");
 	}
 
 	public void goUp() {
-		System.out.println("Going up.");
+		System.out.println("Starting to go up.");
 	}
 
 	public void openDoor() {
@@ -15,6 +16,6 @@ public class StoppedState implements ElevatorState {
 	}
 
 	public void stop() {
-		System.out.println(":)");
+		System.out.println("Already stopped.");
 	}
 }

@@ -25,8 +25,7 @@ public class Closed implements AccountStatus {
 
 	@Override
 	public void close() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Account is already closed!");
 	}
 
 }
