@@ -21,9 +21,14 @@ and Deniz is the CFO (200,000).
 Burak, who approves his own expense. Cem's 30,000 goes to Cem. Stages one and two send them
 to Cem and Deniz.
 
+**Repairing stage three in the table.** `SkippingLimitTable` moves to the next higher limit
+when the approver it finds is the submitter. Its answers are right, but the table now
+applies a rule that belongs to the approvers, and its loop asks one approver after another:
+a chain, kept inside the table.
+
 Each stage has its own runnable class, so a run prints only what its slide shows:
-`StageOneMain`, `StageTwoMain` and `StageThreeMain`. `StageThreeMain` marks the two
-expenses approved by the person who spent them. `SampleExpenses` holds the six expenses.
+`StageOneMain`, `StageTwoMain`, `StageThreeMain` and `SkippingTableMain`. `StageThreeMain`
+marks the two expenses approved by the person who spent them. `SampleExpenses` holds the six expenses.
 
 ## The pattern — `solution`
 
@@ -49,6 +54,7 @@ mvn -o -q compile
 java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.problem.StageOneMain
 java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.problem.StageTwoMain
 java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.problem.StageThreeMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.problem.SkippingTableMain
 
 # the pattern
 java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.solution.SixExpensesMain

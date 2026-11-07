@@ -153,4 +153,49 @@ class ProblemTest {
                 "Emre, 500000, a new office", "  stage three: no one may approve it"),
                 by(() -> StageThreeMain.main(new String[0])));
     }
+
+    private static SkippingLimitTable skippingTable() {
+        return new SkippingLimitTable()
+                .add("Elif", 1_000).add("Burak", 10_000).add("Cem", 50_000).add("Deniz", 200_000);
+    }
+
+    @Test
+    @DisplayName("the table that skips the submitter keeps the rule for all six expenses")
+    void skippingTableIsCorrect() {
+        SkippingLimitTable table = skippingTable();
+        assertEquals(THE_RULE_SAYS, SIX.stream().map(table::approve).toList());
+    }
+
+    @Test
+    @DisplayName("Burak's 5,000 goes to Cem and Cem's 30,000 goes to Deniz in the skipping table")
+    void skippingTableMovesOn() {
+        SkippingLimitTable table = skippingTable();
+        assertEquals("approved by Cem", table.approve(new Expense("Burak", 5_000, "a conference")));
+        assertEquals("approved by Deniz", table.approve(new Expense("Cem", 30_000, "a training course")));
+    }
+
+    @Test
+    @DisplayName("the skipping table applies the submitter rule itself, in a loop over the rows")
+    void skippingTableHoldsTheRuleInALoop() {
+        String code = codeOf(SOURCE + "SkippingLimitTable.java");
+        assertEquals(1, countOf(code, "while ("));
+        assertEquals(1, countOf(code, "submitter()"));
+        assertEquals(1, countOf(code, "higherEntry"));
+        for (String name : List.of("Elif", "Burak", "Cem", "Deniz")) {
+            assertEquals(0, countOf(code, name), name);
+        }
+    }
+
+    @Test
+    @DisplayName("SkippingTableMain prints the rule's answer for each of the six expenses")
+    void skippingTableMainOutput() {
+        assertEquals(List.of(
+                "Emre, 800, books", "  skipping table: approved by Elif",
+                "Emre, 5000, a laptop", "  skipping table: approved by Burak",
+                "Burak, 5000, a conference", "  skipping table: approved by Cem",
+                "Emre, 30000, a server", "  skipping table: approved by Cem",
+                "Cem, 30000, a training course", "  skipping table: approved by Deniz",
+                "Emre, 500000, a new office", "  skipping table: no one may approve it"),
+                by(() -> SkippingTableMain.main(new String[0])));
+    }
 }
