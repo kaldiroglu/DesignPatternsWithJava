@@ -1,5 +1,6 @@
 package dev.kaldiroglu.dp.behavioral.chainOfResponsibility.callCenter;
 
+/** Serves standard customers only. */
 public class StandardCallTaker extends AbstractCallTaker {
 
 	public StandardCallTaker(CallTaker next) {
@@ -15,6 +16,5 @@ public class StandardCallTaker extends AbstractCallTaker {
 		}
 		else
 			passOn(customer);
-		System.out.println();
 	}
 }

@@ -2,11 +2,8 @@ package dev.kaldiroglu.dp.behavioral.chainOfResponsibility.callCenter;
 
 public class VipCustomer extends AbstractCustomer {
 
+	@Override
 	public void askAQuestion() {
-		askAVipQuestion();
-	}
-
-	private void askAVipQuestion() {
-		System.out.println("\n*** Vip Customer: Asking a VIP question!");
+		System.out.println("VIP customer: asking a VIP question.");
 	}
 }

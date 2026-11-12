@@ -9,19 +9,12 @@ import static dev.kaldiroglu.dp.behavioral.chainOfResponsibility.Printed.by;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * The call center: standard, then gold, then VIP. The chain is built here as
- * Main.createCallTakers builds it, without the random customers.
+ * The call center: standard, then gold, then VIP. A higher desk also serves lower customers,
+ * so more than one desk may answer a call, and the order of the desks decides which one does.
  */
 class CallCenterTest {
 
-    private static CallTaker standardDesk() {
-        VipCallTaker vip = new VipCallTaker(null);
-        GoldCallTaker gold = new GoldCallTaker(vip);
-        return new StandardCallTaker(gold);
-    }
-
-    private static List<String> desksAndAnswers(Customer customer) {
-        CallTaker first = standardDesk();
+    private static List<String> desksAndAnswers(CallTaker first, Customer customer) {
         return by(() -> first.answer(customer)).stream()
                 .filter(line -> line.endsWith("received a customer.") || line.startsWith("Answer:"))
                 .toList();
@@ -32,7 +25,8 @@ class CallCenterTest {
     void standard() {
         assertEquals(List.of(
                 "StandardCallTaker received a customer.",
-                "Answer: Here is your answer!"), desksAndAnswers(new StandardCustomer()));
+                "Answer: Here is your answer!"),
+                desksAndAnswers(Main.createCallTakers(), new StandardCustomer()));
     }
 
     @Test
@@ -41,7 +35,8 @@ class CallCenterTest {
         assertEquals(List.of(
                 "StandardCallTaker received a customer.",
                 "GoldCallTaker received a customer.",
-                "Answer: Here is your GOLD answer!"), desksAndAnswers(new GoldCustomer()));
+                "Answer: Here is your GOLD answer!"),
+                desksAndAnswers(Main.createCallTakers(), new GoldCustomer()));
     }
 
     @Test
@@ -51,15 +46,30 @@ class CallCenterTest {
                 "StandardCallTaker received a customer.",
                 "GoldCallTaker received a customer.",
                 "VipCallTaker received a customer.",
-                "Answer: Here is your VIP answer!"), desksAndAnswers(new VipCustomer()));
+                "Answer: Here is your VIP answer!"),
+                desksAndAnswers(Main.createCallTakers(), new VipCustomer()));
     }
 
     @Test
-    @DisplayName("the order of the desks does not matter: with the VIP desk first, a gold customer still reaches gold")
-    void theOrderDoesNotMatter() {
-        CallTaker first = new VipCallTaker(new StandardCallTaker(new GoldCallTaker(null)));
-        List<String> lines = by(() -> first.answer(new GoldCustomer()));
-        assertTrue(lines.contains("Answer: Here is your GOLD answer!"));
+    @DisplayName("a higher desk serves lower customers: without the standard desk, gold answers a standard customer")
+    void higherDesksServeLowerCustomers() {
+        CallTaker first = new GoldCallTaker(new VipCallTaker(null));
+        assertEquals(List.of(
+                "GoldCallTaker received a customer.",
+                "Answer: Here is your GOLD answer!"), desksAndAnswers(first, new StandardCustomer()));
+        CallTaker vipOnly = new VipCallTaker(null);
+        for (Customer customer : Main.customers()) {
+            assertTrue(desksAndAnswers(vipOnly, customer).contains("Answer: Here is your VIP answer!"));
+        }
+    }
+
+    @Test
+    @DisplayName("the order matters: with the VIP desk first, it answers all three customers")
+    void theOrderMatters() {
+        List<String> lines = by(() -> VipFirstMain.main(new String[0]));
+        assertEquals(3, lines.stream().filter("Answer: Here is your VIP answer!"::equals).count());
+        assertFalse(lines.contains("GoldCallTaker received a customer."));
+        assertFalse(lines.contains("StandardCallTaker received a customer."));
     }
 
     @Test
@@ -75,5 +85,44 @@ class CallCenterTest {
     void theVipDeskIsLast() {
         VipCallTaker vip = new VipCallTaker(null);
         assertNull(vip.getNext());
+    }
+
+    @Test
+    @DisplayName("Main prints each customer reaching the first desk that serves them, one blank line per customer")
+    void mainOutput() {
+        assertEquals(List.of(
+                "StandardCallTaker received a customer.",
+                "Standard customer: asking a question.",
+                "Answer: Here is your answer!",
+                "",
+                "StandardCallTaker received a customer.",
+                "GoldCallTaker received a customer.",
+                "Gold customer: asking a GOLD question.",
+                "Answer: Here is your GOLD answer!",
+                "",
+                "StandardCallTaker received a customer.",
+                "GoldCallTaker received a customer.",
+                "VipCallTaker received a customer.",
+                "VIP customer: asking a VIP question.",
+                "Answer: Here is your VIP answer!",
+                ""), by(() -> Main.main(new String[0])));
+    }
+
+    @Test
+    @DisplayName("VipFirstMain prints the VIP desk answering all three customers")
+    void vipFirstMainOutput() {
+        assertEquals(List.of(
+                "VipCallTaker received a customer.",
+                "Standard customer: asking a question.",
+                "Answer: Here is your VIP answer!",
+                "",
+                "VipCallTaker received a customer.",
+                "Gold customer: asking a GOLD question.",
+                "Answer: Here is your VIP answer!",
+                "",
+                "VipCallTaker received a customer.",
+                "VIP customer: asking a VIP question.",
+                "Answer: Here is your VIP answer!",
+                ""), by(() -> VipFirstMain.main(new String[0])));
     }
 }

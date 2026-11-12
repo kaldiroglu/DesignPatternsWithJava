@@ -1,8 +1,8 @@
 package dev.kaldiroglu.dp.behavioral.chainOfResponsibility.callCenter;
 
-public abstract class AbstractCallTaker implements CallTaker{
-	protected CallTaker next;
-	
+public abstract class AbstractCallTaker implements CallTaker {
+	private final CallTaker next;
+
 	public AbstractCallTaker(CallTaker next) {
 		this.next = next;
 	}
