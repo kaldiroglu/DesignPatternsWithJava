@@ -73,6 +73,14 @@ class ProblemTest {
     }
 
     @Test
+    @DisplayName("stage two copies the own-expense rule into each of its four classes")
+    void stageTwoCopiesTheRuleIntoEveryClass() {
+        for (String cls : List.of("TeamLead", "Manager", "Director", "Cfo")) {
+            assertEquals(1, countOf(codeOf(SOURCE + cls + ".java"), "!expense.submitter().equals("), cls);
+        }
+    }
+
+    @Test
     @DisplayName("in stage two each approver creates the next one by class, so the order is fixed in code")
     void stageTwoFixesTheOrder() {
         assertEquals(1, countOf(codeOf(SOURCE + "TeamLead.java"), "new Manager()"));
