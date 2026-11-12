@@ -58,6 +58,14 @@ class ProblemTest {
     }
 
     @Test
+    @DisplayName("stage one repeats the own-expense rule in every one of its four branches")
+    void stageOneRepeatsTheRuleInEveryBranch() {
+        String code = codeOf(SOURCE + "ApprovalService.java");
+        assertEquals(4, countOf(code, "return \"approved by "), "four branches");
+        assertEquals(4, countOf(code, "!submitter.equals("), "the rule in each branch");
+    }
+
+    @Test
     @DisplayName("stage two keeps the rule for all six expenses")
     void stageTwoIsCorrect() {
         TeamLead lead = new TeamLead();
