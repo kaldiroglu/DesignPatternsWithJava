@@ -158,6 +158,16 @@ class ProblemTest {
     }
 
     @Test
+    @DisplayName("in stage three the limits decide the order, not the order of the add calls")
+    void stageThreeOrderComesFromTheLimits() {
+        LimitTable reversed = new LimitTable()
+                .add("Deniz", 200_000).add("Cem", 50_000).add("Burak", 10_000).add("Elif", 1_000);
+        LimitTable table = table();
+        assertEquals(SIX.stream().map(table::approve).toList(),
+                SIX.stream().map(reversed::approve).toList());
+    }
+
+    @Test
     @DisplayName("StageThreeMain marks the two expenses approved by the person who spent them")
     void stageThreeMainOutput() {
         assertEquals(List.of(
