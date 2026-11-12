@@ -7,10 +7,10 @@ import java.util.TreeMap;
  * Stage three, repaired in the table: when the approver the table finds is the submitter,
  * the table moves on to the next higher limit.
  * <p>
- * The answers are now right. But the rule "not your own expense" belongs to the approvers,
- * and here the table applies it, so every new rule about one approver is another condition
- * in {@link #approve}. And the loop asks one approver after another until one may take the
- * expense: a chain, kept inside the table.
+ * The answers are now right. But one method still decides for every approver: an approver
+ * here is only a name, so a rule for one approver puts that name in {@link #approve}. The
+ * loop walks the rows in order of limit, as a chain walks its links, but no approver decides
+ * anything.
  */
 public final class SkippingLimitTable {
 

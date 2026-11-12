@@ -22,9 +22,10 @@ Burak, who approves his own expense. Cem's 30,000 goes to Cem. Stages one and tw
 to Cem and Deniz.
 
 **Repairing stage three in the table.** `SkippingLimitTable` moves to the next higher limit
-when the approver it finds is the submitter. Its answers are right, but the table now
-applies a rule that belongs to the approvers, and its loop asks one approver after another:
-a chain, kept inside the table.
+when the approver it finds is the submitter. Its answers are right, but one method
+still decides for every approver: the approvers are only names, so a rule for one of them
+puts that name back in the method. The loop walks the rows in order of limit, as a chain
+walks its links, but no approver decides anything.
 
 Each stage has its own runnable class, so a run prints only what its slide shows:
 `StageOneMain`, `StageTwoMain`, `StageThreeMain` and `SkippingTableMain`. `StageThreeMain`
