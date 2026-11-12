@@ -1,20 +1,44 @@
 @startuml "Chain of Responsibility - Call Center - Sequence Diagram"
 hide footbox
-title A gold customer passes the standard desk and is answered by the gold desk
+title Main sends one customer of each kind; each is answered by the first desk that serves them
 participant Main
-participant "standardCT : StandardCallTaker" as S
-participant "goldCT : GoldCallTaker" as G
-participant ": GoldCustomer" as C
+participant "standard : StandardCallTaker" as S
+participant "gold : GoldCallTaker" as G
+participant "vip : VipCallTaker" as V
+participant ": StandardCustomer" as SC
+participant ": GoldCustomer" as GC
+participant ": VipCustomer" as VC
 
+== A standard customer ==
 Main -> S : answer(customer)
 activate S
-note right of S : Serves standard\ncustomers only.
+S -> SC : askAQuestion()
+S -> SC : receiveAnswer("Here is your answer!")
+deactivate S
+
+== A gold customer ==
+Main -> S : answer(customer)
+activate S
 S -> S : passOn(customer)
 S -> G : answer(customer)
 activate G
-note right of G : Serves gold and\nstandard customers.
-G -> C : askAQuestion()
-G -> C : receiveAnswer("Here is your GOLD answer!")
+G -> GC : askAQuestion()
+G -> GC : receiveAnswer("Here is your GOLD answer!")
+deactivate G
+deactivate S
+
+== A VIP customer ==
+Main -> S : answer(customer)
+activate S
+S -> S : passOn(customer)
+S -> G : answer(customer)
+activate G
+G -> G : passOn(customer)
+G -> V : answer(customer)
+activate V
+V -> VC : askAQuestion()
+V -> VC : receiveAnswer("Here is your VIP answer!")
+deactivate V
 deactivate G
 deactivate S
 @enduml

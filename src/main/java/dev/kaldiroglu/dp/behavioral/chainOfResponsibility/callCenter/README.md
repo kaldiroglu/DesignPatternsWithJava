@@ -24,8 +24,9 @@ run. `CallCenterTest` checks it line by line.
 
 ## Diagrams
 
-`uml/` holds the class diagram, and a sequence diagram of a gold customer: the standard
-desk passes the call on, and the gold desk answers it.
+`uml/` holds the class diagram, and a sequence diagram of `Main`'s three customers: the
+standard desk answers the standard customer, passes the gold customer to the gold desk, and
+the VIP customer goes on through the gold desk to the VIP desk.
 
 ## Run it with
 
