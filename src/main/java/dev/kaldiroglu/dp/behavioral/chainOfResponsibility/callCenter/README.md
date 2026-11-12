@@ -22,6 +22,11 @@ them. The order of the desks decides which desk that is.
 `Main` and `VipFirstMain` send the same three customers, so their output is the same on every
 run. `CallCenterTest` checks it line by line.
 
+## Diagrams
+
+`uml/` holds the class diagram, and a sequence diagram of a gold customer: the standard
+desk passes the call on, and the gold desk answers it.
+
 ## Run it with
 
 ```bash

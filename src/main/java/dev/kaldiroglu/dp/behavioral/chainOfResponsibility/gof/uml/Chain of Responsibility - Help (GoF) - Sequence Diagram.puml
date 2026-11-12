@@ -1,0 +1,27 @@
+@startuml "Chain of Responsibility - Help (GoF) - Sequence Diagram"
+hide footbox
+title The font button has no help topic, so the request goes up to the editor
+participant Main
+participant "font : Button" as F
+participant ": Dialog" as D
+participant "editor : Application" as A
+
+Main -> F : handleHelp()
+activate F
+F -> F : hasHelp()
+note right of F : No topic.
+F -> D : handleHelp()
+activate D
+D -> D : hasHelp()
+note right of D : No topic.
+D -> A : handleHelp()
+activate A
+A -> A : hasHelp()
+note right of A : Has a topic.
+A --> D : "Help: this is the editor.\nPress F1 on any control."
+deactivate A
+D --> F : the same answer
+deactivate D
+F --> Main : the same answer
+deactivate F
+@enduml

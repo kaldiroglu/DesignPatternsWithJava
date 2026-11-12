@@ -1,0 +1,34 @@
+@startuml "Chain of Responsibility - Expense (Solution) - Sequence Diagram"
+hide footbox
+title Burak's 5,000 for a conference goes along the chain until Cem approves it
+participant SixExpensesMain as M
+participant "audit : AuditLog" as L
+participant "Elif : Approver" as E
+participant "Burak : Approver" as B
+participant "Cem : Approver" as C
+
+M -> L : handle(expense)
+activate L
+L -> L : tryToHandle(expense)
+note right of L : Records the expense\nand returns null.
+L -> E : handle(expense)
+activate E
+E -> E : tryToHandle(expense)
+note right of E : 5,000 is above\nthe limit of 1,000.
+E -> B : handle(expense)
+activate B
+B -> B : tryToHandle(expense)
+note right of B : Burak is the submitter.
+B -> C : handle(expense)
+activate C
+C -> C : tryToHandle(expense)
+note right of C : Within 50,000,\nand not Cem's own.
+C --> B : "approved by Cem"
+deactivate C
+B --> E : "approved by Cem"
+deactivate B
+E --> L : "approved by Cem"
+deactivate E
+L --> M : "approved by Cem"
+deactivate L
+@enduml

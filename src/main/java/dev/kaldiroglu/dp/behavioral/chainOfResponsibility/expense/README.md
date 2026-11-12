@@ -45,6 +45,12 @@ marks the two expenses approved by the person who spent them. `SampleExpenses` h
 An expense of 500,000 reaches the end of the chain, and the answer is "no one may approve
 it".
 
+## Diagrams
+
+`uml/` holds the class diagrams of the problem and the solution, and a sequence diagram of
+Burak's 5,000 for a conference in the solution: the audit log records it, Elif's limit is
+too low, Burak is the submitter, and Cem approves it.
+
 ## Run it with
 
 ```bash

@@ -25,6 +25,11 @@ The chain is not a separate list of links: it is the window's own containment.
 Each package has one runnable class, `Main`. The first three controls get the same help in
 both, and the tests check that.
 
+## Diagrams
+
+`uml/` holds the class diagram, and a sequence diagram of the font button: it has no help
+topic, its dialog has none either, so the request goes up to the editor, which answers.
+
 ## Run it with
 
 ```bash

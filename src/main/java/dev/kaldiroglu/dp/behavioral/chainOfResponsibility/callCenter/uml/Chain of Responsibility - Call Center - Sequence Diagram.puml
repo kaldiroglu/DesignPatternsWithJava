@@ -1,0 +1,20 @@
+@startuml "Chain of Responsibility - Call Center - Sequence Diagram"
+hide footbox
+title A gold customer passes the standard desk and is answered by the gold desk
+participant Main
+participant "standardCT : StandardCallTaker" as S
+participant "goldCT : GoldCallTaker" as G
+participant ": GoldCustomer" as C
+
+Main -> S : answer(customer)
+activate S
+note right of S : Serves standard\ncustomers only.
+S -> S : passOn(customer)
+S -> G : answer(customer)
+activate G
+note right of G : Serves gold and\nstandard customers.
+G -> C : askAQuestion()
+G -> C : receiveAnswer("Here is your GOLD answer!")
+deactivate G
+deactivate S
+@enduml
