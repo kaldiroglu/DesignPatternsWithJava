@@ -1,0 +1,25 @@
+@startuml "Chain of Responsibility - Expense (List) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title The chain kept as a list: the list holds the order, and the loop does the passing
+class ApprovalChain {
+  - links : List<Link>
+  + then(Link) : ApprovalChain
+  + handle(Expense) : String
+}
+interface Link <<Handler>> {
+  + tryToHandle(Expense) : String
+}
+class Approver <<ConcreteHandler>> {
+  - name : String
+  - limit : int
+}
+class AuditLog <<ConcreteHandler>>
+ApprovalChain o--> "*" Link : links
+Link <|.. Approver
+Link <|.. AuditLog
+note bottom of Approver
+  No field for
+  the next handler.
+end note
+@enduml

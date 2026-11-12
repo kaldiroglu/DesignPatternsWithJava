@@ -45,11 +45,28 @@ marks the two expenses approved by the person who spent them. `SampleExpenses` h
 An expense of 500,000 reaches the end of the chain, and the answer is "no one may approve
 it".
 
+## A variation — `list`
+
+The same chain, kept as a list instead of a `next` field in each handler. `ApprovalChain`
+holds the handlers in order, and its `handle` loop asks each one in turn. `Link` has one
+method, `tryToHandle`, and no handler has a field for another handler.
+
+| Class | Role | What it does |
+|---|---|---|
+| `Link` | Handler | Answers by its own rule, or returns `null` to let the next one try |
+| `Approver`, `AuditLog` | ConcreteHandler | The same rules as in `solution` |
+| `ApprovalChain` | — | Keeps the handlers in a list, and passes the expense along it |
+| `ListChainMain` | Client | Sends the six expenses through the list; the answers are the same as the chain's |
+
+Each handler still decides by its own rule. That is the difference from
+`problem.SkippingLimitTable`, whose loop walks names and makes every decision itself.
+
 ## Diagrams
 
 `uml/` holds the class diagrams of the problem and the solution, and a sequence diagram of
 Burak's 5,000 for a conference in the solution: the audit log records it, Elif's limit is
-too low, Burak is the submitter, and Cem approves it.
+too low, Burak is the submitter, and Cem approves it. `Expense (List) - Class Diagram`
+shows the variation.
 
 ## Run it with
 
@@ -66,6 +83,9 @@ java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expen
 # the pattern
 java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.solution.SixExpensesMain
 java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.solution.AuditLogMain
+
+# the variation: the chain kept as a list
+java -cp target/classes dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.list.ListChainMain
 
 # the tests of this example
 mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.**'
