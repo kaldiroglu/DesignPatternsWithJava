@@ -4,6 +4,8 @@ import dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.problem.HelpDesk;
 import dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.solution.Application;
 import dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.solution.Button;
 import dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.solution.Dialog;
+import dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.solution.HelpHandler;
+import dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.solution.Widget;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -90,5 +92,17 @@ class HelpTest {
         for (int i = 0; i < controls.size(); i++) {
             assertTrue(lines.get(i).endsWith(desk.helpFor(controls.get(i))), controls.get(i));
         }
+    }
+
+    @Test
+    @DisplayName("the application is not a widget, so the chain needs a successor field in HelpHandler")
+    void theApplicationIsNotAWidget() {
+        assertFalse(Widget.class.isAssignableFrom(Application.class));
+        assertTrue(HelpHandler.class.isAssignableFrom(Application.class));
+        java.util.List<String> links = java.util.Arrays.stream(HelpHandler.class.getDeclaredFields())
+                .filter(f -> f.getType() == HelpHandler.class)
+                .map(java.lang.reflect.Field::getName)
+                .toList();
+        assertEquals(java.util.List.of("successor"), links);
     }
 }
