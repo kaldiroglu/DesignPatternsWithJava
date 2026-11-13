@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.parent;
 
 /**
- * A control on the screen: a window, a dialog or a button.
+ * A control on the screen: the editor, a dialog or a button.
  * <p>
  * Every widget keeps its parent, the widget that holds it. {@link #path()} uses the parent
  * to say where the widget is. {@link #handleHelp()} uses the same parent as the next link

@@ -2,7 +2,7 @@ package dev.kaldiroglu.dp.behavioral.chainOfResponsibility.gof.parent;
 
 import java.util.List;
 
-/** Builds the editor's window and asks three buttons for help. Each line shows where the button is, then its help. */
+/** Creates the editor, its dialogs and three buttons, and asks each button for help. Each line shows where the button is, then its help. */
 public final class Main {
 
     public static void main(String[] args) {
