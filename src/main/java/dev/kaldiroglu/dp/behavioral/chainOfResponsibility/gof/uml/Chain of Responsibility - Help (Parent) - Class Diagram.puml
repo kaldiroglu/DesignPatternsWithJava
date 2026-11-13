@@ -1,0 +1,17 @@
+@startuml "Chain of Responsibility - Help (Parent) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Help through the parent field — GoF implementation issue 1, "use existing links"
+class Widget {
+  - parent : Widget
+  - name : String
+  - topic : String
+  + path() : String
+  + handleHelp() : String
+}
+Widget --> "0..1" Widget : parent
+note right of Widget
+  <b>path()</b> follows parent to say where the widget is.
+  <b>handleHelp()</b> follows the same parent to pass help on.
+end note
+@enduml
