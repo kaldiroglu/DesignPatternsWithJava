@@ -12,4 +12,9 @@ public final class Game {
     public void load(Player player) {
         player.restoreFrom(checkpoint);
     }
+
+    /** The load screen: the game reads the save, because the save is a whole Player. */
+    public String loadScreen() {
+        return "Saved game: " + checkpoint;
+    }
 }

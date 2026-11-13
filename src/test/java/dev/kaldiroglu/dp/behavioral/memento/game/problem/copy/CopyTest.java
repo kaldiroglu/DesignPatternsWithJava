@@ -3,6 +3,10 @@ package dev.kaldiroglu.dp.behavioral.memento.game.problem.copy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.List;
 
 import static dev.kaldiroglu.dp.behavioral.memento.Methods.publicSettersOf;
@@ -43,6 +47,26 @@ class CopyTest {
     @DisplayName("stage three keeps the rules: the player has no public setters")
     void noPublicSetters() {
         assertEquals(0, publicSettersOf(Player.class).size());
+    }
+
+    @Test
+    @DisplayName("the game keeps a whole Player, so every public method of Player works on the save")
+    void theSaveIsAWholePlayer() throws NoSuchFieldException {
+        Field checkpoint = Game.class.getDeclaredField("checkpoint");
+        assertEquals(Player.class, checkpoint.getType());
+        List<String> methods = Arrays.stream(Player.class.getDeclaredMethods())
+                .filter(m -> Modifier.isPublic(m.getModifiers()))
+                .map(Method::getName)
+                .sorted()
+                .toList();
+        assertEquals(List.of("drop", "moveTo", "pickUp", "restoreFrom", "takeDamage", "toString"), methods);
+    }
+
+    @Test
+    @DisplayName("the load screen reads the save: health, position and inventory")
+    void theGameReadsTheSave() {
+        assertEquals(List.of("Saved game: health 100, at bridge, carrying [sword, shield]"),
+                by(() -> ReadTheSaveMain.main(new String[0])));
     }
 
     @Test

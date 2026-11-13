@@ -31,6 +31,8 @@ package "stage three" {
   note bottom of P3
     <b>The copy shares the inventory list.</b>
     The checkpoint changes with the player.
+    <b>The save is a whole Player.</b>
+    The game can read and change it.
   end note
 }
 P1 -[hidden]right- P2

@@ -6,10 +6,16 @@ import java.util.List;
 /**
  * Stage three: the player can make a copy of itself, and take its values back from a copy.
  * <p>
- * The game keeps the copies, so the player has no save slots, and nothing outside sees the
- * fields. But the copy constructor copies the reference to the inventory list, not the list:
- * the copy and the player share one list. Whatever the player picks up or drops after the
- * checkpoint, the checkpoint picks up or drops too.
+ * The game keeps the copies, so the player has no save slots and no public setters. Two
+ * things go wrong.
+ * <ul>
+ *   <li>The copy constructor copies the reference to the inventory list, not the list: the
+ *       copy and the player share one list. Whatever the player picks up or drops after the
+ *       checkpoint, the checkpoint picks up or drops too. Copying the list fixes this.</li>
+ *   <li>The checkpoint is a whole {@code Player}, so whoever keeps it can call every public
+ *       method on it: {@code toString()} reads the save, and {@code pickUp} changes it.
+ *       Copying the list does not fix this.</li>
+ * </ul>
  */
 public final class Player {
 
@@ -43,10 +49,11 @@ public final class Player {
         inventory.remove(item);
     }
 
+    /** Takes the values back from a copy, field by field, as the copy constructor does. */
     public void restoreFrom(Player copy) {
         this.health = copy.health;
         this.position = copy.position;
-        this.inventory = new ArrayList<>(copy.inventory);
+        this.inventory = copy.inventory;
     }
 
     @Override
