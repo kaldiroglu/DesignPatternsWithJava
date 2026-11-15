@@ -10,6 +10,7 @@ public final class Main {
         Graphic a = new Graphic("A", 0);
         Graphic b = new Graphic("B", 100);
         ConstraintSolver solver = new ConstraintSolver(a, b);
+
         MoveCommand move = new MoveCommand(solver, b, -60);
 
         System.out.println("At the start: " + solver.line());
