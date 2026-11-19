@@ -1,8 +1,8 @@
 package dev.kaldiroglu.dp.behavioral.chainOfResponsibility.expense.solution;
 
 /**
- * Sends the six expenses into the chain, with the audit log at the front. The audit log sees
- * every one, including the one nobody may approve.
+ * Sends the six expenses into the chain, with the audit log at the front, and prints each
+ * answer. The audit log sees every one, including the one nobody may approve.
  */
 public final class AuditLogMain {
 

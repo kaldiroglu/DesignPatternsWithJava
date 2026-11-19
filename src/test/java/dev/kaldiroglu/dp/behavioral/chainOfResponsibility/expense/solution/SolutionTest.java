@@ -153,9 +153,16 @@ class SolutionTest {
     }
 
     @Test
-    @DisplayName("AuditLogMain prints that the audit log saw all 6 expenses")
+    @DisplayName("AuditLogMain prints each expense and its answer, then that the audit log saw all 6")
     void auditLogMainOutput() {
-        assertEquals(List.of("The audit log saw 6 expenses."),
+        assertEquals(List.of(
+                "Expense info: by Emre amount: 800 --> approved by Elif",
+                "Expense info: by Emre amount: 5000 --> approved by Burak",
+                "Expense info: by Burak amount: 5000 --> approved by Cem",
+                "Expense info: by Emre amount: 30000 --> approved by Cem",
+                "Expense info: by Cem amount: 30000 --> approved by Deniz",
+                "Expense info: by Emre amount: 500000 --> no one may approve it",
+                "The audit log saw 6 expenses."),
                 by(() -> AuditLogMain.main(new String[0])));
     }
 }
