@@ -9,8 +9,8 @@ public class Main {
 
 		GuiComponentMemento saved = window.createMemento();
 
-		window.setX(20);
-		window.setLength(40);
+		window.moveTo(20, 0);
+		window.resize(40, 10);
 		System.out.println(window);
 
 		window.restore(saved);

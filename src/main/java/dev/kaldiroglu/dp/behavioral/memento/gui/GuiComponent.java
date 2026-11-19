@@ -19,39 +19,15 @@ public class GuiComponent {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
+	/** Moves the window. The only way to change its position. */
+	public void moveTo(int x, int y) {
 		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
 		this.y = y;
 	}
 
-	public int getLength() {
-		return length;
-	}
-
-	public void setLength(int length) {
+	/** Changes the window's size. The only way to change its length and width. */
+	public void resize(int length, int width) {
 		this.length = length;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
 		this.width = width;
 	}
 

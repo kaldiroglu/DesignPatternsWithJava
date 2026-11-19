@@ -4,6 +4,8 @@ hide empty members
 title A GUI component that saves its state in a memento
 class GuiComponent <<Originator>> {
   - x, y, length, width
+  + moveTo(x, y)
+  + resize(length, width)
   + createMemento() : GuiComponentMemento
   + restore(GuiComponentMemento)
 }

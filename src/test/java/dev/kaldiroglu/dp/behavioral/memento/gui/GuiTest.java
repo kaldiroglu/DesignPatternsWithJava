@@ -8,6 +8,7 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 
+import static dev.kaldiroglu.dp.behavioral.memento.Methods.publicSettersOf;
 import static dev.kaldiroglu.dp.behavioral.memento.Printed.by;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,8 +20,8 @@ class GuiTest {
     void restoreGoesBackToTheSavedState() {
         GuiComponent window = new GuiComponent("window", 0, 0, 20, 10);
         GuiComponentMemento saved = window.createMemento();
-        window.setX(20);
-        window.setLength(40);
+        window.moveTo(20, 0);
+        window.resize(40, 10);
 
         window.restore(saved);
 
@@ -32,14 +33,26 @@ class GuiTest {
     void twoMementos() {
         GuiComponent window = new GuiComponent("window", 0, 0, 20, 10);
         GuiComponentMemento first = window.createMemento();
-        window.setX(20);
+        window.moveTo(20, 0);
         GuiComponentMemento second = window.createMemento();
-        window.setX(40);
+        window.moveTo(40, 0);
 
         window.restore(first);
-        assertEquals(0, window.getX());
+        assertEquals("GuiComponent [name=window, x=0, y=0, length=20, width=10]", window.toString());
         window.restore(second);
-        assertEquals(20, window.getX());
+        assertEquals("GuiComponent [name=window, x=20, y=0, length=20, width=10]", window.toString());
+    }
+
+    @Test
+    @DisplayName("the window has no public setters: it changes only through moveTo and resize")
+    void noPublicSetters() {
+        assertEquals(List.of(), publicSettersOf(GuiComponent.class));
+        List<String> publicMethods = Arrays.stream(GuiComponent.class.getDeclaredMethods())
+                .filter(m -> Modifier.isPublic(m.getModifiers()))
+                .map(Method::getName)
+                .sorted()
+                .toList();
+        assertEquals(List.of("createMemento", "getName", "moveTo", "resize", "restore", "toString"), publicMethods);
     }
 
     @Test
