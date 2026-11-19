@@ -8,7 +8,7 @@ import java.util.List;
  * every field back.
  * <p>
  * So every field needs a public getter and a public setter. Now any code can call
- * {@code setHealth(999)} — the rule "health only changes through damage and healing" is
+ * {@code setHealth(999)} — the rule "health only changes through damage" is
  * gone. And the game's save code lists the fields one by one, so a field added later is not
  * saved until someone remembers to add it there too.
  */

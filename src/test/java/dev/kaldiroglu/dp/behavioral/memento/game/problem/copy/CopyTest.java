@@ -44,6 +44,43 @@ class CopyTest {
     }
 
     @Test
+    @DisplayName("the step table: the checkpoint's inventory changes with the player's, its health and place do not")
+    void theStepTable() {
+        Player player = new Player();
+        Game game = new Game();
+        player.pickUp("sword");
+        player.pickUp("shield");
+        player.moveTo("bridge");
+        game.checkpoint(player);
+        assertEquals("health 100, at bridge, carrying [sword, shield]", player.toString());
+        assertEquals("Saved game: health 100, at bridge, carrying [sword, shield]", game.loadScreen());
+
+        player.drop("sword");
+        player.pickUp("potion");
+        assertEquals("health 100, at bridge, carrying [shield, potion]", player.toString());
+        assertEquals("Saved game: health 100, at bridge, carrying [shield, potion]", game.loadScreen());
+
+        player.moveTo("cave");
+        player.takeDamage(100);
+        assertEquals("health 0, at cave, carrying [shield, potion]", player.toString());
+        assertEquals("Saved game: health 100, at bridge, carrying [shield, potion]", game.loadScreen());
+
+        game.load(player);
+        assertEquals("health 100, at bridge, carrying [shield, potion]", player.toString());
+    }
+
+    @Test
+    @DisplayName("whoever holds the save can change it: pickUp(\"potion\") on the checkpoint")
+    void theSaveCanBeChanged() {
+        Player player = new Player();
+        player.pickUp("sword");
+        player.moveTo("bridge");
+        Player checkpoint = new Player(player);
+        checkpoint.pickUp("potion");
+        assertEquals("health 100, at bridge, carrying [sword, potion]", checkpoint.toString());
+    }
+
+    @Test
     @DisplayName("stage three keeps the rules: the player has no public setters")
     void noPublicSetters() {
         assertEquals(0, publicSettersOf(Player.class).size());
