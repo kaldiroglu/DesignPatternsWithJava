@@ -48,6 +48,32 @@ class HistoryTest {
     }
 
     @Test
+    @DisplayName("the game can only say save or load, and loading always gives back the last save")
+    void theGameGetsOnlyTheLastSave() {
+        Player player = new Player();
+        player.moveTo("bridge");
+        player.saveCheckpoint();
+        player.moveTo("cave");
+        player.saveCheckpoint();
+        player.moveTo("tower");
+        player.loadCheckpoint();
+        assertEquals("health 100, at cave, carrying []", player.toString());
+        player.loadCheckpoint();
+        assertEquals("health 100, at cave, carrying []", player.toString());
+
+        List<Method> saveMethods = Arrays.stream(Player.class.getDeclaredMethods())
+                .filter(m -> Modifier.isPublic(m.getModifiers()))
+                .filter(m -> m.getName().contains("Checkpoint"))
+                .sorted(java.util.Comparator.comparing(Method::getName))
+                .toList();
+        assertEquals(List.of("loadCheckpoint", "saveCheckpoint"),
+                saveMethods.stream().map(Method::getName).toList());
+        // No argument to pick a save, and no save handed back: the game never sees one.
+        assertTrue(saveMethods.stream()
+                .allMatch(m -> m.getParameterCount() == 0 && m.getReturnType() == void.class));
+    }
+
+    @Test
     @DisplayName("Main prints the play: loading is correct, and the player keeps the saves")
     void mainOutput() {
         assertEquals(List.of(
