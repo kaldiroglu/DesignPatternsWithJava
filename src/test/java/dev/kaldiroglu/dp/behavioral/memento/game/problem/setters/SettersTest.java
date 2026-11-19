@@ -3,6 +3,8 @@ package dev.kaldiroglu.dp.behavioral.memento.game.problem.setters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 import static dev.kaldiroglu.dp.behavioral.memento.Methods.publicSettersOf;
@@ -43,6 +45,20 @@ class SettersTest {
         player.setHealth(999);
         assertEquals(999, player.getHealth());
         assertEquals(List.of("setHealth", "setInventory", "setPosition"), publicSettersOf(Player.class));
+    }
+
+    @Test
+    @DisplayName("Game keeps one saved field for each field of Player, so a new field means a change in Game")
+    void gameListsEveryFieldOfPlayer() {
+        List<String> playerFields = Arrays.stream(Player.class.getDeclaredFields())
+                .map(Field::getName).sorted().toList();
+        List<String> gameFields = Arrays.stream(Game.class.getDeclaredFields())
+                .map(Field::getName)
+                .filter(name -> name.startsWith("saved"))
+                .map(name -> Character.toLowerCase(name.charAt(5)) + name.substring(6))
+                .sorted().toList();
+        assertEquals(List.of("health", "inventory", "position"), playerFields);
+        assertEquals(playerFields, gameFields);
     }
 
     @Test
