@@ -160,6 +160,17 @@ class SolutionTest {
     }
 
     @Test
+    @DisplayName("SideBySideMain prints the second shipment: 4, 5, 6 and still shipped; 1, 2, 3 and back to the warehouse")
+    void sideBySideMainOutput() {
+        assertEquals(List.of(
+                "Enum constants: [shipped TR-2, delivery attempt 4 failed, delivery attempt 5 failed, "
+                        + "delivery attempt 6 failed] -> SHIPPED",
+                "State objects:  [shipped TR-2, delivery attempt 1 failed, delivery attempt 2 failed, "
+                        + "delivery attempt 3 failed, back to the warehouse] -> Paid[]"),
+                Printed.by(() -> SideBySideMain.main(new String[0])));
+    }
+
+    @Test
     @DisplayName("RefusedRequestMain prints that a shipped order cannot be cancelled")
     void refusedRequestMainOutput() {
         assertEquals(List.of("Cancel a shipped order: cannot cancel a shipped order"),

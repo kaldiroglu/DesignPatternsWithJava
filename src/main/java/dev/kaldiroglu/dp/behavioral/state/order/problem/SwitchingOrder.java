@@ -11,7 +11,7 @@ import java.util.List;
  * status that is missing from a switch does not compile.
  * <p>
  * What it costs: the rules of one status are spread over every method. To read what a paid
- * order may do, you read five switches. A new status is an edit to every one of them.
+ * order may do, you read four switches. A new status is an edit to every one of them.
  */
 public final class SwitchingOrder {
 

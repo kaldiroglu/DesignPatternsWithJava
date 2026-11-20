@@ -38,4 +38,12 @@ class KnownUsesTest {
         assertTrue(java.lang.reflect.Modifier.isPrivate(state.getModifiers()));
         assertTrue(java.lang.reflect.Modifier.isVolatile(state.getModifiers()));
     }
+
+    @Test
+    @DisplayName("FutureTask changes its int state with a compare-and-set through a static VarHandle")
+    void futureTaskUsesCompareAndSet() throws NoSuchFieldException {
+        var handle = java.util.concurrent.FutureTask.class.getDeclaredField("STATE");
+        assertEquals(java.lang.invoke.VarHandle.class, handle.getType());
+        assertTrue(java.lang.reflect.Modifier.isStatic(handle.getModifiers()));
+    }
 }
