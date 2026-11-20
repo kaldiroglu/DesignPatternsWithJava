@@ -186,6 +186,17 @@ class ProblemTest {
     }
 
     @Test
+    @DisplayName("stage three's OrderStatus is an enum whose constants have their own methods")
+    void enumConstantsHaveTheirOwnMethods() throws Exception {
+        assertTrue(OrderStatus.class.isEnum());
+        Class<?> paidBody = OrderStatus.PAID.getClass();
+        assertNotEquals(OrderStatus.class, paidBody);
+        assertEquals(OrderStatus.class, paidBody.getSuperclass());
+        assertNotNull(paidBody.getDeclaredMethod("ship", EnumOrder.class, String.class));
+        assertNotNull(OrderStatus.SHIPPED.getClass().getDeclaredMethod("failDelivery", EnumOrder.class));
+    }
+
+    @Test
     @DisplayName("StageOneMain prints the flags order paid, shipped and delivered")
     void stageOneMainOutput() {
         assertEquals(List.of("Stage one, four flags:   [paid, shipped TR-1, delivered]"),
