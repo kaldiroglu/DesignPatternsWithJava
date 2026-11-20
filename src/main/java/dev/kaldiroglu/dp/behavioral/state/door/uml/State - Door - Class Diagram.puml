@@ -27,7 +27,12 @@ package "pattern2 · a manager decides" {
     - state : DoorState
   }
   class DoorStateManager {
-    + next(DoorState)
+    + initial() : DoorState
+    + next(DoorState, Request) : DoorState
+  }
+  enum Request {
+    OPEN
+    CLOSE
   }
   interface "DoorState" as S2
   class "OpenDoor" as O2
@@ -40,8 +45,7 @@ package "pattern2 · a manager decides" {
   C1 .[norank].> O1 : knows
   D2 o-[norank]-> S2
   D2 --> DoorStateManager
-  O2 -[norank]-> DoorStateManager
-  C2 --> DoorStateManager
+  DoorStateManager .[norank].> Request
 D0 -[hidden]right- D1
 D1 -[hidden]right- D2
 @enduml

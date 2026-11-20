@@ -4,16 +4,21 @@
 
 For further enquiry please contact Akin Kaldiroglu at akin@kaldiroglu.dev
 
-A door is open or closed. Opening an open door, or closing a closed one, does nothing.
+A door is open or closed. Opening an open door, or closing a closed one, prints a message
+and changes nothing. All three versions start closed and print the same story.
+
+The door is too small to need the pattern: two states, and one `if` in each method, are clear
+code. It is here to show the main design decision of the State pattern: who changes the state.
 
 | Package | Who changes the state |
 |---|---|
 | `problem` | Nobody: a boolean and an `if` in each method |
 | `pattern1` | The states. Each state knows the other one and tells the door to change. |
-| `pattern2` | A central `DoorStateManager`. Each state calls `next(this)`; only the manager knows which state follows which. |
+| `pattern2` | A central `DoorStateManager`. The door passes each request to its state, which does the work, then asks the manager `next(state, request)`. The manager's table maps a state and a request to the next state; the states know no other state. |
 
-This is the main design decision of the State pattern: are the transitions spread over the
-states, or kept in one place?
+In `pattern1` the transitions are spread over the states. In `pattern2` they are in one table,
+so a new state or a new request is new lines in the manager, and the existing states do not
+change.
 
 ## Run it with
 

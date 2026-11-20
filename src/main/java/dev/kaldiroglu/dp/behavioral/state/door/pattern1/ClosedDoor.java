@@ -1,18 +1,19 @@
 package dev.kaldiroglu.dp.behavioral.state.door.pattern1;
 
+/** The closed state. It knows the open state, and moves the door there itself. */
 public class ClosedDoor extends AbstractDoorState {
-
-	public ClosedDoor() {
-		super(false);
-	}
-
 	@Override
 	public void open() {
 		door.changeState(openState);
 	}
 
 	@Override
-	public void close() { 
-		System.out.println("Door is already closed!");
+	public void close() {
+		System.out.println("Door is already closed.");
+	}
+
+	@Override
+	public boolean isOpen() {
+		return false;
 	}
 }

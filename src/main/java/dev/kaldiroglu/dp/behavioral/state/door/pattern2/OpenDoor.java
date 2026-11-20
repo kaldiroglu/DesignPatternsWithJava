@@ -1,11 +1,7 @@
 package dev.kaldiroglu.dp.behavioral.state.door.pattern2;
 
-public class OpenDoor extends AbstractDoor {
-
-	public OpenDoor(DoorStateManager dsm) {
-		super(true, dsm);
-	}
-
+/** The open state. It knows no other state and does not change the door. */
+public class OpenDoor implements DoorState {
 	@Override
 	public void open() {
 		System.out.println("Door is already open.");
@@ -13,6 +9,10 @@ public class OpenDoor extends AbstractDoor {
 
 	@Override
 	public void close() {
-		dsm.next(this);
+	}
+
+	@Override
+	public boolean isOpen() {
+		return true;
 	}
 }
