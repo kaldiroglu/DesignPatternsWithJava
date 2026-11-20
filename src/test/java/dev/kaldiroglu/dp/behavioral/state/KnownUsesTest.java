@@ -40,6 +40,19 @@ class KnownUsesTest {
     }
 
     @Test
+    @DisplayName("FutureTask has seven states, int constants from NEW to INTERRUPTED")
+    void futureTaskHasSevenIntStates() {
+        var constants = java.util.Arrays.stream(java.util.concurrent.FutureTask.class.getDeclaredFields())
+                .filter(f -> java.lang.reflect.Modifier.isStatic(f.getModifiers()))
+                .filter(f -> java.lang.reflect.Modifier.isFinal(f.getModifiers()))
+                .filter(f -> f.getType() == int.class)
+                .map(java.lang.reflect.Field::getName)
+                .toList();
+        assertEquals(List.of("NEW", "COMPLETING", "NORMAL", "EXCEPTIONAL", "CANCELLED",
+                "INTERRUPTING", "INTERRUPTED"), constants);
+    }
+
+    @Test
     @DisplayName("FutureTask changes its int state with a compare-and-set through a static VarHandle")
     void futureTaskUsesCompareAndSet() throws NoSuchFieldException {
         var handle = java.util.concurrent.FutureTask.class.getDeclaredField("STATE");
