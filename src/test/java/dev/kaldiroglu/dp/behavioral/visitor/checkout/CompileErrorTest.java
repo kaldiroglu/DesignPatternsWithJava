@@ -48,6 +48,30 @@ class CompileErrorTest {
     }
 
     @Test
+    @DisplayName("stage two: without taxOf(Item), the loop over a List<Item> does not compile")
+    void stageTwoWithoutTaxOfItem() throws Exception {
+        String source = """
+                import dev.kaldiroglu.dp.behavioral.visitor.checkout.problem.*;
+                import java.util.List;
+                class TaxWithoutItem {
+                    int taxOf(Book book) { return 0; }
+                    int taxOf(Food food) { return 0; }
+                    int taxOf(Electronics electronics) { return 0; }
+                    int total(List<Item> cart) {
+                        int total = 0;
+                        for (Item item : cart) {
+                            total += taxOf(item);
+                        }
+                        return total;
+                    }
+                }
+                """;
+        List<String> errors = errorsOf("TaxWithoutItem", source);
+        assertEquals(1, errors.size(), errors.toString());
+        assertTrue(errors.get(0).startsWith("no suitable method found for taxOf(Item)"), errors.get(0));
+    }
+
+    @Test
     @DisplayName("a visitor without visit(GiftCard) does not compile, with the message on the slide")
     void aVisitorWithoutVisitGiftCard() throws Exception {
         String source = """

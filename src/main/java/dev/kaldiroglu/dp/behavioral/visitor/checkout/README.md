@@ -25,7 +25,7 @@ Each stage has its own runnable class, so a run prints only what its slide shows
 | Class | Slide | What it prints |
 |---|---|---|
 | `problem.methods.Main` | stage one | Each item's receipt line, then tax 103 and shipping 50 |
-| `StageTwoMain` | stage two | The correct tax, 103, and the overloads' tax, 128 |
+| `StageTwoMain` | stage two | Each item's tax held as its own type (2, 1, 100: total 103), then held as an `Item` (8, 20, 100: total 128) |
 | `StageThreeMain` | stage three | Tax 103 and shipping 50 for three items |
 | `GiftCardMain` | the problem with stage three | Tax 123 and shipping 60 once a gift card is added |
 

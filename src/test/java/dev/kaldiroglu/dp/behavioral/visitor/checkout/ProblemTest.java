@@ -111,11 +111,19 @@ class ProblemTest {
     }
 
     @Test
-    @DisplayName("StageTwoMain prints the correct tax, 103, and the overloads' tax, 128")
+    @DisplayName("StageTwoMain: held as its own type each item's tax is correct (103); held as an Item, 128")
     void stageTwoMainOutput() {
         assertEquals(List.of(
-                "A book for 40, food for 100, electronics for 500: the correct tax is 2 + 1 + 100 = 103",
-                "Stage two, overloads:   tax 128 (each item is held as an Item, so taxOf(Item) is called)"),
+                "Each item held as its own type, so taxOf(Book), taxOf(Food) and taxOf(Electronics) are called:",
+                "  Novel       40  tax   2",
+                "  Coffee     100  tax   1",
+                "  Headphones 500  tax 100",
+                "  total tax 103",
+                "Each item held as an Item, as in the cart, so taxOf(Item) is called:",
+                "  Novel       40  tax   8",
+                "  Coffee     100  tax  20",
+                "  Headphones 500  tax 100",
+                "  total tax 128"),
                 dev.kaldiroglu.dp.behavioral.visitor.Printed.by(() -> StageTwoMain.main(new String[0])));
     }
 
