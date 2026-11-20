@@ -21,7 +21,11 @@ sword, pick up a potion, walk into the cave, take 100 damage. Load.
 
 **Where stage three fails.** After loading, the player has health 100 and is at the bridge,
 but carries `[shield, potion]` — what it had when it died, not `[sword, shield]`. That is a
-copying bug: copying the list fixes it, and the memento copies the list too.
+copying bug, and the list is shared in two places: the copy constructor (saving) and
+`restoreFrom` (loading). Copying the list in both places fixes it; `problem.copyfix` is
+stage three with those two lines changed. With only the first one, the player takes the
+save's own list when it loads, so what it picks up after the load goes into the save too.
+The memento copies the list as well.
 
 The design problem stays after that fix. The checkpoint is a whole `Player`, so the game can
 call every public method on it. `Game.loadScreen()` reads the save through `toString()`, and
@@ -46,6 +50,7 @@ Each stage package has its own `Main`, so a run prints only what its slide shows
 | `problem.setters.Main` | stage one | The play, then `setHealth(999)` from outside the player |
 | `problem.history.Main` | stage two | The play; loading is correct, and the player keeps the saves |
 | `problem.copy.Main` | the problem with stage three | The play; after loading the player carries `[shield, potion]` |
+| `problem.copyfix.Main` | the quick fix | The play with the list copied when saving and loading: `[sword, shield]` comes back, and a key picked up after the load stays out of the save |
 | `problem.copy.ReadTheSaveMain` | the game can read the save | The load screen: the whole save, read by the game |
 | `solution.Main` | the promise, measured | The same play through stage one, stage three and the memento |
 
@@ -57,6 +62,7 @@ mvn -o -q compile
 java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.game.problem.setters.Main
 java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.game.problem.history.Main
 java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.game.problem.copy.Main
+java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.game.problem.copyfix.Main
 java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.game.problem.copy.ReadTheSaveMain
 java -cp target/classes dev.kaldiroglu.dp.behavioral.memento.game.solution.Main
 

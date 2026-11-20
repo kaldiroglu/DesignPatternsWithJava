@@ -35,6 +35,19 @@ class CopyTest {
     }
 
     @Test
+    @DisplayName("loading shares the list again: what the player picks up after a load goes into the save")
+    void loadingSharesTheListAgain() {
+        Player player = new Player();
+        Game game = new Game();
+        player.pickUp("sword");
+        game.checkpoint(player);
+        game.load(player);
+        player.pickUp("key");
+
+        assertEquals("Saved game: health 100, at start, carrying [sword, key]", game.loadScreen());
+    }
+
+    @Test
     @DisplayName("a copy shares the list: what the player picks up, the copy picks up too")
     void theListIsShared() {
         Player player = new Player();
