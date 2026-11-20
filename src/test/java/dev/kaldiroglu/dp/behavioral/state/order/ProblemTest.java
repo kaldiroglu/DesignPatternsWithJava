@@ -141,6 +141,50 @@ class ProblemTest {
                 .allMatch(f -> Modifier.isStatic(f.getModifiers())), "the enum has no instance fields of its own");
     }
 
+    /** Reads or writes one of EnumOrder's package-private fields from this test's package. */
+    private static Field orderField(String name) throws NoSuchFieldException {
+        Field field = EnumOrder.class.getDeclaredField(name);
+        field.setAccessible(true);
+        return field;
+    }
+
+    @Test
+    @DisplayName("stage three: resetting failedAttempts to 0 before the second shipment fixes the bug")
+    void aResetFixesTheSecondShipment() throws Exception {
+        EnumOrder order = new EnumOrder();
+        order.pay();
+        order.ship("TR-1");
+        order.failDelivery();
+        order.failDelivery();
+        order.failDelivery();
+        orderField("failedAttempts").setInt(order, 0);   // the line PAID.ship does not have
+        order.ship("TR-2");
+        order.failDelivery();
+        order.failDelivery();
+        order.failDelivery();
+
+        List<String> secondShipment = order.events()
+                .subList(order.events().indexOf("shipped TR-2") + 1, order.events().size());
+        assertEquals(List.of("delivery attempt 1 failed", "delivery attempt 2 failed",
+                "delivery attempt 3 failed", "back to the warehouse"), secondShipment);
+        assertEquals(OrderStatus.PAID, order.status());
+    }
+
+    @Test
+    @DisplayName("stage three: back at the warehouse the order is PAID, but it still holds the old tracking number")
+    void theTrackingNumberOutlivesTheShipment() throws Exception {
+        EnumOrder order = new EnumOrder();
+        order.pay();
+        order.ship("TR-1");
+        order.failDelivery();
+        order.failDelivery();
+        order.failDelivery();
+
+        assertEquals(OrderStatus.PAID, order.status());
+        assertEquals("TR-1", orderField("trackingNumber").get(order));
+        assertEquals(3, orderField("failedAttempts").getInt(order));
+    }
+
     @Test
     @DisplayName("StageOneMain prints the flags order paid, shipped and delivered")
     void stageOneMainOutput() {

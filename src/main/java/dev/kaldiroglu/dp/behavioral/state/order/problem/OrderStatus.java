@@ -11,7 +11,8 @@ package dev.kaldiroglu.dp.behavioral.state.order.problem;
  * order's data. A shipped order now has a tracking number and a count of failed delivery
  * attempts, and both have to live in {@link EnumOrder} — fields that mean something only
  * while the order is shipped, and that every transition must remember to set or reset.
- * {@code PAID.ship} forgets to reset the count.
+ * {@code PAID.ship} forgets to reset the count. A reset there would fix this bug, but it is a
+ * rule someone must remember, and nothing clears the tracking number when a shipment ends.
  */
 public enum OrderStatus {
 
