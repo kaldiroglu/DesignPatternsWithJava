@@ -40,6 +40,20 @@ Each slide has its own runnable class, so a run prints only what that slide show
 | `Placed`, `Paid`, `Shipped`, `Delivered`, `Cancelled` | ConcreteState | Records. `Shipped` holds its tracking number and attempts. |
 | `SecondShipmentMain` | — | Runs the same story with stage three and with State objects: the second shipment's first failure is attempt 4, then attempt 1 |
 | `RefusedRequestMain` | — | Asks a shipped order to cancel, and the state refuses |
+| `TransitionTableMain` | — | Prints the order's finite state machine as a table, read from the state classes |
+
+## The order as a finite state machine
+
+The order's life is a finite state machine (FSM): five states, a start state (placed), two
+end states (delivered, cancelled), five events, and the transitions between them. One
+transition has a guard: `failDelivery` sends a shipped order back to paid only on the third
+attempt. `TransitionTableMain` prints the machine as a table, a row per state and a column per
+event; a dash means the state refuses the event.
+
+The designs keep that table in different places. In stage two's `SwitchingOrder` each method
+is one column: one event, with a case for every state. In the State pattern each class is one
+row: one state, overriding the events it allows. `StateMachineTest` checks the table and both
+of these.
 
 ## Run it with
 
@@ -56,6 +70,7 @@ java -cp target/classes dev.kaldiroglu.dp.behavioral.state.order.problem.SecondS
 # the pattern
 java -cp target/classes dev.kaldiroglu.dp.behavioral.state.order.solution.RefusedRequestMain
 java -cp target/classes dev.kaldiroglu.dp.behavioral.state.order.solution.SecondShipmentMain
+java -cp target/classes dev.kaldiroglu.dp.behavioral.state.order.solution.TransitionTableMain
 
 # the tests of this example
 mvn -o -q test -Dtest='dev.kaldiroglu.dp.behavioral.state.order.**'
