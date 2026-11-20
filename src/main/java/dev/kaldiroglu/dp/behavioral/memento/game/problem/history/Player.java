@@ -8,9 +8,10 @@ import java.util.List;
 /**
  * Stage two: the player keeps its own checkpoints.
  * <p>
- * Nothing outside sees the fields, and loading is correct. But the saves are now a field of
- * the player. The game can only say "save" or "load", and loading always gives back the
- * last save. Three save slots and an autosave would all be new code in this class.
+ * Nothing outside sees the fields, and loading is correct. Saving and loading its own state
+ * is the player's job, because only the player knows its fields. But the player also keeps
+ * every save, which is a second job. The game cannot choose a save or hold one, and three
+ * save slots and an autosave would all be new code in this class.
  */
 public final class Player {
 
