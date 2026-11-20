@@ -200,12 +200,17 @@ class ProblemTest {
     }
 
     @Test
-    @DisplayName("StageThreeMain prints three failures and the parcel back at the warehouse")
+    @DisplayName("StageThreeMain prints the first shipment back at the warehouse, then a second shipment with attempts 4, 5 and 6")
     void stageThreeMainOutput() {
         List<String> lines = Printed.by(() -> StageThreeMain.main(new String[0]));
 
-        assertEquals(1, lines.size());
-        assertTrue(lines.get(0).endsWith("delivery attempt 3 failed, back to the warehouse] -> PAID"));
+        assertEquals(List.of(
+                "Stage three, first shipment:  [paid, shipped TR-1, delivery attempt 1 failed, "
+                        + "delivery attempt 2 failed, delivery attempt 3 failed, back to the warehouse] -> PAID",
+                "Stage three, second shipment: [shipped TR-2, delivery attempt 4 failed, "
+                        + "delivery attempt 5 failed, delivery attempt 6 failed] -> SHIPPED",
+                "The count was not reset, so it never equals 3 again: the courier has no limit."),
+                lines);
     }
 
     @Test
