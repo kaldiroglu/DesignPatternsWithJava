@@ -12,12 +12,11 @@ above that hand it to the library.
 The choice is genuine engineering rather than indecision, which is what makes the naive
 version worth taking seriously before it is taken apart.
 
-## The three stages
+## The two stages
 
 | Package | What it is |
 |---|---|
 | `problem` | One class that both decides and implements. The `if`/`else if` on size sits above a bubble pass, a quicksort and a partition. |
-| `subclassing` | Each algorithm a subclass. Readable and testable on its own — and now every caller has to choose, which is the one place that knows nothing about which algorithm suits which input. |
 | `pattern` | `Sorter` and three implementations, with `SortingContext` choosing. |
 
 ## Why this example is here as well as the checkout
@@ -41,7 +40,7 @@ usual next step.
 
 | Claim | Test |
 |---|---|
-| All three designs sort identically | `theDesignsAgree` |
+| Both designs sort identically | `theDesignsAgree` |
 | Both designs pick the same algorithm at every size | `theSameThresholds` |
 | The decision is testable without sorting a billion doubles | `theDecisionIsSeparable` |
 | The branch selects rather than implements | `theBranchMovedRatherThanVanished` |

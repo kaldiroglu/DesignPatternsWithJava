@@ -9,8 +9,6 @@ is read.
 
 | Package | Design |
 |---|---|
-| `domain` | `File`, `TextFile`, `XMLFile`: open, read, close |
-| `problem1` | `checkFormat()` on `TextFile`, `validate()` on `XMLFile`; the client tests types |
 | `problem2` | `FileOperator` does the type tests and the casts |
 | `pattern1` | `File.accept(Visitor)`; `FileVisitor` has `visit(TextFile)` and `visit(XMLFile)`; `AccessVisitor` is a second operation on the same files |
 

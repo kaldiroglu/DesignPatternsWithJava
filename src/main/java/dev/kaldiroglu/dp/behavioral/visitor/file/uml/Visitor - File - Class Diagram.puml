@@ -1,15 +1,7 @@
 @startuml "Visitor - File - Class Diagram"
 skinparam classAttributeIconSize 0
 hide empty members
-title Files: checks inside the files, in an operator, then in a visitor
-package problem1 {
-  class "TextFile" as T1 {
-    + checkFormat() : boolean
-  }
-  class "XMLFile" as X1 {
-    + validate() : boolean
-  }
-}
+title Files: checks in an operator, then in a visitor
 package problem2 {
   class FileOperator {
     + operate(List<File>)
@@ -31,6 +23,5 @@ package pattern1 {
   Visitor <|.. FileVisitor
   File ..> Visitor
 }
-T1 -[hidden]right- FileOperator
 FileOperator -[hidden]right- File
 @enduml

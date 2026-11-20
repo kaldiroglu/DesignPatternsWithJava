@@ -56,22 +56,17 @@ class SortingTest {
     }
 
     @Test
-    @DisplayName("all three designs sort the same array into the same order")
+    @DisplayName("both designs sort the same array into the same order")
     void theDesignsAgree() {
         double[] expected = sortedCopy(shuffled(50));
 
         double[] byBranch = shuffled(50);
         new dev.kaldiroglu.dp.behavioral.strategy.sorting.problem.Sorter().sort(byBranch);
 
-        double[] bySubclass = shuffled(50);
-        new dev.kaldiroglu.dp.behavioral.strategy.sorting.subclassing.BubbleSorter()
-                .sort(bySubclass);
-
         double[] byStrategy = shuffled(50);
         new SortingContext().sort(byStrategy);
 
         assertArrayEquals(expected, byBranch);
-        assertArrayEquals(expected, bySubclass);
         assertArrayEquals(expected, byStrategy);
     }
 
