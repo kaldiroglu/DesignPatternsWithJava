@@ -79,6 +79,16 @@ class SolutionTest {
     }
 
     @Test
+    @DisplayName("health: takeDamage lowers it, and Player has no public getter or setter for it")
+    void healthIsPrivate() throws Exception {
+        Player player = new Player();
+        player.takeDamage(30);
+        assertTrue(player.toString().startsWith("health 70,"));
+        assertTrue(java.util.Arrays.stream(Player.class.getMethods())
+                .noneMatch(m -> m.getName().toLowerCase().contains("health")));
+    }
+
+    @Test
     @DisplayName("Main runs the same play three ways: only the memento keeps the promise and the rules")
     void mainOutput() {
         assertEquals(List.of(
