@@ -119,6 +119,18 @@ class CompilerTest {
     }
 
     @Test
+    @DisplayName("one node held as a Node: accept calls visitConstant, and each visitor does its own job")
+    void oneAcceptTwoJobs() {
+        Node node = new ConstantNode(2);
+        CodeGeneratingVisitor generator = new CodeGeneratingVisitor();
+        PrettyPrintingVisitor printer = new PrettyPrintingVisitor();
+        node.accept(generator);
+        node.accept(printer);
+        assertEquals(List.of("PUSH 2"), generator.code());
+        assertEquals("2", printer.text());
+    }
+
+    @Test
     @DisplayName("gof.problem.Main prints the program, the error and the code, then the cost")
     void problemMainOutput() {
         List<String> lines = Printed.by(() ->
