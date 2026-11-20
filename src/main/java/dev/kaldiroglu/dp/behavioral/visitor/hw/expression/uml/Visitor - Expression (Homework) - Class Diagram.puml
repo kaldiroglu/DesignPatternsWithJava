@@ -1,0 +1,28 @@
+@startuml "Visitor - Expression (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title An expression tree with three operations
+interface Expr {
+  + accept(ExprVisitor<R>) : R
+}
+class Num <<record>>
+class Add <<record>>
+class Mul <<record>>
+class Neg <<record>>
+interface "ExprVisitor<R>" as ExprVisitor {
+  + visit(Num) : R
+  + visit(Add) : R
+  + visit(Mul) : R
+  + visit(Neg) : R
+}
+class Evaluator
+class Printer
+class DepthCounter
+Expr <|.. Num
+Expr <|.. Add
+Expr <|.. Mul
+Expr <|.. Neg
+ExprVisitor <|.. Evaluator
+ExprVisitor <|.. Printer
+ExprVisitor <|.. DepthCounter
+@enduml

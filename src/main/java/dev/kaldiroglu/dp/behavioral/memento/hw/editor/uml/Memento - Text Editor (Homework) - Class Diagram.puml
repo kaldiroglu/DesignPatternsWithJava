@@ -1,0 +1,27 @@
+@startuml "Memento - Text Editor (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Undo and redo with two stacks of mementos
+class TextEditor <<Originator>> {
+  - text : String
+  - cursor : int
+  + type(String)
+  + moveCursor(int)
+  + save() : Snapshot
+  + restore(Snapshot)
+}
+class "TextEditor.Snapshot" as Snapshot <<Memento>> {
+  - text : String
+  - cursor : int
+}
+class History <<Caretaker>> {
+  - undo : Deque<Snapshot>
+  - redo : Deque<Snapshot>
+  + type(String)
+  + undo()
+  + redo()
+}
+History --> TextEditor
+History --> "*" Snapshot : keeps
+TextEditor ..> Snapshot : creates, reads
+@enduml

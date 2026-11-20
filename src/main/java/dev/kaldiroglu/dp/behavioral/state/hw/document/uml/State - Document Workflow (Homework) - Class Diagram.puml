@@ -1,0 +1,28 @@
+@startuml "State - Document Workflow (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A central table decides the next status
+class Document <<Context>> {
+  + apply(Action)
+  + status() : Status
+}
+class Workflow {
+  - next : Map<Status, Map<Action, Status>>
+  + after(Status, Action) : Optional<Status>
+}
+enum Status {
+  DRAFT
+  IN_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+enum Action {
+  SUBMIT
+  APPROVE
+  REJECT
+  ARCHIVE
+}
+Document --> Workflow
+Document --> Status
+Workflow ..> Action
+@enduml

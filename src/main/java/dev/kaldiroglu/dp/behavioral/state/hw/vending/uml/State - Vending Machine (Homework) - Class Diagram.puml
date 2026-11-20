@@ -1,0 +1,23 @@
+@startuml "State - Vending Machine (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Three states; a sold-out machine returns the coin
+class VendingMachine <<Context>> {
+  - stock : int
+  + insertCoin()
+  + pressButton()
+  + refill(int)
+}
+interface VendingState <<sealed>> {
+  insertCoin(VendingMachine) : VendingState
+  pressButton(VendingMachine) : VendingState
+  refilled(VendingMachine) : VendingState
+}
+class WaitingForCoin
+class HasCoin
+class SoldOut
+VendingMachine --> VendingState : state
+VendingState <|.. WaitingForCoin
+VendingState <|.. HasCoin
+VendingState <|.. SoldOut
+@enduml

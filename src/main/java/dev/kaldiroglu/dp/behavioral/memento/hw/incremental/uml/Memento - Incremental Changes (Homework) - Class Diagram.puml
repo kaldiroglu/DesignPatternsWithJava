@@ -1,0 +1,23 @@
+@startuml "Memento - Incremental Changes (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A memento that holds only the cells an edit changed
+class Sheet <<Originator>> {
+  - cells : Map<String, Integer>
+  + set(Map<String, Integer>) : Change
+  + undo(Change)
+  + get(String) : int
+}
+class "Sheet.Change" as Change <<Memento>> {
+  - oldValues : Map<String, Integer>
+  + size() : int
+}
+class Main <<Caretaker>>
+Sheet ..> Change : creates, reads
+Main --> Change : keeps
+Main --> Sheet
+note bottom of Change
+  Holds the old values of the
+  changed cells, not the whole sheet.
+end note
+@enduml

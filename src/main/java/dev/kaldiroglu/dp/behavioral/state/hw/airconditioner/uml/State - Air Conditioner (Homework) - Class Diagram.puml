@@ -1,0 +1,28 @@
+@startuml "State - Air Conditioner (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title The running states share one rule in the base class
+class AirConditioner <<Context>> {
+  - target : int
+  - room : int
+  + powerOn()
+  + powerOff()
+  + setTarget(int)
+  + roomIs(int)
+}
+abstract class AcState <<State>> {
+  powerOn(AirConditioner) : AcState
+  powerOff(AirConditioner) : AcState
+  changed(AirConditioner) : AcState
+  {static} running(AirConditioner) : AcState
+}
+class Off
+class Idle
+class Cooling
+class Heating
+AirConditioner --> AcState : state
+AcState <|-- Off
+AcState <|-- Idle
+AcState <|-- Cooling
+AcState <|-- Heating
+@enduml

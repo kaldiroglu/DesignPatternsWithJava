@@ -1,0 +1,30 @@
+@startuml "Visitor - Folder Tree (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A folder tree that walks itself
+interface Entry {
+  + name() : String
+  + accept(EntryVisitor)
+}
+class FileEntry <<record>> {
+  name, size
+}
+class Folder <<record>> {
+  name, children
+}
+interface EntryVisitor {
+  + visitFile(FileEntry)
+  + enterFolder(Folder)
+  + leaveFolder(Folder)
+}
+class ListingVisitor
+class SizeVisitor
+Entry <|.. FileEntry
+Entry <|.. Folder
+EntryVisitor <|.. ListingVisitor
+EntryVisitor <|.. SizeVisitor
+note bottom of Folder
+  accept visits the folder, then
+  passes the visitor to each child.
+end note
+@enduml

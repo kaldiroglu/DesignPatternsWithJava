@@ -1,0 +1,28 @@
+@startuml "Visitor - Account Printing (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title Each printer is a visitor that is given its output
+interface Account {
+  + owner() : String
+  + accept(AccountVisitor)
+}
+class CheckingAccount <<record>>
+class SavingsAccount <<record>>
+class LoanAccount <<record>>
+interface AccountVisitor {
+  + visit(CheckingAccount)
+  + visit(SavingsAccount)
+  + visit(LoanAccount)
+}
+class TextPrinter {
+  - out : PrintWriter
+}
+class HtmlPrinter {
+  - out : PrintWriter
+}
+Account <|.. CheckingAccount
+Account <|.. SavingsAccount
+Account <|.. LoanAccount
+AccountVisitor <|.. TextPrinter
+AccountVisitor <|.. HtmlPrinter
+@enduml

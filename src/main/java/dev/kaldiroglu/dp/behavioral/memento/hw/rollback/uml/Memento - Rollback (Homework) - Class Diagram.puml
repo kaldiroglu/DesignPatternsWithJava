@@ -1,0 +1,26 @@
+@startuml "Memento - Rollback (Homework) - Class Diagram"
+skinparam classAttributeIconSize 0
+hide empty members
+title A batch of transfers that rolls back when one fails
+class Account <<Originator>> {
+  - owner : String
+  - balance : int
+  + withdraw(int)
+  + deposit(int)
+  + save() : Saved
+  + restore(Saved)
+}
+class "Account.Saved" as Saved <<Memento>> {
+  - balance : int
+}
+class Batch <<Caretaker>> {
+  + add(Account, Account, int)
+  + run(List<Account>) : String
+}
+class "Batch.Transfer" as Transfer <<record>> {
+  from, to, amount
+}
+Batch --> "*" Transfer
+Batch ..> Saved : keeps one per account
+Account ..> Saved : creates, reads
+@enduml
