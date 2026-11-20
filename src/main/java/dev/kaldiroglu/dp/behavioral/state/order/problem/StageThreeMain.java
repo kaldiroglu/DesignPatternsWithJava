@@ -2,8 +2,8 @@ package dev.kaldiroglu.dp.behavioral.state.order.problem;
 
 /**
  * Stage three: enum constants. After three failed deliveries the parcel goes back to the
- * warehouse. Then it is shipped again and fails three more times. The count was not reset,
- * so the failures are attempts 4, 5 and 6, and the parcel never goes back.
+ * warehouse. Then it is shipped again and fails five times. The count was not reset, so
+ * the failures are attempts 4 to 8, and the parcel never goes back.
  */
 public final class StageThreeMain {
     public static void main(String[] args) {
@@ -12,7 +12,7 @@ public final class StageThreeMain {
 
         int start = order.events().size();
         order.ship("TR-2");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             order.failDelivery();
         }
         System.out.println("Stage three, second shipment: "
