@@ -58,9 +58,10 @@ class HealthVisitorTest {
     }
 
     @Test
-    @DisplayName("Boss shares no parent with Employee, and Employee has four subclasses but one visit method")
-    void oneVisitForFourClasses() {
+    @DisplayName("Boss is not an Employee, and Employee and its four subclasses share one visit method")
+    void oneVisitForFiveClasses() {
         assertEquals(Object.class, Boss.class.getSuperclass());
+        assertFalse(java.lang.reflect.Modifier.isAbstract(Employee.class.getModifiers()));
         assertFalse(Employee.class.isAssignableFrom(Boss.class));
 
         List<Class<?>> subclasses = List.of(Engineer.class, Secretary.class, Manager.class, Director.class);

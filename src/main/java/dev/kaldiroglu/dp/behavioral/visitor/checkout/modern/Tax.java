@@ -16,7 +16,7 @@ public final class Tax {
             case Book book -> book.price() * 5 / 100;
             case Food food -> food.price() * 1 / 100;
             case Electronics electronics -> electronics.price() * 20 / 100;
-            case GiftCard giftCard -> 0;
+            case GiftCard _ -> 0;
         };
     }
 

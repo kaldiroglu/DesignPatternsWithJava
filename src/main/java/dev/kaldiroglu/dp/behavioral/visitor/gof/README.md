@@ -35,8 +35,6 @@ The visitors walk the tree themselves, by calling `accept` on the children.
 Each design has its own runnable class. `problem.Main` and `solution.Main` print the same
 program, the same error and the same code; `problem.Main` adds one line on what it costs.
 
-The older package `visitor.pattern.problem` holds the first sketch of the same nodes.
-
 ## Run it with
 
 ```bash
