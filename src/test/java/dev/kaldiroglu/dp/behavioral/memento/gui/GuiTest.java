@@ -3,6 +3,8 @@ package dev.kaldiroglu.dp.behavioral.memento.gui;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -19,7 +21,7 @@ class GuiTest {
     @DisplayName("restore puts the window back where it was saved, although x and length changed after")
     void restoreGoesBackToTheSavedState() {
         GuiComponent window = new GuiComponent("window", 0, 0, 20, 10);
-        GuiComponentMemento saved = window.createMemento();
+        GuiComponent.Memento saved = window.createMemento();
         window.moveTo(20, 0);
         window.resize(40, 10);
 
@@ -32,9 +34,9 @@ class GuiTest {
     @DisplayName("the caretaker can keep two mementos, and the window can go back to either")
     void twoMementos() {
         GuiComponent window = new GuiComponent("window", 0, 0, 20, 10);
-        GuiComponentMemento first = window.createMemento();
+        GuiComponent.Memento first = window.createMemento();
         window.moveTo(20, 0);
-        GuiComponentMemento second = window.createMemento();
+        GuiComponent.Memento second = window.createMemento();
         window.moveTo(40, 0);
 
         window.restore(first);
@@ -59,18 +61,23 @@ class GuiTest {
     @DisplayName("the window holds no memento: the caretaker keeps it")
     void theWindowHoldsNoMemento() {
         assertTrue(Arrays.stream(GuiComponent.class.getDeclaredFields())
-                .noneMatch(f -> f.getType() == GuiComponentMemento.class));
+                .noneMatch(f -> f.getType() == GuiComponent.Memento.class));
     }
 
     @Test
-    @DisplayName("a saved state cannot be changed, but anyone can read it through public getState")
-    void theMementoIsReadable() {
+    @DisplayName("the memento is closed: a private field, private constructors, no methods; the state is a record")
+    void theMementoIsClosed() {
+        Class<GuiComponent.Memento> type = GuiComponent.Memento.class;
+        Field[] fields = type.getDeclaredFields();
+        assertEquals(List.of("state"), Arrays.stream(fields).map(Field::getName).toList());
+        assertTrue(Modifier.isPrivate(fields[0].getModifiers()));
+        assertEquals(GuiComponentState.class, fields[0].getType());
+        for (Constructor<?> constructor : type.getDeclaredConstructors()) {
+            assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        }
+        assertEquals(0, Arrays.stream(type.getDeclaredMethods()).filter(m -> !m.isSynthetic()).count(),
+                "no getState, no methods at all");
         assertTrue(GuiComponentState.class.isRecord());
-        List<String> publicMethods = Arrays.stream(GuiComponentMemento.class.getDeclaredMethods())
-                .filter(m -> Modifier.isPublic(m.getModifiers()))
-                .map(Method::getName)
-                .toList();
-        assertEquals(List.of("getState"), publicMethods);
     }
 
     @Test

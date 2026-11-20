@@ -1,6 +1,26 @@
 package dev.kaldiroglu.dp.behavioral.memento.gui;
 
+/**
+ * The <b>Originator</b>: a window with a position and a size.
+ * <p>
+ * Its state is one object, {@link GuiComponentState}. {@link #createMemento()} puts the current
+ * state in a {@link Memento}, and {@link #restore} reads it back. Only this class can do either.
+ */
 public class GuiComponent {
+
+	/**
+	 * The <b>Memento</b>. Its field and its constructor are private, and it has no methods: the
+	 * caretaker can keep it and pass it back, but cannot read it, change it or make one. Because
+	 * it is nested in {@code GuiComponent}, the window can read its private field.
+	 */
+	public static final class Memento {
+		private final GuiComponentState state;
+
+		private Memento(GuiComponentState state) {
+			this.state = state;
+		}
+	}
+
 	private String name;
 	private int x;
 	private int y;
@@ -32,12 +52,12 @@ public class GuiComponent {
 	}
 
 	/** Puts the current values in a new memento, so later changes cannot reach it. */
-	public GuiComponentMemento createMemento() {
-		return new GuiComponentMemento(new GuiComponentState(x, y, length, width));
+	public Memento createMemento() {
+		return new Memento(new GuiComponentState(x, y, length, width));
 	}
 
-	public void restore(GuiComponentMemento memento) {
-		GuiComponentState state = memento.getState();
+	public void restore(Memento memento) {
+		GuiComponentState state = memento.state;
 		x = state.x();
 		y = state.y();
 		length = state.length();

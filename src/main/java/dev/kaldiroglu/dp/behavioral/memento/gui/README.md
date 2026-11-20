@@ -7,10 +7,15 @@ For further enquiry please contact Akin Kaldiroglu at akin@kaldiroglu.dev
 A window has a position and a size. Its state is a separate object, `GuiComponentState`,
 and a memento keeps that object so the window can go back to it.
 
+The memento, `GuiComponent.Memento`, is nested in the window. Its field and its constructor
+are private, and it has no methods. So `Main` can keep it and pass it back, but cannot read
+it, change it, or make one with other values. This is GoF's narrow interface for the
+caretaker.
+
 | Class | Role |
 |---|---|
 | `GuiComponent` | Originator — `createMemento()` and `restore(memento)` |
-| `GuiComponentMemento` | Memento — holds one `GuiComponentState` |
+| `GuiComponent.Memento` | Memento — holds one `GuiComponentState`; only `GuiComponent` can make or read it |
 | `GuiComponentState` | The state, as one record |
 | `Main` | Caretaker — keeps the memento while the window moves and resizes, then gives it back |
 

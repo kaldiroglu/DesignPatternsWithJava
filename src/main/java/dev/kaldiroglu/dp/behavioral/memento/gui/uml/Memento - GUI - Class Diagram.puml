@@ -6,18 +6,23 @@ class GuiComponent <<Originator>> {
   - x, y, length, width
   + moveTo(x, y)
   + resize(length, width)
-  + createMemento() : GuiComponentMemento
-  + restore(GuiComponentMemento)
+  + createMemento() : Memento
+  + restore(Memento)
 }
-class GuiComponentMemento <<Memento>> {
-  + getState() : GuiComponentState
+class "GuiComponent.Memento" as Memento <<Memento>> {
+  - state : GuiComponentState
+  - Memento(GuiComponentState)
 }
 class GuiComponentState <<record>> {
   x, y, length, width
 }
 class Main <<Caretaker>>
-Main --> GuiComponentMemento : keeps
+Main --> Memento : keeps
 Main --> GuiComponent
-GuiComponent ..> GuiComponentMemento : creates
-GuiComponentMemento --> GuiComponentState
+GuiComponent ..> Memento : creates, reads
+Memento --> GuiComponentState
+note bottom of Memento
+  Nested in GuiComponent: only the
+  window can make one or read it.
+end note
 @enduml

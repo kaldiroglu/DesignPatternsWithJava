@@ -7,7 +7,7 @@ public class Main {
 		GuiComponent window = new GuiComponent("window", 0, 0, 20, 10);
 		System.out.println(window);
 
-		GuiComponentMemento saved = window.createMemento();
+		GuiComponent.Memento saved = window.createMemento();
 
 		window.moveTo(20, 0);
 		window.resize(40, 10);
